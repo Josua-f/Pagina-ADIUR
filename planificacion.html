@@ -1,0 +1,3272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Planificación de Microciclos - ADIUR FEM</title>
+
+<style>
+:root {
+  --naranja: #f47721;
+  --naranja-oscuro: #dc5e0b;
+  --naranja-claro: #fff0e6;
+  --negro: #171717;
+  --gris: #f4f5f7;
+  --gris-texto: #747474;
+  --borde: #e8e8e8;
+  --verde: #18864b;
+  --verde-fondo: #e3f7eb;
+  --amarillo: #996500;
+  --amarillo-fondo: #fff3cd;
+  --rojo: #c62828;
+  --rojo-fondo: #fde9e9;
+  --azul: #2464c5;
+  --azul-fondo: #e8f0ff;
+  --suspendido: #777777;
+  --suspendido-fondo: #eeeeee;
+  --radio: 12px;
+  --alto-topbar: 82px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--negro);
+  background: #f7f8fa;
+}
+
+button, input, select, textarea { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+  outline: 3px solid #f4772166;
+  outline-offset: 2px;
+}
+
+button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+/* BARRA SUPERIOR */
+
+.barra-superior {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: var(--alto-topbar);
+  padding: 11px 22px;
+  background: #fff;
+  border-bottom: 1px solid var(--borde);
+}
+
+.boton-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 41px;
+  height: 41px;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 9px;
+  background: white;
+  color: var(--negro);
+  font-size: 25px;
+}
+
+.boton-menu:hover { background: var(--gris); }
+
+.logo-superior {
+  width: 49px;
+  height: 49px;
+  flex-shrink: 0;
+  padding: 2px;
+  background: #fff;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+.titulo-superior { flex: 1; min-width: 0; }
+
+.titulo-superior h1 {
+  margin: 0 0 5px;
+  font-size: 21px;
+  font-weight: 900;
+  letter-spacing: .4px;
+}
+
+.titulo-superior p {
+  margin: 0;
+  color: var(--gris-texto);
+  font-size: 12px;
+}
+
+.perfil {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--negro);
+  color: white;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.nombre-perfil {
+  max-width: 155px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.rol-perfil {
+  margin-top: 4px;
+  color: var(--gris-texto);
+  font-size: 11px;
+}
+
+/* MENÚ LATERAL */
+
+.contenedor {
+  display: flex;
+  align-items: stretch;
+  min-height: calc(100vh - var(--alto-topbar));
+}
+
+.sidebar {
+  width: 258px;
+  flex: 0 0 258px;
+  padding: 19px 13px;
+  background: #fff;
+  border-right: 1px solid var(--borde);
+  overflow-y: auto;
+  transition: margin-left .25s ease, transform .25s ease;
+}
+
+.sidebar.oculto { margin-left: -258px; }
+
+.menu-inicio {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 14px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  background: var(--naranja-claro);
+  color: var(--naranja-oscuro);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.menu-inicio:hover { background: #ffe7d6; }
+
+.icono-inicio {
+  width: 17px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.grupo-menu { margin-bottom: 7px; }
+
+.titulo-grupo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 43px;
+  padding: 12px 13px;
+  border-radius: 8px;
+  color: #171717;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.titulo-grupo:hover { background: #f8f8f8; }
+
+.flecha {
+  display: inline-block;
+  font-size: 16px;
+  line-height: 1;
+  transition: transform .2s;
+}
+
+.grupo-menu.cerrado .flecha { transform: rotate(0deg); }
+.grupo-menu:not(.cerrado) .flecha { transform: rotate(90deg); }
+
+.submenu {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-bottom: 5px;
+}
+
+.grupo-menu.cerrado .submenu { display: none; }
+
+.submenu a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 9px;
+  color: #656872;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.submenu a:hover {
+  background: #f6f6f6;
+  color: #181818;
+}
+
+.submenu a.activo {
+  background: var(--naranja-claro);
+  color: var(--naranja-oscuro);
+  font-weight: 850;
+}
+
+.nav-punto {
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #d7d9de;
+}
+
+.submenu a.activo .nav-punto { background: var(--naranja); }
+
+.separador-sesion {
+  margin-top: 18px;
+  padding-top: 10px;
+  border-top: 1px solid var(--borde);
+}
+
+.enlace-cerrar-sesion {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 9px;
+  color: #c0392b;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.enlace-cerrar-sesion:hover { background: #fff2f1; }
+.capa-sidebar { display: none; }
+
+/* CONTENIDO GENERAL */
+
+.contenido {
+  flex: 1;
+  min-width: 0;
+  padding: 25px;
+}
+
+.cabecera-pagina { margin-bottom: 20px; }
+
+.etiqueta-seccion {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--naranja-oscuro);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1.4px;
+}
+
+.cabecera-pagina h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -.5px;
+}
+
+.etiqueta-categoria {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 12px;
+  padding: 7px 10px;
+  border: 1px solid #f5d2bc;
+  border-radius: 8px;
+  background: #fffaf6;
+  color: var(--naranja-oscuro);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+/* CONTROLES SEMANALES */
+
+.panel-semanal {
+  margin-bottom: 19px;
+  padding: 18px;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  background: #fff;
+  box-shadow: 0 3px 13px #00000004;
+}
+
+.controles-semana {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.navegacion-semana {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.boton-flecha {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 39px;
+  flex-shrink: 0;
+  border: 1px solid var(--borde);
+  border-radius: 9px;
+  background: white;
+  color: #333;
+  font-size: 23px;
+}
+
+.boton-flecha:hover {
+  border-color: #f3ba96;
+  background: var(--naranja-claro);
+  color: var(--naranja-oscuro);
+}
+
+.campo-control {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.campo-control label {
+  color: var(--gris-texto);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .45px;
+}
+
+.campo-control select,
+.campo-control input {
+  width: 100%;
+  min-height: 39px;
+  padding: 8px 10px;
+  border: 1px solid var(--borde);
+  border-radius: 9px;
+  background: white;
+  color: var(--negro);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.control-categoria { width: 145px; }
+.control-semana { width: 145px; }
+.control-fecha { width: 170px; }
+
+.acciones-semana {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 39px;
+  padding: 10px 13px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 900;
+  white-space: nowrap;
+  transition: background .15s, border-color .15s;
+}
+
+.boton-principal {
+  background: var(--naranja);
+  color: white;
+}
+
+.boton-principal:hover { background: var(--naranja-oscuro); }
+
+.boton-secundario {
+  border-color: var(--borde);
+  background: white;
+  color: #333;
+}
+
+.boton-secundario:hover {
+  border-color: #ccc;
+  background: #f8f8f8;
+}
+
+.estado-guardado {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 18px;
+  margin-top: 13px;
+  color: var(--gris-texto);
+  font-size: 10px;
+}
+
+.punto-guardado {
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--verde);
+}
+
+.punto-guardado.error { background: var(--rojo); }
+
+/* REFERENCIA MD */
+
+.panel-md {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  margin-bottom: 19px;
+  padding: 12px 15px;
+  border: 1px solid #d7e4fb;
+  border-radius: 10px;
+  background: #f6f9ff;
+}
+
+.icono-md {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 29px;
+  height: 29px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--azul-fondo);
+  color: var(--azul);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.texto-md { min-width: 0; }
+
+.texto-md strong {
+  display: block;
+  margin: 1px 0 4px;
+  color: #254f94;
+  font-size: 11px;
+}
+
+.texto-md p {
+  margin: 0;
+  color: #5d6d86;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* CABECERA DE SESIONES */
+
+.cabecera-planilla {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.cabecera-planilla h3 {
+  margin: 0 0 5px;
+  font-size: 19px;
+  font-weight: 900;
+}
+
+.cabecera-planilla p {
+  margin: 0;
+  color: var(--gris-texto);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.acciones-planilla {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.boton-agregar {
+  background: #fff;
+  border: 1px solid #f2c7aa;
+  color: var(--naranja-oscuro);
+}
+
+.boton-agregar:hover {
+  background: var(--naranja-claro);
+  border-color: var(--naranja);
+}
+
+.boton-agregar .mas {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: var(--naranja);
+  color: white;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.estado-microciclo {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  background: white;
+  color: #666;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.estado-microciclo .punto {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #bfc3c8;
+}
+
+.estado-microciclo.con-partido {
+  border-color: #cddcf9;
+  background: var(--azul-fondo);
+  color: var(--azul);
+}
+
+.estado-microciclo.con-partido .punto { background: var(--azul); }
+
+.estado-microciclo.con-suspendido {
+  border-color: #ddd;
+  background: var(--suspendido-fondo);
+  color: #555;
+}
+
+.estado-microciclo.con-suspendido .punto { background: var(--suspendido); }
+
+/* TARJETAS DE SESIONES */
+
+.grid-microciclo {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 12px;
+  min-width: 0;
+}
+
+.tarjeta-dia {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--borde);
+  border-top: 4px solid #d8d8d8;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 3px 10px #00000003;
+  scroll-margin-top: 100px;
+}
+
+.tarjeta-dia[data-intensidad="baja"] { border-top-color: var(--verde); }
+.tarjeta-dia[data-intensidad="media"] { border-top-color: #e1ad18; }
+.tarjeta-dia[data-intensidad="alta"] { border-top-color: var(--rojo); }
+.tarjeta-dia[data-intensidad="partido"] { border-top-color: var(--azul); }
+
+.tarjeta-dia[data-intensidad="suspendido"] {
+  border-top-color: var(--suspendido);
+  background: #fcfcfc;
+}
+
+.cabecera-dia {
+  padding: 13px 12px 12px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.primera-linea-dia {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.identidad-dia {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.numero-sesion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 33px;
+  height: 33px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  background: var(--gris);
+  color: #333;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.nombre-dia {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.fecha-calculada {
+  display: block;
+  color: var(--gris-texto);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.acciones-cabecera-dia {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.etiqueta-md {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-height: 26px;
+  padding: 5px 7px;
+  border-radius: 7px;
+  background: #f0f1f3;
+  color: #686868;
+  font-size: 10px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.etiqueta-md.es-partido {
+  background: var(--azul-fondo);
+  color: var(--azul);
+}
+
+.etiqueta-md.es-previo {
+  background: var(--naranja-claro);
+  color: var(--naranja-oscuro);
+}
+
+.etiqueta-md.es-posterior {
+  background: var(--verde-fondo);
+  color: var(--verde);
+}
+
+.boton-eliminar-sesion {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid #f2c9c9;
+  border-radius: 7px;
+  background: #fff;
+  color: var(--rojo);
+  font-size: 14px;
+}
+
+.boton-eliminar-sesion:hover { background: var(--rojo-fondo); }
+
+.cuerpo-dia {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  padding: 12px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.campo label {
+  color: #565656;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .2px;
+  line-height: 1.4;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #e2e4e7;
+  border-radius: 8px;
+  background: white;
+  color: #222;
+  font-size: 11px;
+}
+
+.campo input,
+.campo select {
+  min-height: 35px;
+  padding: 8px;
+}
+
+.campo select { font-weight: 800; }
+
+.campo textarea {
+  min-height: 125px;
+  padding: 9px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.campo textarea::placeholder,
+.campo input::placeholder { color: #a6a6a6; }
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+  outline: none;
+  border-color: var(--naranja);
+  box-shadow: 0 0 0 3px #f4772112;
+}
+
+.campo input[readonly] {
+  background: #f7f8fa;
+  color: #4b4b4b;
+  cursor: default;
+}
+
+/* BLOQUES DE ENTRENAMIENTO */
+
+.bloque-entrenamiento {
+  padding-top: 11px;
+  border-top: 1px solid #eeeeee;
+}
+
+.titulo-bloque {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 9px;
+  color: #5d5d5d;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .65px;
+  line-height: 1.4;
+}
+
+.numero-bloque {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  background: var(--naranja-claro);
+  color: var(--naranja-oscuro);
+  font-size: 9px;
+}
+
+.campo-entrenamiento { margin-bottom: 10px; }
+.campo-entrenamiento:last-child { margin-bottom: 0; }
+.campo-entrenamiento textarea { min-height: 125px; }
+.campo-entrenamiento.fisico textarea { min-height: 110px; }
+
+/* PARTIDOS */
+
+.bloque-partido {
+  padding-top: 11px;
+  border-top: 1px solid #eeeeee;
+}
+
+.preview-rival {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 120px;
+  padding: 12px;
+  border: 1px dashed #d8e3f8;
+  border-radius: 10px;
+  background: #f8faff;
+  text-align: center;
+}
+
+.imagen-rival {
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+}
+
+.placeholder-rival {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: #edf2fb;
+  color: #8293b0;
+  font-size: 31px;
+}
+
+.nombre-preview-rival {
+  color: #405171;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1.4;
+}
+
+.aviso-imagen-rival {
+  margin: 0;
+  color: #8a8a8a;
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+/* SESIÓN SUSPENDIDA */
+
+.bloque-suspendido {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 175px;
+  padding: 22px 15px;
+  border: 1px solid #dedede;
+  border-radius: 10px;
+  background: var(--suspendido-fondo);
+  color: #555;
+  text-align: center;
+}
+
+.icono-suspendido {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #dedede;
+  color: #666;
+  font-size: 23px;
+  font-weight: 900;
+}
+
+.bloque-suspendido strong { font-size: 12px; font-weight: 900; }
+
+.bloque-suspendido p {
+  max-width: 235px;
+  margin: 0;
+  color: #737373;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.pie-dia {
+  margin-top: auto;
+  padding: 9px 12px;
+  border-top: 1px solid #eeeeee;
+  background: #fcfcfc;
+  color: #7a7a7a;
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.pie-dia strong { font-weight: 900; }
+
+/* AYUDA */
+
+.ayuda-planificacion {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  margin-top: 19px;
+  padding: 14px 16px;
+  border: 1px solid #f2e2d6;
+  border-radius: 10px;
+  background: #fffaf6;
+}
+
+.ayuda-icono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--naranja-claro);
+  color: var(--naranja-oscuro);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.ayuda-planificacion strong {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 11px;
+}
+
+.ayuda-planificacion p {
+  margin: 0;
+  color: #696969;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.pie-pagina {
+  padding: 22px 0 8px;
+  color: #949494;
+  font-size: 10px;
+  text-align: center;
+}
+
+/* NOTIFICACIONES */
+
+.mensaje-flotante {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 500;
+  max-width: min(380px, calc(100vw - 35px));
+  padding: 13px 16px;
+  border-radius: 10px;
+  background: #202020;
+  color: white;
+  box-shadow: 0 8px 25px #00000024;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity .2s, transform .2s;
+}
+
+.mensaje-flotante.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1250px) {
+  .contenido { padding: 20px; }
+  .grid-microciclo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .controles-semana { align-items: stretch; }
+  .acciones-semana { width: 100%; }
+}
+
+@media (max-width: 760px) {
+  .barra-superior { gap: 9px; padding: 10px 12px; }
+  .logo-superior { width: 41px; height: 41px; }
+  .titulo-superior h1 { font-size: 15px; margin-bottom: 3px; }
+  .titulo-superior p { font-size: 10px; line-height: 1.4; }
+  .perfil { display: none; }
+
+  .sidebar {
+    position: fixed;
+    top: var(--alto-topbar);
+    bottom: 0;
+    left: 0;
+    z-index: 350;
+    height: auto;
+    margin-left: 0;
+    transform: translateX(-110%);
+    box-shadow: 8px 0 22px #0000000d;
+  }
+
+  .sidebar.oculto { margin-left: 0; }
+  .sidebar.visible { transform: translateX(0); }
+
+  .capa-sidebar.visible {
+    display: block;
+    position: fixed;
+    inset: var(--alto-topbar) 0 0;
+    z-index: 340;
+    background: #00000045;
+  }
+
+  .contenido { padding: 18px 13px; }
+  .cabecera-pagina h2 { font-size: 23px; }
+  .cabecera-pagina { margin-bottom: 17px; }
+  .panel-semanal { padding: 13px; }
+
+  .navegacion-semana {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr) 36px;
+    align-items: end;
+    width: 100%;
+  }
+
+  .control-categoria,
+  .control-semana,
+  .control-fecha { width: 100%; }
+
+  .acciones-semana {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+
+  .acciones-semana .boton { min-width: 0; width: 100%; }
+  .panel-md { padding: 11px; }
+
+  .cabecera-planilla {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .acciones-planilla { width: 100%; }
+  .acciones-planilla .boton { flex: 1; }
+  .grid-microciclo { grid-template-columns: 1fr; gap: 13px; }
+  .tarjeta-dia { width: 100%; }
+  .cabecera-dia, .cuerpo-dia { padding: 13px; }
+  .campo-entrenamiento textarea { min-height: 115px; }
+}
+
+@media (max-width: 420px) {
+  .boton-menu { width: 33px; height: 37px; font-size: 22px; }
+  .logo-superior { width: 36px; height: 36px; }
+  .titulo-superior h1 { font-size: 13px; }
+  .cabecera-pagina h2 { font-size: 21px; }
+}
+
+/* IMPRESIÓN Y PDF */
+
+@media print {
+  @page { size: A4 landscape; margin: 8mm; }
+
+  body {
+    background: #fff;
+    font-size: 9px;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .barra-superior {
+    position: static;
+    min-height: auto;
+    padding: 0 0 8px;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .boton-menu,
+  .sidebar,
+  .capa-sidebar,
+  .acciones-semana,
+  .boton-flecha,
+  .boton-agregar,
+  .boton-eliminar-sesion,
+  .ayuda-planificacion,
+  .pie-pagina,
+  .mensaje-flotante {
+    display: none !important;
+  }
+
+  .contenedor { display: block; min-height: auto; }
+  .contenido { padding: 10px 0 0; }
+  .cabecera-pagina { margin-bottom: 10px; }
+  .cabecera-pagina h2 { font-size: 19px; }
+
+  .panel-semanal {
+    margin-bottom: 9px;
+    padding: 9px;
+    box-shadow: none;
+  }
+
+  .control-categoria { width: 115px; }
+  .control-semana { width: 110px; }
+  .control-fecha { width: 135px; }
+  .panel-md { margin-bottom: 9px; padding: 7px; }
+  .cabecera-planilla { margin-bottom: 8px; }
+
+  .grid-microciclo {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  .tarjeta-dia {
+    break-inside: avoid;
+    border-color: #ccc;
+    box-shadow: none;
+  }
+
+  .cabecera-dia, .cuerpo-dia { padding: 7px; }
+  .nombre-dia { font-size: 11px; }
+  .numero-sesion { width: 25px; height: 25px; }
+  .campo label { font-size: 7px; }
+
+  .campo input,
+  .campo select {
+    min-height: 23px;
+    padding: 3px 4px;
+    font-size: 8px;
+  }
+
+  .campo textarea {
+    min-height: 55px;
+    padding: 4px;
+    font-size: 8px;
+    resize: none;
+    overflow: visible;
+  }
+
+  .campo-entrenamiento textarea { min-height: 70px; }
+  .imagen-rival, .placeholder-rival { width: 48px; height: 48px; }
+  .preview-rival { min-height: 75px; padding: 5px; }
+  .pie-dia { padding: 5px; }
+  .estado-guardado { margin-top: 5px; }
+}
+</style>
+</head>
+
+<body>
+
+<header class="barra-superior">
+  <button
+    class="boton-menu"
+    id="botonMenu"
+    type="button"
+    onclick="alternarSidebar()"
+    aria-label="Abrir menú"
+    aria-expanded="false"
+  >☰</button>
+
+  <img
+    class="logo-superior"
+    src="Logo ADIUR.jpg"
+    alt="Logo ADIUR"
+    onerror="this.onerror=null;this.src='logo adiur.jpg';"
+  >
+
+  <div class="titulo-superior">
+    <h1>ADIUR FEMENINO</h1>
+    <p>Planificación semanal de entrenamientos</p>
+  </div>
+
+  <div class="perfil">
+    <div class="avatar" id="avatarUsuario">DT</div>
+    <div>
+      <div class="nombre-perfil" id="nombreUsuario">Entrenador</div>
+      <div class="rol-perfil" id="rolUsuario">Cuerpo técnico</div>
+    </div>
+  </div>
+</header>
+
+<div class="capa-sidebar" id="capaSidebar" onclick="alternarSidebar()"></div>
+
+<div class="contenedor">
+
+  <aside class="sidebar" id="sidebar">
+
+    <a class="menu-inicio" href="pagina principal.html">
+      <span class="icono-inicio">⌂</span>
+      INICIO
+    </a>
+
+    <div class="grupo-menu cerrado" id="grupoPlantel">
+      <div class="titulo-grupo" onclick="toggleGrupo('grupoPlantel')">
+        <span>PLANTEL</span>
+        <span class="flecha">›</span>
+      </div>
+      <div class="submenu">
+        <a href="jugadoras.html"><span class="nav-punto"></span>Jugadoras</a>
+        <a href="asistencia.html"><span class="nav-punto"></span>Asistencia</a>
+      </div>
+    </div>
+
+    <div class="grupo-menu" id="grupoEntrenamiento">
+      <div class="titulo-grupo" onclick="toggleGrupo('grupoEntrenamiento')">
+        <span>ENTRENAMIENTO</span>
+        <span class="flecha">›</span>
+      </div>
+      <div class="submenu">
+        <a href="calendario.html"><span class="nav-punto"></span>Calendario</a>
+        <a href="#" class="activo" onclick="event.preventDefault()"><span class="nav-punto"></span>Planificación</a>
+        <a href="biblioteca de ejercicios.html"><span class="nav-punto"></span>Biblioteca de ejercicios</a>
+        <a href="gimnasio.html"><span class="nav-punto"></span>Gimnasio</a>
+        <a href="calculadora.html"><span class="nav-punto"></span>Calculadora</a>
+      </div>
+    </div>
+
+    <div class="grupo-menu cerrado" id="grupoCompetencia">
+      <div class="titulo-grupo" onclick="toggleGrupo('grupoCompetencia')">
+        <span>COMPETENCIA</span>
+        <span class="flecha">›</span>
+      </div>
+      <div class="submenu">
+        <a href="partidos.html"><span class="nav-punto"></span>Partidos</a>
+        <a href="informes.html"><span class="nav-punto"></span>Informes</a>
+        <a href="estadisticas.html"><span class="nav-punto"></span>Estadísticas</a>
+        <a href="pizarra tactica.html"><span class="nav-punto"></span>Pizarra táctica</a>
+      </div>
+    </div>
+
+    <div class="grupo-menu cerrado" id="grupoRendimientos">
+      <div class="titulo-grupo" onclick="toggleGrupo('grupoRendimientos')">
+        <span>RENDIMIENTOS</span>
+        <span class="flecha">›</span>
+      </div>
+      <div class="submenu">
+        <a href="planilla de testeos.html"><span class="nav-punto"></span>Planilla de testeos</a>
+        <a href="tiempos.html"><span class="nav-punto"></span>Tiempos</a>
+        <a href="multimedia.html"><span class="nav-punto"></span>Multimedia</a>
+        <a href="encuestas.html"><span class="nav-punto"></span>Encuestas</a>
+        <a href="lesiones.html"><span class="nav-punto"></span>Lesiones</a>
+      </div>
+    </div>
+
+    <div class="separador-sesion">
+      <a class="enlace-cerrar-sesion" href="#" onclick="cerrarSesion(event)">
+        <span>↪</span>
+        Cerrar sesión
+      </a>
+    </div>
+
+  </aside>
+
+  <main class="contenido">
+
+    <section class="cabecera-pagina">
+      <span class="etiqueta-seccion">PLANIFICACIÓN TÉCNICA Y FÍSICA</span>
+      <h2>Planificación de microciclos</h2>
+      <span class="etiqueta-categoria" id="etiquetaCategoria">⚽ CATEGORÍA SUB 16</span>
+    </section>
+
+    <section class="panel-semanal">
+
+      <div class="controles-semana">
+
+        <div class="navegacion-semana">
+
+          <div class="campo-control control-categoria">
+            <label for="selectCategoria">CATEGORÍA</label>
+            <select id="selectCategoria" onchange="seleccionarCategoria(this.value)">
+              <option value="Sub 10">Sub 10</option>
+              <option value="Sub 12">Sub 12</option>
+              <option value="Sub 14">Sub 14</option>
+              <option value="Sub 16">Sub 16</option>
+              <option value="Primera">Primera</option>
+            </select>
+          </div>
+
+          <button type="button" class="boton-flecha" onclick="cambiarSemana(-1)" aria-label="Semana anterior" title="Semana anterior">‹</button>
+
+          <div class="campo-control control-semana">
+            <label for="selectMicrociclo">MICROCICLO</label>
+            <select id="selectMicrociclo" onchange="seleccionarSemana(this.value)"></select>
+          </div>
+
+          <button type="button" class="boton-flecha" onclick="cambiarSemana(1)" aria-label="Semana siguiente" title="Semana siguiente">›</button>
+
+        </div>
+
+        <div class="campo-control control-fecha">
+          <label for="fechaInicioSemana">LUNES DE LA SEMANA</label>
+          <input id="fechaInicioSemana" type="date" onchange="cambiarFechaInicioSemana(this.value)">
+        </div>
+
+        <div class="acciones-semana">
+          <button type="button" class="boton boton-principal" onclick="guardarSemana()">✓ Guardar semana</button>
+          <button type="button" class="boton boton-secundario" onclick="window.print()">⎙ Imprimir / PDF</button>
+        </div>
+
+      </div>
+
+      <div class="estado-guardado" aria-live="polite">
+        <span class="punto-guardado" id="puntoGuardado"></span>
+        <span id="estadoGuardado">Los cambios se guardan automáticamente en este navegador.</span>
+      </div>
+
+    </section>
+
+    <section class="panel-md">
+      <div class="icono-md">MD</div>
+      <div class="texto-md">
+        <strong>Referencia de partido · Match Day</strong>
+        <p id="textoReferenciaMD">Seleccioná PARTIDO en la sesión correspondiente para calcular automáticamente las referencias MD de las demás sesiones.</p>
+      </div>
+    </section>
+
+    <section>
+
+      <div class="cabecera-planilla">
+
+        <div>
+          <h3 id="tituloSemanaActual">Semana 39</h3>
+          <p id="descripcionSesiones">Sesiones de entrenamiento de la categoría.</p>
+        </div>
+
+        <div class="acciones-planilla">
+          <div class="estado-microciclo" id="estadoMicrociclo">
+            <span class="punto"></span>
+            <span id="textoEstadoMicrociclo">Planificación semanal</span>
+          </div>
+
+          <button type="button" class="boton boton-agregar" id="botonAgregarSesion" onclick="agregarSesion()">
+            <span class="mas">+</span>
+            AGREGAR SESIÓN
+          </button>
+        </div>
+
+      </div>
+
+      <div class="grid-microciclo" id="gridMicrociclo"></div>
+
+    </section>
+
+    <section class="ayuda-planificacion">
+      <div class="ayuda-icono">i</div>
+      <div>
+        <strong>Planificación conectada con el calendario</strong>
+        <p>
+          Las sesiones se guardan automáticamente. Los entrenamientos publican su intensidad y contenidos; los partidos publican el rival, el escudo y el torneo. Una sesión suspendida se muestra como tal y no requiere completar contenidos.
+        </p>
+      </div>
+    </section>
+
+    <footer class="pie-pagina">ADIUR FEMENINO · Planificación de microciclos</footer>
+
+  </main>
+</div>
+
+<div id="mensajeFlotante" class="mensaje-flotante" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+
+/* CONFIGURACIÓN GENERAL */
+
+const CLAVE_PLANIFICACION = "microciclosPlanificacionADIUR_Sub16_v1";
+const CLAVE_CALENDARIO = "actividadesADIUR";
+const ORIGEN_PLANIFICACION = "planificacionMicrocicloADIUR";
+
+const CATEGORIAS = ["Sub 10", "Sub 12", "Sub 14", "Sub 16", "Primera"];
+
+const DIAS_SEMANA = [
+  "Lunes", "Martes", "Miércoles", "Jueves",
+  "Viernes", "Sábado", "Domingo"
+];
+
+/*
+  CONFIGURACIÓN BASE:
+  Sub 10 y Sub 12 tienen dos entrenamientos y un partido.
+  Sus días son martes, jueves y sábado.
+  Las sesiones adicionales se incorporan únicamente con
+  el botón AGREGAR SESIÓN.
+*/
+
+const DIAS_BASE_POR_CATEGORIA = {
+  "Sub 10": [1, 3, 5],
+  "Sub 12": [1, 3, 5],
+  "Sub 14": [0, 1, 4, 5],
+  "Sub 16": [0, 1, 4, 5],
+  "Primera": [0, 1, 4, 5]
+};
+
+const CANTIDAD_SESIONES_BASE = {
+  "Sub 10": 3,
+  "Sub 12": 3,
+  "Sub 14": 4,
+  "Sub 16": 4,
+  "Primera": 4
+};
+
+const SEMANA_REFERENCIA = 39;
+const FECHA_REFERENCIA = "2026-10-19";
+
+let categoriaActual = "Sub 16";
+let semanaActual = 39;
+let fechaInicioActual = FECHA_REFERENCIA;
+let sesionesActuales = [];
+let temporizadorMensaje = null;
+
+/* COMPETICIONES POR CATEGORÍA */
+
+const COMPETICIONES_POR_DIVISION = {
+  "Sub 10": ["Rosarina", "Copa Oro - ARF", "Copa Plata - ARF"],
+  "Sub 12": ["Rosarina", "Copa Oro - ARF", "Copa Plata - ARF"],
+  "Sub 14": ["Rosarina", "Copa Oro - ARF", "Copa Plata - ARF"],
+  "Sub 16": ["Rosarina", "Copa Oro - ARF", "Copa Plata - ARF"],
+  "Primera": ["Fase Regular - ARF", "Copa Oro - ARF", "Copa Santa Fe", "Torneo Regional AFA"]
+};
+
+/* INTENSIDADES */
+
+const CONFIGURACION_INTENSIDAD = {
+  baja: {
+    etiqueta: "BAJA · VERDE",
+    color: "verde",
+    hex: "#2eaa62",
+    estado: "Bajo"
+  },
+  media: {
+    etiqueta: "MEDIA · AMARILLO",
+    color: "amarillo",
+    hex: "#f3c928",
+    estado: "Medio"
+  },
+  alta: {
+    etiqueta: "ALTA · ROJO",
+    color: "rojo",
+    hex: "#e74c3c",
+    estado: "Alto"
+  },
+  partido: {
+    etiqueta: "PARTIDO · AZUL",
+    color: "azul",
+    hex: "#2464c5",
+    estado: "Partido"
+  },
+  suspendido: {
+    etiqueta: "SUSPENDIDO · GRIS",
+    color: "gris",
+    hex: "#888888",
+    estado: "Suspendido"
+  }
+};
+
+/* CATÁLOGO DE CLUBES Y ESCUDOS */
+
+const ESCUDOS_CLUBES = [
+  { nombre: "14 de Junio", ruta: "CLUBES/14 JUNIO.jpg" },
+  { nombre: "Alianza", ruta: "CLUBES/ALIANZA.png" },
+  { nombre: "Argentino", ruta: "CLUBES/ARGENTINO.png" },
+  { nombre: "Banco", ruta: "CLUBES/BANCO.jpg" },
+  { nombre: "Botafogo", ruta: "CLUBES/BOTAFOGO.jpg" },
+  { nombre: "Central", ruta: "CLUBES/CENTRAL.png" },
+  { nombre: "CGR", ruta: "CLUBES/CGR.png" },
+  { nombre: "Coronel Aguirre", ruta: "CLUBES/CORONEL AGUIRRE.png" },
+  { nombre: "General Paz", ruta: "CLUBES/GRAL PAZ.jpg" },
+  { nombre: "Lamadrid", ruta: "CLUBES/LAMADRID.jpg" },
+  { nombre: "Leones", ruta: "CLUBES/LEONES.jpg" },
+  { nombre: "Mitre", ruta: "CLUBES/MITRE.png" },
+  { nombre: "Morning", ruta: "CLUBES/MORNING.jpg" },
+  { nombre: "Newell's Old Boys", ruta: "CLUBES/NEWELLS.png" },
+  { nombre: "Oriental", ruta: "CLUBES/ORIENTAL.jpg" },
+  { nombre: "Pablo VI", ruta: "CLUBES/PABLO VI.jpg" },
+  { nombre: "Provincial", ruta: "CLUBES/PROVINCIAL.png" },
+  { nombre: "Renato", ruta: "CLUBES/RENATO.jpg" },
+  { nombre: "San José", ruta: "CLUBES/SAN JOSE.jpg" },
+  { nombre: "San Roque", ruta: "CLUBES/SAN ROQUE.jpg" },
+  { nombre: "San Telmo", ruta: "CLUBES/SAN TELMO.png" },
+  { nombre: "Social Lux", ruta: "CLUBES/SOCIAL LUX.jpg" },
+  { nombre: "Sparta", ruta: "CLUBES/SPARTA.jpg" },
+  { nombre: "Tiro Federal", ruta: "CLUBES/TIRO FEDERAL.jpg" },
+  { nombre: "Tiro Suizo", ruta: "CLUBES/TIRO SUIZO.jpg" },
+  { nombre: "Torito", ruta: "CLUBES/TORITO.png" },
+  { nombre: "Unión Americana", ruta: "CLUBES/UNION AMERICANA.png" },
+  { nombre: "Villa Gobernador Gálvez", ruta: "CLUBES/VG GALVEZ.png" }
+];
+
+/* PLANIFICACIONES HISTÓRICAS SUB 16 */
+
+const microciclosData = {
+  32: [
+    { dia: "Lunes 01/09", intensidad: "media", ec: "Movilidad + Core + Coordinativos c/vel 10m", ttt: "Circuitos técnicos de pase y control" },
+    { dia: "Martes 02/09", intensidad: "alta", ec: "Movilidad + Core", ttt: "Gimnasio N° 5 - Fuerza / Pliometría" },
+    { dia: "Viernes 05/09", intensidad: "baja", ec: "Movilidad articular", ttt: "Trabajos tácticos en espacios reducidos" },
+    { dia: "Sábado 06/09", intensidad: "partido", ec: "Activación precompetitiva", ttt: "FECHA 10 vs Leones" }
+  ],
+  33: [
+    { dia: "Lunes 07/09", intensidad: "media", ec: "Movilidad + Core + Coordinativos", ttt: "Ejercicios de posesión y superioridad" },
+    { dia: "Martes 08/09", intensidad: "alta", ec: "Movilidad + Pliometría", ttt: "Gimnasio N° 5 - Día 2 - Semana 1" },
+    { dia: "Viernes 11/09", intensidad: "baja", ec: "Movilidad articular", ttt: "Repaso de pelota parada" },
+    { dia: "Sábado 12/09", intensidad: "partido", ec: "Activación", ttt: "FECHA 11 vs Newell's" }
+  ],
+  34: [
+    { dia: "Lunes 14/09", intensidad: "media", ec: "Movilidad + Core + Coordinativos c/vel 60m (10')", ttt: "Trabajo técnico integrado" },
+    { dia: "Martes 15/09", intensidad: "alta", ec: "Movilidad + Core + Pliometría (10')", ttt: "Fuerza y resistencia intermitente" },
+    { dia: "Viernes 18/09", intensidad: "baja", ec: "Movilidad + Core (10')", ttt: "Velocidad y repaso táctico" },
+    { dia: "Sábado 19/09", intensidad: "partido", ec: "Activación", ttt: "FECHA 10 / 11 Oficial" }
+  ],
+  35: [
+    { dia: "Lunes 21/09", intensidad: "media", ec: "Movilidad + Core + Coordinativos c/vel 20m (10')", ttt: "Estaciones lúdicas: definición, cabezazo, cognitivo." },
+    { dia: "Martes 22/09", intensidad: "alta", ec: "Movilidad + Core (10')", ttt: "Gimnasio N° 5 - Pliometría (100 saltos) + Velocidad 5m" },
+    { dia: "Viernes 25/09", intensidad: "baja", ec: "Charla Psicológica (25')", ttt: "Trabajo regenerativo y análisis de video" },
+    { dia: "Sábado 26/09", intensidad: "partido", ec: "Activación específica", ttt: "FECHA 11 Torneo Oficial" }
+  ],
+  36: [
+    { dia: "Lunes 28/09", intensidad: "suspendido", ec: "SUSPENDIDO (Lluvia)", ttt: "Jornada suspendida por condiciones climáticas" },
+    { dia: "Martes 29/09", intensidad: "alta", ec: "Movilidad + Core (10')", ttt: "Gimnasio N° 5 y Potencia aeróbica" },
+    { dia: "Viernes 02/10", intensidad: "baja", ec: "Movilidad + Core (15')", ttt: "Circuito técnico y velocidad" },
+    { dia: "Sábado 03/10", intensidad: "suspendido", ec: "PARTIDO SUSPENDIDO", ttt: "Reprogramación de fecha" }
+  ],
+  37: [
+    { dia: "Lunes 05/10", intensidad: "media", ec: "Movilidad + Core + Coordinativos", ttt: "Circuitos / Entradas en calor técnicas" },
+    { dia: "Martes 06/10", intensidad: "alta", ec: "Movilidad + Fuerza", ttt: "Gimnasio y trabajos de fuerza explosiva" },
+    { dia: "Viernes 09/10", intensidad: "baja", ec: "Movilidad articular", ttt: "Repaso táctico previo a partido" },
+    { dia: "Sábado 10/10", intensidad: "partido", ec: "Activación", ttt: "FECHA 13 vs Provincial" }
+  ],
+  38: [
+    { dia: "Lunes 12/10", intensidad: "media", ec: "Movilidad + Core", ttt: "Preparación física general y posesión" },
+    { dia: "Martes 13/10", intensidad: "alta", ec: "Movilidad + Core + Pliometría", ttt: "Gimnasio N° 5 y pasadas aeróbicas" },
+    { dia: "Viernes 16/10", intensidad: "baja", ec: "Movilidad articular", ttt: "Velocidad y salida rápida" },
+    { dia: "Sábado 17/10", intensidad: "partido", ec: "Activación", ttt: "FECHA 14 vs Pablo VI" }
+  ],
+  39: [
+    { dia: "Lunes 19/10", intensidad: "media", ec: "Movilidad + Core + Coordinativos c/vel 20m (15')", ttt: "Lúdico de cabezas + Pelota parada defensiva + Fútbol Sub14" },
+    { dia: "Martes 20/10", intensidad: "alta", ec: "Movilidad + Core + Fuerza Lucha (8')", ttt: "Gimnasio N° 5 + Resistencia Anaeróbica (10 x 150m)" },
+    { dia: "Viernes 23/10", intensidad: "baja", ec: "Movilidad + Core (8')", ttt: "Técnica Individual + Pausa Lúdica / Hidratación + Velocidad 8x40m" },
+    { dia: "Sábado 24/10", intensidad: "partido", ec: "Activación táctica", ttt: "FECHA 14: Pablo VI" }
+  ],
+  40: [
+    { dia: "Lunes 26/10", intensidad: "media", ec: "Movilidad + Core + Plio + Coord + Vel", ttt: "Circuitos y entradas en calor específicas" },
+    { dia: "Martes 27/10", intensidad: "alta", ec: "Movilidad + Core", ttt: "Gimnasio N° 5 - Trabajos de potencia" },
+    { dia: "Viernes 30/10", intensidad: "baja", ec: "Movilidad articular", ttt: "Velocidad y jugadas preparadas" },
+    { dia: "Sábado 31/10", intensidad: "partido", ec: "Activación", ttt: "FECHA Oficial Copa Oro" }
+  ],
+  41: [
+    { dia: "Lunes 02/11", intensidad: "media", ec: "Movilidad + Core + Coordinativos (10')", ttt: "Evaluaciones físicas (Test Illinois) y posesión" },
+    { dia: "Martes 03/11", intensidad: "alta", ec: "Movilidad + Core (10')", ttt: "Gimnasio N° 5 - Día 2 - Semana 4 + Tolerancia Anaeróbica (10 x 120m)" },
+    { dia: "Viernes 06/11", intensidad: "baja", ec: "Movilidad + Core (15')", ttt: "Circuitos con velocidad 10m + Juego e hidratación" },
+    { dia: "Sábado 07/11", intensidad: "partido", ec: "Activación", ttt: "FECHA 16 Torneo Oficial" }
+  ],
+  42: [
+    { dia: "Lunes 09/11", intensidad: "media", ec: "Movilidad + Core", ttt: "Pliometría y circuitos técnicos" },
+    { dia: "Martes 10/11", intensidad: "alta", ec: "Movilidad + Fuerza", ttt: "Gimnasio N° 6 y trabajos de fuerza intermitente" },
+    { dia: "Viernes 13/11", intensidad: "baja", ec: "Movilidad articular", ttt: "Velocidad y fútbol reducido" },
+    { dia: "Sábado 14/11", intensidad: "partido", ec: "Activación", ttt: "FECHA 18: Lamadrid" }
+  ],
+  43: [
+    { dia: "Lunes 16/11", intensidad: "media", ec: "Movilidad + Core + Coordinativos c/vel 20m (10')", ttt: "Trabajos de tenencia y superioridad numérica" },
+    { dia: "Martes 17/11", intensidad: "alta", ec: "Movilidad + Core (10')", ttt: "Gimnasio N° 6 (Día 2 - S1) + Potencia Anaeróbica (12 x 80m) + Test Illinois" },
+    { dia: "Viernes 20/11", intensidad: "baja", ec: "Movilidad + Core (15')", ttt: "Velocidad (10 x 30m) + Hidratación y juego recreativo" },
+    { dia: "Sábado 21/11", intensidad: "partido", ec: "Activación", ttt: "FECHA 18: Cierre de temporada" }
+  ]
+};
+
+/* UTILIDADES */
+
+function escaparHTML(valor) {
+  return String(valor ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function normalizarTexto(valor) {
+  return String(valor ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
+function normalizarUsuario(valor) {
+  return normalizarTexto(valor).replace(/[\s._-]+/g, "");
+}
+
+function clonarObjeto(objeto) {
+  return JSON.parse(JSON.stringify(objeto));
+}
+
+function fechaISOaObjeto(fechaISO) {
+  const partes = String(fechaISO || "").split("-").map(Number);
+
+  if (
+    partes.length !== 3 ||
+    !partes[0] ||
+    !partes[1] ||
+    !partes[2]
+  ) {
+    return null;
+  }
+
+  return new Date(partes[0], partes[1] - 1, partes[2], 12, 0, 0);
+}
+
+function objetoAFechaISO(fecha) {
+  const anio = fecha.getFullYear();
+  const mes = String(fecha.getMonth() + 1).padStart(2, "0");
+  const dia = String(fecha.getDate()).padStart(2, "0");
+  return `${anio}-${mes}-${dia}`;
+}
+
+function sumarDiasISO(fechaISO, cantidad) {
+  const fecha = fechaISOaObjeto(fechaISO);
+  if (!fecha) return "";
+  fecha.setDate(fecha.getDate() + cantidad);
+  return objetoAFechaISO(fecha);
+}
+
+function normalizarALunes(fechaISO) {
+  const fecha = fechaISOaObjeto(fechaISO);
+  if (!fecha) return "";
+  const desplazamiento = (fecha.getDay() + 6) % 7;
+  fecha.setDate(fecha.getDate() - desplazamiento);
+  return objetoAFechaISO(fecha);
+}
+
+function formatearFecha(fechaISO, incluirAnio = true) {
+  const fecha = fechaISOaObjeto(fechaISO);
+  if (!fecha) return "Fecha pendiente";
+
+  const opciones = incluirAnio
+    ? { day: "2-digit", month: "2-digit", year: "numeric" }
+    : { day: "2-digit", month: "short" };
+
+  return fecha.toLocaleDateString("es-AR", opciones);
+}
+
+function obtenerFechaPredeterminada(numeroSemana) {
+  const diferencia = (numeroSemana - SEMANA_REFERENCIA) * 7;
+  return sumarDiasISO(FECHA_REFERENCIA, diferencia);
+}
+
+function obtenerDiaIndex(texto) {
+  const normalizado = normalizarTexto(texto);
+  return DIAS_SEMANA.findIndex(dia =>
+    normalizado.startsWith(normalizarTexto(dia))
+  );
+}
+
+function obtenerFechaDeSesion(sesion) {
+  return sumarDiasISO(fechaInicioActual, Number(sesion.diaSemana));
+}
+
+function obtenerClubPorNombre(nombre) {
+  const normalizado = normalizarTexto(nombre);
+  if (!normalizado) return null;
+
+  return ESCUDOS_CLUBES.find(club =>
+    normalizarTexto(club.nombre) === normalizado
+  ) || null;
+}
+
+function detectarRivalEnTexto(texto) {
+  const normalizado = normalizarTexto(texto);
+  if (!normalizado) return "";
+
+  if (normalizado.includes("newell") || normalizado.includes("nob")) {
+    return "Newell's Old Boys";
+  }
+
+  const club = ESCUDOS_CLUBES.find(item =>
+    normalizado.includes(normalizarTexto(item.nombre))
+  );
+
+  return club ? club.nombre : "";
+}
+
+function detectarCompeticionEnTexto(texto, categoria) {
+  const normalizado = normalizarTexto(texto);
+  const opciones = COMPETICIONES_POR_DIVISION[categoria] ||
+    COMPETICIONES_POR_DIVISION["Sub 16"];
+
+  if (normalizado.includes("copa oro") && opciones.includes("Copa Oro - ARF")) {
+    return "Copa Oro - ARF";
+  }
+
+  if (normalizado.includes("copa plata") && opciones.includes("Copa Plata - ARF")) {
+    return "Copa Plata - ARF";
+  }
+
+  if (normalizado.includes("copa santa fe") && opciones.includes("Copa Santa Fe")) {
+    return "Copa Santa Fe";
+  }
+
+  if (normalizado.includes("regional") && opciones.includes("Torneo Regional AFA")) {
+    return "Torneo Regional AFA";
+  }
+
+  if (categoria === "Primera" && opciones.includes("Fase Regular - ARF")) {
+    return "Fase Regular - ARF";
+  }
+
+  return opciones[0];
+}
+
+/* PREFERENCIA DE CATEGORÍA */
+
+function obtenerClavePreferenciaCategoria() {
+  let usuario = "";
+
+  try {
+    usuario = localStorage.getItem("usuarioADIUR") || "";
+  } catch (error) {
+    usuario = "";
+  }
+
+  return "divisionPreferidaADIUR_" +
+    normalizarUsuario(usuario || "entrenador");
+}
+
+function obtenerCategoriaPredeterminada() {
+  try {
+    const guardada = localStorage.getItem(obtenerClavePreferenciaCategoria());
+
+    if (CATEGORIAS.includes(guardada)) {
+      return guardada;
+    }
+  } catch (error) {
+    console.warn("No se pudo leer la categoría preferida.");
+  }
+
+  return "Sub 16";
+}
+
+function guardarPreferenciaCategoria() {
+  try {
+    localStorage.setItem(obtenerClavePreferenciaCategoria(), categoriaActual);
+  } catch (error) {
+    console.warn("No se pudo guardar la preferencia de categoría.");
+  }
+}
+
+/* ESTRUCTURA DE SESIONES */
+
+function crearSesionVacia(diaSemana = 0, intensidad = "media") {
+  return {
+    diaSemana,
+    intensidad,
+    ec: "",
+    ttt: "",
+    fisico: "",
+    rival: "",
+    competicion: "",
+    activa: false,
+    extra: false
+  };
+}
+
+function obtenerIntensidadNormalizada(valor, textoAdicional = "") {
+  const intensidad = normalizarTexto(valor);
+  const texto = normalizarTexto(textoAdicional);
+
+  if (
+    intensidad.includes("suspend") ||
+    texto.includes("suspendido") ||
+    texto.includes("suspendida")
+  ) {
+    return "suspendido";
+  }
+
+  if (intensidad === "partido") return "partido";
+  if (intensidad === "alta" || intensidad === "rojo") return "alta";
+
+  if (intensidad === "media" || intensidad === "medio" || intensidad === "amarillo") {
+    return "media";
+  }
+
+  if (intensidad === "baja" || intensidad === "bajo" || intensidad === "verde") {
+    return "baja";
+  }
+
+  if (intensidad === "libre") return "suspendido";
+  return "media";
+}
+
+function normalizarSesion(registro, indicePredeterminado) {
+  const original = registro && typeof registro === "object" ? registro : {};
+
+  let diaSemana = Number(original.diaSemana);
+
+  if (!Number.isInteger(diaSemana) || diaSemana < 0 || diaSemana > 6) {
+    diaSemana = obtenerDiaIndex(original.dia);
+
+    if (diaSemana < 0) {
+      const diasBase = DIAS_BASE_POR_CATEGORIA[categoriaActual] || [0, 1, 4, 5];
+      diaSemana = diasBase[indicePredeterminado] ?? 0;
+    }
+  }
+
+  const intensidad = obtenerIntensidadNormalizada(
+    original.intensidad || original.color,
+    (original.ec || "") + " " + (original.ttt || "")
+  );
+
+  const ec = original.ec || "";
+  const ttt = intensidad === "partido" ? "" : (original.ttt || "");
+  const fisico = original.fisico || original.bloqueFisico || "";
+
+  const tieneDatos =
+    Boolean(ec.trim()) ||
+    Boolean(ttt.trim()) ||
+    Boolean(fisico.trim()) ||
+    Boolean(original.rival) ||
+    Boolean(original.competicion || original.torneo) ||
+    intensidad === "partido" ||
+    intensidad === "suspendido";
+
+  let activa;
+
+  if (typeof original.activa === "boolean") {
+    activa = original.activa;
+  } else if (typeof original.publicada === "boolean") {
+    activa = original.publicada;
+  } else {
+    activa = tieneDatos;
+  }
+
+  return {
+    ...crearSesionVacia(diaSemana, intensidad),
+    ec,
+    ttt,
+    fisico,
+    rival: original.rival || "",
+    competicion: original.competicion || original.torneo || "",
+    activa,
+    extra: Boolean(original.extra)
+  };
+}
+
+/* SESIONES PREDETERMINADAS POR CATEGORÍA */
+
+function crearSesionesPredeterminadas(numeroSemana, categoria) {
+  if (
+    categoria === "Sub 16" &&
+    Array.isArray(microciclosData[numeroSemana])
+  ) {
+    const originales = microciclosData[numeroSemana];
+
+    return originales.slice(0, 4).map((dato, indice) => {
+      const diaDetectado = obtenerDiaIndex(dato.dia);
+      const dia = diaDetectado >= 0
+        ? diaDetectado
+        : (DIAS_BASE_POR_CATEGORIA[categoria][indice] ?? 0);
+
+      const intensidad = obtenerIntensidadNormalizada(
+        dato.intensidad,
+        (dato.ec || "") + " " + (dato.ttt || "")
+      );
+
+      const esPartido = intensidad === "partido";
+
+      return {
+        ...crearSesionVacia(dia, intensidad),
+        ec: esPartido || intensidad === "suspendido" ? "" : (dato.ec || ""),
+        ttt: esPartido || intensidad === "suspendido" ? "" : (dato.ttt || ""),
+        fisico: "",
+        rival: esPartido ? detectarRivalEnTexto(dato.ttt || "") : "",
+        competicion: esPartido
+          ? detectarCompeticionEnTexto(dato.ttt || "", categoria)
+          : "",
+        activa: true,
+        extra: false
+      };
+    });
+  }
+
+  const dias = DIAS_BASE_POR_CATEGORIA[categoria] ||
+    DIAS_BASE_POR_CATEGORIA["Sub 16"];
+
+  const cantidad = CANTIDAD_SESIONES_BASE[categoria] || 4;
+
+  return dias.slice(0, cantidad).map((dia, indice) => {
+    let intensidad = "media";
+
+    if (indice === 1) intensidad = "alta";
+    if (indice === cantidad - 1) intensidad = "partido";
+
+    return {
+      ...crearSesionVacia(dia, intensidad),
+      competicion: intensidad === "partido"
+        ? COMPETICIONES_POR_DIVISION[categoria][0]
+        : "",
+      activa: true,
+      extra: false
+    };
+  });
+}
+
+/* CARGA DE ALMACENAMIENTO */
+
+function cargarAlmacen() {
+  try {
+    const texto = localStorage.getItem(CLAVE_PLANIFICACION);
+    if (!texto) return {};
+
+    const datos = JSON.parse(texto);
+
+    if (!datos || typeof datos !== "object" || Array.isArray(datos)) {
+      return {};
+    }
+
+    if (Object.keys(datos).some(clave => /^\d+$/.test(clave))) {
+      return { "Sub 16": datos };
+    }
+
+    return datos;
+  } catch (error) {
+    console.error("No se pudo leer la planificación:", error);
+    return {};
+  }
+}
+
+function obtenerRegistroSemana(numeroSemana, categoria) {
+  const almacen = cargarAlmacen();
+  const semanas = almacen[categoria];
+
+  if (!semanas || typeof semanas !== "object") return null;
+  return semanas[String(numeroSemana)] || null;
+}
+
+function migrarSesionesAntiguas(listaAntigua, categoria) {
+  if (!Array.isArray(listaAntigua)) return null;
+
+  if (listaAntigua.length >= 7) {
+    const diasConservados = [0, 1, 4, 5];
+
+    return diasConservados.map((dia, posicion) => {
+      const encontrado = listaAntigua.find(registro =>
+        obtenerDiaIndex(registro?.dia) === dia
+      );
+
+      return normalizarSesion(encontrado || listaAntigua[dia] || {}, posicion);
+    });
+  }
+
+  return listaAntigua.map((registro, indice) => {
+    const sesion = normalizarSesion(registro, indice);
+
+    if (sesion.intensidad === "partido" && !sesion.rival) {
+      sesion.rival = detectarRivalEnTexto(registro?.ttt || "");
+      sesion.competicion = detectarCompeticionEnTexto(
+        registro?.ttt || "",
+        categoria
+      );
+    }
+
+    return sesion;
+  });
+}
+
+/*
+  CORRECCIÓN PRINCIPAL:
+  normaliza Sub 10 y Sub 12 a sus tres días base:
+  martes, jueves y sábado.
+
+  Si el navegador conserva una planificación anterior de cuatro
+  días, se reutilizan martes y sábado y se traslada a jueves una
+  sesión de entrenamiento compatible, priorizando la que estaba
+  guardada para viernes.
+
+  Las sesiones marcadas como extra:true se conservan. Si una
+  sesión adicional ocupa uno de los días base, se reubica en el
+  primer día disponible para evitar duplicados.
+*/
+
+function ajustarSesionesBaseCategoria(sesiones, categoria) {
+  if (categoria !== "Sub 10" && categoria !== "Sub 12") {
+    return sesiones;
+  }
+
+  const diasBase = DIAS_BASE_POR_CATEGORIA[categoria];
+  const cantidadBase = CANTIDAD_SESIONES_BASE[categoria];
+
+  const extras = sesiones.filter(sesion => sesion.extra);
+  const baseDisponibles = sesiones.filter(sesion => !sesion.extra);
+
+  const sesionesBaseAjustadas = [];
+
+  for (let indice = 0; indice < cantidadBase; indice++) {
+    const diaObjetivo = diasBase[indice];
+
+    let indiceEncontrado = baseDisponibles.findIndex(
+      sesion => Number(sesion.diaSemana) === diaObjetivo
+    );
+
+    if (indiceEncontrado < 0) {
+      let diasPrioritarios;
+
+      if (diaObjetivo === 1) {
+        diasPrioritarios = [0, 2, 3, 4, 5, 6];
+      } else if (diaObjetivo === 3) {
+        diasPrioritarios = [4, 2, 0, 6, 1, 5];
+      } else {
+        diasPrioritarios = [4, 6, 3, 2, 1, 0];
+      }
+
+      for (const diaAlternativo of diasPrioritarios) {
+        indiceEncontrado = baseDisponibles.findIndex(
+          sesion => Number(sesion.diaSemana) === diaAlternativo
+        );
+
+        if (indiceEncontrado >= 0) break;
+      }
+    }
+
+    if (indiceEncontrado >= 0) {
+      const [sesionElegida] = baseDisponibles.splice(indiceEncontrado, 1);
+      sesionElegida.diaSemana = diaObjetivo;
+      sesionElegida.extra = false;
+      sesionesBaseAjustadas.push(sesionElegida);
+    } else {
+      let intensidad = "media";
+
+      if (indice === 1) intensidad = "alta";
+      if (indice === cantidadBase - 1) intensidad = "partido";
+
+      const nuevaSesion = {
+        ...crearSesionVacia(diaObjetivo, intensidad),
+        activa: true,
+        extra: false
+      };
+
+      if (intensidad === "partido") {
+        nuevaSesion.competicion = COMPETICIONES_POR_DIVISION[categoria][0];
+      }
+
+      sesionesBaseAjustadas.push(nuevaSesion);
+    }
+  }
+
+  /*
+    Mantiene las sesiones adicionales que fueron agregadas
+    intencionalmente y evita que queden duplicadas en un día
+    que ahora forma parte de la distribución base.
+  */
+
+  const diasOcupados = new Set(
+    sesionesBaseAjustadas.map(sesion => Number(sesion.diaSemana))
+  );
+
+  const extrasAjustadas = extras.map(sesion => {
+    let dia = Number(sesion.diaSemana);
+
+    if (
+      !Number.isInteger(dia) ||
+      dia < 0 ||
+      dia > 6 ||
+      diasOcupados.has(dia)
+    ) {
+      dia = DIAS_SEMANA.findIndex(
+        (nombre, indice) => !diasOcupados.has(indice)
+      );
+    }
+
+    if (dia >= 0 && dia <= 6 && !diasOcupados.has(dia)) {
+      sesion.diaSemana = dia;
+      diasOcupados.add(dia);
+    }
+
+    sesion.extra = true;
+    return sesion;
+  });
+
+  return [...sesionesBaseAjustadas, ...extrasAjustadas];
+}
+
+function obtenerSemana(numeroSemana, categoria) {
+  const guardada = obtenerRegistroSemana(numeroSemana, categoria);
+
+  let fechaInicio = obtenerFechaPredeterminada(numeroSemana);
+  let sesiones = null;
+
+  if (guardada && !Array.isArray(guardada) && typeof guardada === "object") {
+    fechaInicio = guardada.fechaInicio || fechaInicio;
+
+    if (Array.isArray(guardada.sesiones)) {
+      sesiones = guardada.sesiones.map((sesion, indice) =>
+        normalizarSesion(sesion, indice)
+      );
+    }
+  }
+
+  if (Array.isArray(guardada)) {
+    sesiones = migrarSesionesAntiguas(guardada, categoria);
+  }
+
+  if (!Array.isArray(sesiones)) {
+    sesiones = crearSesionesPredeterminadas(numeroSemana, categoria);
+  }
+
+  const diasBase = DIAS_BASE_POR_CATEGORIA[categoria] || [0, 1, 4, 5];
+  const cantidadBase = CANTIDAD_SESIONES_BASE[categoria] || 4;
+
+  sesiones = sesiones.map((sesion, indice) =>
+    normalizarSesion(sesion, indice)
+  );
+
+  /*
+    Aplica la normalización antes de completar sesiones faltantes.
+    Así no se mantienen las cuatro sesiones antiguas de Sub 10/Sub 12.
+  */
+  sesiones = ajustarSesionesBaseCategoria(sesiones, categoria);
+
+  while (sesiones.length < cantidadBase) {
+    sesiones.push(
+      crearSesionVacia(diasBase[sesiones.length] ?? 0)
+    );
+  }
+
+  return {
+    fechaInicio: normalizarALunes(fechaInicio),
+    sesiones
+  };
+}
+
+/* GUARDAR PLANIFICACIÓN */
+
+function guardarDatosAutomaticamente(mostrarMensaje = false) {
+  try {
+    const almacen = cargarAlmacen();
+
+    if (!almacen[categoriaActual] || typeof almacen[categoriaActual] !== "object") {
+      almacen[categoriaActual] = {};
+    }
+
+    almacen[categoriaActual][String(semanaActual)] = {
+      fechaInicio: fechaInicioActual,
+      sesiones: sesionesActuales
+    };
+
+    localStorage.setItem(CLAVE_PLANIFICACION, JSON.stringify(almacen));
+    sincronizarCalendarioSemana();
+
+    const hora = new Date().toLocaleTimeString("es-AR", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+
+    actualizarEstadoGuardado(
+      "Planificación y calendario guardados · " + hora,
+      false
+    );
+
+    actualizarSelectorSemana();
+
+    if (mostrarMensaje) {
+      mostrarNotificacion(
+        "Semana " + semanaActual + " guardada. Calendario actualizado."
+      );
+    }
+
+    return true;
+  } catch (error) {
+    console.error("No se pudo guardar la planificación:", error);
+    actualizarEstadoGuardado(
+      "No se pudo guardar. Revisá el almacenamiento del navegador.",
+      true
+    );
+
+    if (mostrarMensaje) {
+      mostrarNotificacion("No se pudo guardar la planificación.");
+    }
+
+    return false;
+  }
+}
+
+function guardarSemana() {
+  guardarDatosAutomaticamente(true);
+}
+
+function actualizarEstadoGuardado(texto, esError) {
+  const etiqueta = document.getElementById("estadoGuardado");
+  const punto = document.getElementById("puntoGuardado");
+
+  if (!etiqueta || !punto) return;
+
+  etiqueta.textContent = texto;
+  punto.classList.toggle("error", Boolean(esError));
+}
+
+function mostrarNotificacion(texto) {
+  const mensaje = document.getElementById("mensajeFlotante");
+
+  mensaje.textContent = texto;
+  mensaje.classList.add("visible");
+
+  clearTimeout(temporizadorMensaje);
+
+  temporizadorMensaje = setTimeout(() => {
+    mensaje.classList.remove("visible");
+  }, 3200);
+}
+
+/* CALENDARIO COMPARTIDO */
+
+function leerActividadesCalendario() {
+  try {
+    const datos = JSON.parse(localStorage.getItem(CLAVE_CALENDARIO) || "{}");
+
+    if (datos && typeof datos === "object" && !Array.isArray(datos)) {
+      return datos;
+    }
+
+    return {};
+  } catch (error) {
+    console.error("No se pudieron leer las actividades del calendario:", error);
+    return {};
+  }
+}
+
+function obtenerConfiguracionIntensidad(intensidad) {
+  return CONFIGURACION_INTENSIDAD[intensidad] || CONFIGURACION_INTENSIDAD.media;
+}
+
+function obtenerTextoParaCalendario(sesion, fecha) {
+  if (sesion.intensidad === "suspendido") {
+    return "Sesión suspendida · " + categoriaActual;
+  }
+
+  if (sesion.intensidad === "partido") {
+    const rival = sesion.rival || "Rival a confirmar";
+    const torneo = sesion.competicion || "Competición a confirmar";
+
+    return [
+      "Partido · " + categoriaActual,
+      torneo + " vs. " + rival,
+      "Fecha: " + formatearFecha(fecha, true)
+    ].join("\n");
+  }
+
+  const configuracion = obtenerConfiguracionIntensidad(sesion.intensidad);
+
+  const lineas = [
+    "Entrenamiento · " + categoriaActual,
+    "Intensidad: " + configuracion.estado
+  ];
+
+  if (sesion.ec.trim()) lineas.push("Entrada en calor: " + sesion.ec.trim());
+  if (sesion.ttt.trim()) lineas.push("TTT: " + sesion.ttt.trim());
+  if (sesion.fisico.trim()) lineas.push("Físico: " + sesion.fisico.trim());
+
+  if (lineas.length === 2) {
+    lineas.push("Contenidos pendientes de completar.");
+  }
+
+  return lineas.join("\n");
+}
+
+function crearActividadCalendario(sesion, indice, fecha) {
+  const configuracion = obtenerConfiguracionIntensidad(sesion.intensidad);
+  const esPartido = sesion.intensidad === "partido";
+  const esSuspendido = sesion.intensidad === "suspendido";
+
+  const club = esPartido ? obtenerClubPorNombre(sesion.rival) : null;
+
+  const idMicrociclo =
+    ORIGEN_PLANIFICACION + ":" + categoriaActual + ":S" + semanaActual;
+
+  let titulo;
+  let color;
+  let estado;
+
+  if (esSuspendido) {
+    titulo = "Sesión suspendida";
+    color = "gris";
+    estado = "Suspendido";
+  } else if (esPartido) {
+    titulo = "Partido · " + (sesion.rival || "Rival a confirmar");
+    color = "azul";
+    estado = "Partido";
+  } else {
+    titulo = "Entrenamiento · Intensidad " + configuracion.estado;
+    color = configuracion.color;
+    estado = configuracion.estado;
+  }
+
+  const imagenRival = esPartido && club ? club.ruta : "";
+  const textoActividad = obtenerTextoParaCalendario(sesion, fecha);
+
+  return {
+    id: idMicrociclo + ":sesion:" + indice,
+    origen: ORIGEN_PLANIFICACION,
+    microcicloId: idMicrociclo,
+    microcicloSemana: String(semanaActual),
+    categoria: categoriaActual,
+    division: categoriaActual,
+    fecha,
+    dia: DIAS_SEMANA[sesion.diaSemana],
+    tipo: esSuspendido ? "suspendido" : (esPartido ? "partido" : "entrenamiento"),
+    intensidad: sesion.intensidad,
+    color,
+    colorFondo: configuracion.hex,
+    estado,
+    nivel: estado,
+    titulo,
+    nombre: titulo,
+    texto: textoActividad,
+    text: textoActividad,
+    descripcion: textoActividad,
+    actividad: textoActividad,
+    rival: esPartido ? sesion.rival : "",
+    equipoRival: esPartido ? sesion.rival : "",
+    competicion: esPartido ? sesion.competicion : "",
+    torneo: esPartido ? sesion.competicion : "",
+    escudoRival: imagenRival,
+    imagen: imagenRival,
+    img: imagenRival,
+    foto: imagenRival,
+    imagenUrl: imagenRival,
+    entradaCalor: (!esPartido && !esSuspendido) ? sesion.ec : "",
+    ec: (!esPartido && !esSuspendido) ? sesion.ec : "",
+    ttt: (!esPartido && !esSuspendido) ? sesion.ttt : "",
+    fisico: (!esPartido && !esSuspendido) ? sesion.fisico : "",
+    md: obtenerEtiquetaMD(sesion, indice).texto
+  };
+}
+
+function sincronizarCalendarioSemana() {
+  const actividades = leerActividadesCalendario();
+
+  if (
+    !actividades[categoriaActual] ||
+    typeof actividades[categoriaActual] !== "object" ||
+    Array.isArray(actividades[categoriaActual])
+  ) {
+    actividades[categoriaActual] = {};
+  }
+
+  const actividadesCategoria = actividades[categoriaActual];
+
+  const idMicrociclo =
+    ORIGEN_PLANIFICACION + ":" + categoriaActual + ":S" + semanaActual;
+
+  Object.keys(actividadesCategoria).forEach(fecha => {
+    const actividad = actividadesCategoria[fecha];
+
+    if (
+      actividad &&
+      typeof actividad === "object" &&
+      actividad.origen === ORIGEN_PLANIFICACION &&
+      actividad.microcicloId === idMicrociclo
+    ) {
+      delete actividadesCategoria[fecha];
+    }
+  });
+
+  sesionesActuales.forEach((sesion, indice) => {
+    if (!sesion.activa) return;
+
+    const fecha = obtenerFechaDeSesion(sesion);
+    if (!fecha) return;
+
+    const nuevaActividad = crearActividadCalendario(sesion, indice, fecha);
+    const actividadAnterior = actividadesCategoria[fecha];
+
+    if (
+      actividadAnterior &&
+      typeof actividadAnterior === "object" &&
+      actividadAnterior.origen !== ORIGEN_PLANIFICACION
+    ) {
+      const textoAnterior = String(
+        actividadAnterior.texto ||
+        actividadAnterior.text ||
+        actividadAnterior.descripcion ||
+        actividadAnterior.actividad ||
+        ""
+      ).trim();
+
+      const textoCombinado = [
+        textoAnterior,
+        nuevaActividad.texto
+      ].filter(Boolean).join("\n\n");
+
+      nuevaActividad.actividadCalendarioOriginal = clonarObjeto(actividadAnterior);
+      nuevaActividad.texto = textoCombinado;
+      nuevaActividad.text = textoCombinado;
+      nuevaActividad.descripcion = textoCombinado;
+      nuevaActividad.actividad = textoCombinado;
+    }
+
+    actividadesCategoria[fecha] = nuevaActividad;
+  });
+
+  localStorage.setItem(CLAVE_CALENDARIO, JSON.stringify(actividades));
+}
+
+/* CAMBIAR CATEGORÍA Y SEMANA */
+
+function actualizarSelectorSemana() {
+  const selector = document.getElementById("selectMicrociclo");
+  const almacen = cargarAlmacen();
+  const semanasCategoria = almacen[categoriaActual] || {};
+
+  const semanasGuardadas = Object.keys(semanasCategoria)
+    .map(Number)
+    .filter(numero => Number.isInteger(numero));
+
+  const minSemana = Math.min(32, semanaActual, ...semanasGuardadas);
+  const maxSemana = Math.max(43, semanaActual, ...semanasGuardadas);
+
+  selector.innerHTML = "";
+
+  for (let numero = minSemana; numero <= maxSemana; numero++) {
+    const opcion = document.createElement("option");
+    opcion.value = String(numero);
+
+    if (categoriaActual === "Sub 16" && microciclosData[numero]) {
+      opcion.textContent = "Semana " + numero;
+    } else if (semanasCategoria[String(numero)]) {
+      opcion.textContent = "Semana " + numero + " · Guardada";
+    } else {
+      opcion.textContent = "Semana " + numero + " · Nueva";
+    }
+
+    selector.appendChild(opcion);
+  }
+
+  selector.value = String(semanaActual);
+}
+
+function seleccionarSemana(valor) {
+  const numero = Number(valor);
+  if (!Number.isInteger(numero)) return;
+
+  guardarDatosAutomaticamente(false);
+
+  semanaActual = numero;
+
+  const semana = obtenerSemana(semanaActual, categoriaActual);
+
+  fechaInicioActual = semana.fechaInicio;
+  sesionesActuales = semana.sesiones;
+
+  renderizarSemana();
+  guardarDatosAutomaticamente(false);
+}
+
+function cambiarSemana(desplazamiento) {
+  seleccionarSemana(semanaActual + desplazamiento);
+}
+
+function seleccionarCategoria(valor) {
+  if (!CATEGORIAS.includes(valor)) return;
+  if (valor === categoriaActual) return;
+
+  guardarDatosAutomaticamente(false);
+
+  categoriaActual = valor;
+  guardarPreferenciaCategoria();
+
+  const semana = obtenerSemana(semanaActual, categoriaActual);
+
+  fechaInicioActual = semana.fechaInicio;
+  sesionesActuales = semana.sesiones;
+
+  renderizarSemana();
+  guardarDatosAutomaticamente(false);
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* FECHA AUTOMÁTICA */
+
+function cambiarFechaInicioSemana(valor) {
+  if (!valor) return;
+
+  const lunes = normalizarALunes(valor);
+  if (!lunes) return;
+
+  fechaInicioActual = lunes;
+
+  renderizarSemana();
+  guardarDatosAutomaticamente(false);
+
+  if (valor !== lunes) {
+    mostrarNotificacion(
+      "La fecha de referencia se ajustó al lunes " +
+      formatearFecha(lunes, true) + "."
+    );
+  } else {
+    mostrarNotificacion("Fechas de las sesiones actualizadas.");
+  }
+}
+
+/* OPCIONES DE LOS SELECTORES */
+
+function crearOpcionesDias(valor) {
+  return DIAS_SEMANA.map((dia, indice) => `
+    <option value="${indice}" ${Number(valor) === indice ? "selected" : ""}>${dia}</option>
+  `).join("");
+}
+
+function crearOpcionesIntensidad(valor) {
+  return Object.entries(CONFIGURACION_INTENSIDAD)
+    .map(([clave, configuracion]) => `
+      <option value="${clave}" ${valor === clave ? "selected" : ""}>${configuracion.etiqueta}</option>
+    `)
+    .join("");
+}
+
+function crearOpcionesCompeticiones(valor) {
+  const opciones = COMPETICIONES_POR_DIVISION[categoriaActual] ||
+    COMPETICIONES_POR_DIVISION["Sub 16"];
+
+  const completas = [...opciones];
+
+  if (valor && !completas.includes(valor)) {
+    completas.push(valor);
+  }
+
+  return completas.map(nombre => `
+    <option value="${escaparHTML(nombre)}" ${valor === nombre ? "selected" : ""}>${escaparHTML(nombre)}</option>
+  `).join("");
+}
+
+function crearOpcionesRivales(valor) {
+  let html = '<option value="">Seleccioná un rival...</option>';
+
+  html += ESCUDOS_CLUBES.map(club => `
+    <option value="${escaparHTML(club.nombre)}" ${valor === club.nombre ? "selected" : ""}>${escaparHTML(club.nombre)}</option>
+  `).join("");
+
+  if (valor && !ESCUDOS_CLUBES.some(club => club.nombre === valor)) {
+    html += `<option value="${escaparHTML(valor)}" selected>${escaparHTML(valor)}</option>`;
+  }
+
+  return html;
+}
+
+/* MATCH DAY */
+
+function obtenerIndicePartido() {
+  return sesionesActuales.findIndex(sesion => sesion.intensidad === "partido");
+}
+
+function obtenerEtiquetaMD(sesion, indiceSesion) {
+  const indicePartido = obtenerIndicePartido();
+
+  if (indicePartido < 0) {
+    return { texto: "MD pendiente", clase: "" };
+  }
+
+  if (sesion.intensidad === "partido") {
+    if (indiceSesion === indicePartido) {
+      return { texto: "MD · PARTIDO", clase: "es-partido" };
+    }
+
+    return { texto: "PARTIDO EXTRA", clase: "es-partido" };
+  }
+
+  const diaSesion = Number(sesion.diaSemana);
+  const diaPartido = Number(sesionesActuales[indicePartido].diaSemana);
+  const diferencia = diaSesion - diaPartido;
+
+  if (diferencia === 0) return { texto: "MD", clase: "es-partido" };
+  if (diferencia < 0) return { texto: "MD" + diferencia, clase: "es-previo" };
+
+  return { texto: "MD+" + diferencia, clase: "es-posterior" };
+}
+
+function actualizarReferenciaMD() {
+  const indicePartido = obtenerIndicePartido();
+  const texto = document.getElementById("textoReferenciaMD");
+
+  if (indicePartido < 0) {
+    texto.textContent =
+      "Seleccioná PARTIDO en una de las sesiones para calcular automáticamente las referencias MD de las demás sesiones.";
+    return;
+  }
+
+  const partido = sesionesActuales[indicePartido];
+  const fechaPartido = obtenerFechaDeSesion(partido);
+
+  texto.textContent =
+    "Partido de referencia: " +
+    DIAS_SEMANA[partido.diaSemana] + " " +
+    formatearFecha(fechaPartido, true) +
+    ". Las demás sesiones se identifican como MD-n antes del encuentro y MD+n después del encuentro.";
+}
+
+/* GENERAR CAMPOS DE TEXTO */
+
+function campoTexto({
+  indice,
+  campo,
+  etiqueta,
+  valor,
+  placeholder,
+  clase = "",
+  filas = 5
+}) {
+  return `
+    <div class="campo campo-entrenamiento ${clase}">
+      <label for="campo-${indice}-${campo}">${etiqueta}</label>
+      <textarea
+        id="campo-${indice}-${campo}"
+        data-index="${indice}"
+        data-field="${campo}"
+        rows="${filas}"
+        placeholder="${escaparHTML(placeholder)}"
+      >${escaparHTML(valor)}</textarea>
+    </div>
+  `;
+}
+
+/* CONTENIDO DE SESIÓN SEGÚN INTENSIDAD */
+
+function renderizarContenidoSesion(sesion, indice) {
+  if (sesion.intensidad === "suspendido") {
+    return `
+      <div class="bloque-suspendido">
+        <div class="icono-suspendido">—</div>
+        <strong>SESIÓN SUSPENDIDA</strong>
+        <p>No hace falta completar contenidos para este día. Se publicará como suspendido en el calendario.</p>
+      </div>
+    `;
+  }
+
+  if (sesion.intensidad === "partido") {
+    return `
+      <div class="bloque-partido">
+        <h5 class="titulo-bloque">
+          <span class="numero-bloque">MD</span>
+          INFORMACIÓN DEL PARTIDO
+        </h5>
+
+        <div class="campo" style="margin-bottom:12px">
+          <label for="campo-${indice}-rival">NOMBRE DEL RIVAL</label>
+          <select id="campo-${indice}-rival" data-index="${indice}" data-field="rival">
+            ${crearOpcionesRivales(sesion.rival)}
+          </select>
+        </div>
+
+        <div class="preview-rival" id="previewRival-${indice}">
+          ${crearHTMLPreviewRival(sesion.rival)}
+        </div>
+
+        <div class="campo" style="margin-top:12px">
+          <label for="campo-${indice}-competicion">TIPO DE TORNEO</label>
+          <select id="campo-${indice}-competicion" data-index="${indice}" data-field="competicion">
+            ${crearOpcionesCompeticiones(sesion.competicion)}
+          </select>
+        </div>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="bloque-entrenamiento">
+      <h5 class="titulo-bloque">
+        <span class="numero-bloque">1</span>
+        ENTRADA EN CALOR
+      </h5>
+      ${campoTexto({
+        indice,
+        campo: "ec",
+        etiqueta: "Contenido de la entrada en calor",
+        valor: sesion.ec,
+        placeholder: "Movilidad, activación, coordinación, velocidad, juegos...",
+        filas: 5
+      })}
+    </div>
+
+    <div class="bloque-entrenamiento">
+      <h5 class="titulo-bloque">
+        <span class="numero-bloque">2</span>
+        TTT · TAREA TÉCNICO-TÁCTICA
+      </h5>
+      ${campoTexto({
+        indice,
+        campo: "ttt",
+        etiqueta: "Tareas técnico-tácticas",
+        valor: sesion.ttt,
+        placeholder: "Ejercicios, consignas, organización, espacios, series, pausas y objetivos...",
+        filas: 6
+      })}
+    </div>
+
+    <div class="bloque-entrenamiento">
+      <h5 class="titulo-bloque">
+        <span class="numero-bloque">3</span>
+        FÍSICO
+      </h5>
+      ${campoTexto({
+        indice,
+        campo: "fisico",
+        etiqueta: "Contenido del bloque físico",
+        valor: sesion.fisico,
+        placeholder: "Fuerza, velocidad, resistencia, series, repeticiones, distancias, pausas...",
+        clase: "fisico",
+        filas: 5
+      })}
+    </div>
+  `;
+}
+
+/* VISTA PREVIA DEL ESCUDO */
+
+function crearHTMLPreviewRival(nombre) {
+  const club = obtenerClubPorNombre(nombre);
+
+  if (!club) {
+    return `
+      <div class="placeholder-rival" aria-hidden="true">⚽</div>
+      <span class="nombre-preview-rival">${nombre ? escaparHTML(nombre) : "Seleccioná el rival"}</span>
+      <p class="aviso-imagen-rival">El escudo aparecerá al elegir un club del catálogo.</p>
+    `;
+  }
+
+  return `
+    <img
+      class="imagen-rival"
+      src="${escaparHTML(club.ruta)}"
+      alt="Escudo de ${escaparHTML(club.nombre)}"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+    >
+    <div class="placeholder-rival" style="display:none" aria-hidden="true">⚽</div>
+    <span class="nombre-preview-rival">${escaparHTML(club.nombre)}</span>
+  `;
+}
+
+/* TARJETAS DE SESIÓN */
+
+function crearTarjetaSesion(sesion, indice) {
+  const fecha = obtenerFechaDeSesion(sesion);
+  const md = obtenerEtiquetaMD(sesion, indice);
+
+  const puedeEliminar =
+    Boolean(sesion.extra) &&
+    sesionesActuales.length > (CANTIDAD_SESIONES_BASE[categoriaActual] || 4);
+
+  return `
+    <article class="tarjeta-dia" id="sesion-${indice}" data-intensidad="${sesion.intensidad}">
+
+      <header class="cabecera-dia">
+        <div class="primera-linea-dia">
+          <div class="identidad-dia">
+            <div class="numero-sesion">S${indice + 1}</div>
+            <div>
+              <h4 class="nombre-dia">${escaparHTML(DIAS_SEMANA[sesion.diaSemana])}</h4>
+              <span class="fecha-calculada">${escaparHTML(formatearFecha(fecha, true))}</span>
+            </div>
+          </div>
+
+          <div class="acciones-cabecera-dia">
+            <span class="etiqueta-md ${md.clase}">${escaparHTML(md.texto)}</span>
+            ${puedeEliminar ? `
+              <button
+                type="button"
+                class="boton-eliminar-sesion"
+                onclick="eliminarSesion(${indice})"
+                title="Eliminar esta sesión adicional"
+                aria-label="Eliminar sesión ${indice + 1}"
+              >×</button>
+            ` : ""}
+          </div>
+        </div>
+
+        <div class="campo">
+          <label for="campo-${indice}-diaSemana">DÍA DE LA SEMANA</label>
+          <select id="campo-${indice}-diaSemana" data-index="${indice}" data-field="diaSemana">
+            ${crearOpcionesDias(sesion.diaSemana)}
+          </select>
+        </div>
+      </header>
+
+      <div class="cuerpo-dia">
+        <div class="campo">
+          <label for="campo-${indice}-fechaCalculada">FECHA AUTOMÁTICA</label>
+          <input
+            id="campo-${indice}-fechaCalculada"
+            type="text"
+            value="${escaparHTML(formatearFecha(fecha, true))}"
+            readonly
+          >
+        </div>
+
+        <div class="campo">
+          <label for="campo-${indice}-intensidad">INTENSIDAD</label>
+          <select id="campo-${indice}-intensidad" data-index="${indice}" data-field="intensidad">
+            ${crearOpcionesIntensidad(sesion.intensidad)}
+          </select>
+        </div>
+
+        ${renderizarContenidoSesion(sesion, indice)}
+      </div>
+
+      <footer class="pie-dia">
+        <strong>SESIÓN ${indice + 1}</strong>
+        · ${sesion.activa ? "Publicada en el calendario" : "Plan editable"}
+      </footer>
+
+    </article>
+  `;
+}
+
+/* RENDERIZADO GENERAL */
+
+function actualizarTituloSemana() {
+  const domingo = sumarDiasISO(fechaInicioActual, 6);
+
+  document.getElementById("tituloSemanaActual").textContent =
+    "Semana " + semanaActual + " · " +
+    formatearFecha(fechaInicioActual, false) + " al " +
+    formatearFecha(domingo, true);
+}
+
+function actualizarEstadoMicrociclo() {
+  const partidos = sesionesActuales.filter(sesion =>
+    sesion.intensidad === "partido"
+  ).length;
+
+  const suspendidos = sesionesActuales.filter(sesion =>
+    sesion.intensidad === "suspendido"
+  ).length;
+
+  const estado = document.getElementById("estadoMicrociclo");
+  const texto = document.getElementById("textoEstadoMicrociclo");
+
+  estado.classList.remove("con-partido", "con-suspendido");
+
+  if (suspendidos > 0) {
+    estado.classList.add("con-suspendido");
+  } else if (partidos > 0) {
+    estado.classList.add("con-partido");
+  }
+
+  if (suspendidos > 0) {
+    texto.textContent = "Hay sesiones suspendidas";
+  } else if (partidos === 0) {
+    texto.textContent = "Partido sin definir";
+  } else if (partidos === 1) {
+    texto.textContent = "Partido definido";
+  } else {
+    texto.textContent = "Más de un partido";
+  }
+}
+
+function actualizarDescripcionCategoria() {
+  const cantidadBase = CANTIDAD_SESIONES_BASE[categoriaActual] || 4;
+
+  if (categoriaActual === "Sub 10" || categoriaActual === "Sub 12") {
+    document.getElementById("descripcionSesiones").textContent =
+      "Dos días de entrenamiento (martes y jueves) y un partido (sábado), con opción de agregar sesiones.";
+  } else {
+    document.getElementById("descripcionSesiones").textContent =
+      (cantidadBase - 1) +
+      " días de entrenamiento y un partido, con opción de agregar sesiones.";
+  }
+}
+
+function actualizarBotonAgregar() {
+  const boton = document.getElementById("botonAgregarSesion");
+
+  const diasOcupados = new Set(
+    sesionesActuales.map(sesion => Number(sesion.diaSemana))
+  );
+
+  const noHayDiasDisponibles = diasOcupados.size >= DIAS_SEMANA.length;
+
+  boton.disabled = noHayDiasDisponibles;
+
+  boton.title = noHayDiasDisponibles
+    ? "Ya hay una sesión asignada a cada día de la semana."
+    : "Agregar una sesión adicional.";
+}
+
+function renderizarSemana() {
+  document.getElementById("selectCategoria").value = categoriaActual;
+
+  document.getElementById("etiquetaCategoria").textContent =
+    "⚽ CATEGORÍA " + categoriaActual.toUpperCase();
+
+  document.getElementById("fechaInicioSemana").value = fechaInicioActual;
+
+  actualizarSelectorSemana();
+  actualizarTituloSemana();
+  actualizarReferenciaMD();
+  actualizarEstadoMicrociclo();
+  actualizarDescripcionCategoria();
+  actualizarBotonAgregar();
+
+  document.getElementById("gridMicrociclo").innerHTML =
+    sesionesActuales.map((sesion, indice) =>
+      crearTarjetaSesion(sesion, indice)
+    ).join("");
+}
+
+/* AGREGAR SESIÓN */
+
+function obtenerPrimerDiaLibre() {
+  const ocupados = new Set(
+    sesionesActuales.map(sesion => Number(sesion.diaSemana))
+  );
+
+  return DIAS_SEMANA.findIndex((dia, indice) => !ocupados.has(indice));
+}
+
+function agregarSesion() {
+  if (sesionesActuales.length >= DIAS_SEMANA.length) {
+    mostrarNotificacion("Ya hay una sesión asignada a cada día de la semana.");
+    return;
+  }
+
+  const diaLibre = obtenerPrimerDiaLibre();
+
+  if (diaLibre < 0) {
+    mostrarNotificacion("No quedan días libres. Cambiá el día de una sesión existente.");
+    return;
+  }
+
+  const nuevaSesion = {
+    ...crearSesionVacia(diaLibre, "media"),
+    activa: true,
+    extra: true
+  };
+
+  sesionesActuales.push(nuevaSesion);
+
+  renderizarSemana();
+  guardarDatosAutomaticamente(false);
+
+  mostrarNotificacion(
+    "Sesión agregada para el " + DIAS_SEMANA[diaLibre] +
+    ". Elegí la intensidad y completá sus contenidos."
+  );
+
+  const nuevaTarjeta = document.getElementById(
+    "sesion-" + (sesionesActuales.length - 1)
+  );
+
+  if (nuevaTarjeta) {
+    nuevaTarjeta.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
+/* ELIMINAR SESIÓN ADICIONAL */
+
+function eliminarSesion(indice) {
+  const sesion = sesionesActuales[indice];
+  if (!sesion || !sesion.extra) return;
+
+  const confirmado = confirm(
+    "¿Querés eliminar esta sesión adicional?\n\n" +
+    "También se quitará del calendario si había sido publicada."
+  );
+
+  if (!confirmado) return;
+
+  sesionesActuales.splice(indice, 1);
+
+  renderizarSemana();
+  guardarDatosAutomaticamente(false);
+
+  mostrarNotificacion("La sesión adicional fue eliminada.");
+}
+
+/* EDICIÓN DE CAMPOS */
+
+function procesarEntrada(evento) {
+  const elemento = evento.target;
+
+  if (!elemento?.dataset?.field) return;
+  if (elemento.tagName === "SELECT") return;
+
+  const indice = Number(elemento.dataset.index);
+  const campo = elemento.dataset.field;
+
+  if (!Number.isInteger(indice) || !sesionesActuales[indice] || !campo) {
+    return;
+  }
+
+  sesionesActuales[indice][campo] = elemento.value;
+  sesionesActuales[indice].activa = true;
+
+  guardarDatosAutomaticamente(false);
+
+  const pie = document.querySelector(`#sesion-${indice} .pie-dia`);
+
+  if (pie) {
+    pie.innerHTML =
+      `<strong>SESIÓN ${indice + 1}</strong> · Publicada en el calendario`;
+  }
+}
+
+function procesarCambio(evento) {
+  const elemento = evento.target;
+
+  if (!elemento?.dataset?.field) return;
+
+  const indice = Number(elemento.dataset.index);
+  const campo = elemento.dataset.field;
+
+  if (!Number.isInteger(indice) || !sesionesActuales[indice]) {
+    return;
+  }
+
+  if (campo === "diaSemana") {
+    const nuevoDia = Number(elemento.value);
+
+    const otroIndice = sesionesActuales.findIndex(
+      (sesion, posicion) =>
+        posicion !== indice &&
+        Number(sesion.diaSemana) === nuevoDia
+    );
+
+    if (otroIndice >= 0) {
+      mostrarNotificacion(
+        "Ya hay una sesión asignada a " +
+        DIAS_SEMANA[nuevoDia] +
+        ". Elegí otro día para evitar duplicados en el calendario."
+      );
+
+      renderizarSemana();
+      return;
+    }
+
+    sesionesActuales[indice].diaSemana = nuevoDia;
+    sesionesActuales[indice].activa = true;
+
+    renderizarSemana();
+    guardarDatosAutomaticamente(false);
+    return;
+  }
+
+  if (campo === "intensidad") {
+    sesionesActuales[indice].intensidad = elemento.value;
+    sesionesActuales[indice].activa = true;
+
+    if (
+      elemento.value === "partido" &&
+      !sesionesActuales[indice].competicion
+    ) {
+      sesionesActuales[indice].competicion =
+        COMPETICIONES_POR_DIVISION[categoriaActual][0];
+    }
+
+    renderizarSemana();
+    guardarDatosAutomaticamente(false);
+    return;
+  }
+
+  sesionesActuales[indice][campo] = elemento.value;
+  sesionesActuales[indice].activa = true;
+
+  renderizarSemana();
+  guardarDatosAutomaticamente(false);
+}
+
+/* CAMBIAR RIVAL Y ESCUDO */
+
+function actualizarVistaRival(indice) {
+  const sesion = sesionesActuales[indice];
+  if (!sesion) return;
+
+  const preview = document.getElementById("previewRival-" + indice);
+  if (!preview) return;
+
+  preview.innerHTML = crearHTMLPreviewRival(sesion.rival);
+}
+
+/* MENÚ LATERAL */
+
+function alternarSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const capa = document.getElementById("capaSidebar");
+  const boton = document.getElementById("botonMenu");
+
+  const esMovil = window.matchMedia("(max-width: 760px)").matches;
+
+  if (esMovil) {
+    const visible = sidebar.classList.toggle("visible");
+    capa.classList.toggle("visible", visible);
+    boton.setAttribute("aria-expanded", String(visible));
+  } else {
+    const oculto = sidebar.classList.toggle("oculto");
+    boton.setAttribute("aria-expanded", String(!oculto));
+  }
+}
+
+function toggleGrupo(id) {
+  const grupo = document.getElementById(id);
+  if (grupo) grupo.classList.toggle("cerrado");
+}
+
+function cerrarSesion(evento) {
+  evento.preventDefault();
+
+  const confirmado = confirm("¿Querés cerrar la sesión?");
+  if (!confirmado) return;
+
+  try {
+    localStorage.removeItem("usuarioADIUR");
+  } catch (error) {
+    console.warn("No se pudo limpiar la sesión local.", error);
+  }
+
+  window.location.href = "Loing.html";
+}
+
+/* PERFIL */
+
+function inicializarPerfil() {
+  let usuario = null;
+
+  try {
+    const guardado = localStorage.getItem("usuarioADIUR");
+
+    if (guardado) {
+      try {
+        usuario = JSON.parse(guardado);
+      } catch (error) {
+        usuario = guardado;
+      }
+    }
+  } catch (error) {
+    usuario = null;
+  }
+
+  let nombre = "Entrenador";
+  let rol = "Cuerpo técnico";
+
+  if (typeof usuario === "string" && usuario.trim()) {
+    const clave = normalizarUsuario(usuario);
+
+    if (
+      clave.includes("francisco") ||
+      clave === "fran" ||
+      clave === "franciscoperezbasla"
+    ) {
+      nombre = "Fran";
+    } else if (clave === "toto") {
+      nombre = "Toto";
+    } else {
+      nombre = usuario;
+    }
+  } else if (usuario && typeof usuario === "object") {
+    nombre =
+      usuario.nombre ||
+      usuario.nombreCompleto ||
+      usuario.usuario ||
+      usuario.username ||
+      usuario.user ||
+      "Entrenador";
+
+    rol =
+      usuario.rol ||
+      usuario.categoria ||
+      usuario.perfil ||
+      "Cuerpo técnico";
+  }
+
+  document.getElementById("nombreUsuario").textContent = nombre;
+  document.getElementById("rolUsuario").textContent = rol;
+
+  const iniciales = String(nombre)
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map(palabra => palabra.charAt(0))
+    .join("")
+    .toUpperCase();
+
+  document.getElementById("avatarUsuario").textContent = iniciales || "DT";
+}
+
+/* INICIALIZACIÓN */
+
+function inicializarPlanificacion() {
+  inicializarPerfil();
+
+  categoriaActual = obtenerCategoriaPredeterminada();
+  semanaActual = 39;
+
+  const semana = obtenerSemana(semanaActual, categoriaActual);
+
+  fechaInicioActual = semana.fechaInicio;
+  sesionesActuales = semana.sesiones;
+
+  renderizarSemana();
+
+  document.getElementById("gridMicrociclo")
+    .addEventListener("input", procesarEntrada);
+
+  document.getElementById("gridMicrociclo")
+    .addEventListener("change", procesarCambio);
+
+  actualizarEstadoGuardado(
+    "Los cambios se guardan automáticamente en este navegador.",
+    false
+  );
+
+  /*
+    Guarda también la estructura normalizada. De este modo,
+    al abrir nuevamente Sub 10 o Sub 12 no vuelve a aparecer
+    la cuarta sesión heredada.
+  */
+
+  guardarDatosAutomaticamente(false);
+
+  window.addEventListener("resize", () => {
+    if (window.matchMedia("(min-width: 761px)").matches) {
+      document.getElementById("sidebar").classList.remove("visible");
+      document.getElementById("capaSidebar").classList.remove("visible");
+
+      document.getElementById("botonMenu").setAttribute(
+        "aria-expanded",
+        "false"
+      );
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", inicializarPlanificacion);
+</script>
+
+</body>
+</html>

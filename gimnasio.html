@@ -1,0 +1,1576 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gimnasio | ADIUR Femenino</title>
+
+<style>
+:root {
+    --rojo: #d71920;
+    --negro: #171717;
+    --gris: #f3f4f6;
+    --borde: #dedede;
+    --texto: #242424;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #fff;
+    color: var(--texto);
+}
+
+button, input, select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* MENÚ LATERAL */
+
+.sidebar {
+    width: 245px;
+    min-width: 245px;
+    background: white;
+    border-right: 1px solid var(--borde);
+    padding: 20px 14px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 8px 24px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 18px;
+}
+
+.logo-area img {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+}
+
+.logo-area h2 {
+    font-size: 16px;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.logo-area span {
+    color: var(--rojo);
+}
+
+.nav-title {
+    margin: 17px 10px 7px;
+    font-size: 11px;
+    font-weight: bold;
+    color: #858585;
+    letter-spacing: 1px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 12px;
+    margin: 2px 0;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    border-radius: 7px;
+}
+
+.nav-link:hover {
+    background: #f4f4f4;
+}
+
+.nav-link.active {
+    color: var(--rojo);
+    background: #fff0f0;
+    font-weight: bold;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding: 18px 8px 0;
+    border-top: 1px solid #eee;
+    font-size: 12px;
+    color: #777;
+}
+
+/* CONTENIDO */
+
+.main {
+    flex: 1;
+    min-width: 0;
+}
+
+.topbar {
+    min-height: 78px;
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border-bottom: 1px solid var(--borde);
+}
+
+.topbar h1 {
+    margin: 0;
+    font-size: 23px;
+}
+
+.topbar p {
+    margin: 5px 0 0;
+    color: #777;
+    font-size: 13px;
+}
+
+.profile {
+    background: #f1f1f1;
+    border-radius: 22px;
+    padding: 10px 14px;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.content {
+    padding: 25px 28px 40px;
+    max-width: 1900px;
+    margin: 0 auto;
+}
+
+.intro {
+    margin-bottom: 22px;
+}
+
+.intro h2 {
+    margin: 0 0 8px;
+    font-size: 25px;
+}
+
+.intro p {
+    margin: 0;
+    color: #6b6b6b;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+/* SELECTORES */
+
+.panel {
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 20px;
+    background: #fff;
+}
+
+.filters {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(160px, 1fr));
+    gap: 16px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.field label {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.field input,
+.field select {
+    width: 100%;
+    min-width: 0;
+    padding: 11px;
+    border: 1px solid #d5d5d5;
+    border-radius: 7px;
+    background: white;
+    outline: none;
+}
+
+.field input:focus,
+.field select:focus,
+.cell-input:focus {
+    border-color: var(--rojo);
+    box-shadow: 0 0 0 2px #d7192015;
+}
+
+/* BOTONES */
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: 17px;
+    align-items: center;
+}
+
+.btn {
+    border: 1px solid #d8d8d8;
+    background: white;
+    color: #222;
+    padding: 10px 14px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background: #f5f5f5;
+}
+
+.btn-primary {
+    background: var(--rojo);
+    color: white;
+    border-color: var(--rojo);
+}
+
+.btn-primary:hover {
+    background: #b9141a;
+    color: white;
+}
+
+.btn-dark {
+    background: #222;
+    color: white;
+    border-color: #222;
+}
+
+.btn-danger {
+    color: #b91c1c;
+    border-color: #efcaca;
+}
+
+.weeks-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+
+.weeks-control label {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.weeks-control select {
+    padding: 9px;
+    border: 1px solid #d5d5d5;
+    border-radius: 7px;
+    background: white;
+}
+
+/* RESUMEN */
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.summary-card {
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    padding: 15px 17px;
+}
+
+.summary-card p {
+    margin: 0 0 8px;
+    color: #777;
+    font-size: 12px;
+}
+
+.summary-card strong {
+    font-size: 20px;
+}
+
+/* TABLA GIGANTE */
+
+.table-panel {
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+}
+
+.table-heading {
+    padding: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+    border-bottom: 1px solid var(--borde);
+}
+
+.table-heading h3 {
+    margin: 0 0 5px;
+    font-size: 17px;
+}
+
+.table-heading p {
+    margin: 0;
+    color: #777;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.scroll-hint {
+    padding: 10px 16px;
+    background: #fafafa;
+    border-bottom: 1px solid var(--borde);
+    font-size: 12px;
+    color: #666;
+}
+
+.table-scroll {
+    width: 100%;
+    overflow: auto;
+    max-height: 75vh;
+    overscroll-behavior: contain;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+    width: max-content;
+    min-width: 100%;
+}
+
+th, td {
+    border-right: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 7px;
+    vertical-align: top;
+}
+
+.exercise-col {
+    width: 190px;
+    min-width: 190px;
+    max-width: 190px;
+}
+
+.day-col {
+    width: 220px;
+    min-width: 220px;
+    max-width: 220px;
+}
+
+.week-header {
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 13px 8px;
+    background: #202020;
+    color: white;
+    border-color: #444;
+}
+
+.exercise-header {
+    text-align: left;
+    background: #202020;
+    color: white;
+    padding: 13px 12px;
+    position: sticky;
+    left: 0;
+    z-index: 5;
+}
+
+.day-header {
+    text-align: center;
+    background: #f0f0f0;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 11px 6px;
+}
+
+.day-header small {
+    display: block;
+    margin-top: 5px;
+    font-size: 10px;
+    color: #777;
+    font-weight: normal;
+}
+
+.exercise-cell {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: #fff;
+    vertical-align: middle;
+    padding: 10px;
+}
+
+.exercise-cell-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.exercise-number {
+    color: #888;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.exercise-name {
+    width: 100%;
+    min-width: 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 9px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.day-cell {
+    background: #fff;
+    padding: 9px;
+}
+
+.day-cell:nth-child(even) {
+    background: #fdfdfd;
+}
+
+.day-fields {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+}
+
+.cell-field {
+    display: grid;
+    grid-template-columns: 82px minmax(0, 1fr);
+    align-items: center;
+    gap: 7px;
+}
+
+.cell-field label {
+    color: #555;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.cell-input {
+    width: 100%;
+    min-width: 0;
+    height: 34px;
+    border: 1px solid #d7d7d7;
+    border-radius: 5px;
+    padding: 6px 8px;
+    background: white;
+    font-size: 13px;
+}
+
+.cell-input::placeholder {
+    color: #c2c2c2;
+}
+
+.empty-message {
+    padding: 28px;
+    color: #777;
+    text-align: center;
+    font-size: 14px;
+}
+
+.status {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #777;
+}
+
+.footer-note {
+    margin-top: 15px;
+    color: #777;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 950px) {
+    .sidebar {
+        width: 205px;
+        min-width: 205px;
+    }
+
+    .content {
+        padding: 20px 15px;
+    }
+
+    .filters {
+        grid-template-columns: 1fr;
+    }
+
+    .summary {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 650px) {
+    .app {
+        display: block;
+    }
+
+    .sidebar {
+        width: 100%;
+        min-width: 0;
+        padding: 12px;
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+    }
+
+    .logo-area {
+        padding-bottom: 12px;
+        margin-bottom: 8px;
+    }
+
+    .sidebar nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .nav-title {
+        width: 100%;
+        margin: 10px 5px 3px;
+    }
+
+    .nav-link {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+
+    .sidebar-footer {
+        display: none;
+    }
+
+    .topbar {
+        padding: 16px;
+    }
+
+    .topbar h1 {
+        font-size: 19px;
+    }
+
+    .profile {
+        font-size: 11px;
+        padding: 8px;
+    }
+
+    .content {
+        padding: 18px 10px;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+    <aside class="sidebar">
+        <div class="logo-area">
+            <img src="logo adiur.jpg" alt="Logo ADIUR"
+                 onerror="this.style.display='none'">
+            <h2>ADIUR<br><span>FEMENINO</span></h2>
+        </div>
+
+        <nav>
+            <div class="nav-title">GENERAL</div>
+            <a class="nav-link" href="index.html">⌂ Inicio</a>
+
+            <div class="nav-title">PLANTEL</div>
+            <a class="nav-link" href="jugadoras.html">Jugadoras</a>
+            <a class="nav-link" href="asistencia.html">Asistencia</a>
+
+            <div class="nav-title">ENTRENAMIENTO</div>
+            <a class="nav-link" href="calendario.html">Calendario</a>
+            <a class="nav-link" href="planificacion.html">Planificación</a>
+            <a class="nav-link" href="biblioteca.html">Biblioteca de ejercicios</a>
+            <a class="nav-link active" href="gimnasio.html">Gimnasio</a>
+            <a class="nav-link" href="calculadora.html">Calculadora</a>
+
+            <div class="nav-title">COMPETENCIA</div>
+            <a class="nav-link" href="fixture.html">Fixture</a>
+            <a class="nav-link" href="resultados.html">Resultados</a>
+            <a class="nav-link" href="informes.html">Informes</a>
+            <a class="nav-link" href="estadisticas.html">Estadísticas</a>
+            <a class="nav-link" href="pizarra.html">Pizarra táctica</a>
+
+            <div class="nav-title">RENDIMIENTOS</div>
+            <a class="nav-link" href="testeos.html">Planilla de testeos</a>
+            <a class="nav-link" href="tiempos.html">Tiempos</a>
+            <a class="nav-link" href="multimedia.html">Multimedia</a>
+            <a class="nav-link" href="encuestas.html">Encuestas</a>
+            <a class="nav-link" href="lesiones.html">Lesiones</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            ADIUR FEMENINO<br>
+            Sistema de entrenamiento
+        </div>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div>
+                <h1>Gimnasio</h1>
+                <p>Planificación de fuerza y cargas</p>
+            </div>
+            <div class="profile" id="profileName">Perfil de usuario</div>
+        </header>
+
+        <div class="content">
+            <section class="intro">
+                <h2>Planilla de gimnasio</h2>
+                <p>
+                    Organizá los ejercicios de cada jugadora por división,
+                    rutina, semana y día de entrenamiento. Completá series,
+                    repeticiones y peso de forma independiente.
+                </p>
+            </section>
+
+            <section class="panel">
+                <div class="filters">
+                    <div class="field">
+                        <label for="divisionSelect">División</label>
+                        <select id="divisionSelect">
+                            <option value="Sub 10">Sub 10</option>
+                            <option value="Sub 12">Sub 12</option>
+                            <option value="Sub 14" selected>Sub 14</option>
+                            <option value="Sub 16">Sub 16</option>
+                            <option value="Primera">Primera</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="playerSelect">Jugadora</label>
+                        <select id="playerSelect">
+                            <option value="">Seleccionar jugadora</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="routineSelect">Rutina</label>
+                        <select id="routineSelect"></select>
+                    </div>
+                </div>
+
+                <div class="weeks-control">
+                    <label for="weeksSelect">Duración de la rutina:</label>
+                    <select id="weeksSelect">
+                        <option value="4">4 semanas</option>
+                        <option value="5">5 semanas</option>
+                    </select>
+                </div>
+
+                <div class="actions">
+                    <button class="btn btn-primary" id="newRoutineBtn">
+                        + Nueva rutina
+                    </button>
+                    <button class="btn" id="renameRoutineBtn">
+                        Renombrar rutina
+                    </button>
+                    <button class="btn btn-danger" id="deleteRoutineBtn">
+                        Eliminar rutina
+                    </button>
+                    <button class="btn btn-dark" id="exportBtn">
+                        Exportar CSV
+                    </button>
+                </div>
+
+                <div class="status" id="saveStatus">
+                    Los cambios se guardan automáticamente en este navegador.
+                </div>
+            </section>
+
+            <section class="summary">
+                <div class="summary-card">
+                    <p>Ejercicios en la planilla</p>
+                    <strong>8</strong>
+                </div>
+                <div class="summary-card">
+                    <p>Días por semana</p>
+                    <strong>3</strong>
+                </div>
+                <div class="summary-card">
+                    <p>Campos por ejercicio y día</p>
+                    <strong>Series · Repeticiones · Peso</strong>
+                </div>
+            </section>
+
+            <section class="table-panel">
+                <div class="table-heading">
+                    <div>
+                        <h3 id="tableTitle">Planificación de gimnasio</h3>
+                        <p id="tableSubtitle">
+                            Seleccioná una jugadora para comenzar.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="scroll-hint">
+                    Deslizá la tabla hacia la derecha para ver las semanas.
+                    La columna de ejercicios permanece fija a la izquierda.
+                </div>
+
+                <div class="table-scroll" id="tableScroll">
+                    <div class="empty-message">
+                        Seleccioná una jugadora para ver la planilla.
+                    </div>
+                </div>
+            </section>
+
+            <p class="footer-note">
+                Importante: los datos se almacenan en el navegador y dispositivo
+                donde se utiliza esta página. Exportá la planilla en CSV para
+                conservar una copia externa. El peso se expresa en kilogramos.
+            </p>
+        </div>
+    </main>
+</div>
+
+<script>
+"use strict";
+
+const STORAGE_KEY = "gimnasioADIURRutinasV1";
+const PLAYERS_KEY = "jugadorasADIUR";
+const DIVISIONS = ["Sub 10", "Sub 12", "Sub 14", "Sub 16", "Primera"];
+const EXERCISE_COUNT = 8;
+const DAYS_PER_WEEK = 3;
+
+const divisionSelect = document.getElementById("divisionSelect");
+const playerSelect = document.getElementById("playerSelect");
+const routineSelect = document.getElementById("routineSelect");
+const weeksSelect = document.getElementById("weeksSelect");
+const tableScroll = document.getElementById("tableScroll");
+const saveStatus = document.getElementById("saveStatus");
+
+let database = loadDatabase();
+let currentPlayerKey = "";
+let currentRoutineId = "";
+
+function createId() {
+    return "r_" + Date.now().toString(36) +
+        "_" + Math.random().toString(36).slice(2, 8);
+}
+
+function createRoutine(name, weeks = 4) {
+    return {
+        id: createId(),
+        name: name,
+        weeks: weeks,
+        exercises: Array.from({ length: EXERCISE_COUNT }, (_, i) => ({
+            name: "",
+            days: Array.from({ length: weeks * DAYS_PER_WEEK }, () => ({
+                series: "",
+                repetitions: "",
+                weight: ""
+            }))
+        }))
+    };
+}
+
+function loadDatabase() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        const parsed = raw ? JSON.parse(raw) : {};
+        return parsed && typeof parsed === "object" ? parsed : {};
+    } catch (error) {
+        console.error("No se pudo leer la planilla:", error);
+        return {};
+    }
+}
+
+function persistDatabase() {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(database));
+        saveStatus.textContent =
+            "✓ Cambios guardados automáticamente en este navegador.";
+    } catch (error) {
+        console.error("No se pudieron guardar los datos:", error);
+        saveStatus.textContent =
+            "No se pudieron guardar los cambios. Exportá una copia CSV.";
+    }
+}
+
+function normalizeText(value) {
+    return String(value ?? "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, " ");
+}
+
+function getPlayerName(player) {
+    if (typeof player === "string") return player;
+
+    return player?.nombreCompleto
+        || player?.nombreApellido
+        || player?.nombre_completo
+        || player?.name
+        || player?.nombre
+        || player?.jugadora
+        || player?.apellidoNombre
+        || "";
+}
+
+function getPlayerCategory(player) {
+    if (!player || typeof player === "string") return "";
+
+    return player.categoria
+        || player.division
+        || player.category
+        || player.categoría
+        || "";
+}
+
+function getPlayerId(player, index) {
+    if (!player || typeof player === "string") {
+        return String(index) + "_" + getPlayerName(player);
+    }
+
+    return String(
+        player.id
+        ?? player.idJugadora
+        ?? player.documento
+        ?? player.dni
+        ?? player.email
+        ?? (String(index) + "_" + getPlayerName(player))
+    );
+}
+
+function getPlayersFromStorage() {
+    try {
+        const raw = localStorage.getItem(PLAYERS_KEY);
+        if (!raw) return [];
+
+        const parsed = JSON.parse(raw);
+
+        if (Array.isArray(parsed)) return parsed;
+        if (Array.isArray(parsed.jugadoras)) return parsed.jugadoras;
+        if (Array.isArray(parsed.players)) return parsed.players;
+        if (Array.isArray(parsed.jugadores)) return parsed.jugadores;
+
+        if (parsed && typeof parsed === "object") {
+            return Object.values(parsed).filter(item =>
+                typeof item === "string" ||
+                (item && typeof item === "object" &&
+                 getPlayerName(item))
+            );
+        }
+    } catch (error) {
+        console.error("No se pudo leer la lista de jugadoras:", error);
+    }
+
+    return [];
+}
+
+function getRoutinesForCurrentPlayer() {
+    if (!currentPlayerKey) return [];
+
+    if (!database[currentPlayerKey]) {
+        database[currentPlayerKey] = [];
+    }
+
+    if (!Array.isArray(database[currentPlayerKey])) {
+        database[currentPlayerKey] = [];
+    }
+
+    return database[currentPlayerKey];
+}
+
+function getCurrentRoutine() {
+    const routines = getRoutinesForCurrentPlayer();
+    return routines.find(r => r.id === currentRoutineId) || null;
+}
+
+function ensureRoutineShape(routine) {
+    routine.weeks = Number(routine.weeks) === 5 ? 5 : 4;
+
+    if (!Array.isArray(routine.exercises)) {
+        routine.exercises = [];
+    }
+
+    while (routine.exercises.length < EXERCISE_COUNT) {
+        routine.exercises.push({
+            name: "",
+            days: []
+        });
+    }
+
+    routine.exercises = routine.exercises.slice(0, EXERCISE_COUNT);
+
+    routine.exercises.forEach(exercise => {
+        if (!exercise || typeof exercise !== "object") {
+            exercise = { name: "", days: [] };
+        }
+
+        if (!Array.isArray(exercise.days)) exercise.days = [];
+
+        while (exercise.days.length < routine.weeks * DAYS_PER_WEEK) {
+            exercise.days.push({
+                series: "",
+                repetitions: "",
+                weight: ""
+            });
+        }
+
+        exercise.days = exercise.days.slice(
+            0, routine.weeks * DAYS_PER_WEEK
+        );
+
+        exercise.days.forEach((day, index) => {
+            if (!day || typeof day !== "object") {
+                exercise.days[index] = {
+                    series: "",
+                    repetitions: "",
+                    weight: ""
+                };
+            } else {
+                day.series ??= "";
+                day.repetitions ??= "";
+                day.weight ??= "";
+            }
+        });
+    });
+}
+
+function refreshPlayerOptions() {
+    const previousValue = playerSelect.value;
+    const selectedDivision = divisionSelect.value;
+    const players = getPlayersFromStorage();
+
+    playerSelect.innerHTML = "";
+
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = players.length
+        ? "Seleccionar jugadora"
+        : "No se encontraron jugadoras";
+    playerSelect.appendChild(placeholder);
+
+    const matchingPlayers = players
+        .map((player, index) => ({
+            player,
+            index,
+            name: getPlayerName(player),
+            category: getPlayerCategory(player),
+            id: getPlayerId(player, index)
+        }))
+        .filter(item => item.name)
+        .filter(item =>
+            normalizeText(item.category) === normalizeText(selectedDivision)
+        )
+        .sort((a, b) => a.name.localeCompare(b.name, "es"));
+
+    matchingPlayers.forEach(item => {
+        const option = document.createElement("option");
+        option.value = JSON.stringify({
+            id: item.id,
+            name: item.name
+        });
+        option.textContent = item.name;
+        playerSelect.appendChild(option);
+    });
+
+    const stillExists = [...playerSelect.options]
+        .some(option => option.value === previousValue);
+
+    if (stillExists && previousValue) {
+        playerSelect.value = previousValue;
+    } else {
+        playerSelect.value = "";
+        currentPlayerKey = "";
+        currentRoutineId = "";
+        refreshRoutineOptions();
+        renderTable();
+    }
+}
+
+function setCurrentPlayer() {
+    currentPlayerKey = "";
+
+    if (!playerSelect.value) {
+        currentRoutineId = "";
+        refreshRoutineOptions();
+        renderTable();
+        return;
+    }
+
+    try {
+        const selected = JSON.parse(playerSelect.value);
+        currentPlayerKey = [
+            divisionSelect.value,
+            selected.id,
+            selected.name
+        ].join("::");
+    } catch (error) {
+        currentPlayerKey = "";
+    }
+
+    const routines = getRoutinesForCurrentPlayer();
+
+    if (!routines.length) {
+        const routine = createRoutine("Rutina 1", 4);
+        routines.push(routine);
+        currentRoutineId = routine.id;
+        persistDatabase();
+    } else if (!routines.some(r => r.id === currentRoutineId)) {
+        currentRoutineId = routines[0].id;
+    }
+
+    refreshRoutineOptions();
+    renderTable();
+}
+
+function refreshRoutineOptions() {
+    const routines = getRoutinesForCurrentPlayer();
+    routineSelect.innerHTML = "";
+
+    if (!currentPlayerKey) {
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = "Seleccioná una jugadora";
+        routineSelect.appendChild(option);
+        routineSelect.disabled = true;
+        weeksSelect.disabled = true;
+        return;
+    }
+
+    routineSelect.disabled = false;
+    weeksSelect.disabled = false;
+
+    routines.forEach(routine => {
+        const option = document.createElement("option");
+        option.value = routine.id;
+        option.textContent = routine.name;
+        routineSelect.appendChild(option);
+    });
+
+    if (!routines.some(r => r.id === currentRoutineId)) {
+        currentRoutineId = routines[0]?.id || "";
+    }
+
+    routineSelect.value = currentRoutineId;
+
+    const routine = getCurrentRoutine();
+    if (routine) {
+        ensureRoutineShape(routine);
+        weeksSelect.value = String(routine.weeks);
+    }
+}
+
+function makeElement(tag, className, textContent) {
+    const element = document.createElement(tag);
+    if (className) element.className = className;
+    if (textContent !== undefined) element.textContent = textContent;
+    return element;
+}
+
+function renderTable() {
+    const routine = getCurrentRoutine();
+
+    if (!currentPlayerKey || !routine) {
+        tableScroll.innerHTML = "";
+        tableScroll.appendChild(makeElement(
+            "div",
+            "empty-message",
+            "Seleccioná una jugadora para ver su planilla de gimnasio."
+        ));
+
+        document.getElementById("tableTitle").textContent =
+            "Planificación de gimnasio";
+        document.getElementById("tableSubtitle").textContent =
+            "Elegí una división y una jugadora para comenzar.";
+        return;
+    }
+
+    ensureRoutineShape(routine);
+
+    document.getElementById("tableTitle").textContent = routine.name;
+    document.getElementById("tableSubtitle").textContent =
+        divisionSelect.value + " · " + getSelectedPlayerName() +
+        " · " + routine.weeks + " semanas";
+
+    const table = document.createElement("table");
+
+    const colgroup = document.createElement("colgroup");
+    const exerciseCol = document.createElement("col");
+    exerciseCol.className = "exercise-col";
+    colgroup.appendChild(exerciseCol);
+
+    for (let i = 0; i < routine.weeks * DAYS_PER_WEEK; i++) {
+        const dayCol = document.createElement("col");
+        dayCol.className = "day-col";
+        colgroup.appendChild(dayCol);
+    }
+
+    table.appendChild(colgroup);
+
+    const thead = document.createElement("thead");
+
+    // Primera fila: semanas agrupadas horizontalmente.
+    const weekRow = document.createElement("tr");
+
+    const exerciseHeader = makeElement(
+        "th", "exercise-header", "Ejercicio"
+    );
+    exerciseHeader.rowSpan = 2;
+    weekRow.appendChild(exerciseHeader);
+
+    for (let week = 0; week < routine.weeks; week++) {
+        const th = makeElement(
+            "th",
+            "week-header",
+            "SEMANA " + (week + 1)
+        );
+        th.colSpan = DAYS_PER_WEEK;
+        weekRow.appendChild(th);
+    }
+
+    thead.appendChild(weekRow);
+
+    // Segunda fila: cada columna es un día.
+    const dayRow = document.createElement("tr");
+
+    for (let week = 0; week < routine.weeks; week++) {
+        for (let day = 0; day < DAYS_PER_WEEK; day++) {
+            const th = makeElement("th", "day-header");
+
+            th.appendChild(document.createTextNode("Día " + (day + 1)));
+
+            const small = makeElement(
+                "small",
+                "",
+                "Semana " + (week + 1)
+            );
+            th.appendChild(small);
+            dayRow.appendChild(th);
+        }
+    }
+
+    thead.appendChild(dayRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
+
+    // Ocho ejercicios en filas. Cada día tiene sus tres campos.
+    routine.exercises.forEach((exercise, exerciseIndex) => {
+        const row = document.createElement("tr");
+
+        const exerciseCell = makeElement("td", "exercise-cell");
+        const exerciseInner = makeElement(
+            "div", "exercise-cell-inner"
+        );
+
+        exerciseInner.appendChild(makeElement(
+            "span",
+            "exercise-number",
+            "Ejercicio " + (exerciseIndex + 1)
+        ));
+
+        const nameInput = document.createElement("input");
+        nameInput.type = "text";
+        nameInput.className = "exercise-name";
+        nameInput.placeholder = "Nombre del ejercicio";
+        nameInput.value = exercise.name || "";
+        nameInput.setAttribute(
+            "aria-label",
+            "Nombre del ejercicio " + (exerciseIndex + 1)
+        );
+
+        nameInput.addEventListener("input", () => {
+            exercise.name = nameInput.value;
+            persistDatabase();
+        });
+
+        exerciseInner.appendChild(nameInput);
+        exerciseCell.appendChild(exerciseInner);
+        row.appendChild(exerciseCell);
+
+        for (let dayIndex = 0;
+             dayIndex < routine.weeks * DAYS_PER_WEEK;
+             dayIndex++) {
+
+            const dayData = exercise.days[dayIndex];
+            const dayCell = makeElement("td", "day-cell");
+            const fields = makeElement("div", "day-fields");
+
+            const fieldDefinitions = [
+                {
+                    key: "series",
+                    label: "Series",
+                    placeholder: ""
+                },
+                {
+                    key: "repetitions",
+                    label: "Repeticiones",
+                    placeholder: ""
+                },
+                {
+                    key: "weight",
+                    label: "Peso (kg)",
+                    placeholder: ""
+                }
+            ];
+
+            fieldDefinitions.forEach(definition => {
+                const field = makeElement("div", "cell-field");
+
+                const label = makeElement(
+                    "label", "", definition.label
+                );
+
+                const input = document.createElement("input");
+                input.type = "text";
+                input.className = "cell-input";
+                input.value = dayData[definition.key] ?? "";
+                input.placeholder = definition.placeholder;
+                input.autocomplete = "off";
+
+                input.setAttribute(
+                    "aria-label",
+                    "Ejercicio " + (exerciseIndex + 1) +
+                    ", semana " +
+                    (Math.floor(dayIndex / DAYS_PER_WEEK) + 1) +
+                    ", día " +
+                    ((dayIndex % DAYS_PER_WEEK) + 1) +
+                    ", " + definition.label
+                );
+
+                input.addEventListener("input", () => {
+                    dayData[definition.key] = input.value;
+                    persistDatabase();
+                });
+
+                field.appendChild(label);
+                field.appendChild(input);
+                fields.appendChild(field);
+            });
+
+            dayCell.appendChild(fields);
+            row.appendChild(dayCell);
+        }
+
+        tbody.appendChild(row);
+    });
+
+    table.appendChild(tbody);
+
+    tableScroll.innerHTML = "";
+    tableScroll.appendChild(table);
+}
+
+function getSelectedPlayerName() {
+    if (!playerSelect.value) return "";
+
+    try {
+        return JSON.parse(playerSelect.value).name || "";
+    } catch (error) {
+        return "";
+    }
+}
+
+function switchRoutine() {
+    currentRoutineId = routineSelect.value;
+    const routine = getCurrentRoutine();
+
+    if (routine) {
+        ensureRoutineShape(routine);
+        weeksSelect.value = String(routine.weeks);
+    }
+
+    renderTable();
+}
+
+function createNewRoutine() {
+    if (!currentPlayerKey) {
+        alert("Primero seleccioná una jugadora.");
+        return;
+    }
+
+    const routines = getRoutinesForCurrentPlayer();
+    const nextNumber = routines.length + 1;
+    const proposedName = "Rutina " + nextNumber;
+    const name = prompt("Nombre de la nueva rutina:", proposedName);
+
+    if (name === null) return;
+
+    const cleanName = name.trim();
+    if (!cleanName) {
+        alert("Ingresá un nombre para la rutina.");
+        return;
+    }
+
+    const weeks = Number(weeksSelect.value) === 5 ? 5 : 4;
+    const routine = createRoutine(cleanName, weeks);
+
+    routines.push(routine);
+    currentRoutineId = routine.id;
+
+    persistDatabase();
+    refreshRoutineOptions();
+    renderTable();
+}
+
+function renameCurrentRoutine() {
+    const routine = getCurrentRoutine();
+
+    if (!routine) {
+        alert("Seleccioná una rutina.");
+        return;
+    }
+
+    const name = prompt("Nuevo nombre de la rutina:", routine.name);
+    if (name === null) return;
+
+    const cleanName = name.trim();
+
+    if (!cleanName) {
+        alert("El nombre no puede estar vacío.");
+        return;
+    }
+
+    routine.name = cleanName;
+    persistDatabase();
+    refreshRoutineOptions();
+    renderTable();
+}
+
+function deleteCurrentRoutine() {
+    const routine = getCurrentRoutine();
+
+    if (!routine || !currentPlayerKey) {
+        alert("Seleccioná una rutina para eliminar.");
+        return;
+    }
+
+    const confirmed = confirm(
+        '¿Querés eliminar la rutina "' + routine.name +
+        '" y todos sus datos? Esta acción no se puede deshacer.'
+    );
+
+    if (!confirmed) return;
+
+    const routines = getRoutinesForCurrentPlayer();
+    const index = routines.findIndex(r => r.id === routine.id);
+
+    if (index !== -1) routines.splice(index, 1);
+
+    if (!routines.length) {
+        const replacement = createRoutine("Rutina 1", 4);
+        routines.push(replacement);
+        currentRoutineId = replacement.id;
+    } else {
+        currentRoutineId = routines[0].id;
+    }
+
+    persistDatabase();
+    refreshRoutineOptions();
+    renderTable();
+}
+
+function changeWeekCount() {
+    const routine = getCurrentRoutine();
+    if (!routine) return;
+
+    const newWeeks = Number(weeksSelect.value) === 5 ? 5 : 4;
+
+    if (newWeeks === routine.weeks) return;
+
+    const oldWeeks = routine.weeks;
+
+    if (newWeeks < oldWeeks) {
+        const confirmed = confirm(
+            "Al reducir la duración a 4 semanas, se eliminarán " +
+            "los datos de la semana 5 de esta rutina. ¿Querés continuar?"
+        );
+
+        if (!confirmed) {
+            weeksSelect.value = String(oldWeeks);
+            return;
+        }
+    }
+
+    routine.weeks = newWeeks;
+
+    routine.exercises.forEach(exercise => {
+        if (!Array.isArray(exercise.days)) exercise.days = [];
+
+        while (exercise.days.length < newWeeks * DAYS_PER_WEEK) {
+            exercise.days.push({
+                series: "",
+                repetitions: "",
+                weight: ""
+            });
+        }
+
+        exercise.days = exercise.days.slice(
+            0, newWeeks * DAYS_PER_WEEK
+        );
+    });
+
+    persistDatabase();
+    renderTable();
+}
+
+function exportCSV() {
+    const routine = getCurrentRoutine();
+
+    if (!routine || !currentPlayerKey) {
+        alert("Seleccioná una jugadora y una rutina antes de exportar.");
+        return;
+    }
+
+    ensureRoutineShape(routine);
+
+    const rows = [];
+
+    rows.push([
+        "Division",
+        "Jugadora",
+        "Rutina",
+        "Semana",
+        "Dia",
+        "Ejercicio",
+        "Series",
+        "Repeticiones",
+        "Peso (kg)"
+    ]);
+
+    routine.exercises.forEach((exercise, exerciseIndex) => {
+        for (let dayIndex = 0;
+             dayIndex < routine.weeks * DAYS_PER_WEEK;
+             dayIndex++) {
+
+            const week = Math.floor(dayIndex / DAYS_PER_WEEK) + 1;
+            const day = (dayIndex % DAYS_PER_WEEK) + 1;
+            const data = exercise.days[dayIndex];
+
+            rows.push([
+                divisionSelect.value,
+                getSelectedPlayerName(),
+                routine.name,
+                week,
+                day,
+                exercise.name || ("Ejercicio " + (exerciseIndex + 1)),
+                data.series,
+                data.repetitions,
+                data.weight
+            ]);
+        }
+    });
+
+    const escapeCSV = value =>
+        '"' + String(value ?? "").replace(/"/g, '""') + '"';
+
+    const csv = "\uFEFF" + rows
+        .map(row => row.map(escapeCSV).join(";"))
+        .join("\r\n");
+
+    const blob = new Blob([csv], {
+        type: "text/csv;charset=utf-8;"
+    });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    const safePlayerName = getSelectedPlayerName()
+        .replace(/[^\w\-]+/g, "_");
+
+    link.href = url;
+    link.download = "gimnasio_" + safePlayerName + "_" +
+        routine.name.replace(/[^\w\-]+/g, "_") + ".csv";
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    URL.revokeObjectURL(url);
+}
+
+// Perfil visible
+try {
+    const rawProfile = localStorage.getItem("usuarioADIUR");
+
+    if (rawProfile) {
+        let profile = rawProfile;
+
+        try {
+            profile = JSON.parse(rawProfile);
+        } catch (error) {
+            // Puede ser un nombre guardado como texto.
+        }
+
+        const profileName =
+            typeof profile === "string"
+                ? profile
+                : (
+                    profile.nombre ||
+                    profile.usuario ||
+                    profile.username ||
+                    profile.name ||
+                    "Perfil de usuario"
+                );
+
+        document.getElementById("profileName").textContent =
+            profileName;
+    }
+} catch (error) {
+    console.warn("No se pudo leer el perfil.");
+}
+
+// Eventos
+divisionSelect.addEventListener("change", () => {
+    currentPlayerKey = "";
+    currentRoutineId = "";
+    refreshPlayerOptions();
+});
+
+playerSelect.addEventListener("change", setCurrentPlayer);
+routineSelect.addEventListener("change", switchRoutine);
+weeksSelect.addEventListener("change", changeWeekCount);
+
+document.getElementById("newRoutineBtn")
+    .addEventListener("click", createNewRoutine);
+
+document.getElementById("renameRoutineBtn")
+    .addEventListener("click", renameCurrentRoutine);
+
+document.getElementById("deleteRoutineBtn")
+    .addEventListener("click", deleteCurrentRoutine);
+
+document.getElementById("exportBtn")
+    .addEventListener("click", exportCSV);
+
+// Inicio
+refreshPlayerOptions();
+</script>
+</body>
+</html>

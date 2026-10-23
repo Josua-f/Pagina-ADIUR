@@ -1,0 +1,2180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jugadoras - ADIUR FEM</title>
+
+  <style>
+    :root {
+      --naranja: #f47721;
+      --naranja-oscuro: #dc5e0b;
+      --naranja-claro: #fff0e6;
+      --negro: #171717;
+      --blanco: #fff;
+      --rojo: #c8102e;
+      --rojo-oscuro: #a20c25;
+      --borde: #e8e8e8;
+      --gris: #f4f5f7;
+      --gris-texto: #747474;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #f4f5f7;
+      color: #222;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* =====================================================
+       BARRA SUPERIOR
+    ===================================================== */
+
+    .barra-superior {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      min-height: 84px;
+      padding: 12px 25px;
+      background: #fff;
+      border-bottom: 1px solid var(--borde);
+    }
+
+    .boton-menu {
+      width: 42px;
+      height: 42px;
+      flex-shrink: 0;
+      border: 0;
+      background: #fff;
+      border-radius: 9px;
+      font-size: 27px;
+      color: var(--negro);
+    }
+
+    .boton-menu:hover {
+      background: var(--gris);
+    }
+
+    .logo-superior {
+      width: 55px;
+      height: 55px;
+      flex-shrink: 0;
+      object-fit: contain;
+      border-radius: 50%;
+      padding: 2px;
+      background: #fff;
+    }
+
+    .titulo-superior {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .titulo-superior h1 {
+      margin: 0 0 5px;
+      font-size: 23px;
+      font-weight: 900;
+      letter-spacing: .5px;
+    }
+
+    .titulo-superior p {
+      margin: 0;
+      color: var(--gris-texto);
+      font-size: 13px;
+    }
+
+    /* PERFIL DEL USUARIO */
+
+    .perfil {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex-shrink: 0;
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      background: var(--negro);
+      color: #fff;
+      border-radius: 50%;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .informacion-perfil {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      min-width: 0;
+    }
+
+    .nombre-perfil {
+      display: block;
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--negro);
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .rol-perfil {
+      display: block;
+      margin-top: 4px;
+      color: var(--gris-texto);
+      font-size: 11px;
+    }
+
+    /* =====================================================
+       ESTRUCTURA GENERAL
+    ===================================================== */
+
+    .contenedor {
+      display: flex;
+      min-height: calc(100vh - 84px);
+      align-items: stretch;
+    }
+
+    /* =====================================================
+       BARRA LATERAL
+    ===================================================== */
+
+    .sidebar {
+      width: 258px;
+      flex: 0 0 258px;
+      padding: 20px 13px;
+      background: #fff;
+      border-right: 1px solid var(--borde);
+      transition: margin-left .25s ease;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    .sidebar.oculto {
+      margin-left: -258px;
+    }
+
+    /* INICIO */
+
+    .menu-inicio {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 14px;
+      margin-bottom: 16px;
+      border-radius: 11px;
+      background: #fff;
+      color: var(--negro);
+      font-size: 13px;
+      font-weight: 850;
+      transition: background .2s, color .2s;
+    }
+
+    .menu-inicio:hover {
+      background: #f8f8f8;
+      color: var(--negro);
+    }
+
+    .menu-inicio.activo {
+      background: var(--naranja-claro);
+      color: var(--naranja-oscuro);
+    }
+
+    .menu-inicio.activo:hover {
+      background: #ffe7d6;
+    }
+
+    .menu-inicio .icono-inicio {
+      width: 15px;
+      flex-shrink: 0;
+      text-align: center;
+      font-size: 17px;
+      line-height: 1;
+    }
+
+    /* CATEGORÍAS DEL MENÚ */
+
+    .grupo-menu {
+      margin-bottom: 8px;
+    }
+
+    .titulo-grupo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      min-height: 46px;
+      padding: 12px 13px;
+      cursor: pointer;
+      border-radius: 8px;
+      color: var(--negro);
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: .8px;
+      user-select: none;
+    }
+
+    .titulo-grupo:hover {
+      background: #f8f8f8;
+    }
+
+    .flecha {
+      display: inline-block;
+      flex-shrink: 0;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1;
+      transition: transform .2s;
+    }
+
+    .grupo-menu.cerrado .flecha {
+      transform: rotate(0deg);
+    }
+
+    .grupo-menu:not(.cerrado) .flecha {
+      transform: rotate(90deg);
+    }
+
+    /* OPCIONES DESPLEGABLES */
+
+    .submenu {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding: 0 0 5px;
+    }
+
+    .grupo-menu.cerrado .submenu {
+      display: none;
+    }
+
+    .submenu a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 9px;
+      font-size: 13px;
+      color: #656872;
+      transition: background .15s, color .15s;
+    }
+
+    .submenu a:hover {
+      background: #f6f6f6;
+      color: #181818;
+    }
+
+    .submenu a.activo {
+      background: var(--naranja-claro);
+      color: var(--naranja-oscuro);
+      font-weight: 800;
+    }
+
+    .submenu a.activo:hover {
+      background: #ffe7d6;
+      color: var(--naranja-oscuro);
+    }
+
+    .nav-punto {
+      width: 6px;
+      height: 6px;
+      flex-shrink: 0;
+      background: #d7d9de;
+      border-radius: 50%;
+    }
+
+    .submenu a.activo .nav-punto {
+      background: var(--naranja);
+    }
+
+    /* CERRAR SESIÓN */
+
+    .separador-sesion {
+      border-top: 1px solid var(--borde);
+      margin: 19px 0 0;
+      padding-top: 12px;
+    }
+
+    .enlace-cerrar-sesion {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 9px;
+      color: #c0392b;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .enlace-cerrar-sesion:hover {
+      background: #fff2f1;
+      color: #a93226;
+    }
+
+    .icono-salir {
+      font-size: 17px;
+    }
+
+    .capa-sidebar {
+      display: none;
+    }
+
+    /* =====================================================
+       CONTENIDO DE JUGADORAS
+    ===================================================== */
+
+    main {
+      flex: 1;
+      min-width: 0;
+      width: 100%;
+      max-width: 1450px;
+      margin: 30px auto;
+      padding: 0 25px;
+    }
+
+    .encabezado-pagina {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+    }
+
+    .encabezado-pagina h2 {
+      font-size: 29px;
+      margin-bottom: 8px;
+    }
+
+    .encabezado-pagina p {
+      color: #777;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .boton-principal {
+      background: var(--rojo);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 18px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .boton-principal:hover {
+      background: var(--rojo-oscuro);
+    }
+
+    .tarjeta {
+      background: #fff;
+      border-radius: 12px;
+      padding: 22px;
+      box-shadow: 0 2px 9px rgba(0,0,0,.05);
+      border: 1px solid var(--borde);
+      margin-bottom: 22px;
+    }
+
+    .resumen {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .dato {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid var(--borde);
+      box-shadow: 0 2px 9px rgba(0,0,0,.04);
+    }
+
+    .dato p {
+      color: #777;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .dato h3 {
+      font-size: 28px;
+      color: var(--rojo);
+    }
+
+    /* =====================================================
+       FILTROS
+    ===================================================== */
+
+    .controles {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(150px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .controles input,
+    .controles select {
+      width: 100%;
+      min-width: 0;
+      padding: 11px 12px;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      background: #fff;
+      font-size: 14px;
+    }
+
+    .controles input:focus,
+    .controles select:focus {
+      outline: none;
+      border-color: var(--rojo);
+    }
+
+    /* =====================================================
+       TABLA
+    ===================================================== */
+
+    .tabla-contenedor {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1050px;
+    }
+
+    th {
+      background: #f7f7f7;
+      text-align: left;
+      padding: 14px 12px;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #666;
+      border-bottom: 1px solid #ddd;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 14px 12px;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+
+    tbody tr:hover {
+      background: #fff9fa;
+    }
+
+    .nombre-jugadora {
+      font-weight: bold;
+    }
+
+    .etiqueta {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      background: #fbe9ec;
+      color: #b20d2a;
+      white-space: nowrap;
+    }
+
+    /* ESTADOS */
+
+    .estado {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .estado-activo {
+      background: #e0f5e7;
+      color: #18743b;
+    }
+
+    .estado-lesionado {
+      background: #fbe2e2;
+      color: #b42323;
+    }
+
+    .estado-inactivo {
+      background: #e8e8e8;
+      color: #555;
+    }
+
+    .estado-prueba {
+      background: #fff0cc;
+      color: #8a5a00;
+    }
+
+    /* ACCIONES */
+
+    .acciones {
+      display: flex;
+      gap: 7px;
+    }
+
+    .boton-secundario,
+    .boton-eliminar {
+      padding: 7px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 1px solid #ddd;
+      background: #fff;
+      font-size: 12px;
+    }
+
+    .boton-secundario:hover {
+      background: #eee;
+    }
+
+    .boton-eliminar {
+      color: #b20d2a;
+    }
+
+    .boton-eliminar:hover {
+      background: #fbe9ec;
+    }
+
+    .vacio {
+      text-align: center;
+      color: #888;
+      padding: 35px;
+    }
+
+    /* =====================================================
+       MODAL
+    ===================================================== */
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.5);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .modal.activo {
+      display: flex;
+    }
+
+    .modal-contenido {
+      background: #fff;
+      border-radius: 13px;
+      padding: 25px;
+      width: 100%;
+      max-width: 520px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-encabezado {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .modal-encabezado h3 {
+      font-size: 21px;
+    }
+
+    .cerrar-modal {
+      background: transparent;
+      border: none;
+      font-size: 27px;
+      cursor: pointer;
+      color: #333;
+    }
+
+    .campo {
+      margin-bottom: 15px;
+    }
+
+    .campo label {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 7px;
+    }
+
+    .campo input,
+    .campo select {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    .campo input:focus,
+    .campo select:focus {
+      outline: none;
+      border-color: var(--rojo);
+    }
+
+    .campo input[readonly] {
+      background: #f1f1f1;
+      color: #555;
+    }
+
+    .ayuda {
+      color: #777;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .botones-modal {
+      display: flex;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .boton-cancelar {
+      padding: 11px 16px;
+      border: 1px solid #ccc;
+      background: #fff;
+      border-radius: 7px;
+    }
+
+    .boton-cancelar:hover {
+      background: #f4f4f4;
+    }
+
+    /* =====================================================
+       TABLET
+    ===================================================== */
+
+    @media (max-width: 1150px) {
+      .controles {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    /* =====================================================
+       MÓVIL
+    ===================================================== */
+
+    @media (max-width: 760px) {
+      .barra-superior {
+        min-height: 72px;
+        padding: 10px 13px;
+        gap: 9px;
+      }
+
+      .boton-menu {
+        width: 38px;
+        height: 38px;
+        font-size: 24px;
+      }
+
+      .logo-superior {
+        width: 44px;
+        height: 44px;
+      }
+
+      .titulo-superior h1 {
+        font-size: 16px;
+      }
+
+      .titulo-superior p {
+        font-size: 11px;
+      }
+
+      .perfil {
+        gap: 6px;
+      }
+
+      .avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+      }
+
+      .nombre-perfil {
+        max-width: 80px;
+        font-size: 12px;
+      }
+
+      .rol-perfil {
+        display: none;
+      }
+
+      .contenedor {
+        min-height: calc(100vh - 72px);
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 72px;
+        bottom: 0;
+        left: 0;
+        z-index: 150;
+        display: block;
+        width: 258px;
+        max-width: 86vw;
+        height: auto;
+        flex: none;
+        padding: 20px 13px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background: #fff;
+        border-right: 1px solid var(--borde);
+        box-shadow: 5px 0 25px #00000012;
+        margin-left: 0;
+        transform: translateX(0);
+        transition: transform .25s ease;
+      }
+
+      .sidebar.oculto {
+        margin-left: 0;
+        transform: translateX(-110%);
+      }
+
+      .capa-sidebar.visible {
+        display: block;
+        position: fixed;
+        inset: 72px 0 0;
+        z-index: 140;
+        background: rgba(0,0,0,.32);
+      }
+
+      main {
+        margin: 22px auto;
+        padding: 0 13px;
+      }
+
+      .encabezado-pagina {
+        gap: 15px;
+      }
+
+      .encabezado-pagina h2 {
+        font-size: 24px;
+      }
+
+      .encabezado-pagina p {
+        font-size: 13px;
+      }
+
+      .boton-principal {
+        padding: 11px 14px;
+        font-size: 13px;
+      }
+
+      .resumen {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .dato {
+        padding: 15px;
+      }
+
+      .dato h3 {
+        font-size: 24px;
+      }
+
+      .tarjeta {
+        padding: 14px;
+      }
+
+      .controles {
+        grid-template-columns: 1fr;
+      }
+
+      .tabla-contenedor {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .modal-contenido {
+        padding: 18px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .barra-superior {
+        padding: 8px;
+        gap: 6px;
+      }
+
+      .boton-menu {
+        width: 32px;
+        height: 36px;
+        font-size: 23px;
+      }
+
+      .logo-superior {
+        width: 34px;
+        height: 34px;
+      }
+
+      .titulo-superior h1 {
+        font-size: 14px;
+      }
+
+      .titulo-superior p {
+        font-size: 9px;
+      }
+
+      .nombre-perfil {
+        max-width: 60px;
+      }
+
+      .avatar {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =====================================================
+       BARRA SUPERIOR
+  ====================================================== -->
+
+  <header class="barra-superior">
+
+    <button
+      class="boton-menu"
+      id="botonMenu"
+      type="button"
+      aria-label="Abrir o cerrar menú"
+      aria-controls="sidebar"
+      aria-expanded="true"
+    >☰</button>
+
+    <img
+      class="logo-superior"
+      id="logoAdiur"
+      src="Logo ADIUR.jpg"
+      alt="Logo ADIUR"
+      onerror="if(!this.dataset.intento){this.dataset.intento='1';this.src='logo adiur.jpg'}else{this.style.display='none'}"
+    >
+
+    <div class="titulo-superior">
+      <h1>ADIUR FEMENINO</h1>
+      <p>Plantel de jugadoras</p>
+    </div>
+
+    <div class="perfil">
+      <div class="avatar" id="avatarUsuario">U</div>
+
+      <div class="informacion-perfil">
+        <div class="nombre-perfil" id="nombreUsuario">Usuario</div>
+        <div class="rol-perfil" id="rolUsuario">Club ADIUR</div>
+      </div>
+    </div>
+
+  </header>
+
+  <!-- CAPA OSCURA PARA EL MENÚ EN CELULARES -->
+
+  <div
+    class="capa-sidebar"
+    id="capaSidebar"
+    aria-hidden="true"
+  ></div>
+
+  <!-- =====================================================
+       ESTRUCTURA PRINCIPAL
+  ====================================================== -->
+
+  <div class="contenedor">
+
+    <!-- ===================================================
+         BARRA LATERAL
+    ==================================================== -->
+
+    <aside class="sidebar" id="sidebar">
+
+      <!-- INICIO -->
+
+      <a class="menu-inicio" href="Pàgina Principal.html">
+        <span class="icono-inicio" aria-hidden="true">⌂</span>
+        INICIO
+      </a>
+
+      <!-- PLANTEL -->
+
+      <div class="grupo-menu" id="grupoPlantel">
+
+        <div
+          class="titulo-grupo"
+          onclick="toggleGrupo('grupoPlantel')"
+          role="button"
+          tabindex="0"
+          aria-expanded="true"
+        >
+          <span>PLANTEL</span>
+          <span class="flecha" aria-hidden="true">›</span>
+        </div>
+
+        <div class="submenu">
+
+          <a
+            href="jugadoras.html"
+            class="activo"
+            aria-current="page"
+          >
+            <span class="nav-punto" aria-hidden="true"></span>
+            Jugadoras
+          </a>
+
+          <a href="asistencia.html">
+            <span class="nav-punto" aria-hidden="true"></span>
+            Asistencia
+          </a>
+
+        </div>
+      </div>
+
+      <!-- ENTRENAMIENTO -->
+
+      <div class="grupo-menu cerrado" id="grupoEntrenamiento">
+
+        <div
+          class="titulo-grupo"
+          onclick="toggleGrupo('grupoEntrenamiento')"
+          role="button"
+          tabindex="0"
+          aria-expanded="false"
+        >
+          <span>ENTRENAMIENTO</span>
+          <span class="flecha" aria-hidden="true">›</span>
+        </div>
+
+        <div class="submenu">
+
+          <a href="calendario.html">
+            <span class="nav-punto" aria-hidden="true"></span>
+            Calendario
+          </a>
+
+          <a href="planificacion.html" data-ocultar-bianca>
+            <span class="nav-punto" aria-hidden="true"></span>
+            Planificación
+          </a>
+
+          <a href="biblioteca.html" data-ocultar-bianca>
+            <span class="nav-punto" aria-hidden="true"></span>
+            Biblioteca de ejercicios
+          </a>
+
+          <a href="gimnasio.html">
+            <span class="nav-punto" aria-hidden="true"></span>
+            Gimnasio
+          </a>
+
+          <a href="calculadora.html" data-ocultar-bianca>
+            <span class="nav-punto" aria-hidden="true"></span>
+            Calculadora
+          </a>
+
+        </div>
+      </div>
+
+      <!-- COMPETENCIA -->
+
+      <div class="grupo-menu cerrado" id="grupoCompetencia">
+
+        <div
+          class="titulo-grupo"
+          onclick="toggleGrupo('grupoCompetencia')"
+          role="button"
+          tabindex="0"
+          aria-expanded="false"
+        >
+          <span>COMPETENCIA</span>
+          <span class="flecha" aria-hidden="true">›</span>
+        </div>
+
+        <div class="submenu">
+
+          <a href="Partidos.html">
+            <span class="nav-punto" aria-hidden="true"></span>
+            Partidos
+          </a>
+
+          <a href="informes.html" data-ocultar-bianca>
+            <span class="nav-punto" aria-hidden="true"></span>
+            Informes
+          </a>
+
+          <a href="estadisticas.html" data-ocultar-bianca>
+            <span class="nav-punto" aria-hidden="true"></span>
+            Estadísticas
+          </a>
+
+          <a href="pizarra.html" data-ocultar-bianca>
+            <span class="nav-punto" aria-hidden="true"></span>
+            Pizarra táctica
+          </a>
+
+        </div>
+      </div>
+
+      <!-- RENDIMIENTOS -->
+
+      <div class="grupo-menu cerrado" id="grupoRendimientos">
+
+        <div
+          class="titulo-grupo"
+          onclick="toggleGrupo('grupoRendimientos')"
+          role="button"
+          tabindex="0"
+          aria-expanded="false"
+        >
+          <span>RENDIMIENTOS</span>
+          <span class="flecha" aria-hidden="true">›</span>
+        </div>
+
+        <div class="submenu">
+
+          <a href="testeos.html">
+            <span class="nav-punto" aria-hidden="true"></span>
+            Planilla de testeos
+          </a>
+
+          <a href="tiempos.html">
+            <span class="nav-punto" aria-hidden="true"></span>
+            Tiempos
+          </a>
+
+          <a href="multimedia.html">
+            <span class="nav-punto" aria-hidden="true"></span>
+            Multimedia
+          </a>
+
+          <a href="encuestas.html">
+            <span class="nav-punto" aria-hidden="true"></span>
+            Encuestas
+          </a>
+
+          <a href="lesiones.html">
+            <span class="nav-punto" aria-hidden="true"></span>
+            Lesiones
+          </a>
+
+        </div>
+      </div>
+
+      <!-- CERRAR SESIÓN -->
+
+      <div class="separador-sesion">
+
+        <a
+          class="enlace-cerrar-sesion"
+          href="#"
+          onclick="cerrarSesion(event)"
+        >
+          <span class="icono-salir" aria-hidden="true">↪</span>
+          Cerrar sesión
+        </a>
+
+      </div>
+
+    </aside>
+
+    <!-- ===================================================
+         CONTENIDO DE JUGADORAS
+    ==================================================== -->
+
+    <main>
+
+      <div class="encabezado-pagina">
+
+        <div>
+          <h2>Plantel de jugadoras</h2>
+          <p>
+            Administrá la información personal y deportiva de ADIUR FEMENINO.
+          </p>
+        </div>
+
+        <button
+          class="boton-principal"
+          id="botonAgregar"
+          type="button"
+        >
+          + Agregar jugadora
+        </button>
+
+      </div>
+
+      <!-- RESUMEN -->
+
+      <section class="resumen">
+
+        <div class="dato">
+          <p>Jugadoras visibles</p>
+          <h3 id="totalJugadoras">0</h3>
+        </div>
+
+        <div class="dato">
+          <p>Categorías visibles</p>
+          <h3 id="totalCategorias">0</h3>
+        </div>
+
+      </section>
+
+      <!-- TABLA Y FILTROS -->
+
+      <section class="tarjeta">
+
+        <div class="controles">
+
+          <input
+            type="search"
+            id="buscador"
+            placeholder="Buscar por nombre o apellido..."
+            aria-label="Buscar jugadoras"
+          >
+
+          <select
+            id="filtroCategoria"
+            aria-label="Filtrar por categoría"
+          >
+            <option value="">Todas las categorías</option>
+            <option value="Sub 10">Sub 10</option>
+            <option value="Sub 12">Sub 12</option>
+            <option value="Sub 14">Sub 14</option>
+            <option value="Sub 16">Sub 16</option>
+            <option value="Primera">Primera</option>
+          </select>
+
+          <select
+            id="filtroPosicion"
+            aria-label="Filtrar por posición"
+          >
+            <option value="">Todas las posiciones</option>
+            <option value="Arquera">Arquera</option>
+            <option value="Defensora">Defensora</option>
+            <option value="Mediocampista">Mediocampista</option>
+            <option value="Delantera">Delantera</option>
+            <option value="Polifuncional">Polifuncional</option>
+          </select>
+
+          <select
+            id="filtroEstado"
+            aria-label="Filtrar por estado"
+          >
+            <option value="">Todos los estados</option>
+            <option value="Activo">Activo</option>
+            <option value="Lesionado">Lesionado</option>
+            <option value="Inactivo">Inactivo</option>
+            <option value="A prueba">A prueba</option>
+          </select>
+
+        </div>
+
+        <div class="tabla-contenedor">
+
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre y apellido</th>
+                <th>Categoría</th>
+                <th>Fecha de nacimiento</th>
+                <th>Edad</th>
+                <th>Pierna hábil</th>
+                <th>Posición</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+
+            <tbody id="tablaJugadoras"></tbody>
+          </table>
+
+        </div>
+
+        <p id="mensajeVacio" class="vacio">
+          No hay jugadoras para mostrar con los filtros seleccionados.
+        </p>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- =====================================================
+       MODAL PARA AGREGAR O EDITAR JUGADORAS
+  ====================================================== -->
+
+  <div
+    class="modal"
+    id="modalJugadora"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="tituloModal"
+  >
+
+    <div class="modal-contenido">
+
+      <div class="modal-encabezado">
+
+        <h3 id="tituloModal">Agregar jugadora</h3>
+
+        <button
+          type="button"
+          class="cerrar-modal"
+          id="cerrarModal"
+          aria-label="Cerrar"
+        >×</button>
+
+      </div>
+
+      <form id="formJugadora">
+
+        <div class="campo">
+          <label for="nombre">Nombre y apellido *</label>
+          <input
+            type="text"
+            id="nombre"
+            required
+            maxlength="100"
+            placeholder="Ej.: Martina Pérez"
+          >
+        </div>
+
+        <div class="campo">
+          <label for="categoria">Categoría *</label>
+          <select id="categoria" required>
+            <option value="">Seleccionar categoría</option>
+            <option value="Sub 10">Sub 10</option>
+            <option value="Sub 12">Sub 12</option>
+            <option value="Sub 14">Sub 14</option>
+            <option value="Sub 16">Sub 16</option>
+            <option value="Primera">Primera</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label for="nacimiento">Fecha de nacimiento *</label>
+          <input type="date" id="nacimiento" required>
+          <p class="ayuda">La edad se calcula automáticamente.</p>
+        </div>
+
+        <div class="campo">
+          <label for="edad">Edad</label>
+          <input
+            type="number"
+            id="edad"
+            readonly
+            placeholder="Cálculo automático"
+          >
+        </div>
+
+        <div class="campo">
+          <label for="pierna">Pierna hábil *</label>
+          <select id="pierna" required>
+            <option value="">Seleccionar pierna hábil</option>
+            <option value="Derecha">Derecha</option>
+            <option value="Izquierda">Izquierda</option>
+            <option value="Ambas">Ambas</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label for="posicion">Posición</label>
+          <select id="posicion">
+            <option value="">Seleccionar posición</option>
+            <option value="Arquera">Arquera</option>
+            <option value="Defensora">Defensora</option>
+            <option value="Mediocampista">Mediocampista</option>
+            <option value="Delantera">Delantera</option>
+            <option value="Polifuncional">Polifuncional</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label for="estado">Estado de la jugadora *</label>
+          <select id="estado" required>
+            <option value="Activo">Activo</option>
+            <option value="Lesionado">Lesionado</option>
+            <option value="Inactivo">Inactivo</option>
+            <option value="A prueba">A prueba</option>
+          </select>
+        </div>
+
+        <div class="botones-modal">
+
+          <button
+            type="button"
+            class="boton-cancelar"
+            id="cancelarModal"
+          >
+            Cancelar
+          </button>
+
+          <button type="submit" class="boton-principal">
+            Guardar jugadora
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <script>
+    // =====================================================
+    // USUARIO Y PERMISOS
+    // =====================================================
+
+    const usuarioGuardado = (
+      localStorage.getItem("usuarioADIUR") || ""
+    ).trim();
+
+    function normalizarUsuario(nombre) {
+      return String(nombre || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim()
+        .toLowerCase();
+    }
+
+    const usuarioActual = normalizarUsuario(usuarioGuardado);
+
+    function esToto() {
+      return usuarioActual === "toto";
+    }
+
+    function esBianca() {
+      return [
+        "biancadominguez",
+        "bianca"
+      ].includes(usuarioActual);
+    }
+
+    function esFran() {
+      return [
+        "fran",
+        "francisco",
+        "francisco perez basla"
+      ].includes(usuarioActual);
+    }
+
+    // Si no existe una sesión, regresar al inicio de sesión.
+
+    if (!usuarioGuardado) {
+      window.location.href = "Loing.html";
+    }
+
+    // Información del usuario en la barra superior.
+
+    document.getElementById("nombreUsuario").textContent =
+      usuarioGuardado || "Usuario";
+
+    document.getElementById("avatarUsuario").textContent =
+      usuarioGuardado
+        ? usuarioGuardado.charAt(0).toUpperCase()
+        : "U";
+
+    document.getElementById("rolUsuario").textContent =
+      esFran() ? "Administrador" :
+      esToto() ? "Cuerpo técnico" :
+      esBianca() ? "Jugadora · Sub 14" :
+      "Club ADIUR";
+
+    // Permisos de visualización del menú.
+
+    if (esBianca()) {
+      document.getElementById("grupoPlantel")?.remove();
+      document.getElementById("grupoRendimientos")?.remove();
+
+      document.querySelectorAll("[data-ocultar-bianca]").forEach(enlace => {
+        enlace.style.display = "none";
+      });
+    }
+
+    // Cerrar sesión.
+
+    function cerrarSesion(event) {
+      event.preventDefault();
+
+      localStorage.removeItem("usuarioADIUR");
+
+      window.location.href = "Loing.html";
+    }
+
+    // Mantener los permisos originales de la página de jugadoras.
+
+    if (
+      !usuarioGuardado ||
+      esBianca() ||
+      (!esToto() && !esFran())
+    ) {
+      document.body.innerHTML = `
+        <div style="
+          font-family:Arial,sans-serif;
+          text-align:center;
+          padding:70px 20px;
+          color:#222;
+        ">
+          <h1>Acceso restringido</h1>
+          <p>No tenés permisos para acceder a la página de jugadoras.</p>
+          <br>
+          <a href="Pagina Principal.html" style="
+            display:inline-block;
+            padding:10px 16px;
+            border-radius:8px;
+            background:#fff0e6;
+            color:#dc5e0b;
+            font-weight:bold;
+          ">Volver al inicio</a>
+        </div>
+      `;
+    } else {
+      iniciarPaginaJugadoras();
+    }
+
+    // =====================================================
+    // INICIALIZACIÓN DE LA PÁGINA
+    // =====================================================
+
+    function iniciarPaginaJugadoras() {
+
+      // ===================================================
+      // BARRA LATERAL
+      // ===================================================
+
+      const botonMenu = document.getElementById("botonMenu");
+      const sidebar = document.getElementById("sidebar");
+      const capaSidebar = document.getElementById("capaSidebar");
+
+      function esPantallaMovil() {
+        return window.innerWidth <= 760;
+      }
+
+      function actualizarEstadoSidebar() {
+        const abierto = !sidebar.classList.contains("oculto");
+
+        botonMenu.setAttribute(
+          "aria-expanded",
+          String(abierto)
+        );
+
+        botonMenu.setAttribute(
+          "aria-label",
+          abierto ? "Cerrar menú" : "Abrir menú"
+        );
+
+        if (esPantallaMovil()) {
+          capaSidebar.classList.toggle("visible", abierto);
+        } else {
+          capaSidebar.classList.remove("visible");
+        }
+      }
+
+      function alternarSidebar() {
+        sidebar.classList.toggle("oculto");
+        actualizarEstadoSidebar();
+      }
+
+      function cerrarSidebarMovil() {
+        if (!esPantallaMovil()) return;
+
+        sidebar.classList.add("oculto");
+        capaSidebar.classList.remove("visible");
+
+        actualizarEstadoSidebar();
+      }
+
+      botonMenu.addEventListener("click", alternarSidebar);
+
+      capaSidebar.addEventListener("click", cerrarSidebarMovil);
+
+      // Adaptar la barra lateral al cambiar el tamaño de pantalla.
+
+      function ajustarSidebarPorPantalla() {
+        if (esPantallaMovil()) {
+          sidebar.classList.add("oculto");
+        } else {
+          sidebar.classList.remove("oculto");
+        }
+
+        actualizarEstadoSidebar();
+      }
+
+      window.addEventListener("resize", ajustarSidebarPorPantalla);
+
+      // Abrir y cerrar categorías del menú.
+
+      window.toggleGrupo = function(id) {
+        const grupo = document.getElementById(id);
+
+        if (!grupo) return;
+
+        grupo.classList.toggle("cerrado");
+
+        const titulo = grupo.querySelector(".titulo-grupo");
+
+        if (titulo) {
+          titulo.setAttribute(
+            "aria-expanded",
+            String(!grupo.classList.contains("cerrado"))
+          );
+        }
+      };
+
+      // Accesibilidad con teclado para las categorías.
+
+      document.querySelectorAll(
+        ".titulo-grupo[role='button']"
+      ).forEach(titulo => {
+
+        titulo.addEventListener("keydown", event => {
+
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+
+            const grupo = titulo.closest(".grupo-menu");
+
+            if (grupo) {
+              window.toggleGrupo(grupo.id);
+            }
+          }
+
+        });
+
+      });
+
+      // Cerrar el menú después de seleccionar un enlace en móvil.
+
+      document.querySelectorAll(".sidebar a").forEach(enlace => {
+
+        enlace.addEventListener("click", () => {
+          cerrarSidebarMovil();
+        });
+
+      });
+
+      ajustarSidebarPorPantalla();
+
+      // ===================================================
+      // DATOS DE JUGADORAS
+      // ===================================================
+
+      const CLAVE_JUGADORAS = "jugadorasADIUR";
+
+      const categoriasPermitidas = [
+        "Sub 10",
+        "Sub 12",
+        "Sub 14",
+        "Sub 16",
+        "Primera"
+      ];
+
+      let jugadoras = cargarJugadoras();
+      let idEnEdicion = null;
+
+      function puedeAccederCategoria(categoria) {
+        return (esFran() || esToto()) &&
+          categoriasPermitidas.includes(categoria);
+      }
+
+      function puedeEliminar() {
+        return esFran();
+      }
+
+      function generarId() {
+        return window.crypto &&
+          typeof window.crypto.randomUUID === "function"
+          ? window.crypto.randomUUID()
+          : String(Date.now()) + Math.random().toString(16).slice(2);
+      }
+
+      function cargarJugadoras() {
+        try {
+          const datos = JSON.parse(
+            localStorage.getItem(CLAVE_JUGADORAS) || "[]"
+          );
+
+          if (!Array.isArray(datos)) {
+            return [];
+          }
+
+          return datos.map(j => ({
+            ...j,
+            id: j.id || generarId(),
+            nombre: j.nombre || "",
+            categoria: j.categoria || "",
+            nacimiento: j.nacimiento || "",
+            pierna: j.pierna || "",
+            posicion: j.posicion || "",
+            estado: j.estado || "Activo"
+          }));
+
+        } catch (error) {
+          console.error(
+            "No se pudieron cargar las jugadoras:",
+            error
+          );
+
+          return [];
+        }
+      }
+
+      function guardarJugadoras() {
+        localStorage.setItem(
+          CLAVE_JUGADORAS,
+          JSON.stringify(jugadoras)
+        );
+      }
+
+      // ===================================================
+      // EDAD Y FECHAS
+      // ===================================================
+
+      function calcularEdad(fecha) {
+        if (!fecha) return null;
+
+        const partes = fecha.split("-").map(Number);
+
+        if (
+          partes.length !== 3 ||
+          partes.some(n => !Number.isFinite(n))
+        ) {
+          return null;
+        }
+
+        const [anio, mes, dia] = partes;
+
+        const nacimiento = new Date(anio, mes - 1, dia);
+        const hoy = new Date();
+
+        if (
+          nacimiento.getFullYear() !== anio ||
+          nacimiento.getMonth() !== mes - 1 ||
+          nacimiento.getDate() !== dia ||
+          nacimiento > hoy
+        ) {
+          return null;
+        }
+
+        let edad = hoy.getFullYear() - anio;
+
+        if (
+          hoy.getMonth() < mes - 1 ||
+          (
+            hoy.getMonth() === mes - 1 &&
+            hoy.getDate() < dia
+          )
+        ) {
+          edad--;
+        }
+
+        return edad;
+      }
+
+      function formatearFecha(fecha) {
+        if (!fecha) return "—";
+
+        const partes = fecha.split("-");
+
+        if (partes.length !== 3) return "—";
+
+        return `${partes[2]}/${partes[1]}/${partes[0]}`;
+      }
+
+      const campoNacimiento = document.getElementById("nacimiento");
+      const campoEdad = document.getElementById("edad");
+
+      function actualizarEdadFormulario() {
+        const edad = calcularEdad(campoNacimiento.value);
+
+        campoEdad.value = edad === null ? "" : edad;
+      }
+
+      campoNacimiento.addEventListener(
+        "input",
+        actualizarEdadFormulario
+      );
+
+      campoNacimiento.addEventListener(
+        "change",
+        actualizarEdadFormulario
+      );
+
+      // ===================================================
+      // ESTADOS
+      // ===================================================
+
+      function claseEstado(estado) {
+        const clases = {
+          "Activo": "estado-activo",
+          "Lesionado": "estado-lesionado",
+          "Inactivo": "estado-inactivo",
+          "A prueba": "estado-prueba"
+        };
+
+        return clases[estado] || "estado-inactivo";
+      }
+
+      // ===================================================
+      // TABLA DE JUGADORAS
+      // ===================================================
+
+      function renderizarJugadoras() {
+        const tabla = document.getElementById("tablaJugadoras");
+        const mensajeVacio = document.getElementById("mensajeVacio");
+
+        const busqueda = document.getElementById("buscador")
+          .value.trim().toLowerCase();
+
+        const categoriaFiltro =
+          document.getElementById("filtroCategoria").value;
+
+        const posicionFiltro =
+          document.getElementById("filtroPosicion").value;
+
+        const estadoFiltro =
+          document.getElementById("filtroEstado").value;
+
+        const filtradas = jugadoras.filter(j => {
+
+          const coincidePermiso =
+            puedeAccederCategoria(j.categoria);
+
+          const coincideNombre = (j.nombre || "")
+            .toLowerCase()
+            .includes(busqueda);
+
+          const coincideCategoria =
+            !categoriaFiltro ||
+            j.categoria === categoriaFiltro;
+
+          const coincidePosicion =
+            !posicionFiltro ||
+            j.posicion === posicionFiltro;
+
+          const coincideEstado =
+            !estadoFiltro ||
+            (j.estado || "Activo") === estadoFiltro;
+
+          return coincidePermiso &&
+            coincideNombre &&
+            coincideCategoria &&
+            coincidePosicion &&
+            coincideEstado;
+
+        });
+
+        tabla.replaceChildren();
+
+        filtradas.forEach(j => {
+
+          const fila = document.createElement("tr");
+          const edad = calcularEdad(j.nacimiento);
+
+          const valores = [
+            j.nombre || "—",
+            j.categoria || "—",
+            formatearFecha(j.nacimiento),
+            edad === null ? "—" : `${edad} años`,
+            j.pierna || "—",
+            j.posicion || "—"
+          ];
+
+          valores.forEach((valor, indice) => {
+
+            const celda = document.createElement("td");
+
+            if (indice === 0) {
+              celda.className = "nombre-jugadora";
+            }
+
+            if (indice === 1 && valor !== "—") {
+
+              const etiqueta = document.createElement("span");
+
+              etiqueta.className = "etiqueta";
+              etiqueta.textContent = valor;
+
+              celda.appendChild(etiqueta);
+
+            } else {
+              celda.textContent = valor;
+            }
+
+            fila.appendChild(celda);
+
+          });
+
+          // Columna de estado.
+
+          const celdaEstado = document.createElement("td");
+          const estado = j.estado || "Activo";
+
+          const etiquetaEstado = document.createElement("span");
+
+          etiquetaEstado.className =
+            "estado " + claseEstado(estado);
+
+          etiquetaEstado.textContent = estado;
+
+          celdaEstado.appendChild(etiquetaEstado);
+          fila.appendChild(celdaEstado);
+
+          // Columna de acciones.
+
+          const celdaAcciones = document.createElement("td");
+          const acciones = document.createElement("div");
+
+          acciones.className = "acciones";
+
+          const botonEditar = document.createElement("button");
+
+          botonEditar.type = "button";
+          botonEditar.className = "boton-secundario";
+          botonEditar.textContent = "Editar";
+
+          botonEditar.addEventListener("click", () => {
+            editarJugadora(j.id);
+          });
+
+          acciones.appendChild(botonEditar);
+
+          if (puedeEliminar()) {
+
+            const botonEliminar = document.createElement("button");
+
+            botonEliminar.type = "button";
+            botonEliminar.className = "boton-eliminar";
+            botonEliminar.textContent = "Eliminar";
+
+            botonEliminar.addEventListener("click", () => {
+              eliminarJugadora(j.id);
+            });
+
+            acciones.appendChild(botonEliminar);
+          }
+
+          celdaAcciones.appendChild(acciones);
+          fila.appendChild(celdaAcciones);
+
+          tabla.appendChild(fila);
+
+        });
+
+        mensajeVacio.style.display =
+          filtradas.length === 0 ? "block" : "none";
+
+        document.getElementById("totalJugadoras").textContent =
+          filtradas.length;
+
+        document.getElementById("totalCategorias").textContent =
+          new Set(
+            filtradas.map(j => j.categoria).filter(Boolean)
+          ).size;
+      }
+
+      // ===================================================
+      // MODAL
+      // ===================================================
+
+      const modal = document.getElementById("modalJugadora");
+      const formulario = document.getElementById("formJugadora");
+
+      function abrirModal() {
+        modal.classList.add("activo");
+
+        document.getElementById("nombre").focus();
+      }
+
+      function cerrarModal() {
+        modal.classList.remove("activo");
+
+        formulario.reset();
+
+        idEnEdicion = null;
+
+        document.getElementById("tituloModal").textContent =
+          "Agregar jugadora";
+
+        campoEdad.value = "";
+
+        document.getElementById("estado").value = "Activo";
+      }
+
+      document.getElementById("botonAgregar").addEventListener(
+        "click",
+        () => {
+          cerrarModal();
+          abrirModal();
+        }
+      );
+
+      document.getElementById("cerrarModal").addEventListener(
+        "click",
+        cerrarModal
+      );
+
+      document.getElementById("cancelarModal").addEventListener(
+        "click",
+        cerrarModal
+      );
+
+      modal.addEventListener("click", evento => {
+        if (evento.target === modal) {
+          cerrarModal();
+        }
+      });
+
+      document.addEventListener("keydown", evento => {
+
+        if (
+          evento.key === "Escape" &&
+          modal.classList.contains("activo")
+        ) {
+          cerrarModal();
+        }
+
+      });
+
+      // ===================================================
+      // GUARDAR JUGADORA
+      // ===================================================
+
+      formulario.addEventListener("submit", evento => {
+
+        evento.preventDefault();
+
+        const datos = {
+          nombre: document.getElementById("nombre").value.trim(),
+          categoria: document.getElementById("categoria").value,
+          nacimiento: campoNacimiento.value,
+          pierna: document.getElementById("pierna").value,
+          posicion: document.getElementById("posicion").value,
+          estado: document.getElementById("estado").value
+        };
+
+        if (
+          !datos.nombre ||
+          !datos.categoria ||
+          !datos.nacimiento ||
+          !datos.pierna ||
+          !datos.estado
+        ) {
+          alert("Completá todos los campos obligatorios.");
+          return;
+        }
+
+        if (!puedeAccederCategoria(datos.categoria)) {
+          alert("No tenés permiso para administrar esta categoría.");
+          return;
+        }
+
+        if (calcularEdad(datos.nacimiento) === null) {
+          alert(
+            "Ingresá una fecha de nacimiento válida que no sea futura."
+          );
+
+          return;
+        }
+
+        if (idEnEdicion !== null) {
+
+          const indice = jugadoras.findIndex(
+            j => j.id === idEnEdicion
+          );
+
+          if (indice === -1) {
+            alert("No se encontró la jugadora que querés editar.");
+            return;
+          }
+
+          if (!puedeAccederCategoria(jugadoras[indice].categoria)) {
+            alert("No tenés permiso para editar esta jugadora.");
+            return;
+          }
+
+          jugadoras[indice] = {
+            ...jugadoras[indice],
+            ...datos
+          };
+
+        } else {
+
+          jugadoras.push({
+            id: generarId(),
+            ...datos
+          });
+
+        }
+
+        guardarJugadoras();
+        renderizarJugadoras();
+        cerrarModal();
+
+      });
+
+      // ===================================================
+      // EDITAR JUGADORA
+      // ===================================================
+
+      function editarJugadora(id) {
+
+        const jugadora = jugadoras.find(j => j.id === id);
+
+        if (
+          !jugadora ||
+          !puedeAccederCategoria(jugadora.categoria)
+        ) {
+          alert("No tenés permiso para editar esta jugadora.");
+          return;
+        }
+
+        idEnEdicion = id;
+
+        document.getElementById("tituloModal").textContent =
+          "Editar jugadora";
+
+        document.getElementById("nombre").value =
+          jugadora.nombre || "";
+
+        document.getElementById("categoria").value =
+          jugadora.categoria || "";
+
+        campoNacimiento.value =
+          jugadora.nacimiento || "";
+
+        document.getElementById("pierna").value =
+          jugadora.pierna || "";
+
+        document.getElementById("posicion").value =
+          jugadora.posicion || "";
+
+        document.getElementById("estado").value =
+          jugadora.estado || "Activo";
+
+        actualizarEdadFormulario();
+
+        abrirModal();
+      }
+
+      // ===================================================
+      // ELIMINAR JUGADORA: SOLO FRAN
+      // ===================================================
+
+      function eliminarJugadora(id) {
+
+        if (!puedeEliminar()) {
+          alert("No tenés permiso para eliminar jugadoras.");
+          return;
+        }
+
+        const jugadora = jugadoras.find(j => j.id === id);
+
+        if (!jugadora) return;
+
+        if (!puedeAccederCategoria(jugadora.categoria)) {
+          alert("No tenés permiso para eliminar esta jugadora.");
+          return;
+        }
+
+        if (
+          confirm(
+            "¿Querés eliminar a " +
+            jugadora.nombre +
+            " del plantel?"
+          )
+        ) {
+          jugadoras = jugadoras.filter(j => j.id !== id);
+
+          guardarJugadoras();
+          renderizarJugadoras();
+        }
+      }
+
+      // ===================================================
+      // BUSCADOR Y FILTROS
+      // ===================================================
+
+      document.getElementById("buscador").addEventListener(
+        "input",
+        renderizarJugadoras
+      );
+
+      document.getElementById("filtroCategoria").addEventListener(
+        "change",
+        renderizarJugadoras
+      );
+
+      document.getElementById("filtroPosicion").addEventListener(
+        "change",
+        renderizarJugadoras
+      );
+
+      document.getElementById("filtroEstado").addEventListener(
+        "change",
+        renderizarJugadoras
+      );
+
+      // Mostrar el botón de agregar según los permisos.
+
+      document.getElementById("botonAgregar").style.display =
+        (esToto() || esFran()) ? "inline-block" : "none";
+
+      // ===================================================
+      // INICIALIZACIÓN
+      // ===================================================
+
+      renderizarJugadoras();
+
+    }
+  </script>
+
+</body>
+</html>
