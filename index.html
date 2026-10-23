@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Iniciar Sesiòn - ADIUR FEM</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+
+            background-image:
+                linear-gradient(
+                    rgba(0, 0, 0, 0.50),
+                    rgba(0, 0, 0, 0.50)
+                ),
+                url("Familia.jpg");
+
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* CAJA DE LOGIN */
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+            text-align: center;
+        }
+
+        /* LOGO */
+        .logo {
+            width: 105px;
+            height: 105px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+
+        /* TITULOS */
+        h1 {
+            font-size: 25px;
+            color: #222;
+            margin-bottom: 5px;
+        }
+
+        .subtitulo {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        /* FORMULARIO */
+        .campo {
+            text-align: left;
+            margin-bottom: 18px;
+        }
+
+        .campo label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 7px;
+        }
+
+        .campo input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .campo input:focus {
+            border-color: #a00000;
+            box-shadow: 0 0 0 3px rgba(160, 0, 0, 0.10);
+        }
+
+        /* BOTON */
+        .boton-login {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #a00000;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .boton-login:hover {
+            background: #850000;
+            transform: translateY(-1px);
+        }
+
+        /* ERROR */
+        .error {
+            display: none;
+            margin-top: 15px;
+            padding: 11px;
+            border-radius: 8px;
+            background: #ffe5e5;
+            color: #a00000;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* CELULAR */
+        @media (max-width: 500px) {
+            .login-container {
+                padding: 28px 22px;
+            }
+
+            .logo {
+                width: 90px;
+                height: 90px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <!-- LOGO -->
+        <img
+            src="Logo ADIUR.jpg"
+            alt="Logo ADIUR"
+            class="logo"
+        >
+
+        <!-- TITULO -->
+        <h1>ADIUR FEMENINO</h1>
+
+        <p class="subtitulo">Panel del club</p>
+
+        <!-- FORMULARIO -->
+        <form id="loginForm">
+
+            <!-- USUARIO -->
+            <div class="campo">
+                <label for="usuario">Usuario</label>
+
+                <input
+                    type="text"
+                    id="usuario"
+                    placeholder="Ingresá tu usuario"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+
+            <!-- CONTRASEÑA -->
+            <div class="campo">
+                <label for="contrasena">Contraseña</label>
+
+                <input
+                    type="password"
+                    id="contrasena"
+                    placeholder="Ingresá tu contraseña"
+                    autocomplete="current-password"
+                    required
+                >
+            </div>
+
+            <!-- BOTON -->
+            <button type="submit" class="boton-login">
+                INICIAR SESIÓN
+            </button>
+
+            <!-- ERROR -->
+            <div class="error" id="mensajeError" role="alert">
+                Usuario o contraseña incorrectos.
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        // USUARIOS AUTORIZADOS
+        const usuarios = {
+            "fran": {
+                contrasena: "ADIUR",
+                nombre: "Fran"
+            },
+
+            "toto": {
+                contrasena: "ADIUR",
+                nombre: "Toto"
+            },
+
+            "bianca": {
+                contrasena: "SUB14",
+                nombre: "Bianca"
+            }
+        };
+
+        // LOGIN
+        document
+            .getElementById("loginForm")
+            .addEventListener("submit", function(event) {
+
+                event.preventDefault();
+
+                const usuario = document
+                    .getElementById("usuario")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+                const contrasena = document
+                    .getElementById("contrasena")
+                    .value;
+
+                const mensajeError = document
+                    .getElementById("mensajeError");
+
+                // OCULTAR ERROR ANTERIOR
+                mensajeError.style.display = "none";
+
+                // COMPROBAR USUARIO Y CONTRASEÑA
+                if (
+                    usuarios[usuario] &&
+                    usuarios[usuario].contrasena === contrasena
+                ) {
+                    // GUARDAR EL USUARIO
+                    localStorage.setItem(
+                        "usuarioADIUR",
+                        usuarios[usuario].nombre
+                    );
+
+                    // IR A LA PAGINA PRINCIPAL
+                    window.location.href = "Pàgina Principal.html";
+
+                } else {
+                    // MOSTRAR ERROR
+                    mensajeError.style.display = "block";
+
+                    // LIMPIAR CONTRASEÑA
+                    document.getElementById("contrasena").value = "";
+                }
+            });
+    </script>
+
+</body>
+</html>
