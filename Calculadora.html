@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,878 +6,4613 @@
 <title>Calculadora | ADIUR Femenino</title>
 
 <style>
+
 :root {
-  --orange:#f47721;
-  --border:#e5e5e5;
-  --gray:#f5f5f5;
-  --green:#168447;
-  --red:#c62828;
+  --naranja:#f47721;
+  --naranja-oscuro:#dc5e0b;
+  --naranja-claro:#fff0e6;
+  --negro:#171717;
+  --gris:#f4f5f7;
+  --gris-texto:#747474;
+  --borde:#e8e8e8;
+  --verde:#18864b;
+  --rojo:#c62828;
+  --alto-topbar:82px;
 }
-* { box-sizing:border-box; }
-body { margin:0; font-family:Arial,Helvetica,sans-serif; color:#222; background:#fff; }
-button,input,select,textarea { font:inherit; }
-button { cursor:pointer; }
-.layout { display:flex; min-height:100vh; }
 
-/* BARRA LATERAL BLANCA */
-.sidebar { width:245px; flex-shrink:0; background:white; border-right:1px solid var(--border); padding:22px 15px; }
-.brand { display:flex; align-items:center; gap:10px; padding:0 7px 22px; border-bottom:1px solid var(--border); margin-bottom:18px; }
-.brand img { width:48px; height:48px; object-fit:contain; }
-.brand strong { font-size:16px; }
-.brand small { display:block; color:#777; margin-top:4px; }
-.nav-title { color:#888; font-size:11px; font-weight:bold; letter-spacing:1px; padding:13px 9px 6px; }
-.sidebar a { display:block; color:#333; text-decoration:none; padding:10px 12px; margin:3px 0; border-radius:7px; font-size:14px; }
-.sidebar a:hover { background:#f5f5f5; }
-.sidebar a.active { background:#fff0e5; color:#d95e0a; font-weight:bold; }
+*,
+*::before,
+*::after {
+  box-sizing:border-box;
+}
 
-.main { flex:1; min-width:0; }
-.topbar { display:flex; justify-content:space-between; align-items:center; gap:15px; padding:20px 28px; border-bottom:1px solid var(--border); }
-.topbar h1 { margin:0; font-size:23px; }
-.topbar p { margin:6px 0 0; color:#777; font-size:13px; }
-.profile { color:#555; font-size:13px; }
-.content { padding:25px; max-width:1600px; margin:auto; }
+html {
+  scroll-behavior:smooth;
+}
 
-.panel { background:white; border:1px solid var(--border); border-radius:12px; padding:19px; margin-bottom:20px; }
-.panel h2 { font-size:17px; margin:0 0 15px; }
-.filters { display:grid; grid-template-columns:repeat(3,minmax(150px,1fr)); gap:15px; }
-.field { display:flex; flex-direction:column; gap:7px; min-width:0; }
-.field label { font-size:12px; font-weight:bold; color:#555; }
-input,select,textarea { width:100%; min-width:0; border:1px solid #d8d8d8; border-radius:7px; padding:10px; background:white; color:#222; }
-textarea { resize:vertical; min-height:75px; }
-input:focus,select:focus,textarea:focus { outline:2px solid #ffd4b7; border-color:var(--orange); }
-.hint { color:#777; font-size:12px; line-height:1.5; }
-.btn { border:0; border-radius:7px; padding:10px 14px; font-weight:bold; font-size:13px; }
-.btn-primary { background:var(--orange); color:white; }
-.btn-primary:hover { background:#df6515; }
-.btn-secondary { background:#eee; color:#333; }
-.btn-danger { background:#fff0f0; color:#b3261e; }
-.btn-small { padding:7px 10px; font-size:12px; }
-.actions { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
-.section-note { border-left:3px solid var(--orange); background:#fff8f3; padding:11px 13px; border-radius:4px; color:#65432e; font-size:12px; line-height:1.6; }
-.days-grid { display:grid; grid-template-columns:repeat(2,minmax(300px,1fr)); gap:15px; }
-.day-card { border:1px solid var(--border); border-radius:12px; overflow:hidden; min-width:0; }
-.day-header { display:flex; justify-content:space-between; align-items:center; gap:10px; background:#fafafa; border-bottom:1px solid var(--border); padding:14px; }
-.day-header h3 { margin:0; font-size:15px; }
-.day-header small { display:block; color:#777; margin-top:4px; }
-.day-body { padding:14px; }
-.day-total { background:#fff7f1; border:1px solid #ffdfc9; border-radius:8px; padding:10px; margin-bottom:14px; }
-.daily-total { display:grid; grid-template-columns:minmax(130px,1fr) 110px; gap:10px; align-items:end; }
-.entries { display:flex; flex-direction:column; gap:10px; }
-.entry { border:1px solid #e8e8e8; border-radius:9px; padding:12px; }
-.entry-top { display:flex; justify-content:space-between; gap:10px; align-items:flex-start; }
-.entry-title { font-weight:bold; font-size:14px; }
-.entry-subtitle { color:#777; font-size:12px; margin-top:4px; }
-.entry-details { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin:12px 0; }
-.metric { background:#f7f7f7; border-radius:6px; padding:9px; font-size:12px; }
-.metric strong { display:block; margin-top:4px; font-size:14px; }
-.empty { padding:18px 8px; text-align:center; font-size:13px; color:#888; }
-.day-actions { margin-top:12px; }
-.badge { display:inline-block; border-radius:20px; background:#eee; padding:5px 8px; font-size:11px; color:#555; }
-.badge.training { background:#fff0e5; color:#b75008; }
-.status { font-size:12px; line-height:1.5; margin-top:8px; }
-.status.good { color:var(--green); }
-.status.bad { color:var(--red); }
-.status.neutral { color:#777; }
-.volume-result { background:#fff0e5; color:#a84c0b; border-radius:7px; padding:9px 10px; margin-top:10px; font-size:13px; }
-.volume-result strong { font-size:16px; }
-.modal { position:fixed; inset:0; background:rgba(0,0,0,.5); display:none; align-items:center; justify-content:center; padding:16px; z-index:10; }
-.modal.open { display:flex; }
-.modal-content { background:white; width:min(760px,100%); max-height:92vh; overflow-y:auto; border-radius:13px; padding:22px; }
-.modal-head { display:flex; justify-content:space-between; gap:12px; align-items:center; margin-bottom:17px; }
-.modal-head h2 { margin:0; font-size:19px; }
-.close { border:0; background:#eee; border-radius:50%; width:34px; height:34px; font-size:20px; }
-.form-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
-.full { grid-column:1/-1; }
-.modal-footer { display:flex; justify-content:flex-end; gap:9px; margin-top:18px; }
-#qualityHint { margin-top:15px; border-radius:8px; padding:12px; background:#f7f7f7; font-size:12px; line-height:1.6; }
-.day-config { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; }
-.day-check { display:flex; gap:8px; align-items:center; background:#f7f7f7; border-radius:7px; padding:10px; font-size:13px; }
-.day-check input { width:auto; }
-hr { border:0; border-top:1px solid var(--border); margin:18px 0; }
+body {
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  color:#222;
+  background:#f7f8fa;
+}
+
+button,
+input,
+select,
+textarea {
+  font:inherit;
+}
+
+button {
+  cursor:pointer;
+}
+
+a {
+  color:inherit;
+  text-decoration:none;
+}
+
+
+/* =========================================================
+   BARRA SUPERIOR
+   ========================================================= */
+
+.barra-superior {
+  position:sticky;
+  top:0;
+  z-index:200;
+
+  display:flex;
+  align-items:center;
+  gap:14px;
+
+  min-height:var(--alto-topbar);
+  padding:11px 22px;
+
+  background:#fff;
+  border-bottom:1px solid var(--borde);
+}
+
+.boton-menu {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  width:41px;
+  height:41px;
+  flex-shrink:0;
+
+  border:0;
+  border-radius:9px;
+
+  background:white;
+  color:var(--negro);
+
+  font-size:25px;
+}
+
+.boton-menu:hover {
+  background:var(--gris);
+}
+
+.logo-superior {
+  width:49px;
+  height:49px;
+  flex-shrink:0;
+
+  padding:2px;
+
+  background:#fff;
+  border-radius:50%;
+
+  object-fit:contain;
+}
+
+.titulo-superior {
+  flex:1;
+  min-width:0;
+}
+
+.titulo-superior h1 {
+  margin:0 0 5px;
+
+  font-size:21px;
+  font-weight:900;
+  letter-spacing:.4px;
+}
+
+.titulo-superior p {
+  margin:0;
+
+  color:var(--gris-texto);
+  font-size:12px;
+}
+
+.perfil {
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.avatar {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  width:40px;
+  height:40px;
+  flex-shrink:0;
+
+  border-radius:50%;
+
+  background:var(--negro);
+  color:white;
+
+  font-size:12px;
+  font-weight:900;
+}
+
+.nombre-perfil {
+  max-width:155px;
+
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+
+  font-size:13px;
+  font-weight:800;
+}
+
+.rol-perfil {
+  margin-top:4px;
+
+  color:var(--gris-texto);
+  font-size:11px;
+}
+
+
+/* =========================================================
+   ESTRUCTURA
+   ========================================================= */
+
+.contenedor {
+  display:flex;
+  align-items:stretch;
+
+  min-height:calc(100vh - var(--alto-topbar));
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.sidebar {
+  width:258px;
+  flex:0 0 258px;
+
+  padding:19px 13px;
+
+  background:#fff;
+  border-right:1px solid var(--borde);
+
+  overflow-y:auto;
+
+  transition:
+    margin-left .25s ease,
+    transform .25s ease;
+}
+
+.sidebar.oculto {
+  margin-left:-258px;
+}
+
+.menu-inicio {
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  padding:13px 14px;
+  margin-bottom:14px;
+
+  border-radius:10px;
+
+  background:var(--naranja-claro);
+  color:var(--naranja-oscuro);
+
+  font-size:12px;
+  font-weight:900;
+}
+
+.menu-inicio:hover {
+  background:#ffe7d6;
+}
+
+.icono-inicio {
+  width:17px;
+  text-align:center;
+  font-size:18px;
+}
+
+.grupo-menu {
+  margin-bottom:7px;
+}
+
+.titulo-grupo {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  min-height:43px;
+  padding:12px 13px;
+
+  border-radius:8px;
+
+  color:#171717;
+
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.6px;
+
+  cursor:pointer;
+  user-select:none;
+}
+
+.titulo-grupo:hover {
+  background:#f8f8f8;
+}
+
+.flecha {
+  display:inline-block;
+
+  font-size:16px;
+  line-height:1;
+
+  transition:transform .2s;
+}
+
+.grupo-menu.cerrado .flecha {
+  transform:rotate(0deg);
+}
+
+.grupo-menu:not(.cerrado) .flecha {
+  transform:rotate(90deg);
+}
+
+.submenu {
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+
+  padding-bottom:5px;
+}
+
+.grupo-menu.cerrado .submenu {
+  display:none;
+}
+
+.submenu a {
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  padding:10px 12px;
+
+  border-radius:9px;
+
+  color:#656872;
+
+  font-size:12px;
+  line-height:1.4;
+}
+
+.submenu a:hover {
+  background:#f6f6f6;
+  color:#181818;
+}
+
+.submenu a.activo {
+  background:var(--naranja-claro);
+  color:var(--naranja-oscuro);
+  font-weight:850;
+}
+
+.nav-punto {
+  width:6px;
+  height:6px;
+  flex-shrink:0;
+
+  border-radius:50%;
+
+  background:#d7d9de;
+}
+
+.submenu a.activo .nav-punto {
+  background:var(--naranja);
+}
+
+.separador-sesion {
+  margin-top:18px;
+  padding-top:10px;
+
+  border-top:1px solid var(--borde);
+}
+
+.enlace-cerrar-sesion {
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  padding:12px;
+
+  border-radius:9px;
+
+  color:#c0392b;
+
+  font-size:12px;
+  font-weight:800;
+}
+
+.enlace-cerrar-sesion:hover {
+  background:#fff2f1;
+}
+
+.capa-sidebar {
+  display:none;
+}
+
+
+/* =========================================================
+   CONTENIDO ORIGINAL DE LA CALCULADORA
+   ========================================================= */
+
+.main {
+  flex:1;
+  min-width:0;
+}
+
+.content {
+  padding:25px;
+  max-width:1600px;
+  margin:auto;
+}
+
+.panel {
+  background:white;
+  border:1px solid var(--borde);
+  border-radius:12px;
+  padding:19px;
+  margin-bottom:20px;
+}
+
+.panel h2 {
+  font-size:17px;
+  margin:0 0 15px;
+}
+
+.filters {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(150px,1fr));
+  gap:15px;
+}
+
+.field {
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  min-width:0;
+}
+
+.field label {
+  font-size:12px;
+  font-weight:bold;
+  color:#555;
+}
+
+input,
+select,
+textarea {
+  width:100%;
+  min-width:0;
+
+  border:1px solid #d8d8d8;
+  border-radius:7px;
+
+  padding:10px;
+
+  background:white;
+  color:#222;
+}
+
+textarea {
+  resize:vertical;
+  min-height:75px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline:2px solid #ffd4b7;
+  border-color:var(--naranja);
+}
+
+.hint {
+  color:#777;
+  font-size:12px;
+  line-height:1.5;
+}
+
+.btn {
+  border:0;
+  border-radius:7px;
+
+  padding:10px 14px;
+
+  font-weight:bold;
+  font-size:13px;
+}
+
+.btn-primary {
+  background:var(--naranja);
+  color:white;
+}
+
+.btn-primary:hover {
+  background:#df6515;
+}
+
+.btn-secondary {
+  background:#eee;
+  color:#333;
+}
+
+.btn-danger {
+  background:#fff0f0;
+  color:#b3261e;
+}
+
+.btn-small {
+  padding:7px 10px;
+  font-size:12px;
+}
+
+.actions {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+
+.section-note {
+  border-left:3px solid var(--naranja);
+  background:#fff8f3;
+
+  padding:11px 13px;
+
+  border-radius:4px;
+
+  color:#65432e;
+
+  font-size:12px;
+  line-height:1.6;
+}
+
+.days-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(300px,1fr));
+  gap:15px;
+}
+
+.day-card {
+  border:1px solid var(--borde);
+  border-radius:12px;
+
+  overflow:hidden;
+  min-width:0;
+}
+
+.day-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  gap:10px;
+
+  background:#fafafa;
+  border-bottom:1px solid var(--borde);
+
+  padding:14px;
+}
+
+.day-header h3 {
+  margin:0;
+  font-size:15px;
+}
+
+.day-header small {
+  display:block;
+  color:#777;
+  margin-top:4px;
+}
+
+.day-body {
+  padding:14px;
+}
+
+.day-total {
+  background:#fff7f1;
+  border:1px solid #ffdfc9;
+
+  border-radius:8px;
+
+  padding:10px;
+  margin-bottom:14px;
+}
+
+.daily-total {
+  display:grid;
+  grid-template-columns:minmax(130px,1fr) 110px;
+
+  gap:10px;
+
+  align-items:end;
+}
+
+.entries {
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.entry {
+  border:1px solid #e8e8e8;
+
+  border-radius:9px;
+
+  padding:12px;
+}
+
+.entry-top {
+  display:flex;
+  justify-content:space-between;
+
+  gap:10px;
+
+  align-items:flex-start;
+}
+
+.entry-title {
+  font-weight:bold;
+  font-size:14px;
+}
+
+.entry-subtitle {
+  color:#777;
+
+  font-size:12px;
+
+  margin-top:4px;
+}
+
+.entry-details {
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap:8px;
+
+  margin:12px 0;
+}
+
+.metric {
+  background:#f7f7f7;
+
+  border-radius:6px;
+
+  padding:9px;
+
+  font-size:12px;
+}
+
+.metric strong {
+  display:block;
+
+  margin-top:4px;
+
+  font-size:14px;
+}
+
+.empty {
+  padding:18px 8px;
+
+  text-align:center;
+
+  font-size:13px;
+
+  color:#888;
+}
+
+.day-actions {
+  margin-top:12px;
+}
+
+.badge {
+  display:inline-block;
+
+  border-radius:20px;
+
+  background:#eee;
+
+  padding:5px 8px;
+
+  font-size:11px;
+
+  color:#555;
+}
+
+.badge.training {
+  background:#fff0e5;
+  color:#b75008;
+}
+
+.status {
+  font-size:12px;
+
+  line-height:1.5;
+
+  margin-top:8px;
+}
+
+.status.good {
+  color:var(--verde);
+}
+
+.status.bad {
+  color:var(--rojo);
+}
+
+.status.neutral {
+  color:#777;
+}
+
+.volume-result {
+  background:#fff0e5;
+  color:#a84c0b;
+
+  border-radius:7px;
+
+  padding:9px 10px;
+
+  margin-top:10px;
+
+  font-size:13px;
+}
+
+.volume-result strong {
+  font-size:16px;
+}
+
+
+/* =========================================================
+   MODALES
+   ========================================================= */
+
+.modal {
+  position:fixed;
+
+  inset:0;
+
+  background:rgba(0,0,0,.5);
+
+  display:none;
+
+  align-items:center;
+  justify-content:center;
+
+  padding:16px;
+
+  z-index:400;
+}
+
+.modal.open {
+  display:flex;
+}
+
+.modal-content {
+  background:white;
+
+  width:min(760px,100%);
+
+  max-height:92vh;
+
+  overflow-y:auto;
+
+  border-radius:13px;
+
+  padding:22px;
+}
+
+.modal-head {
+  display:flex;
+
+  justify-content:space-between;
+
+  gap:12px;
+
+  align-items:center;
+
+  margin-bottom:17px;
+}
+
+.modal-head h2 {
+  margin:0;
+  font-size:19px;
+}
+
+.close {
+  border:0;
+
+  background:#eee;
+
+  border-radius:50%;
+
+  width:34px;
+  height:34px;
+
+  font-size:20px;
+}
+
+.form-grid {
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap:14px;
+}
+
+.full {
+  grid-column:1/-1;
+}
+
+.modal-footer {
+  display:flex;
+
+  justify-content:flex-end;
+
+  gap:9px;
+
+  margin-top:18px;
+}
+
+#qualityHint {
+  margin-top:15px;
+
+  border-radius:8px;
+
+  padding:12px;
+
+  background:#f7f7f7;
+
+  font-size:12px;
+
+  line-height:1.6;
+}
+
+.day-config {
+  display:grid;
+
+  grid-template-columns:
+    repeat(4,minmax(0,1fr));
+
+  gap:10px;
+}
+
+.day-check {
+  display:flex;
+
+  gap:8px;
+
+  align-items:center;
+
+  background:#f7f7f7;
+
+  border-radius:7px;
+
+  padding:10px;
+
+  font-size:13px;
+}
+
+.day-check input {
+  width:auto;
+}
+
+hr {
+  border:0;
+
+  border-top:1px solid var(--borde);
+
+  margin:18px 0;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
 
 @media(max-width:1000px) {
-  .sidebar { width:215px; }
-  .days-grid { grid-template-columns:1fr; }
+
+  .days-grid {
+    grid-template-columns:1fr;
+  }
+
 }
-@media(max-width:700px) {
-  .layout { display:block; }
-  .sidebar { width:100%; border-right:0; border-bottom:1px solid var(--border); }
-  .sidebar nav { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:2px; }
-  .nav-title { grid-column:1/-1; }
-  .topbar { padding:17px; }
-  .content { padding:14px; }
-  .filters,.form-grid { grid-template-columns:1fr; }
-  .full { grid-column:auto; }
-  .day-config { grid-template-columns:repeat(2,minmax(0,1fr)); }
+
+@media(max-width:760px) {
+
+  .barra-superior {
+    gap:9px;
+    padding:10px 12px;
+  }
+
+  .logo-superior {
+    width:41px;
+    height:41px;
+  }
+
+  .titulo-superior h1 {
+    font-size:15px;
+    margin-bottom:3px;
+  }
+
+  .titulo-superior p {
+    font-size:10px;
+    line-height:1.4;
+  }
+
+  .perfil {
+    display:none;
+  }
+
+  .sidebar {
+    position:fixed;
+
+    top:var(--alto-topbar);
+    bottom:0;
+    left:0;
+
+    z-index:350;
+
+    width:258px;
+
+    height:auto;
+
+    margin-left:0;
+
+    transform:translateX(-110%);
+
+    box-shadow:8px 0 22px #0000000d;
+  }
+
+  .sidebar.oculto {
+    margin-left:0;
+  }
+
+  .sidebar.visible {
+    transform:translateX(0);
+  }
+
+  .capa-sidebar.visible {
+    display:block;
+
+    position:fixed;
+
+    inset:var(--alto-topbar) 0 0;
+
+    z-index:340;
+
+    background:#00000045;
+  }
+
+  .content {
+    padding:14px;
+  }
+
+  .filters,
+  .form-grid {
+    grid-template-columns:1fr;
+  }
+
+  .full {
+    grid-column:auto;
+  }
+
+  .day-config {
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+  }
+
 }
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media(min-width:761px) and (max-width:1000px) {
+
+  .sidebar {
+    width:258px;
+    flex-basis:258px;
+  }
+
+}
+
 </style>
 </head>
 
+
 <body>
-<div class="layout">
-  <aside class="sidebar">
-    <div class="brand">
-      <img src="logo adiur.jpg" alt="Logo ADIUR" onerror="this.style.display='none'">
-      <div><strong>ADIUR FEMENINO</strong><small>Panel de gestión</small></div>
-    </div>
-    <nav>
-      <div class="nav-title">INICIO</div>
-      <a href="index.html">Página principal</a>
-      <div class="nav-title">PLANTEL</div>
-      <a href="jugadoras.html">Jugadoras</a>
-      <a href="asistencia.html">Asistencia</a>
-      <div class="nav-title">ENTRENAMIENTO</div>
-      <a href="calendario.html">Calendario</a>
-      <a href="planificacion.html">Planificación</a>
-      <a href="biblioteca.html">Biblioteca de ejercicios</a>
-      <a href="gimnasio.html">Gimnasio</a>
-      <a class="active" href="calculadora.html">Calculadora</a>
-      <div class="nav-title">COMPETENCIA</div>
-      <a href="fixture.html">Fixture</a>
-      <a href="resultados.html">Resultados</a>
-      <a href="informes.html">Informes</a>
-      <a href="estadisticas.html">Estadísticas</a>
-      <a href="pizarra.html">Pizarra táctica</a>
-      <div class="nav-title">RENDIMIENTOS</div>
-      <a href="testeos.html">Planilla de testeos</a>
-      <a href="tiempos.html">Tiempos</a>
-      <a href="multimedia.html">Multimedia</a>
-      <a href="encuestas.html">Encuestas</a>
-      <a href="lesiones.html">Lesiones</a>
-    </nav>
-  </aside>
 
-  <main class="main">
-    <header class="topbar">
-      <div>
-        <h1>Calculadora de entrenamiento</h1>
-        <p>Planificación de cargas y volúmenes por jornada</p>
+
+<!-- =========================================================
+     BARRA SUPERIOR NUEVA
+     ========================================================= -->
+
+<header class="barra-superior">
+
+  <button
+    class="boton-menu"
+    id="botonMenu"
+    type="button"
+    onclick="alternarSidebar()"
+    aria-label="Abrir menú"
+    aria-expanded="false"
+  >
+    ☰
+  </button>
+
+
+  <img
+    class="logo-superior"
+    src="logo adiur.jpg"
+    alt="Logo ADIUR"
+    onerror="this.onerror=null;this.src='Logo ADIUR.jpg';"
+  >
+
+
+  <div class="titulo-superior">
+
+    <h1>
+      ADIUR FEMENINO
+    </h1>
+
+    <p>
+      Planificación semanal de entrenamientos
+    </p>
+
+  </div>
+
+
+  <div class="perfil">
+
+    <div
+      class="avatar"
+      id="avatarUsuario"
+    >
+      DT
+    </div>
+
+    <div>
+
+      <div
+        class="nombre-perfil"
+        id="nombreUsuario"
+      >
+        Entrenador
       </div>
-      <div class="profile" id="profileName">ADIUR FEMENINO</div>
-    </header>
 
-    <div class="content">
-      <section class="panel">
-        <h2>Configuración de la planificación</h2>
-        <div class="filters">
-          <div class="field">
-            <label for="division">Categoría</label>
-            <select id="division">
-              <option>Sub 10</option>
-              <option>Sub 12</option>
-              <option>Sub 14</option>
-              <option>Sub 16</option>
-              <option>Primera</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="week">Semana</label>
-            <select id="week"></select>
-          </div>
-          <div class="field">
-            <label>Planificación seleccionada</label>
-            <input id="selectionSummary" readonly>
-          </div>
-        </div>
-        <hr>
-        <div class="actions">
-          <button class="btn btn-secondary" id="configureDaysBtn">Configurar días de entrenamiento</button>
-          <button class="btn btn-secondary" id="exportBtn">Exportar semana a CSV</button>
-          <button class="btn btn-danger" id="clearWeekBtn">Borrar planificación de esta semana</button>
-        </div>
-      </section>
+      <div
+        class="rol-perfil"
+        id="rolUsuario"
+      >
+        Cuerpo técnico
+      </div>
 
-      <section class="panel">
-        <h2>Volumen diario y cálculo de porcentajes</h2>
-        <p class="hint">
-          Cada actividad muestra el porcentaje del volumen del día y su equivalencia
-          calculada en la unidad correspondiente. Por ejemplo, 7 % de 1.000 m = 70 m.
-        </p>
-        <div class="section-note">
-          Los rangos con asterisco (*) son referencias configurables y orientativas,
-          no una evaluación absoluta. Deben adaptarse a la edad, el nivel y los
-          objetivos de cada entrenamiento.
-        </div>
-      </section>
-
-      <div id="daysGrid" class="days-grid"></div>
     </div>
-  </main>
+
+  </div>
+
+</header>
+
+
+<div
+  class="capa-sidebar"
+  id="capaSidebar"
+  onclick="alternarSidebar()"
+></div>
+
+
+<div class="contenedor">
+
+
+<!-- =========================================================
+     SIDEBAR NUEVO
+     ========================================================= -->
+
+<aside
+  class="sidebar"
+  id="sidebar"
+>
+
+
+  <!-- INICIO -->
+
+  <a
+    class="menu-inicio"
+    href="pagina principal.html"
+  >
+
+    <span class="icono-inicio">
+      ⌂
+    </span>
+
+    INICIO
+
+  </a>
+
+
+  <!-- PLANTEL -->
+
+  <div
+    class="grupo-menu cerrado"
+    id="grupoPlantel"
+  >
+
+    <div
+      class="titulo-grupo"
+      onclick="toggleGrupo('grupoPlantel')"
+    >
+
+      <span>
+        PLANTEL
+      </span>
+
+      <span class="flecha">
+        ›
+      </span>
+
+    </div>
+
+
+    <div class="submenu">
+
+      <a href="jugadoras.html">
+
+        <span class="nav-punto"></span>
+
+        Jugadoras
+
+      </a>
+
+
+      <a href="asistencia.html">
+
+        <span class="nav-punto"></span>
+
+        Asistencia
+
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <!-- ENTRENAMIENTO -->
+
+  <div
+    class="grupo-menu"
+    id="grupoEntrenamiento"
+  >
+
+    <div
+      class="titulo-grupo"
+      onclick="toggleGrupo('grupoEntrenamiento')"
+    >
+
+      <span>
+        ENTRENAMIENTO
+      </span>
+
+      <span class="flecha">
+        ›
+      </span>
+
+    </div>
+
+
+    <div class="submenu">
+
+
+      <a href="calendario.html">
+
+        <span class="nav-punto"></span>
+
+        Calendario
+
+      </a>
+
+
+      <a href="planificacion.html">
+
+        <span class="nav-punto"></span>
+
+        Planificación
+
+      </a>
+
+
+      <a href="biblioteca de ejercicios.html">
+
+        <span class="nav-punto"></span>
+
+        Biblioteca de ejercicios
+
+      </a>
+
+
+      <a href="gimnasio.html">
+
+        <span class="nav-punto"></span>
+
+        Gimnasio
+
+      </a>
+
+
+      <a
+        href="#"
+        class="activo"
+        onclick="event.preventDefault()"
+      >
+
+        <span class="nav-punto"></span>
+
+        Calculadora
+
+      </a>
+
+
+    </div>
+
+  </div>
+
+
+  <!-- COMPETENCIA -->
+
+  <div
+    class="grupo-menu cerrado"
+    id="grupoCompetencia"
+  >
+
+    <div
+      class="titulo-grupo"
+      onclick="toggleGrupo('grupoCompetencia')"
+    >
+
+      <span>
+        COMPETENCIA
+      </span>
+
+      <span class="flecha">
+        ›
+      </span>
+
+    </div>
+
+
+    <div class="submenu">
+
+
+      <a href="partidos.html">
+
+        <span class="nav-punto"></span>
+
+        Partidos
+
+      </a>
+
+
+      <a href="informes.html">
+
+        <span class="nav-punto"></span>
+
+        Informes
+
+      </a>
+
+
+      <a href="estadisticas.html">
+
+        <span class="nav-punto"></span>
+
+        Estadísticas
+
+      </a>
+
+
+      <a href="pizarra tactica.html">
+
+        <span class="nav-punto"></span>
+
+        Pizarra táctica
+
+      </a>
+
+
+    </div>
+
+  </div>
+
+
+  <!-- RENDIMIENTOS -->
+
+  <div
+    class="grupo-menu cerrado"
+    id="grupoRendimientos"
+  >
+
+    <div
+      class="titulo-grupo"
+      onclick="toggleGrupo('grupoRendimientos')"
+    >
+
+      <span>
+        RENDIMIENTOS
+      </span>
+
+      <span class="flecha">
+        ›
+      </span>
+
+    </div>
+
+
+    <div class="submenu">
+
+
+      <a href="planilla de testeos.html">
+
+        <span class="nav-punto"></span>
+
+        Planilla de testeos
+
+      </a>
+
+
+      <a href="tiempos.html">
+
+        <span class="nav-punto"></span>
+
+        Tiempos
+
+      </a>
+
+
+      <a href="multimedia.html">
+
+        <span class="nav-punto"></span>
+
+        Multimedia
+
+      </a>
+
+
+      <a href="encuestas.html">
+
+        <span class="nav-punto"></span>
+
+        Encuestas
+
+      </a>
+
+
+      <a href="lesiones.html">
+
+        <span class="nav-punto"></span>
+
+        Lesiones
+
+      </a>
+
+
+    </div>
+
+  </div>
+
+
+  <!-- CERRAR SESIÓN -->
+
+  <div class="separador-sesion">
+
+    <a
+      class="enlace-cerrar-sesion"
+      href="#"
+      onclick="cerrarSesion(event)"
+    >
+
+      <span>
+        ↪
+      </span>
+
+      Cerrar sesión
+
+    </a>
+
+  </div>
+
+
+</aside>
+
+
+<!-- =========================================================
+     MAIN ORIGINAL
+     ========================================================= -->
+
+<main class="main">
+
+
+  <div class="content">
+
+
+    <section class="panel">
+
+      <h2>
+        Configuración de la planificación
+      </h2>
+
+
+      <div class="filters">
+
+
+        <div class="field">
+
+          <label for="division">
+            Categoría
+          </label>
+
+          <select id="division">
+
+            <option>
+              Sub 10
+            </option>
+
+            <option>
+              Sub 12
+            </option>
+
+            <option>
+              Sub 14
+            </option>
+
+            <option>
+              Sub 16
+            </option>
+
+            <option>
+              Primera
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="week">
+            Semana
+          </label>
+
+          <select id="week"></select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Planificación seleccionada
+          </label>
+
+          <input
+            id="selectionSummary"
+            readonly
+          >
+
+        </div>
+
+
+      </div>
+
+
+      <hr>
+
+
+      <div class="actions">
+
+        <button
+          class="btn btn-secondary"
+          id="configureDaysBtn"
+        >
+          Configurar días de entrenamiento
+        </button>
+
+
+        <button
+          class="btn btn-secondary"
+          id="exportBtn"
+        >
+          Exportar semana a CSV
+        </button>
+
+
+        <button
+          class="btn btn-danger"
+          id="clearWeekBtn"
+        >
+          Borrar planificación de esta semana
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <section class="panel">
+
+      <h2>
+        Volumen diario y cálculo de porcentajes
+      </h2>
+
+      <p class="hint">
+
+        Cada actividad muestra el porcentaje del volumen
+        del día y su equivalencia calculada en la unidad
+        correspondiente. Por ejemplo, 7 % de 1.000 m = 70 m.
+
+      </p>
+
+
+      <div class="section-note">
+
+        Los rangos con asterisco (*) son referencias
+        configurables y orientativas, no una evaluación
+        absoluta. Deben adaptarse a la edad, el nivel y los
+        objetivos de cada entrenamiento.
+
+      </div>
+
+    </section>
+
+
+    <div
+      id="daysGrid"
+      class="days-grid"
+    ></div>
+
+
+  </div>
+
+</main>
+
 </div>
 
-<!-- MODAL ACTIVIDAD -->
-<div class="modal" id="entryModal">
+
+<!-- =========================================================
+     MODAL ACTIVIDAD
+     ========================================================= -->
+
+<div
+  class="modal"
+  id="entryModal"
+>
+
   <div class="modal-content">
+
+
     <div class="modal-head">
-      <h2 id="modalTitle">Agregar actividad</h2>
-      <button class="close" id="closeModal" type="button">×</button>
+
+      <h2 id="modalTitle">
+        Agregar actividad
+      </h2>
+
+      <button
+        class="close"
+        id="closeModal"
+        type="button"
+      >
+        ×
+      </button>
+
     </div>
+
+
     <form id="entryForm">
-      <input type="hidden" id="editEntryId">
-      <input type="hidden" id="editDay">
+
+
+      <input
+        type="hidden"
+        id="editEntryId"
+      >
+
+
+      <input
+        type="hidden"
+        id="editDay"
+      >
+
 
       <div class="form-grid">
+
+
         <div class="field">
-          <label for="workType">Tipo de trabajo</label>
-          <select id="workType" required>
-            <option value="Aeróbico">Aeróbico</option>
-            <option value="Anaeróbico láctico">Anaeróbico láctico</option>
-            <option value="Anaeróbico aláctico">Anaeróbico aláctico</option>
+
+          <label for="workType">
+            Tipo de trabajo
+          </label>
+
+          <select
+            id="workType"
+            required
+          >
+
+            <option value="Aeróbico">
+              Aeróbico
+            </option>
+
+            <option value="Anaeróbico láctico">
+              Anaeróbico láctico
+            </option>
+
+            <option value="Anaeróbico aláctico">
+              Anaeróbico aláctico
+            </option>
+
           </select>
+
         </div>
 
-        <div class="field">
-          <label for="subtype">Subtipo</label>
-          <select id="subtype" required></select>
-        </div>
 
         <div class="field">
-          <label for="percentage">Porcentaje del volumen diario (%)</label>
-          <input id="percentage" type="number" min="0" max="100" step="0.1" value="46" required>
-          <div class="hint">La equivalencia se calcula automáticamente según el volumen del día.</div>
+
+          <label for="subtype">
+            Subtipo
+          </label>
+
+          <select
+            id="subtype"
+            required
+          ></select>
+
         </div>
 
-        <div class="field">
-          <label for="passes">Pasadas/repeticiones por serie</label>
-          <input id="passes" type="number" min="1" step="1" value="4" required>
-        </div>
 
         <div class="field">
-          <label for="metersPerPass">Metros por pasada</label>
-          <input id="metersPerPass" type="number" min="0" step="1" value="200" required>
+
+          <label for="percentage">
+            Porcentaje del volumen diario (%)
+          </label>
+
+          <input
+            id="percentage"
+            type="number"
+            min="0"
+            max="100"
+            step="0.1"
+            value="46"
+            required
+          >
+
+          <div class="hint">
+
+            La equivalencia se calcula automáticamente
+            según el volumen del día.
+
+          </div>
+
         </div>
 
-        <div class="field">
-          <label for="rest">Descanso entre pasadas (segundos)</label>
-          <input id="rest" type="number" min="0" step="1" value="60" required>
-        </div>
 
         <div class="field">
-          <label for="series">Cantidad de series</label>
-          <input id="series" type="number" min="1" step="1" value="1" required>
+
+          <label for="passes">
+            Pasadas/repeticiones por serie
+          </label>
+
+          <input
+            id="passes"
+            type="number"
+            min="1"
+            step="1"
+            value="4"
+            required
+          >
+
         </div>
 
+
         <div class="field">
-          <label for="restSeries">Descanso entre series (segundos)</label>
-          <input id="restSeries" type="number" min="0" step="1" value="0" required>
+
+          <label for="metersPerPass">
+            Metros por pasada
+          </label>
+
+          <input
+            id="metersPerPass"
+            type="number"
+            min="0"
+            step="1"
+            value="200"
+            required
+          >
+
         </div>
+
+
+        <div class="field">
+
+          <label for="rest">
+            Descanso entre pasadas (segundos)
+          </label>
+
+          <input
+            id="rest"
+            type="number"
+            min="0"
+            step="1"
+            value="60"
+            required
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="series">
+            Cantidad de series
+          </label>
+
+          <input
+            id="series"
+            type="number"
+            min="1"
+            step="1"
+            value="1"
+            required
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="restSeries">
+            Descanso entre series (segundos)
+          </label>
+
+          <input
+            id="restSeries"
+            type="number"
+            min="0"
+            step="1"
+            value="0"
+            required
+          >
+
+        </div>
+
 
         <div class="field full">
-          <label for="workTime">Tiempo de trabajo por pasada (segundos, opcional)</label>
-          <input id="workTime" type="number" min="0" step="1" placeholder="Ej.: 30">
+
+          <label for="workTime">
+            Tiempo de trabajo por pasada
+            (segundos, opcional)
+          </label>
+
+          <input
+            id="workTime"
+            type="number"
+            min="0"
+            step="1"
+            placeholder="Ej.: 30"
+          >
+
         </div>
 
-        <div class="field full">
-          <label for="description">Descripción de la actividad</label>
-          <input id="description" type="text" placeholder="Ej.: intervalos, carrera continua, aceleraciones...">
-        </div>
 
         <div class="field full">
-          <label for="notes">Observaciones</label>
-          <textarea id="notes" placeholder="Indicaciones, objetivos o adaptaciones..."></textarea>
+
+          <label for="description">
+            Descripción de la actividad
+          </label>
+
+          <input
+            id="description"
+            type="text"
+            placeholder="Ej.: intervalos, carrera continua, aceleraciones..."
+          >
+
         </div>
+
+
+        <div class="field full">
+
+          <label for="notes">
+            Observaciones
+          </label>
+
+          <textarea
+            id="notes"
+            placeholder="Indicaciones, objetivos o adaptaciones..."
+          ></textarea>
+
+        </div>
+
+
       </div>
 
-      <div id="liveVolume" class="volume-result">Volumen correspondiente: <strong>0 m</strong></div>
-      <div id="qualityHint">Completá los datos para ver la orientación.</div>
+
+      <div
+        id="liveVolume"
+        class="volume-result"
+      >
+        Volumen correspondiente:
+        <strong>0 m</strong>
+      </div>
+
+
+      <div id="qualityHint">
+        Completá los datos para ver la orientación.
+      </div>
+
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="cancelModal">Cancelar</button>
-        <button type="submit" class="btn btn-primary">Guardar actividad</button>
+
+        <button
+          type="button"
+          class="btn btn-secondary"
+          id="cancelModal"
+        >
+          Cancelar
+        </button>
+
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+        >
+          Guardar actividad
+        </button>
+
       </div>
+
+
     </form>
+
   </div>
+
 </div>
 
-<!-- MODAL DÍAS -->
-<div class="modal" id="daysModal">
+
+<!-- =========================================================
+     MODAL DÍAS
+     ========================================================= -->
+
+<div
+  class="modal"
+  id="daysModal"
+>
+
   <div class="modal-content">
+
+
     <div class="modal-head">
-      <h2>Días de entrenamiento</h2>
-      <button class="close" id="closeDaysModal" type="button">×</button>
+
+      <h2>
+        Días de entrenamiento
+      </h2>
+
+      <button
+        class="close"
+        id="closeDaysModal"
+        type="button"
+      >
+        ×
+      </button>
+
     </div>
-    <p class="hint">Configuración de los días de entrenamiento para la categoría seleccionada.</p>
-    <div id="dayCheckboxes" class="day-config"></div>
+
+
+    <p class="hint">
+
+      Configuración de los días de entrenamiento
+      para la categoría seleccionada.
+
+    </p>
+
+
+    <div
+      id="dayCheckboxes"
+      class="day-config"
+    ></div>
+
+
     <div class="modal-footer">
-      <button class="btn btn-secondary" id="cancelDays" type="button">Cancelar</button>
-      <button class="btn btn-primary" id="saveDays" type="button">Guardar días</button>
+
+      <button
+        class="btn btn-secondary"
+        id="cancelDays"
+        type="button"
+      >
+        Cancelar
+      </button>
+
+
+      <button
+        class="btn btn-primary"
+        id="saveDays"
+        type="button"
+      >
+        Guardar días
+      </button>
+
     </div>
+
+
   </div>
+
 </div>
+
 
 <script>
+
 "use strict";
 
-const STORAGE_KEY = "calculadoraADIURPlanSemanalV3";
-const DAYS_KEY = "calculadoraADIURDiasV1";
 
-const DAYS = ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"];
+/* =========================================================
+   SIDEBAR NUEVO
+   ========================================================= */
+
+function alternarSidebar() {
+
+  const sidebar =
+    document.getElementById("sidebar");
+
+  const capa =
+    document.getElementById("capaSidebar");
+
+  const boton =
+    document.getElementById("botonMenu");
+
+  const esMovil =
+    window.matchMedia(
+      "(max-width:760px)"
+    ).matches;
+
+
+  if (esMovil) {
+
+    const visible =
+      sidebar.classList.toggle("visible");
+
+    capa.classList.toggle(
+      "visible",
+      visible
+    );
+
+    boton.setAttribute(
+      "aria-expanded",
+      String(visible)
+    );
+
+  } else {
+
+    const oculto =
+      sidebar.classList.toggle("oculto");
+
+    boton.setAttribute(
+      "aria-expanded",
+      String(!oculto)
+    );
+
+  }
+
+}
+
+
+function toggleGrupo(id) {
+
+  const grupo =
+    document.getElementById(id);
+
+  if (grupo) {
+
+    grupo.classList.toggle("cerrado");
+
+  }
+
+}
+
+
+function cerrarSesion(evento) {
+
+  evento.preventDefault();
+
+  const confirmado =
+    confirm(
+      "¿Querés cerrar la sesión?"
+    );
+
+  if (!confirmado) {
+    return;
+  }
+
+  try {
+
+    localStorage.removeItem(
+      "usuarioADIUR"
+    );
+
+  } catch (error) {}
+
+  window.location.href =
+    "Loing.html";
+
+}
+
+
+function inicializarPerfil() {
+
+  let usuario = null;
+
+
+  try {
+
+    const guardado =
+      localStorage.getItem(
+        "usuarioADIUR"
+      );
+
+
+    if (guardado) {
+
+      try {
+
+        usuario =
+          JSON.parse(guardado);
+
+      } catch (error) {
+
+        usuario =
+          guardado;
+
+      }
+
+    }
+
+  } catch (error) {
+
+    usuario = null;
+
+  }
+
+
+  let nombre =
+    "Entrenador";
+
+  let rol =
+    "Cuerpo técnico";
+
+
+  if (
+    typeof usuario === "string" &&
+    usuario.trim()
+  ) {
+
+    const clave =
+      usuario
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g,"")
+        .toLowerCase()
+        .replace(/[\s._-]+/g,"");
+
+
+    if (
+      clave.includes("francisco") ||
+      clave === "fran" ||
+      clave === "franciscoperezbasla"
+    ) {
+
+      nombre = "Fran";
+
+    } else if (
+      clave === "toto"
+    ) {
+
+      nombre = "Toto";
+
+    } else {
+
+      nombre = usuario;
+
+    }
+
+
+  } else if (
+    usuario &&
+    typeof usuario === "object"
+  ) {
+
+    nombre =
+      usuario.nombre ||
+      usuario.nombreCompleto ||
+      usuario.usuario ||
+      usuario.username ||
+      usuario.user ||
+      "Entrenador";
+
+
+    rol =
+      usuario.rol ||
+      usuario.categoria ||
+      usuario.perfil ||
+      "Cuerpo técnico";
+
+  }
+
+
+  const nombreElemento =
+    document.getElementById(
+      "nombreUsuario"
+    );
+
+
+  const rolElemento =
+    document.getElementById(
+      "rolUsuario"
+    );
+
+
+  const avatarElemento =
+    document.getElementById(
+      "avatarUsuario"
+    );
+
+
+  if (nombreElemento) {
+
+    nombreElemento.textContent =
+      nombre;
+
+  }
+
+
+  if (rolElemento) {
+
+    rolElemento.textContent =
+      rol;
+
+  }
+
+
+  const iniciales =
+    String(nombre)
+      .trim()
+      .split(/\s+/)
+      .slice(0,2)
+      .map(
+        palabra =>
+          palabra.charAt(0)
+      )
+      .join("")
+      .toUpperCase();
+
+
+  if (avatarElemento) {
+
+    avatarElemento.textContent =
+      iniciales || "DT";
+
+  }
+
+}
+
+
+/* =========================================================
+   CALCULADORA ORIGINAL
+   ========================================================= */
+
+const STORAGE_KEY =
+  "calculadoraADIURPlanSemanalV3";
+
+const DAYS_KEY =
+  "calculadoraADIURDiasV1";
+
+
+const DAYS = [
+  "Lunes",
+  "Martes",
+  "Miércoles",
+  "Jueves",
+  "Viernes",
+  "Sábado",
+  "Domingo"
+];
+
 
 const DEFAULT_TRAINING_DAYS = {
-  "Sub 10": ["Martes","Jueves"],
-  "Sub 12": ["Martes","Jueves"],
-  "Sub 14": ["Lunes","Martes","Jueves"],
-  "Sub 16": ["Lunes","Martes","Viernes"],
-  "Primera": ["Martes","Miércoles","Viernes"]
+
+  "Sub 10": [
+    "Martes",
+    "Jueves"
+  ],
+
+  "Sub 12": [
+    "Martes",
+    "Jueves"
+  ],
+
+  "Sub 14": [
+    "Lunes",
+    "Martes",
+    "Jueves"
+  ],
+
+  "Sub 16": [
+    "Lunes",
+    "Martes",
+    "Viernes"
+  ],
+
+  "Primera": [
+    "Martes",
+    "Miércoles",
+    "Viernes"
+  ]
+
 };
+
 
 const SUBTYPES = {
-  "Aeróbico": ["Regenerativo","Subaeróbico","Superaeróbico","VO₂ Máx."],
-  "Anaeróbico láctico": ["Resistencia anaeróbica","Tolerancia anaeróbica","Potencia anaeróbica"],
-  "Anaeróbico aláctico": ["Potencia aláctica o velocidad"]
+
+  "Aeróbico": [
+    "Regenerativo",
+    "Subaeróbico",
+    "Superaeróbico",
+    "VO₂ Máx."
+  ],
+
+  "Anaeróbico láctico": [
+    "Resistencia anaeróbica",
+    "Tolerancia anaeróbica",
+    "Potencia anaeróbica"
+  ],
+
+  "Anaeróbico aláctico": [
+    "Potencia aláctica o velocidad"
+  ]
+
 };
 
-/* Rangos orientativos: metros por pasada y segundos de descanso. */
+
+/* =========================================================
+   RANGOS ORIENTATIVOS
+   ========================================================= */
+
 const RANGES = {
-  "Regenerativo": { meters:[100,3000], rest:[0,120], description:"Trabajo suave de recuperación; verificá que la carga sea adecuada." },
-  "Subaeróbico": { meters:[200,5000], rest:[0,180], description:"Trabajo aeróbico de intensidad baja a moderada." },
-  "Superaeróbico": { meters:[100,2000], rest:[15,180], description:"Trabajo aeróbico exigente; ajustá duración y pausas al objetivo." },
-  "VO₂ Máx.": { meters:[100,1200], rest:[30,300], description:"Intervalos exigentes; las pausas dependen de la duración y del formato." },
-  "Resistencia anaeróbica": { meters:[50,500], rest:[30,300], description:"Esfuerzos intensos; controlá duración y recuperación." },
-  "Tolerancia anaeróbica": { meters:[50,400], rest:[60,360], description:"Carga elevada que requiere dosificación cuidadosa." },
-  "Potencia anaeróbica": { meters:[20,200], rest:[60,300], description:"Buscá mantener la calidad de ejecución en cada repetición." },
-  "Potencia aláctica o velocidad": { meters:[5,80], rest:[60,300], description:"Esfuerzos breves y rápidos; la recuperación debe permitir sostener la calidad." }
+
+  "Regenerativo": {
+    meters:[100,3000],
+    rest:[0,120],
+    description:
+      "Trabajo suave de recuperación; verificá que la carga sea adecuada."
+  },
+
+  "Subaeróbico": {
+    meters:[200,5000],
+    rest:[0,180],
+    description:
+      "Trabajo aeróbico de intensidad baja a moderada."
+  },
+
+  "Superaeróbico": {
+    meters:[100,2000],
+    rest:[15,180],
+    description:
+      "Trabajo aeróbico exigente; ajustá duración y pausas al objetivo."
+  },
+
+  "VO₂ Máx.": {
+    meters:[100,1200],
+    rest:[30,300],
+    description:
+      "Intervalos exigentes; las pausas dependen de la duración y del formato."
+  },
+
+  "Resistencia anaeróbica": {
+    meters:[50,500],
+    rest:[30,300],
+    description:
+      "Esfuerzos intensos; controlá duración y recuperación."
+  },
+
+  "Tolerancia anaeróbica": {
+    meters:[50,400],
+    rest:[60,360],
+    description:
+      "Carga elevada que requiere dosificación cuidadosa."
+  },
+
+  "Potencia anaeróbica": {
+    meters:[20,200],
+    rest:[60,300],
+    description:
+      "Buscá mantener la calidad de ejecución en cada repetición."
+  },
+
+  "Potencia aláctica o velocidad": {
+    meters:[5,80],
+    rest:[60,300],
+    description:
+      "Esfuerzos breves y rápidos; la recuperación debe permitir sostener la calidad."
+  }
+
 };
 
-const $ = id => document.getElementById(id);
 
-function loadJSON(key, fallback) {
+const $ =
+  id => document.getElementById(id);
+
+
+function loadJSON(
+  key,
+  fallback
+) {
+
   try {
-    const raw = localStorage.getItem(key);
-    return raw ? JSON.parse(raw) : fallback;
+
+    const raw =
+      localStorage.getItem(key);
+
+    return raw
+      ? JSON.parse(raw)
+      : fallback;
+
   } catch (e) {
+
     return fallback;
+
   }
+
 }
 
-let plans = loadJSON(STORAGE_KEY,{});
-let trainingDays = loadJSON(DAYS_KEY,{});
-let currentEditing = null;
+
+let plans =
+  loadJSON(
+    STORAGE_KEY,
+    {}
+  );
+
+
+let trainingDays =
+  loadJSON(
+    DAYS_KEY,
+    {}
+  );
+
+
+let currentEditing =
+  null;
+
 
 /*
- * Aplica los días solicitados cuando todavía no existen o cuando
- * quedó guardada la configuración inicial de los siete días.
- * Las futuras modificaciones del usuario se conservan.
+ * Aplica los días solicitados cuando todavía no existen
+ * o cuando quedó guardada la configuración inicial de
+ * los siete días.
  */
-for (const division of Object.keys(DEFAULT_TRAINING_DAYS)) {
-  const saved = trainingDays[division];
-  if (!Array.isArray(saved) || saved.length === 7) {
-    trainingDays[division] = [...DEFAULT_TRAINING_DAYS[division]];
+
+for (
+  const division of
+  Object.keys(DEFAULT_TRAINING_DAYS)
+) {
+
+  const saved =
+    trainingDays[division];
+
+
+  if (
+    !Array.isArray(saved) ||
+    saved.length === 7
+  ) {
+
+    trainingDays[division] =
+      [
+        ...DEFAULT_TRAINING_DAYS[
+          division
+        ]
+      ];
+
   }
+
 }
+
+
 saveTrainingDays();
 
+
 function savePlans() {
-  localStorage.setItem(STORAGE_KEY,JSON.stringify(plans));
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(plans)
+  );
+
 }
+
+
 function saveTrainingDays() {
-  localStorage.setItem(DAYS_KEY,JSON.stringify(trainingDays));
+
+  localStorage.setItem(
+    DAYS_KEY,
+    JSON.stringify(trainingDays)
+  );
+
 }
+
+
 function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, c => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-  })[c]);
-}
-function selectedDivision() { return $("division").value; }
-function selectedWeek() { return Number($("week").value); }
-function planKey(division,week) { return `${division}|${week}`; }
 
-function getPlan(division=selectedDivision(),week=selectedWeek()) {
-  const key = planKey(division,week);
-  if (!plans[key]) plans[key] = {days:{}};
-  if (!plans[key].days) plans[key].days = {};
+  return String(
+    value ?? ""
+  ).replace(
+    /[&<>"']/g,
+    c => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+    })[c]
+  );
+
+}
+
+
+function selectedDivision() {
+
+  return $("division").value;
+
+}
+
+
+function selectedWeek() {
+
+  return Number(
+    $("week").value
+  );
+
+}
+
+
+function planKey(
+  division,
+  week
+) {
+
+  return `${division}|${week}`;
+
+}
+
+
+function getPlan(
+  division=selectedDivision(),
+  week=selectedWeek()
+) {
+
+  const key =
+    planKey(
+      division,
+      week
+    );
+
+
+  if (!plans[key]) {
+
+    plans[key] = {
+      days:{}
+    };
+
+  }
+
+
+  if (!plans[key].days) {
+
+    plans[key].days = {};
+
+  }
+
+
   return plans[key];
+
 }
 
-function getDayData(day,division=selectedDivision(),week=selectedWeek()) {
-  const plan = getPlan(division,week);
+
+function getDayData(
+  day,
+  division=selectedDivision(),
+  week=selectedWeek()
+) {
+
+  const plan =
+    getPlan(
+      division,
+      week
+    );
+
+
   if (!plan.days[day]) {
-    plan.days[day] = {totalVolume:1000,unit:"m",entries:[]};
+
+    plan.days[day] = {
+
+      totalVolume:1000,
+
+      unit:"m",
+
+      entries:[]
+
+    };
+
   }
-  const data = plan.days[day];
-  if (!Array.isArray(data.entries)) data.entries = [];
-  if (data.totalVolume === undefined) data.totalVolume = 1000;
-  if (!data.unit) data.unit = "m";
+
+
+  const data =
+    plan.days[day];
+
+
+  if (
+    !Array.isArray(
+      data.entries
+    )
+  ) {
+
+    data.entries = [];
+
+  }
+
+
+  if (
+    data.totalVolume === undefined
+  ) {
+
+    data.totalVolume = 1000;
+
+  }
+
+
+  if (!data.unit) {
+
+    data.unit = "m";
+
+  }
+
+
   return data;
+
 }
 
-function getConfiguredDays(division=selectedDivision()) {
-  return Array.isArray(trainingDays[division])
+
+function getConfiguredDays(
+  division=selectedDivision()
+) {
+
+  return Array.isArray(
+    trainingDays[division]
+  )
     ? trainingDays[division]
-    : [...DEFAULT_TRAINING_DAYS[division]];
+    : [
+        ...DEFAULT_TRAINING_DAYS[
+          division
+        ]
+      ];
+
 }
 
-/* Convierte la unidad del volumen diario a una unidad base para calcular el porcentaje. */
-function volumeToBase(value,unit) {
-  if (unit === "km") return value * 1000;
+
+/* Convierte la unidad del volumen diario a una unidad base. */
+
+function volumeToBase(
+  value,
+  unit
+) {
+
+  if (unit === "km") {
+
+    return value * 1000;
+
+  }
+
   return value;
+
 }
-function baseToUnit(value,unit) {
-  if (unit === "km") return value / 1000;
+
+
+function baseToUnit(
+  value,
+  unit
+) {
+
+  if (unit === "km") {
+
+    return value / 1000;
+
+  }
+
   return value;
-}
-function volumeUnitLabel(unit) {
-  return unit === "min" ? "min" : unit === "rep" ? "repeticiones" : unit;
-}
-function entryVolume(entry,data) {
-  const totalBase = volumeToBase(Number(data.totalVolume)||0,data.unit);
-  return baseToUnit(totalBase * (Number(entry.percentage)||0) / 100,data.unit);
-}
-function entryDistance(entry) {
-  return (Number(entry.passes)||0) * (Number(entry.metersPerPass)||0) * (Number(entry.series)||1);
-}
-function formatNumber(value) {
-  return Number(value).toLocaleString("es-AR",{maximumFractionDigits:2});
-}
-function getQuality(entry) {
-  const range = RANGES[entry.subtype];
-  if (!range) return {meters:false,rest:false};
-  const meters = Number(entry.metersPerPass);
-  const rest = Number(entry.rest);
-  return {
-    meters: meters < range.meters[0] || meters > range.meters[1],
-    rest: rest < range.rest[0] || rest > range.rest[1]
-  };
+
 }
 
-function initWeekSelector() {
-  for (let i=1;i<=50;i++) {
-    const option=document.createElement("option");
-    option.value=i;
-    option.textContent=`Semana ${i}`;
-    $("week").appendChild(option);
-  }
-  $("week").value="1";
+
+function volumeUnitLabel(
+  unit
+) {
+
+  return unit === "min"
+    ? "min"
+    : unit === "rep"
+      ? "repeticiones"
+      : unit;
+
 }
 
-function updateSelectionSummary() {
-  $("selectionSummary").value=`${selectedDivision()} · Semana ${selectedWeek()}`;
+
+function entryVolume(
+  entry,
+  data
+) {
+
+  const totalBase =
+    volumeToBase(
+      Number(
+        data.totalVolume
+      ) || 0,
+      data.unit
+    );
+
+
+  return baseToUnit(
+    totalBase *
+    (
+      Number(
+        entry.percentage
+      ) || 0
+    ) /
+    100,
+    data.unit
+  );
+
 }
 
-function renderEntry(entry,data,day) {
-  const volume = entryVolume(entry,data);
-  const unit = volumeUnitLabel(data.unit);
-  const quality = getQuality(entry);
-  const range = RANGES[entry.subtype];
 
-  let qualityText = "No hay rango orientativo configurado para este subtipo.";
-  let qualityClass = "neutral";
+function entryDistance(
+  entry
+) {
 
-  if (range) {
-    const issues=[];
-    if (quality.meters) issues.push("metros por pasada");
-    if (quality.rest) issues.push("descanso entre pasadas");
-    if (issues.length) {
-      qualityText=`* Revisar ${issues.join(" y ")}: fuera del rango orientativo.`;
-      qualityClass="bad";
-    } else {
-      qualityText="Valores dentro de los rangos orientativos configurados.";
-      qualityClass="good";
-    }
-  }
+  return (
+    Number(entry.passes) || 0
+  ) *
+  (
+    Number(
+      entry.metersPerPass
+    ) || 0
+  ) *
+  (
+    Number(entry.series) || 1
+  );
 
-  return `
-  <article class="entry">
-    <div class="entry-top">
-      <div>
-        <div class="entry-title">${escapeHTML(entry.subtype)}</div>
-        <div class="entry-subtitle">${escapeHTML(entry.type)}</div>
-      </div>
-      <div class="actions">
-        <button class="btn btn-secondary btn-small" data-edit-day="${escapeHTML(day)}" data-entry-id="${escapeHTML(entry.id)}">Editar</button>
-        <button class="btn btn-danger btn-small" data-delete-day="${escapeHTML(day)}" data-entry-id="${escapeHTML(entry.id)}">Eliminar</button>
-      </div>
-    </div>
-
-    <div class="volume-result">
-      Volumen correspondiente:
-      <strong>${formatNumber(entry.percentage)} % — ${formatNumber(volume)} ${escapeHTML(unit)}</strong>
-    </div>
-
-    <div class="entry-details">
-      <div class="metric">Volumen diario de referencia
-        <strong>${formatNumber(data.totalVolume)} ${escapeHTML(unit)}</strong>
-      </div>
-      <div class="metric">Volumen calculado de las pasadas
-        <strong>${formatNumber(entryDistance(entry))} m</strong>
-      </div>
-      <div class="metric">Metros por pasada
-        <strong>${formatNumber(entry.metersPerPass)} m${quality.meters?"*":""}</strong>
-      </div>
-      <div class="metric">Descanso entre pasadas
-        <strong>${formatNumber(entry.rest)} s${quality.rest?"*":""}</strong>
-      </div>
-      <div class="metric">Series × pasadas
-        <strong>${Number(entry.series)} × ${Number(entry.passes)}</strong>
-      </div>
-      <div class="metric">Descanso entre series
-        <strong>${Number(entry.restSeries)||0} s</strong>
-      </div>
-      ${entry.workTime !== null && entry.workTime !== undefined && entry.workTime !== "" ?
-        `<div class="metric">Tiempo por pasada<strong>${Number(entry.workTime)} s</strong></div>`:""}
-    </div>
-
-    ${entry.description ? `<div class="hint"><strong>Actividad:</strong> ${escapeHTML(entry.description)}</div>`:""}
-    ${entry.notes ? `<div class="hint" style="margin-top:6px"><strong>Observaciones:</strong> ${escapeHTML(entry.notes)}</div>`:""}
-    <div class="status ${qualityClass}">${escapeHTML(qualityText)}</div>
-    ${range ? `<div class="hint" style="margin-top:5px">${escapeHTML(range.description)}</div>`:""}
-  </article>`;
 }
 
-function renderDays() {
-  updateSelectionSummary();
-  const grid=$("daysGrid");
-  grid.innerHTML="";
-  const configured=getConfiguredDays();
 
-  if (!configured.length) {
-    grid.innerHTML=`<section class="panel"><h2>No hay días configurados</h2><button class="btn btn-primary" onclick="openDaysModal()">Configurar días</button></section>`;
-    return;
-  }
+function formatNumber(
+  value
+) {
 
-  configured.forEach(day=>{
-    const data=getDayData(day);
-    const entries=data.entries;
-    const sumPercent=entries.reduce((sum,e)=>sum+(Number(e.percentage)||0),0);
-    const card=document.createElement("section");
-    card.className="day-card";
+  return Number(value)
+    .toLocaleString(
+      "es-AR",
+      {
+        maximumFractionDigits:2
+      }
+    );
 
-    card.innerHTML=`
-      <div class="day-header">
-        <div><h3>${escapeHTML(day)}</h3><small>${entries.length} ${entries.length===1?"actividad":"actividades"}</small></div>
-        <span class="badge ${entries.length?"training":""}">${entries.length?"Planificado":"Sin actividades"}</span>
-      </div>
-      <div class="day-body">
-        <div class="day-total">
-          <div class="daily-total">
-            <div class="field">
-              <label>Volumen total del día</label>
-              <input class="daily-volume" type="number" min="0" step="any" value="${escapeHTML(data.totalVolume)}" data-day="${escapeHTML(day)}">
-            </div>
-            <div class="field">
-              <label>Unidad</label>
-              <select class="daily-unit" data-day="${escapeHTML(day)}">
-                <option value="m" ${data.unit==="m"?"selected":""}>Metros</option>
-                <option value="km" ${data.unit==="km"?"selected":""}>Kilómetros</option>
-                <option value="min" ${data.unit==="min"?"selected":""}>Minutos</option>
-                <option value="rep" ${data.unit==="rep"?"selected":""}>Repeticiones</option>
-              </select>
-            </div>
-          </div>
-          <div class="hint" style="margin-top:8px">Porcentajes asignados: ${formatNumber(sumPercent)} %</div>
-        </div>
-
-        <div class="entries">
-          ${entries.length ? entries.map(e=>renderEntry(e,data,day)).join("") : '<div class="empty">Todavía no hay actividades para este día.</div>'}
-        </div>
-
-        <div class="actions day-actions">
-          <button class="btn btn-primary btn-small" data-add-day="${escapeHTML(day)}">+ Agregar actividad</button>
-          <button class="btn btn-secondary btn-small" data-clear-day="${escapeHTML(day)}">Limpiar día</button>
-        </div>
-      </div>`;
-    grid.appendChild(card);
-  });
-
-  savePlans();
 }
 
-function populateSubtypes(selectedValue) {
-  const options=SUBTYPES[$("workType").value]||[];
-  $("subtype").innerHTML=options.map(s=>`<option value="${escapeHTML(s)}">${escapeHTML(s)}</option>`).join("");
-  if (selectedValue && options.includes(selectedValue)) $("subtype").value=selectedValue;
-  updateQualityHint();
-  updateLiveVolume();
-}
 
-function setDefaultPercentage() {
-  const defaults={
-    "Aeróbico":46,
-    "Anaeróbico láctico":10,
-    "Anaeróbico aláctico":7
-  };
-  $("percentage").value=defaults[$("workType").value] ?? 0;
-  updateLiveVolume();
-}
+function getQuality(
+  entry
+) {
 
-function updateLiveVolume() {
-  const day=currentEditing?.day;
-  if (!day) return;
+  const range =
+    RANGES[
+      entry.subtype
+    ];
 
-  const data=getDayData(day);
-  const percent=Number($("percentage").value)||0;
-  const unit=volumeUnitLabel(data.unit);
-  const volume=entryVolume({percentage:percent},data);
-  $("liveVolume").innerHTML=`Volumen correspondiente: <strong>${formatNumber(percent)} % — ${formatNumber(volume)} ${escapeHTML(unit)}</strong>`;
-}
-
-function updateQualityHint() {
-  const subtype=$("subtype").value;
-  const range=RANGES[subtype];
 
   if (!range) {
-    $("qualityHint").textContent="Completá los datos para ver la orientación.";
-    return;
+
+    return {
+      meters:false,
+      rest:false
+    };
+
   }
 
-  const messages=[
-    range.description,
-    `Metros por pasada: ${range.meters[0]}–${range.meters[1]} m como referencia.`,
-    `Descanso entre pasadas: ${range.rest[0]}–${range.rest[1]} segundos como referencia.`
-  ];
 
-  if ($("metersPerPass").value!=="") {
-    const m=Number($("metersPerPass").value);
-    messages.push(m<range.meters[0]||m>range.meters[1]
-      ? `* ${m} m: fuera del rango orientativo.`
-      : `${m} m: dentro del rango orientativo.`);
-  }
+  const meters =
+    Number(
+      entry.metersPerPass
+    );
 
-  if ($("rest").value!=="") {
-    const r=Number($("rest").value);
-    messages.push(r<range.rest[0]||r>range.rest[1]
-      ? `* ${r} s: fuera del rango orientativo.`
-      : `${r} s: dentro del rango orientativo.`);
-  }
 
-  $("qualityHint").innerHTML=messages.map(escapeHTML).join("<br>");
-}
+  const rest =
+    Number(
+      entry.rest
+    );
 
-function openEntryModal(day,entryId=null) {
-  currentEditing={day,entryId};
-  $("editDay").value=day;
-  $("editEntryId").value=entryId||"";
-  $("entryForm").reset();
-  $("workType").value="Aeróbico";
-  populateSubtypes();
-  setDefaultPercentage();
 
-  $("passes").value=4;
-  $("metersPerPass").value=200;
-  $("rest").value=60;
-  $("series").value=1;
-  $("restSeries").value=0;
+  return {
 
-  if (entryId) {
-    const entry=getDayData(day).entries.find(e=>e.id===entryId);
-    if (!entry) return;
+    meters:
+      meters <
+        range.meters[0] ||
+      meters >
+        range.meters[1],
 
-    $("modalTitle").textContent=`Editar actividad · ${day}`;
-    $("workType").value=entry.type;
-    populateSubtypes(entry.subtype);
-    $("percentage").value=entry.percentage;
-    $("passes").value=entry.passes;
-    $("metersPerPass").value=entry.metersPerPass;
-    $("rest").value=entry.rest;
-    $("series").value=entry.series;
-    $("restSeries").value=entry.restSeries;
-    $("workTime").value=entry.workTime??"";
-    $("description").value=entry.description??"";
-    $("notes").value=entry.notes??"";
-  } else {
-    $("modalTitle").textContent=`Agregar actividad · ${day}`;
-  }
+    rest:
+      rest <
+        range.rest[0] ||
+      rest >
+        range.rest[1]
 
-  $("entryModal").classList.add("open");
-  updateLiveVolume();
-  updateQualityHint();
-}
-
-function closeEntryModal() {
-  $("entryModal").classList.remove("open");
-  currentEditing=null;
-}
-
-function saveEntry(event) {
-  event.preventDefault();
-  if (!currentEditing) return;
-
-  const data=getDayData(currentEditing.day);
-  const entry={
-    id:currentEditing.entryId||("act_"+Date.now()+"_"+Math.random().toString(36).slice(2,8)),
-    type:$("workType").value,
-    subtype:$("subtype").value,
-    percentage:Number($("percentage").value),
-    passes:Number($("passes").value),
-    metersPerPass:Number($("metersPerPass").value),
-    rest:Number($("rest").value),
-    series:Number($("series").value),
-    restSeries:Number($("restSeries").value),
-    workTime:$("workTime").value===""?null:Number($("workTime").value),
-    description:$("description").value.trim(),
-    notes:$("notes").value.trim()
   };
 
-  if (!entry.subtype || entry.percentage<0 || entry.percentage>100 ||
-      entry.passes<1 || entry.series<1 || entry.metersPerPass<0 || entry.rest<0) {
-    alert("Revisá los datos. El porcentaje debe estar entre 0 y 100, y las pasadas y series deben ser al menos 1.");
+}
+
+
+function initWeekSelector() {
+
+  for (
+    let i=1;
+    i<=50;
+    i++
+  ) {
+
+    const option =
+      document.createElement(
+        "option"
+      );
+
+
+    option.value = i;
+
+    option.textContent =
+      `Semana ${i}`;
+
+
+    $("week")
+      .appendChild(
+        option
+      );
+
+  }
+
+
+  $("week").value = "1";
+
+}
+
+
+function updateSelectionSummary() {
+
+  $("selectionSummary").value =
+    `${selectedDivision()} · Semana ${selectedWeek()}`;
+
+}
+
+
+function renderEntry(
+  entry,
+  data,
+  day
+) {
+
+  const volume =
+    entryVolume(
+      entry,
+      data
+    );
+
+
+  const unit =
+    volumeUnitLabel(
+      data.unit
+    );
+
+
+  const quality =
+    getQuality(
+      entry
+    );
+
+
+  const range =
+    RANGES[
+      entry.subtype
+    ];
+
+
+  let qualityText =
+    "No hay rango orientativo configurado para este subtipo.";
+
+
+  let qualityClass =
+    "neutral";
+
+
+  if (range) {
+
+    const issues = [];
+
+
+    if (quality.meters) {
+
+      issues.push(
+        "metros por pasada"
+      );
+
+    }
+
+
+    if (quality.rest) {
+
+      issues.push(
+        "descanso entre pasadas"
+      );
+
+    }
+
+
+    if (issues.length) {
+
+      qualityText =
+        `* Revisar ${issues.join(" y ")}: fuera del rango orientativo.`;
+
+      qualityClass =
+        "bad";
+
+    } else {
+
+      qualityText =
+        "Valores dentro de los rangos orientativos configurados.";
+
+      qualityClass =
+        "good";
+
+    }
+
+  }
+
+
+  return `
+
+  <article class="entry">
+
+    <div class="entry-top">
+
+      <div>
+
+        <div class="entry-title">
+          ${escapeHTML(entry.subtype)}
+        </div>
+
+        <div class="entry-subtitle">
+          ${escapeHTML(entry.type)}
+        </div>
+
+      </div>
+
+
+      <div class="actions">
+
+        <button
+          class="btn btn-secondary btn-small"
+          data-edit-day="${escapeHTML(day)}"
+          data-entry-id="${escapeHTML(entry.id)}"
+        >
+          Editar
+        </button>
+
+
+        <button
+          class="btn btn-danger btn-small"
+          data-delete-day="${escapeHTML(day)}"
+          data-entry-id="${escapeHTML(entry.id)}"
+        >
+          Eliminar
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="volume-result">
+
+      Volumen correspondiente:
+
+      <strong>
+        ${formatNumber(entry.percentage)}
+        %
+        —
+        ${formatNumber(volume)}
+        ${escapeHTML(unit)}
+      </strong>
+
+    </div>
+
+
+    <div class="entry-details">
+
+
+      <div class="metric">
+
+        Volumen diario de referencia
+
+        <strong>
+          ${formatNumber(data.totalVolume)}
+          ${escapeHTML(unit)}
+        </strong>
+
+      </div>
+
+
+      <div class="metric">
+
+        Volumen calculado de las pasadas
+
+        <strong>
+          ${formatNumber(entryDistance(entry))}
+          m
+        </strong>
+
+      </div>
+
+
+      <div class="metric">
+
+        Metros por pasada
+
+        <strong>
+          ${formatNumber(entry.metersPerPass)}
+          m${quality.meters?"*":""}
+        </strong>
+
+      </div>
+
+
+      <div class="metric">
+
+        Descanso entre pasadas
+
+        <strong>
+          ${formatNumber(entry.rest)}
+          s${quality.rest?"*":""}
+        </strong>
+
+      </div>
+
+
+      <div class="metric">
+
+        Series × pasadas
+
+        <strong>
+          ${Number(entry.series)}
+          ×
+          ${Number(entry.passes)}
+        </strong>
+
+      </div>
+
+
+      <div class="metric">
+
+        Descanso entre series
+
+        <strong>
+          ${Number(entry.restSeries)||0}
+          s
+        </strong>
+
+      </div>
+
+
+      ${
+        entry.workTime !== null &&
+        entry.workTime !== undefined &&
+        entry.workTime !== ""
+          ?
+          `
+          <div class="metric">
+
+            Tiempo por pasada
+
+            <strong>
+              ${Number(entry.workTime)}
+              s
+            </strong>
+
+          </div>
+          `
+          :
+          ""
+      }
+
+
+    </div>
+
+
+    ${
+      entry.description
+        ?
+        `
+        <div class="hint">
+
+          <strong>
+            Actividad:
+          </strong>
+
+          ${escapeHTML(entry.description)}
+
+        </div>
+        `
+        :
+        ""
+    }
+
+
+    ${
+      entry.notes
+        ?
+        `
+        <div
+          class="hint"
+          style="margin-top:6px"
+        >
+
+          <strong>
+            Observaciones:
+          </strong>
+
+          ${escapeHTML(entry.notes)}
+
+        </div>
+        `
+        :
+        ""
+    }
+
+
+    <div
+      class="status ${qualityClass}"
+    >
+
+      ${escapeHTML(qualityText)}
+
+    </div>
+
+
+    ${
+      range
+        ?
+        `
+        <div
+          class="hint"
+          style="margin-top:5px"
+        >
+
+          ${escapeHTML(range.description)}
+
+        </div>
+        `
+        :
+        ""
+    }
+
+
+  </article>
+
+  `;
+
+}
+
+
+function renderDays() {
+
+  updateSelectionSummary();
+
+
+  const grid =
+    $("daysGrid");
+
+
+  grid.innerHTML = "";
+
+
+  const configured =
+    getConfiguredDays();
+
+
+  if (!configured.length) {
+
+    grid.innerHTML = `
+
+      <section class="panel">
+
+        <h2>
+          No hay días configurados
+        </h2>
+
+        <button
+          class="btn btn-primary"
+          onclick="openDaysModal()"
+        >
+          Configurar días
+        </button>
+
+      </section>
+
+    `;
+
+    return;
+
+  }
+
+
+  configured.forEach(
+    day => {
+
+      const data =
+        getDayData(day);
+
+
+      const entries =
+        data.entries;
+
+
+      const sumPercent =
+        entries.reduce(
+          (
+            sum,
+            e
+          ) =>
+            sum +
+            (
+              Number(
+                e.percentage
+              ) || 0
+            ),
+          0
+        );
+
+
+      const card =
+        document.createElement(
+          "section"
+        );
+
+
+      card.className =
+        "day-card";
+
+
+      card.innerHTML = `
+
+        <div class="day-header">
+
+          <div>
+
+            <h3>
+              ${escapeHTML(day)}
+            </h3>
+
+            <small>
+              ${entries.length}
+              ${
+                entries.length === 1
+                  ? "actividad"
+                  : "actividades"
+              }
+            </small>
+
+          </div>
+
+
+          <span
+            class="badge ${
+              entries.length
+                ? "training"
+                : ""
+            }"
+          >
+
+            ${
+              entries.length
+                ? "Planificado"
+                : "Sin actividades"
+            }
+
+          </span>
+
+        </div>
+
+
+        <div class="day-body">
+
+
+          <div class="day-total">
+
+            <div class="daily-total">
+
+
+              <div class="field">
+
+                <label>
+                  Volumen total del día
+                </label>
+
+                <input
+                  class="daily-volume"
+                  type="number"
+                  min="0"
+                  step="any"
+                  value="${escapeHTML(data.totalVolume)}"
+                  data-day="${escapeHTML(day)}"
+                >
+
+              </div>
+
+
+              <div class="field">
+
+                <label>
+                  Unidad
+                </label>
+
+                <select
+                  class="daily-unit"
+                  data-day="${escapeHTML(day)}"
+                >
+
+                  <option
+                    value="m"
+                    ${
+                      data.unit==="m"
+                        ? "selected"
+                        : ""
+                    }
+                  >
+                    Metros
+                  </option>
+
+
+                  <option
+                    value="km"
+                    ${
+                      data.unit==="km"
+                        ? "selected"
+                        : ""
+                    }
+                  >
+                    Kilómetros
+                  </option>
+
+
+                  <option
+                    value="min"
+                    ${
+                      data.unit==="min"
+                        ? "selected"
+                        : ""
+                    }
+                  >
+                    Minutos
+                  </option>
+
+
+                  <option
+                    value="rep"
+                    ${
+                      data.unit==="rep"
+                        ? "selected"
+                        : ""
+                    }
+                  >
+                    Repeticiones
+                  </option>
+
+                </select>
+
+              </div>
+
+
+            </div>
+
+
+            <div
+              class="hint"
+              style="margin-top:8px"
+            >
+
+              Porcentajes asignados:
+              ${formatNumber(sumPercent)}
+              %
+
+            </div>
+
+          </div>
+
+
+          <div class="entries">
+
+            ${
+              entries.length
+                ?
+                entries
+                  .map(
+                    e =>
+                      renderEntry(
+                        e,
+                        data,
+                        day
+                      )
+                  )
+                  .join("")
+                :
+                `
+                <div class="empty">
+
+                  Todavía no hay actividades
+                  para este día.
+
+                </div>
+                `
+            }
+
+          </div>
+
+
+          <div class="actions day-actions">
+
+
+            <button
+              class="btn btn-primary btn-small"
+              data-add-day="${escapeHTML(day)}"
+            >
+
+              + Agregar actividad
+
+            </button>
+
+
+            <button
+              class="btn btn-secondary btn-small"
+              data-clear-day="${escapeHTML(day)}"
+            >
+
+              Limpiar día
+
+            </button>
+
+
+          </div>
+
+
+        </div>
+
+      `;
+
+
+      grid.appendChild(
+        card
+      );
+
+    }
+  );
+
+
+  savePlans();
+
+}
+
+
+function populateSubtypes(
+  selectedValue
+) {
+
+  const options =
+    SUBTYPES[
+      $("workType").value
+    ] || [];
+
+
+  $("subtype").innerHTML =
+    options
+      .map(
+        s =>
+          `
+          <option
+            value="${escapeHTML(s)}"
+          >
+            ${escapeHTML(s)}
+          </option>
+          `
+      )
+      .join("");
+
+
+  if (
+    selectedValue &&
+    options.includes(
+      selectedValue
+    )
+  ) {
+
+    $("subtype").value =
+      selectedValue;
+
+  }
+
+
+  updateQualityHint();
+
+  updateLiveVolume();
+
+}
+
+
+function setDefaultPercentage() {
+
+  const defaults = {
+
+    "Aeróbico":46,
+
+    "Anaeróbico láctico":10,
+
+    "Anaeróbico aláctico":7
+
+  };
+
+
+  $("percentage").value =
+    defaults[
+      $("workType").value
+    ] ?? 0;
+
+
+  updateLiveVolume();
+
+}
+
+
+function updateLiveVolume() {
+
+  const day =
+    currentEditing?.day;
+
+
+  if (!day) {
     return;
   }
 
-  const index=data.entries.findIndex(e=>e.id===entry.id);
-  if (index>=0) data.entries[index]=entry;
-  else data.entries.push(entry);
 
-  savePlans();
-  closeEntryModal();
-  renderDays();
+  const data =
+    getDayData(day);
+
+
+  const percent =
+    Number(
+      $("percentage").value
+    ) || 0;
+
+
+  const unit =
+    volumeUnitLabel(
+      data.unit
+    );
+
+
+  const volume =
+    entryVolume(
+      {
+        percentage:
+          percent
+      },
+      data
+    );
+
+
+  $("liveVolume").innerHTML = `
+
+    Volumen correspondiente:
+
+    <strong>
+
+      ${formatNumber(percent)}
+      %
+      —
+      ${formatNumber(volume)}
+      ${escapeHTML(unit)}
+
+    </strong>
+
+  `;
+
 }
 
-function deleteEntry(day,id) {
-  if (!confirm("¿Querés eliminar esta actividad?")) return;
-  const data=getDayData(day);
-  data.entries=data.entries.filter(e=>e.id!==id);
-  savePlans();
-  renderDays();
-}
 
-function clearDay(day) {
-  if (!confirm(`¿Querés eliminar las actividades de ${day}? El día se conservará.`)) return;
-  getDayData(day).entries=[];
-  savePlans();
-  renderDays();
-}
+function updateQualityHint() {
 
-function openDaysModal() {
-  const selected=getConfiguredDays();
-  $("dayCheckboxes").innerHTML=DAYS.map(day=>`
-    <label class="day-check">
-      <input type="checkbox" value="${escapeHTML(day)}" ${selected.includes(day)?"checked":""}>
-      ${escapeHTML(day)}
-    </label>`).join("");
-  $("daysModal").classList.add("open");
-}
+  const subtype =
+    $("subtype").value;
 
-function closeDaysModal() {
-  $("daysModal").classList.remove("open");
-}
 
-function saveDaysConfig() {
-  const selected=Array.from($("dayCheckboxes").querySelectorAll('input:checked')).map(i=>i.value);
-  if (!selected.length) {
-    alert("Seleccioná al menos un día.");
+  const range =
+    RANGES[subtype];
+
+
+  if (!range) {
+
+    $("qualityHint").textContent =
+      "Completá los datos para ver la orientación.";
+
     return;
+
   }
-  trainingDays[selectedDivision()]=DAYS.filter(day=>selected.includes(day));
-  saveTrainingDays();
-  closeDaysModal();
-  renderDays();
+
+
+  const messages = [
+
+    range.description,
+
+    `Metros por pasada: ${range.meters[0]}–${range.meters[1]} m como referencia.`,
+
+    `Descanso entre pasadas: ${range.rest[0]}–${range.rest[1]} segundos como referencia.`
+
+  ];
+
+
+  if (
+    $("metersPerPass").value !== ""
+  ) {
+
+    const m =
+      Number(
+        $("metersPerPass").value
+      );
+
+
+    messages.push(
+
+      m < range.meters[0] ||
+      m > range.meters[1]
+
+        ?
+
+        `* ${m} m: fuera del rango orientativo.`
+
+        :
+
+        `${m} m: dentro del rango orientativo.`
+
+    );
+
+  }
+
+
+  if (
+    $("rest").value !== ""
+  ) {
+
+    const r =
+      Number(
+        $("rest").value
+      );
+
+
+    messages.push(
+
+      r < range.rest[0] ||
+      r > range.rest[1]
+
+        ?
+
+        `* ${r} s: fuera del rango orientativo.`
+
+        :
+
+        `${r} s: dentro del rango orientativo.`
+
+    );
+
+  }
+
+
+  $("qualityHint").innerHTML =
+    messages
+      .map(escapeHTML)
+      .join("<br>");
+
 }
 
-function exportCSV() {
-  const division=selectedDivision();
-  const week=selectedWeek();
-  const rows=[[
-    "Categoria","Semana","Dia","Volumen diario","Unidad","Tipo","Subtipo",
-    "Porcentaje diario","Volumen correspondiente","Series","Pasadas por serie",
-    "Metros por pasada","Volumen total de pasadas (m)","Descanso entre pasadas (s)",
-    "Descanso entre series (s)","Tiempo por pasada (s)","Descripcion","Observaciones",
-    "Metros fuera de rango","Descanso fuera de rango"
-  ]];
 
-  getConfiguredDays(division).forEach(day=>{
-    const data=getDayData(day,division,week);
-    if (!data.entries.length) {
-      rows.push([division,week,day,data.totalVolume,data.unit,"","","","","","","","","","","","","","",""]);
+function openEntryModal(
+  day,
+  entryId=null
+) {
+
+  currentEditing = {
+    day,
+    entryId
+  };
+
+
+  $("editDay").value =
+    day;
+
+
+  $("editEntryId").value =
+    entryId || "";
+
+
+  $("entryForm").reset();
+
+
+  $("workType").value =
+    "Aeróbico";
+
+
+  populateSubtypes();
+
+
+  setDefaultPercentage();
+
+
+  $("passes").value =
+    4;
+
+
+  $("metersPerPass").value =
+    200;
+
+
+  $("rest").value =
+    60;
+
+
+  $("series").value =
+    1;
+
+
+  $("restSeries").value =
+    0;
+
+
+  if (entryId) {
+
+    const entry =
+      getDayData(day)
+        .entries
+        .find(
+          e =>
+            e.id ===
+            entryId
+        );
+
+
+    if (!entry) {
       return;
     }
 
-    data.entries.forEach(entry=>{
-      const q=getQuality(entry);
-      rows.push([
-        division,week,day,data.totalVolume,data.unit,entry.type,entry.subtype,
-        entry.percentage,entryVolume(entry,data),entry.series,entry.passes,
-        entry.metersPerPass,entryDistance(entry),entry.rest,entry.restSeries,
-        entry.workTime??"",entry.description,entry.notes,
-        q.meters?"SI":"NO",q.rest?"SI":"NO"
-      ]);
-    });
-  });
 
-  const csv=rows.map(row=>row.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(";")).join("\r\n");
-  const blob=new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8;"});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement("a");
-  a.href=url;
-  a.download=`ADIUR_${division.replace(/\s/g,"_")}_Semana_${week}.csv`;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
+    $("modalTitle").textContent =
+      `Editar actividad · ${day}`;
+
+
+    $("workType").value =
+      entry.type;
+
+
+    populateSubtypes(
+      entry.subtype
+    );
+
+
+    $("percentage").value =
+      entry.percentage;
+
+
+    $("passes").value =
+      entry.passes;
+
+
+    $("metersPerPass").value =
+      entry.metersPerPass;
+
+
+    $("rest").value =
+      entry.rest;
+
+
+    $("series").value =
+      entry.series;
+
+
+    $("restSeries").value =
+      entry.restSeries;
+
+
+    $("workTime").value =
+      entry.workTime ?? "";
+
+
+    $("description").value =
+      entry.description ?? "";
+
+
+    $("notes").value =
+      entry.notes ?? "";
+
+
+  } else {
+
+    $("modalTitle").textContent =
+      `Agregar actividad · ${day}`;
+
+  }
+
+
+  $("entryModal")
+    .classList
+    .add("open");
+
+
+  updateLiveVolume();
+
+  updateQualityHint();
+
 }
+
+
+function closeEntryModal() {
+
+  $("entryModal")
+    .classList
+    .remove("open");
+
+
+  currentEditing =
+    null;
+
+}
+
+
+function saveEntry(event) {
+
+  event.preventDefault();
+
+
+  if (!currentEditing) {
+    return;
+  }
+
+
+  const data =
+    getDayData(
+      currentEditing.day
+    );
+
+
+  const entry = {
+
+    id:
+      currentEditing.entryId ||
+      (
+        "act_" +
+        Date.now() +
+        "_" +
+        Math.random()
+          .toString(36)
+          .slice(2,8)
+      ),
+
+    type:
+      $("workType").value,
+
+    subtype:
+      $("subtype").value,
+
+    percentage:
+      Number(
+        $("percentage").value
+      ),
+
+    passes:
+      Number(
+        $("passes").value
+      ),
+
+    metersPerPass:
+      Number(
+        $("metersPerPass").value
+      ),
+
+    rest:
+      Number(
+        $("rest").value
+      ),
+
+    series:
+      Number(
+        $("series").value
+      ),
+
+    restSeries:
+      Number(
+        $("restSeries").value
+      ),
+
+    workTime:
+      $("workTime").value === ""
+        ? null
+        : Number(
+            $("workTime").value
+          ),
+
+    description:
+      $("description")
+        .value
+        .trim(),
+
+    notes:
+      $("notes")
+        .value
+        .trim()
+
+  };
+
+
+  if (
+    !entry.subtype ||
+    entry.percentage < 0 ||
+    entry.percentage > 100 ||
+    entry.passes < 1 ||
+    entry.series < 1 ||
+    entry.metersPerPass < 0 ||
+    entry.rest < 0
+  ) {
+
+    alert(
+      "Revisá los datos. El porcentaje debe estar entre 0 y 100, y las pasadas y series deben ser al menos 1."
+    );
+
+    return;
+
+  }
+
+
+  const index =
+    data.entries.findIndex(
+      e =>
+        e.id ===
+        entry.id
+    );
+
+
+  if (index >= 0) {
+
+    data.entries[index] =
+      entry;
+
+  } else {
+
+    data.entries.push(
+      entry
+    );
+
+  }
+
+
+  savePlans();
+
+  closeEntryModal();
+
+  renderDays();
+
+}
+
+
+function deleteEntry(
+  day,
+  id
+) {
+
+  if (
+    !confirm(
+      "¿Querés eliminar esta actividad?"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  const data =
+    getDayData(day);
+
+
+  data.entries =
+    data.entries.filter(
+      e =>
+        e.id !== id
+    );
+
+
+  savePlans();
+
+  renderDays();
+
+}
+
+
+function clearDay(day) {
+
+  if (
+    !confirm(
+      `¿Querés eliminar las actividades de ${day}? El día se conservará.`
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  getDayData(
+    day
+  ).entries = [];
+
+
+  savePlans();
+
+  renderDays();
+
+}
+
+
+function openDaysModal() {
+
+  const selected =
+    getConfiguredDays();
+
+
+  $("dayCheckboxes").innerHTML =
+
+    DAYS
+      .map(
+        day =>
+          `
+
+          <label class="day-check">
+
+            <input
+              type="checkbox"
+              value="${escapeHTML(day)}"
+              ${
+                selected.includes(day)
+                  ? "checked"
+                  : ""
+              }
+            >
+
+            ${escapeHTML(day)}
+
+          </label>
+
+          `
+      )
+      .join("");
+
+
+  $("daysModal")
+    .classList
+    .add("open");
+
+}
+
+
+function closeDaysModal() {
+
+  $("daysModal")
+    .classList
+    .remove("open");
+
+}
+
+
+function saveDaysConfig() {
+
+  const selected =
+    Array.from(
+      $("dayCheckboxes")
+        .querySelectorAll(
+          'input:checked'
+        )
+    )
+    .map(
+      i =>
+        i.value
+    );
+
+
+  if (!selected.length) {
+
+    alert(
+      "Seleccioná al menos un día."
+    );
+
+    return;
+
+  }
+
+
+  trainingDays[
+    selectedDivision()
+  ] =
+    DAYS.filter(
+      day =>
+        selected.includes(day)
+    );
+
+
+  saveTrainingDays();
+
+  closeDaysModal();
+
+  renderDays();
+
+}
+
+
+function exportCSV() {
+
+  const division =
+    selectedDivision();
+
+
+  const week =
+    selectedWeek();
+
+
+  const rows = [[
+
+    "Categoria",
+    "Semana",
+    "Dia",
+    "Volumen diario",
+    "Unidad",
+    "Tipo",
+    "Subtipo",
+    "Porcentaje diario",
+    "Volumen correspondiente",
+    "Series",
+    "Pasadas por serie",
+    "Metros por pasada",
+    "Volumen total de pasadas (m)",
+    "Descanso entre pasadas (s)",
+    "Descanso entre series (s)",
+    "Tiempo por pasada (s)",
+    "Descripcion",
+    "Observaciones",
+    "Metros fuera de rango",
+    "Descanso fuera de rango"
+
+  ]];
+
+
+  getConfiguredDays(
+    division
+  ).forEach(
+    day => {
+
+      const data =
+        getDayData(
+          day,
+          division,
+          week
+        );
+
+
+      if (!data.entries.length) {
+
+        rows.push([
+
+          division,
+          week,
+          day,
+          data.totalVolume,
+          data.unit,
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+
+        ]);
+
+        return;
+
+      }
+
+
+      data.entries.forEach(
+        entry => {
+
+          const q =
+            getQuality(
+              entry
+            );
+
+
+          rows.push([
+
+            division,
+            week,
+            day,
+            data.totalVolume,
+            data.unit,
+            entry.type,
+            entry.subtype,
+            entry.percentage,
+            entryVolume(
+              entry,
+              data
+            ),
+            entry.series,
+            entry.passes,
+            entry.metersPerPass,
+            entryDistance(
+              entry
+            ),
+            entry.rest,
+            entry.restSeries,
+            entry.workTime ?? "",
+            entry.description,
+            entry.notes,
+            q.meters
+              ? "SI"
+              : "NO",
+            q.rest
+              ? "SI"
+              : "NO"
+
+          ]);
+
+        }
+      );
+
+    }
+  );
+
+
+  const csv =
+    rows
+      .map(
+        row =>
+          row
+            .map(
+              v =>
+                `"${String(
+                  v ?? ""
+                ).replace(
+                  /"/g,
+                  '""'
+                )}"`
+            )
+            .join(";")
+      )
+      .join("\r\n");
+
+
+  const blob =
+    new Blob(
+      [
+        "\uFEFF" +
+        csv
+      ],
+      {
+        type:
+          "text/csv;charset=utf-8;"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const a =
+    document.createElement(
+      "a"
+    );
+
+
+  a.href =
+    url;
+
+
+  a.download =
+    `ADIUR_${division.replace(/\s/g,"_")}_Semana_${week}.csv`;
+
+
+  document.body.appendChild(
+    a
+  );
+
+
+  a.click();
+
+  a.remove();
+
+  URL.revokeObjectURL(
+    url
+  );
+
+}
+
 
 function clearWeek() {
-  const key=planKey(selectedDivision(),selectedWeek());
-  if (!confirm(`¿Borrar la planificación de ${selectedDivision()}, semana ${selectedWeek()}?`)) return;
+
+  const key =
+    planKey(
+      selectedDivision(),
+      selectedWeek()
+    );
+
+
+  if (
+    !confirm(
+      `¿Borrar la planificación de ${selectedDivision()}, semana ${selectedWeek()}?`
+    )
+  ) {
+
+    return;
+
+  }
+
+
   delete plans[key];
+
   savePlans();
+
   renderDays();
+
 }
 
-/* Eventos */
-$("division").addEventListener("change",renderDays);
-$("week").addEventListener("change",renderDays);
 
-$("daysGrid").addEventListener("change",event=>{
-  if (event.target.classList.contains("daily-volume")) {
-    const day=event.target.dataset.day;
-    getDayData(day).totalVolume=Math.max(0,Number(event.target.value)||0);
-    savePlans();
-    renderDays();
+/* =========================================================
+   EVENTOS ORIGINALES
+   ========================================================= */
+
+$("division")
+  .addEventListener(
+    "change",
+    renderDays
+  );
+
+
+$("week")
+  .addEventListener(
+    "change",
+    renderDays
+  );
+
+
+$("daysGrid")
+  .addEventListener(
+    "change",
+    event => {
+
+      if (
+        event.target.classList
+          .contains(
+            "daily-volume"
+          )
+      ) {
+
+        const day =
+          event.target
+            .dataset
+            .day;
+
+
+        getDayData(
+          day
+        ).totalVolume =
+          Math.max(
+            0,
+            Number(
+              event.target.value
+            ) || 0
+          );
+
+
+        savePlans();
+
+        renderDays();
+
+      }
+
+
+      if (
+        event.target.classList
+          .contains(
+            "daily-unit"
+          )
+      ) {
+
+        const day =
+          event.target
+            .dataset
+            .day;
+
+
+        getDayData(
+          day
+        ).unit =
+          event.target.value;
+
+
+        savePlans();
+
+        renderDays();
+
+      }
+
+    }
+  );
+
+
+$("daysGrid")
+  .addEventListener(
+    "click",
+    event => {
+
+      const add =
+        event.target.closest(
+          "[data-add-day]"
+        );
+
+
+      const edit =
+        event.target.closest(
+          "[data-edit-day]"
+        );
+
+
+      const del =
+        event.target.closest(
+          "[data-delete-day]"
+        );
+
+
+      const clear =
+        event.target.closest(
+          "[data-clear-day]"
+        );
+
+
+      if (add) {
+
+        openEntryModal(
+          add.dataset.addDay
+        );
+
+      }
+
+
+      if (edit) {
+
+        openEntryModal(
+          edit.dataset.editDay,
+          edit.dataset.entryId
+        );
+
+      }
+
+
+      if (del) {
+
+        deleteEntry(
+          del.dataset.deleteDay,
+          del.dataset.entryId
+        );
+
+      }
+
+
+      if (clear) {
+
+        clearDay(
+          clear.dataset.clearDay
+        );
+
+      }
+
+    }
+  );
+
+
+$("workType")
+  .addEventListener(
+    "change",
+    () => {
+
+      populateSubtypes();
+
+      setDefaultPercentage();
+
+    }
+  );
+
+
+$("subtype")
+  .addEventListener(
+    "change",
+    updateQualityHint
+  );
+
+
+$("metersPerPass")
+  .addEventListener(
+    "input",
+    updateQualityHint
+  );
+
+
+$("rest")
+  .addEventListener(
+    "input",
+    updateQualityHint
+  );
+
+
+$("percentage")
+  .addEventListener(
+    "input",
+    updateLiveVolume
+  );
+
+
+$("entryForm")
+  .addEventListener(
+    "submit",
+    saveEntry
+  );
+
+
+$("closeModal")
+  .addEventListener(
+    "click",
+    closeEntryModal
+  );
+
+
+$("cancelModal")
+  .addEventListener(
+    "click",
+    closeEntryModal
+  );
+
+
+$("entryModal")
+  .addEventListener(
+    "click",
+    e => {
+
+      if (
+        e.target ===
+        $("entryModal")
+      ) {
+
+        closeEntryModal();
+
+      }
+
+    }
+  );
+
+
+$("configureDaysBtn")
+  .addEventListener(
+    "click",
+    openDaysModal
+  );
+
+
+$("closeDaysModal")
+  .addEventListener(
+    "click",
+    closeDaysModal
+  );
+
+
+$("cancelDays")
+  .addEventListener(
+    "click",
+    closeDaysModal
+  );
+
+
+$("saveDays")
+  .addEventListener(
+    "click",
+    saveDaysConfig
+  );
+
+
+$("daysModal")
+  .addEventListener(
+    "click",
+    e => {
+
+      if (
+        e.target ===
+        $("daysModal")
+      ) {
+
+        closeDaysModal();
+
+      }
+
+    }
+  );
+
+
+$("exportBtn")
+  .addEventListener(
+    "click",
+    exportCSV
+  );
+
+
+$("clearWeekBtn")
+  .addEventListener(
+    "click",
+    clearWeek
+  );
+
+
+/* =========================================================
+   INICIALIZACIÓN
+   ========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    inicializarPerfil();
+
+
+    window.addEventListener(
+      "resize",
+      () => {
+
+        if (
+          window.matchMedia(
+            "(min-width:761px)"
+          ).matches
+        ) {
+
+          const sidebar =
+            document.getElementById(
+              "sidebar"
+            );
+
+
+          const capa =
+            document.getElementById(
+              "capaSidebar"
+            );
+
+
+          const boton =
+            document.getElementById(
+              "botonMenu"
+            );
+
+
+          if (sidebar) {
+
+            sidebar.classList.remove(
+              "visible"
+            );
+
+          }
+
+
+          if (capa) {
+
+            capa.classList.remove(
+              "visible"
+            );
+
+          }
+
+
+          if (boton) {
+
+            boton.setAttribute(
+              "aria-expanded",
+              "false"
+            );
+
+          }
+
+        }
+
+      }
+    );
+
   }
-  if (event.target.classList.contains("daily-unit")) {
-    const day=event.target.dataset.day;
-    getDayData(day).unit=event.target.value;
-    savePlans();
-    renderDays();
-  }
-});
+);
 
-$("daysGrid").addEventListener("click",event=>{
-  const add=event.target.closest("[data-add-day]");
-  const edit=event.target.closest("[data-edit-day]");
-  const del=event.target.closest("[data-delete-day]");
-  const clear=event.target.closest("[data-clear-day]");
-  if (add) openEntryModal(add.dataset.addDay);
-  if (edit) openEntryModal(edit.dataset.editDay,edit.dataset.entryId);
-  if (del) deleteEntry(del.dataset.deleteDay,del.dataset.entryId);
-  if (clear) clearDay(clear.dataset.clearDay);
-});
-
-$("workType").addEventListener("change",()=>{
-  populateSubtypes();
-  setDefaultPercentage();
-});
-$("subtype").addEventListener("change",updateQualityHint);
-$("metersPerPass").addEventListener("input",updateQualityHint);
-$("rest").addEventListener("input",updateQualityHint);
-$("percentage").addEventListener("input",updateLiveVolume);
-
-$("entryForm").addEventListener("submit",saveEntry);
-$("closeModal").addEventListener("click",closeEntryModal);
-$("cancelModal").addEventListener("click",closeEntryModal);
-$("entryModal").addEventListener("click",e=>{
-  if (e.target===$("entryModal")) closeEntryModal();
-});
-
-$("configureDaysBtn").addEventListener("click",openDaysModal);
-$("closeDaysModal").addEventListener("click",closeDaysModal);
-$("cancelDays").addEventListener("click",closeDaysModal);
-$("saveDays").addEventListener("click",saveDaysConfig);
-$("daysModal").addEventListener("click",e=>{
-  if (e.target===$("daysModal")) closeDaysModal();
-});
-$("exportBtn").addEventListener("click",exportCSV);
-$("clearWeekBtn").addEventListener("click",clearWeek);
-
-try {
-  const user=localStorage.getItem("usuarioADIUR");
-  if (user) $("profileName").textContent=user;
-} catch(e) {}
 
 initWeekSelector();
+
 populateSubtypes();
+
 renderDays();
+
 </script>
+
 </body>
 </html>

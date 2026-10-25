@@ -8,1569 +8,1547 @@
 
 <style>
 :root {
-    --rojo: #d71920;
-    --negro: #171717;
-    --gris: #f3f4f6;
-    --borde: #dedede;
-    --texto: #242424;
+  --naranja: #f47721;
+  --naranja-oscuro: #dc6415;
+  --negro: #171717;
+  --gris: #f3f4f6;
+  --borde: #e2e2e2;
+  --blanco: #ffffff;
+  --texto: #242424;
 }
 
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #fff;
-    color: var(--texto);
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f5f5f5;
+  color: var(--texto);
 }
 
-button, input, select {
-    font: inherit;
+button, input, select { font: inherit; }
+
+.barra-superior {
+  height: 76px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 25px;
+  background: white;
+  border-bottom: 1px solid var(--borde);
+  position: sticky;
+  top: 0;
+  z-index: 20;
 }
 
-button {
-    cursor: pointer;
+.menu-boton {
+  background: none;
+  border: none;
+  font-size: 27px;
+  cursor: pointer;
+  color: var(--negro);
 }
 
-.app {
-    display: flex;
-    min-height: 100vh;
+.logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
 }
 
-/* MENÚ LATERAL */
+.marca { line-height: 1.25; }
 
-.sidebar {
-    width: 245px;
-    min-width: 245px;
-    background: white;
-    border-right: 1px solid var(--borde);
-    padding: 20px 14px;
-    display: flex;
-    flex-direction: column;
+.marca h1 {
+  font-size: 19px;
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: .3px;
 }
 
-.logo-area {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 0 8px 24px;
-    border-bottom: 1px solid #eee;
-    margin-bottom: 18px;
+.marca p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #777;
 }
 
-.logo-area img {
-    width: 52px;
-    height: 52px;
-    object-fit: contain;
+.perfil-superior {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.logo-area h2 {
-    font-size: 16px;
-    margin: 0;
-    line-height: 1.3;
+.avatar {
+  width: 39px;
+  height: 39px;
+  border-radius: 50%;
+  background: var(--naranja);
+  color: white;
+  display: grid;
+  place-items: center;
+  font-weight: bold;
 }
 
-.logo-area span {
-    color: var(--rojo);
+.perfil-superior strong {
+  display: block;
+  font-size: 13px;
 }
 
-.nav-title {
-    margin: 17px 10px 7px;
-    font-size: 11px;
-    font-weight: bold;
-    color: #858585;
-    letter-spacing: 1px;
+.perfil-superior small {
+  color: #777;
+  font-size: 11px;
 }
 
-.nav-link {
-    display: block;
-    padding: 10px 12px;
-    margin: 2px 0;
-    text-decoration: none;
-    color: #333;
-    font-size: 14px;
-    border-radius: 7px;
+.contenedor {
+  display: flex;
+  min-height: calc(100vh - 76px);
 }
 
-.nav-link:hover {
-    background: #f4f4f4;
+.barra-lateral {
+  background: white;
+  border-right: 1px solid var(--borde);
+  width: 255px;
+  flex-shrink: 0;
+  padding: 20px 13px;
+  transition: margin-left .2s;
 }
 
-.nav-link.active {
-    color: var(--rojo);
-    background: #fff0f0;
-    font-weight: bold;
+.barra-lateral.oculta {
+  margin-left: -255px;
 }
 
-.sidebar-footer {
-    margin-top: auto;
-    padding: 18px 8px 0;
-    border-top: 1px solid #eee;
-    font-size: 12px;
-    color: #777;
+.grupo-menu { margin-bottom: 20px; }
+
+.titulo-menu {
+  color: #999;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  padding: 8px 12px;
 }
 
-/* CONTENIDO */
-
-.main {
-    flex: 1;
-    min-width: 0;
+.enlace-menu {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin: 3px 0;
+  text-decoration: none;
+  color: #444;
+  border-radius: 7px;
+  font-size: 13px;
+  cursor: pointer;
 }
 
-.topbar {
-    min-height: 78px;
-    padding: 18px 28px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    border-bottom: 1px solid var(--borde);
+.enlace-menu:hover {
+  background: #fff2e8;
+  color: var(--naranja-oscuro);
 }
 
-.topbar h1 {
-    margin: 0;
-    font-size: 23px;
+.enlace-menu.activo {
+  background: var(--naranja);
+  color: white;
+  font-weight: bold;
 }
 
-.topbar p {
-    margin: 5px 0 0;
-    color: #777;
-    font-size: 13px;
+.contenido {
+  flex: 1;
+  min-width: 0;
+  padding: 28px;
 }
 
-.profile {
-    background: #f1f1f1;
-    border-radius: 22px;
-    padding: 10px 14px;
-    font-size: 13px;
-    white-space: nowrap;
+.encabezado-pagina {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
 }
 
-.content {
-    padding: 25px 28px 40px;
-    max-width: 1900px;
-    margin: 0 auto;
+.encabezado-pagina h2 {
+  font-size: 25px;
+  margin: 0 0 7px;
 }
 
-.intro {
-    margin-bottom: 22px;
+.encabezado-pagina p {
+  color: #777;
+  margin: 0;
+  font-size: 13px;
 }
 
-.intro h2 {
-    margin: 0 0 8px;
-    font-size: 25px;
+.etiqueta-perfil {
+  background: #fff0e5;
+  color: #b9510c;
+  padding: 9px 12px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: bold;
 }
 
-.intro p {
-    margin: 0;
-    color: #6b6b6b;
-    line-height: 1.5;
-    font-size: 14px;
+.tarjeta {
+  background: white;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  padding: 22px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px #00000005;
 }
 
-/* SELECTORES */
-
-.panel {
-    border: 1px solid var(--borde);
-    border-radius: 12px;
-    padding: 18px;
-    margin-bottom: 20px;
-    background: #fff;
+.tarjeta h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
 }
 
-.filters {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(160px, 1fr));
-    gap: 16px;
+.descripcion {
+  font-size: 12px;
+  color: #777;
+  margin: 0 0 20px;
+  line-height: 1.5;
 }
 
-.field {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
+.filtros {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(130px, 1fr));
+  gap: 15px;
 }
 
-.field label {
-    font-size: 13px;
-    font-weight: bold;
+.campo label {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 8px;
 }
 
-.field input,
-.field select {
-    width: 100%;
-    min-width: 0;
-    padding: 11px;
-    border: 1px solid #d5d5d5;
-    border-radius: 7px;
-    background: white;
-    outline: none;
+.campo select,
+.campo input {
+  width: 100%;
+  min-width: 0;
+  padding: 11px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  background: white;
+  outline-color: var(--naranja);
 }
 
-.field input:focus,
-.field select:focus,
-.cell-input:focus {
-    border-color: var(--rojo);
-    box-shadow: 0 0 0 2px #d7192015;
+.botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
 }
 
-/* BOTONES */
-
-.actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 9px;
-    margin-top: 17px;
-    align-items: center;
+.boton {
+  border: 0;
+  padding: 11px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 12px;
 }
 
-.btn {
-    border: 1px solid #d8d8d8;
-    background: white;
-    color: #222;
-    padding: 10px 14px;
-    border-radius: 7px;
-    font-size: 13px;
-    font-weight: bold;
+.boton-principal {
+  background: var(--naranja);
+  color: white;
 }
 
-.btn:hover {
-    background: #f5f5f5;
+.boton-principal:hover { background: var(--naranja-oscuro); }
+
+.boton-secundario {
+  background: #f0f0f0;
+  color: #333;
 }
 
-.btn-primary {
-    background: var(--rojo);
-    color: white;
-    border-color: var(--rojo);
+.boton-peligro {
+  background: #fff0f0;
+  color: #b3261e;
 }
 
-.btn-primary:hover {
-    background: #b9141a;
-    color: white;
+.boton:disabled {
+  opacity: .5;
+  cursor: not-allowed;
 }
 
-.btn-dark {
-    background: #222;
-    color: white;
-    border-color: #222;
+.info-rutina {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 18px;
 }
 
-.btn-danger {
-    color: #b91c1c;
-    border-color: #efcaca;
+.info-rutina strong { font-size: 14px; }
+
+.info-rutina span {
+  font-size: 12px;
+  color: #777;
 }
 
-.weeks-control {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 18px;
-    flex-wrap: wrap;
+.aviso {
+  padding: 12px 14px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 7px;
+  color: #8a430e;
+  font-size: 12px;
+  line-height: 1.5;
+  margin-bottom: 17px;
 }
 
-.weeks-control label {
-    font-size: 13px;
-    font-weight: bold;
-}
-
-.weeks-control select {
-    padding: 9px;
-    border: 1px solid #d5d5d5;
-    border-radius: 7px;
-    background: white;
-}
-
-/* RESUMEN */
-
-.summary {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
-    margin-bottom: 20px;
-}
-
-.summary-card {
-    border: 1px solid var(--borde);
-    border-radius: 10px;
-    padding: 15px 17px;
-}
-
-.summary-card p {
-    margin: 0 0 8px;
-    color: #777;
-    font-size: 12px;
-}
-
-.summary-card strong {
-    font-size: 20px;
-}
-
-/* TABLA GIGANTE */
-
-.table-panel {
-    border: 1px solid var(--borde);
-    border-radius: 12px;
-    overflow: hidden;
-    background: white;
-}
-
-.table-heading {
-    padding: 18px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 12px;
-    border-bottom: 1px solid var(--borde);
-}
-
-.table-heading h3 {
-    margin: 0 0 5px;
-    font-size: 17px;
-}
-
-.table-heading p {
-    margin: 0;
-    color: #777;
-    font-size: 12px;
-    line-height: 1.5;
-}
-
-.scroll-hint {
-    padding: 10px 16px;
-    background: #fafafa;
-    border-bottom: 1px solid var(--borde);
-    font-size: 12px;
-    color: #666;
-}
-
-.table-scroll {
-    width: 100%;
-    overflow: auto;
-    max-height: 75vh;
-    overscroll-behavior: contain;
+.tabla-contenedor {
+  overflow: auto;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  max-width: 100%;
 }
 
 table {
-    border-collapse: separate;
-    border-spacing: 0;
-    table-layout: fixed;
-    width: max-content;
-    min-width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  width: max-content;
+  min-width: 100%;
+  font-size: 12px;
 }
 
 th, td {
-    border-right: 1px solid #e5e5e5;
-    border-bottom: 1px solid #e5e5e5;
-    padding: 7px;
-    vertical-align: top;
+  border-right: 1px solid #e7e7e7;
+  border-bottom: 1px solid #e7e7e7;
+  padding: 9px;
+  text-align: center;
+  min-width: 90px;
 }
 
-.exercise-col {
-    width: 190px;
-    min-width: 190px;
-    max-width: 190px;
+thead th {
+  background: #f3f3f3;
+  font-weight: 800;
 }
 
-.day-col {
-    width: 220px;
-    min-width: 220px;
-    max-width: 220px;
+thead tr:first-child th {
+  background: #252525;
+  color: white;
 }
 
-.week-header {
-    text-align: center;
-    font-size: 13px;
-    font-weight: bold;
-    padding: 13px 8px;
-    background: #202020;
-    color: white;
-    border-color: #444;
+thead tr:first-child th:first-child {
+  background: var(--naranja);
 }
 
-.exercise-header {
-    text-align: left;
-    background: #202020;
-    color: white;
-    padding: 13px 12px;
-    position: sticky;
+th.ejercicio-col,
+td.ejercicio-col {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  min-width: 180px;
+  max-width: 220px;
+  background: white;
+}
+
+thead th.ejercicio-col {
+  background: var(--naranja) !important;
+  color: white;
+  z-index: 5;
+}
+
+td.ejercicio-col input {
+  width: 100%;
+  min-width: 130px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+td input.numero {
+  width: 75px;
+  max-width: 100%;
+  padding: 8px 4px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-align: center;
+}
+
+td input:disabled {
+  background: #f5f5f5;
+  color: #555;
+  border-color: transparent;
+}
+
+td input:focus {
+  outline: 1px solid var(--naranja);
+  border-color: var(--naranja);
+}
+
+th.dia { background: #444; color: white; }
+
+th.semana { background: var(--naranja); color: white; }
+
+.vacio {
+  color: #777;
+  padding: 25px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.pie-tabla {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+  font-size: 12px;
+  color: #777;
+}
+
+.estado {
+  font-size: 12px;
+  color: #477a3c;
+  margin-top: 12px;
+  min-height: 15px;
+}
+
+#listaTodas {
+  display: none;
+}
+
+.tarjeta-jugadora {
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  padding: 15px;
+  margin: 12px 0;
+  background: #fff;
+}
+
+.tarjeta-jugadora h4 {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.tarjeta-jugadora p {
+  color: #777;
+  font-size: 12px;
+  margin: 0 0 10px;
+}
+
+.oculto { display: none !important; }
+
+@media (max-width: 1200px) {
+  .filtros { grid-template-columns: repeat(3, minmax(130px, 1fr)); }
+}
+
+@media (max-width: 850px) {
+  .barra-lateral {
+    position: fixed;
+    top: 76px;
+    bottom: 0;
     left: 0;
-    z-index: 5;
+    z-index: 15;
+    overflow-y: auto;
+    box-shadow: 3px 0 10px #00000010;
+  }
+
+  .barra-lateral.oculta { margin-left: -255px; }
+
+  .contenido { padding: 18px; }
+  .filtros { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
 }
 
-.day-header {
-    text-align: center;
-    background: #f0f0f0;
-    font-size: 13px;
-    font-weight: bold;
-    padding: 11px 6px;
-}
-
-.day-header small {
-    display: block;
-    margin-top: 5px;
-    font-size: 10px;
-    color: #777;
-    font-weight: normal;
-}
-
-.exercise-cell {
-    position: sticky;
-    left: 0;
-    z-index: 2;
-    background: #fff;
-    vertical-align: middle;
-    padding: 10px;
-}
-
-.exercise-cell-inner {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-}
-
-.exercise-number {
-    color: #888;
-    font-size: 10px;
-    text-transform: uppercase;
-    font-weight: bold;
-}
-
-.exercise-name {
-    width: 100%;
-    min-width: 0;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 9px;
-    font-size: 13px;
-    font-weight: bold;
-}
-
-.day-cell {
-    background: #fff;
-    padding: 9px;
-}
-
-.day-cell:nth-child(even) {
-    background: #fdfdfd;
-}
-
-.day-fields {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 8px;
-}
-
-.cell-field {
-    display: grid;
-    grid-template-columns: 82px minmax(0, 1fr);
-    align-items: center;
-    gap: 7px;
-}
-
-.cell-field label {
-    color: #555;
-    font-size: 11px;
-    font-weight: bold;
-}
-
-.cell-input {
-    width: 100%;
-    min-width: 0;
-    height: 34px;
-    border: 1px solid #d7d7d7;
-    border-radius: 5px;
-    padding: 6px 8px;
-    background: white;
-    font-size: 13px;
-}
-
-.cell-input::placeholder {
-    color: #c2c2c2;
-}
-
-.empty-message {
-    padding: 28px;
-    color: #777;
-    text-align: center;
-    font-size: 14px;
-}
-
-.status {
-    margin-top: 12px;
-    font-size: 12px;
-    color: #777;
-}
-
-.footer-note {
-    margin-top: 15px;
-    color: #777;
-    font-size: 12px;
-    line-height: 1.5;
-}
-
-/* RESPONSIVE */
-
-@media (max-width: 950px) {
-    .sidebar {
-        width: 205px;
-        min-width: 205px;
-    }
-
-    .content {
-        padding: 20px 15px;
-    }
-
-    .filters {
-        grid-template-columns: 1fr;
-    }
-
-    .summary {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 650px) {
-    .app {
-        display: block;
-    }
-
-    .sidebar {
-        width: 100%;
-        min-width: 0;
-        padding: 12px;
-        border-right: 0;
-        border-bottom: 1px solid var(--borde);
-    }
-
-    .logo-area {
-        padding-bottom: 12px;
-        margin-bottom: 8px;
-    }
-
-    .sidebar nav {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 4px;
-    }
-
-    .nav-title {
-        width: 100%;
-        margin: 10px 5px 3px;
-    }
-
-    .nav-link {
-        padding: 8px 10px;
-        font-size: 12px;
-    }
-
-    .sidebar-footer {
-        display: none;
-    }
-
-    .topbar {
-        padding: 16px;
-    }
-
-    .topbar h1 {
-        font-size: 19px;
-    }
-
-    .profile {
-        font-size: 11px;
-        padding: 8px;
-    }
-
-    .content {
-        padding: 18px 10px;
-    }
+@media (max-width: 520px) {
+  .barra-superior { padding: 0 12px; gap: 9px; }
+  .marca h1 { font-size: 15px; }
+  .marca p { font-size: 11px; }
+  .logo { width: 38px; height: 38px; }
+  .perfil-superior strong { max-width: 95px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .perfil-superior small { display: none; }
+  .contenido { padding: 13px; }
+  .encabezado-pagina h2 { font-size: 21px; }
+  .tarjeta { padding: 15px; }
+  .filtros { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 
 <body>
-<div class="app">
 
-    <aside class="sidebar">
-        <div class="logo-area">
-            <img src="logo adiur.jpg" alt="Logo ADIUR"
-                 onerror="this.style.display='none'">
-            <h2>ADIUR<br><span>FEMENINO</span></h2>
+<header class="barra-superior">
+  <button class="menu-boton" id="botonMenu" aria-label="Abrir menú">☰</button>
+  <img class="logo" src="logo adiur.jpg" alt="ADIUR">
+  <div class="marca">
+    <h1>ADIUR FEMENINO</h1>
+    <p>Página de entrenamiento</p>
+  </div>
+
+  <div class="perfil-superior">
+    <div class="avatar" id="avatarPerfil">U</div>
+    <div>
+      <strong id="nombrePerfil">Usuario</strong>
+      <small id="rolPerfil">Perfil</small>
+    </div>
+  </div>
+</header>
+
+<div class="contenedor">
+  <aside class="barra-lateral" id="barraLateral">
+
+    <div class="grupo-menu">
+      <div class="titulo-menu">GENERAL</div>
+      <a class="enlace-menu" href="pagina principal.html">⌂ <span>Inicio</span></a>
+    </div>
+
+    <div class="grupo-menu menu-personal">
+      <div class="titulo-menu">PLANTEL</div>
+      <a class="enlace-menu" href="jugadoras.html">♙ <span>Jugadoras</span></a>
+      <a class="enlace-menu" href="asistencia.html">✓ <span>Asistencia</span></a>
+    </div>
+
+    <div class="grupo-menu menu-personal">
+      <div class="titulo-menu">ENTRENAMIENTO</div>
+      <a class="enlace-menu" href="calendario.html">▦ <span>Calendario</span></a>
+      <a class="enlace-menu" href="planificacion.html">▤ <span>Planificación</span></a>
+      <a class="enlace-menu" href="biblioteca.html">▣ <span>Biblioteca de ejercicios</span></a>
+      <a class="enlace-menu activo" href="gimnasio.html">▥ <span>Gimnasio</span></a>
+      <a class="enlace-menu" href="calculadora.html">∑ <span>Calculadora</span></a>
+    </div>
+
+    <div class="grupo-menu menu-personal">
+      <div class="titulo-menu">COMPETENCIA</div>
+      <a class="enlace-menu" href="partidos.html">⚽ <span>Partidos</span></a>
+      <a class="enlace-menu" href="informes.html">▤ <span>Informes</span></a>
+      <a class="enlace-menu" href="estadisticas.html">▥ <span>Estadísticas</span></a>
+      <a class="enlace-menu" href="pizarra.html">▦ <span>Pizarra táctica</span></a>
+    </div>
+
+    <div class="grupo-menu menu-personal">
+      <div class="titulo-menu">RENDIMIENTOS</div>
+      <a class="enlace-menu" href="testeos.html">◉ <span>Planilla de testeos</span></a>
+      <a class="enlace-menu" href="tiempos.html">◷ <span>Tiempos</span></a>
+      <a class="enlace-menu" href="multimedia.html">▧ <span>Multimedia</span></a>
+      <a class="enlace-menu" href="encuestas.html">☷ <span>Encuestas</span></a>
+      <a class="enlace-menu" href="lesiones.html">✚ <span>Lesiones</span></a>
+    </div>
+
+    <div class="grupo-menu">
+      <a class="enlace-menu" href="#" id="cerrarSesion">⇥ <span>Cerrar sesión</span></a>
+    </div>
+
+  </aside>
+
+  <main class="contenido">
+
+    <div class="encabezado-pagina">
+      <div>
+        <h2>Gimnasio</h2>
+        <p>Planificación y seguimiento de las rutinas de fuerza del plantel.</p>
+      </div>
+      <span class="etiqueta-perfil" id="etiquetaPerfil">Cuerpo técnico</span>
+    </div>
+
+    <section class="tarjeta">
+      <h3>Selección de rutina</h3>
+      <p class="descripcion">
+        Elegí la división, la jugadora y la rutina que querés consultar.
+      </p>
+
+      <div class="filtros">
+
+        <div class="campo" id="campoModo">
+          <label for="modo">Tipo de rutina</label>
+          <select id="modo">
+            <option value="general">Rutina general</option>
+            <option value="individual">Rutina individual</option>
+          </select>
         </div>
 
-        <nav>
-            <div class="nav-title">GENERAL</div>
-            <a class="nav-link" href="index.html">⌂ Inicio</a>
-
-            <div class="nav-title">PLANTEL</div>
-            <a class="nav-link" href="jugadoras.html">Jugadoras</a>
-            <a class="nav-link" href="asistencia.html">Asistencia</a>
-
-            <div class="nav-title">ENTRENAMIENTO</div>
-            <a class="nav-link" href="calendario.html">Calendario</a>
-            <a class="nav-link" href="planificacion.html">Planificación</a>
-            <a class="nav-link" href="biblioteca.html">Biblioteca de ejercicios</a>
-            <a class="nav-link active" href="gimnasio.html">Gimnasio</a>
-            <a class="nav-link" href="calculadora.html">Calculadora</a>
-
-            <div class="nav-title">COMPETENCIA</div>
-            <a class="nav-link" href="fixture.html">Fixture</a>
-            <a class="nav-link" href="resultados.html">Resultados</a>
-            <a class="nav-link" href="informes.html">Informes</a>
-            <a class="nav-link" href="estadisticas.html">Estadísticas</a>
-            <a class="nav-link" href="pizarra.html">Pizarra táctica</a>
-
-            <div class="nav-title">RENDIMIENTOS</div>
-            <a class="nav-link" href="testeos.html">Planilla de testeos</a>
-            <a class="nav-link" href="tiempos.html">Tiempos</a>
-            <a class="nav-link" href="multimedia.html">Multimedia</a>
-            <a class="nav-link" href="encuestas.html">Encuestas</a>
-            <a class="nav-link" href="lesiones.html">Lesiones</a>
-        </nav>
-
-        <div class="sidebar-footer">
-            ADIUR FEMENINO<br>
-            Sistema de entrenamiento
+        <div class="campo">
+          <label for="division">División</label>
+          <select id="division">
+            <option value="Sub 10">Sub 10</option>
+            <option value="Sub 12">Sub 12</option>
+            <option value="Sub 14">Sub 14</option>
+            <option value="Sub 16">Sub 16</option>
+            <option value="Primera">Primera</option>
+          </select>
         </div>
-    </aside>
 
-    <main class="main">
-        <header class="topbar">
-            <div>
-                <h1>Gimnasio</h1>
-                <p>Planificación de fuerza y cargas</p>
-            </div>
-            <div class="profile" id="profileName">Perfil de usuario</div>
-        </header>
-
-        <div class="content">
-            <section class="intro">
-                <h2>Planilla de gimnasio</h2>
-                <p>
-                    Organizá los ejercicios de cada jugadora por división,
-                    rutina, semana y día de entrenamiento. Completá series,
-                    repeticiones y peso de forma independiente.
-                </p>
-            </section>
-
-            <section class="panel">
-                <div class="filters">
-                    <div class="field">
-                        <label for="divisionSelect">División</label>
-                        <select id="divisionSelect">
-                            <option value="Sub 10">Sub 10</option>
-                            <option value="Sub 12">Sub 12</option>
-                            <option value="Sub 14" selected>Sub 14</option>
-                            <option value="Sub 16">Sub 16</option>
-                            <option value="Primera">Primera</option>
-                        </select>
-                    </div>
-
-                    <div class="field">
-                        <label for="playerSelect">Jugadora</label>
-                        <select id="playerSelect">
-                            <option value="">Seleccionar jugadora</option>
-                        </select>
-                    </div>
-
-                    <div class="field">
-                        <label for="routineSelect">Rutina</label>
-                        <select id="routineSelect"></select>
-                    </div>
-                </div>
-
-                <div class="weeks-control">
-                    <label for="weeksSelect">Duración de la rutina:</label>
-                    <select id="weeksSelect">
-                        <option value="4">4 semanas</option>
-                        <option value="5">5 semanas</option>
-                    </select>
-                </div>
-
-                <div class="actions">
-                    <button class="btn btn-primary" id="newRoutineBtn">
-                        + Nueva rutina
-                    </button>
-                    <button class="btn" id="renameRoutineBtn">
-                        Renombrar rutina
-                    </button>
-                    <button class="btn btn-danger" id="deleteRoutineBtn">
-                        Eliminar rutina
-                    </button>
-                    <button class="btn btn-dark" id="exportBtn">
-                        Exportar CSV
-                    </button>
-                </div>
-
-                <div class="status" id="saveStatus">
-                    Los cambios se guardan automáticamente en este navegador.
-                </div>
-            </section>
-
-            <section class="summary">
-                <div class="summary-card">
-                    <p>Ejercicios en la planilla</p>
-                    <strong>8</strong>
-                </div>
-                <div class="summary-card">
-                    <p>Días por semana</p>
-                    <strong>3</strong>
-                </div>
-                <div class="summary-card">
-                    <p>Campos por ejercicio y día</p>
-                    <strong>Series · Repeticiones · Peso</strong>
-                </div>
-            </section>
-
-            <section class="table-panel">
-                <div class="table-heading">
-                    <div>
-                        <h3 id="tableTitle">Planificación de gimnasio</h3>
-                        <p id="tableSubtitle">
-                            Seleccioná una jugadora para comenzar.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="scroll-hint">
-                    Deslizá la tabla hacia la derecha para ver las semanas.
-                    La columna de ejercicios permanece fija a la izquierda.
-                </div>
-
-                <div class="table-scroll" id="tableScroll">
-                    <div class="empty-message">
-                        Seleccioná una jugadora para ver la planilla.
-                    </div>
-                </div>
-            </section>
-
-            <p class="footer-note">
-                Importante: los datos se almacenan en el navegador y dispositivo
-                donde se utiliza esta página. Exportá la planilla en CSV para
-                conservar una copia externa. El peso se expresa en kilogramos.
-            </p>
+        <div class="campo" id="campoJugadora">
+          <label for="jugadora">Jugadora</label>
+          <select id="jugadora"></select>
         </div>
-    </main>
+
+        <div class="campo">
+          <label for="rutina">Rutina</label>
+          <select id="rutina">
+            <option value="0">Rutina 1</option>
+            <option value="1">Rutina 2</option>
+            <option value="2">Rutina 3</option>
+            <option value="3">Rutina 4</option>
+            <option value="4">Rutina 5</option>
+            <option value="5">Rutina 6</option>
+            <option value="6">Rutina 7</option>
+            <option value="7">Rutina 8</option>
+            <option value="8">Rutina 9</option>
+            <option value="9">Rutina 10</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label for="semanas">Cantidad de semanas</label>
+          <select id="semanas">
+            <option value="4">4 semanas</option>
+            <option value="6">6 semanas</option>
+            <option value="8" selected>8 semanas</option>
+            <option value="10">10 semanas</option>
+            <option value="12">12 semanas</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="botones" id="botonesGestion">
+        <button class="boton boton-principal" id="nuevaRutina">Crear rutina general</button>
+        <button class="boton boton-secundario" id="copiarRutina">Aplicar a jugadoras</button>
+        <button class="boton boton-secundario" id="agregarEjercicio">+ Agregar ejercicio</button>
+        <button class="boton boton-peligro" id="eliminarEjercicio">Eliminar último ejercicio</button>
+      </div>
+    </section>
+
+    <section class="tarjeta">
+      <h3 id="tituloRutina">Rutina 1</h3>
+      <p class="descripcion" id="subtituloRutina">
+        Cargá los ejercicios y completá las series, repeticiones y pesos.
+      </p>
+
+      <div id="avisoJugador" class="aviso oculto">
+        Estás viendo tu rutina individual. Podés modificar únicamente las series,
+        las repeticiones y los pesos. Los cambios se guardan en tu rutina personal.
+      </div>
+
+      <div id="avisoGeneral" class="aviso oculto">
+        Los cambios de la rutina general se aplican automáticamente a la rutina
+        individual del mismo número de todas las jugadoras de esta división.
+        Los pesos, las series y las repeticiones personales se actualizarán con
+        los valores de la rutina general al guardar sus cambios.
+      </div>
+
+      <div class="info-rutina">
+        <strong id="nombreSeleccionado">División: Sub 10</strong>
+        <span id="estadoRutina">Rutina general</span>
+      </div>
+
+      <div class="tabla-contenedor">
+        <table id="tablaRutina">
+          <thead id="encabezadoTabla"></thead>
+          <tbody id="cuerpoTabla"></tbody>
+        </table>
+      </div>
+
+      <div id="listaTodas"></div>
+
+      <div class="pie-tabla">
+        <span id="textoPermisos"></span>
+        <span>ADIUR FEMENINO · Gimnasio</span>
+      </div>
+
+      <div class="estado" id="estadoGuardado"></div>
+    </section>
+
+  </main>
 </div>
 
 <script>
-"use strict";
+(() => {
+  "use strict";
 
-const STORAGE_KEY = "gimnasioADIURRutinasV1";
-const PLAYERS_KEY = "jugadorasADIUR";
-const DIVISIONS = ["Sub 10", "Sub 12", "Sub 14", "Sub 16", "Primera"];
-const EXERCISE_COUNT = 8;
-const DAYS_PER_WEEK = 3;
+  const KEY = "gimnasioADIURRutinasV1";
+  const PLAYERS_KEY = "jugadorasADIUR";
+  const SESSION_KEY = "usuarioADIUR";
 
-const divisionSelect = document.getElementById("divisionSelect");
-const playerSelect = document.getElementById("playerSelect");
-const routineSelect = document.getElementById("routineSelect");
-const weeksSelect = document.getElementById("weeksSelect");
-const tableScroll = document.getElementById("tableScroll");
-const saveStatus = document.getElementById("saveStatus");
+  const DIVISIONES = ["Sub 10", "Sub 12", "Sub 14", "Sub 16", "Primera"];
+  const DIAS = 3;
+  const EJERCICIOS_INICIALES = 6;
 
-let database = loadDatabase();
-let currentPlayerKey = "";
-let currentRoutineId = "";
+  const $ = id => document.getElementById(id);
 
-function createId() {
-    return "r_" + Date.now().toString(36) +
-        "_" + Math.random().toString(36).slice(2, 8);
-}
+  const divisionSelect = $("division");
+  const jugadoraSelect = $("jugadora");
+  const rutinaSelect = $("rutina");
+  const modoSelect = $("modo");
+  const semanasSelect = $("semanas");
 
-function createRoutine(name, weeks = 4) {
-    return {
-        id: createId(),
-        name: name,
-        weeks: weeks,
-        exercises: Array.from({ length: EXERCISE_COUNT }, (_, i) => ({
-            name: "",
-            days: Array.from({ length: weeks * DAYS_PER_WEEK }, () => ({
-                series: "",
-                repetitions: "",
-                weight: ""
-            }))
-        }))
-    };
-}
+  let usuario = leerUsuario();
+  let rol = detectarRol(usuario);
+  let esBianca = esPerfilBianca(usuario);
+  let esJugadora = rol === "jugadora" || esBianca;
+  let esStaff = !esJugadora;
+  let guardando = false;
 
-function loadDatabase() {
+  function leerUsuario() {
     try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        const parsed = raw ? JSON.parse(raw) : {};
-        return parsed && typeof parsed === "object" ? parsed : {};
-    } catch (error) {
-        console.error("No se pudo leer la planilla:", error);
-        return {};
+      const dato = localStorage.getItem(SESSION_KEY);
+      if (!dato) return {};
+      const parseado = JSON.parse(dato);
+      if (typeof parseado === "string") {
+        return { usuario: parseado, nombre: parseado };
+      }
+      return parseado || {};
+    } catch {
+      return { usuario: localStorage.getItem(SESSION_KEY) || "" };
     }
-}
+  }
 
-function persistDatabase() {
-    try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(database));
-        saveStatus.textContent =
-            "✓ Cambios guardados automáticamente en este navegador.";
-    } catch (error) {
-        console.error("No se pudieron guardar los datos:", error);
-        saveStatus.textContent =
-            "No se pudieron guardar los cambios. Exportá una copia CSV.";
-    }
-}
+  function normalizar(valor) {
+    return String(valor ?? "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim()
+      .toLowerCase();
+  }
 
-function normalizeText(value) {
-    return String(value ?? "")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .trim()
-        .toLowerCase()
-        .replace(/\s+/g, " ");
-}
-
-function getPlayerName(player) {
-    if (typeof player === "string") return player;
-
-    return player?.nombreCompleto
-        || player?.nombreApellido
-        || player?.nombre_completo
-        || player?.name
-        || player?.nombre
-        || player?.jugadora
-        || player?.apellidoNombre
-        || "";
-}
-
-function getPlayerCategory(player) {
-    if (!player || typeof player === "string") return "";
-
-    return player.categoria
-        || player.division
-        || player.category
-        || player.categoría
-        || "";
-}
-
-function getPlayerId(player, index) {
-    if (!player || typeof player === "string") {
-        return String(index) + "_" + getPlayerName(player);
-    }
-
+  function campoUsuario(obj) {
+    if (!obj || typeof obj !== "object") return "";
     return String(
-        player.id
-        ?? player.idJugadora
-        ?? player.documento
-        ?? player.dni
-        ?? player.email
-        ?? (String(index) + "_" + getPlayerName(player))
+      obj.usuario ??
+      obj.username ??
+      obj.nombreUsuario ??
+      obj.login ??
+      obj.user ??
+      obj.nombre ??
+      ""
     );
-}
+  }
 
-function getPlayersFromStorage() {
+  function nombreSesion(obj) {
+    if (!obj || typeof obj !== "object") return "";
+    return String(
+      obj.nombreCompleto ??
+      obj.nombreYApellido ??
+      obj.nombre ??
+      obj.usuario ??
+      obj.username ??
+      "Usuario"
+    );
+  }
+
+  function esPerfilBianca(obj) {
+    const campos = [
+      obj?.usuario, obj?.username, obj?.nombreUsuario, obj?.login,
+      obj?.user, obj?.nombre, obj?.nombreCompleto
+    ].map(normalizar);
+
+    return campos.some(v =>
+      v === "bianca" ||
+      v === "biancadominguez" ||
+      v === "bianca dominguez"
+    );
+  }
+
+  function detectarRol(obj) {
+    if (esPerfilBianca(obj)) return "jugadora";
+
+    const valor = normalizar(
+      obj?.rol ?? obj?.perfil ?? obj?.tipo ?? obj?.role ?? ""
+    );
+
+    if (
+      valor.includes("jugadora") ||
+      valor.includes("player") ||
+      valor.includes("deportista")
+    ) return "jugadora";
+
+    if (
+      valor.includes("admin") ||
+      valor.includes("tecnico") ||
+      valor.includes("técnico") ||
+      valor.includes("entrenador") ||
+      valor.includes("preparador") ||
+      valor.includes("profesor") ||
+      valor.includes("coordinador") ||
+      valor.includes("staff") ||
+      valor.includes("cuerpo tecnico")
+    ) return "staff";
+
+    // Compatibilidad con los perfiles de staff que no guardan rol explícito.
+    return "staff";
+  }
+
+  function leerJugadoras() {
     try {
-        const raw = localStorage.getItem(PLAYERS_KEY);
-        if (!raw) return [];
+      const datos = JSON.parse(localStorage.getItem(PLAYERS_KEY) || "[]");
+      if (Array.isArray(datos)) return datos;
+      if (datos && Array.isArray(datos.jugadoras)) return datos.jugadoras;
+      return [];
+    } catch {
+      return [];
+    }
+  }
 
-        const parsed = JSON.parse(raw);
+  function nombreJugadora(j) {
+    if (!j) return "Jugadora";
+    return String(
+      j.nombreCompleto ??
+      j.nombreYApellido ??
+      j.nombre ??
+      j.apellidoNombre ??
+      [j.nombres, j.apellido].filter(Boolean).join(" ") ??
+      "Jugadora"
+    );
+  }
 
-        if (Array.isArray(parsed)) return parsed;
-        if (Array.isArray(parsed.jugadoras)) return parsed.jugadoras;
-        if (Array.isArray(parsed.players)) return parsed.players;
-        if (Array.isArray(parsed.jugadores)) return parsed.jugadores;
+  function divisionJugadora(j) {
+    const valor = j?.division ?? j?.categoria ?? j?.división ?? "";
+    const encontrado = DIVISIONES.find(d => normalizar(d) === normalizar(valor));
+    return encontrado || String(valor || "Sub 14");
+  }
 
-        if (parsed && typeof parsed === "object") {
-            return Object.values(parsed).filter(item =>
-                typeof item === "string" ||
-                (item && typeof item === "object" &&
-                 getPlayerName(item))
-            );
-        }
-    } catch (error) {
-        console.error("No se pudo leer la lista de jugadoras:", error);
+  function idJugadora(j) {
+    if (!j) return "";
+    return String(
+      j.id ??
+      j.usuario ??
+      j.username ??
+      j.nombreUsuario ??
+      j.login ??
+      nombreJugadora(j)
+    );
+  }
+
+  function esRegistroBianca(j) {
+    if (!j) return false;
+    const campos = [
+      j.usuario, j.username, j.nombreUsuario, j.login,
+      j.nombre, j.nombreCompleto, j.nombreYApellido
+    ].map(normalizar);
+
+    return campos.some(v =>
+      v === "bianca" ||
+      v === "biancadominguez" ||
+      v === "bianca dominguez"
+    );
+  }
+
+  function obtenerBianca() {
+    const todas = leerJugadoras();
+    const encontrada = todas.find(esRegistroBianca);
+    if (encontrada) return encontrada;
+
+    // Perfil de Bianca disponible aunque todavía no exista una ficha cargada.
+    return {
+      id: "bianca",
+      usuario: "bianca",
+      nombreCompleto: "Bianca Dominguez",
+      division: "Sub 14",
+      categoria: "Sub 14"
+    };
+  }
+
+  function todasLasJugadoras() {
+    const todas = leerJugadoras();
+    const resultado = [...todas];
+
+    if (!resultado.some(esRegistroBianca)) {
+      resultado.push(obtenerBianca());
     }
 
-    return [];
-}
+    const vistos = new Set();
+    return resultado.filter(j => {
+      const id = idJugadora(j);
+      if (!id || vistos.has(id)) return false;
+      vistos.add(id);
+      return true;
+    });
+  }
 
-function getRoutinesForCurrentPlayer() {
-    if (!currentPlayerKey) return [];
+  function buscarJugadoraSesion() {
+    const todas = todasLasJugadoras();
+    if (esBianca) return todas.find(esRegistroBianca) || obtenerBianca();
 
-    if (!database[currentPlayerKey]) {
-        database[currentPlayerKey] = [];
+    const campos = [
+      usuario?.id,
+      usuario?.jugadoraId,
+      usuario?.jugadora,
+      usuario?.nombreCompleto,
+      usuario?.nombre,
+      usuario?.usuario,
+      usuario?.username,
+      usuario?.login
+    ].map(normalizar).filter(Boolean);
+
+    return todas.find(j => {
+      const datos = [
+        idJugadora(j),
+        j.usuario,
+        j.username,
+        j.nombreUsuario,
+        nombreJugadora(j)
+      ].map(normalizar);
+      return datos.some(d => campos.includes(d));
+    }) || null;
+  }
+
+  let jugadoraSesion = buscarJugadoraSesion();
+
+  function claveGeneral(division) {
+    return "GENERAL::" + division;
+  }
+
+  function claveIndividual(division, id) {
+    return "INDIVIDUAL::" + division + "::" + id;
+  }
+
+  function crearDia() {
+    return { series: "", repeticiones: "", peso: "" };
+  }
+
+  function crearEjercicio(nombre = "") {
+    return {
+      nombre,
+      dias: Array.from({ length: 12 * DIAS }, crearDia)
+    };
+  }
+
+  function crearRutina(numero) {
+    return {
+      numero,
+      nombre: "Rutina " + numero,
+      semanas: 8,
+      ejercicios: Array.from(
+        { length: EJERCICIOS_INICIALES },
+        (_, i) => crearEjercicio("")
+      ),
+      actualizada: new Date().toISOString()
+    };
+  }
+
+  function normalizarRutina(rutina, numero) {
+    const base = rutina && typeof rutina === "object"
+      ? rutina
+      : crearRutina(numero);
+
+    base.numero = numero;
+    base.nombre = base.nombre || "Rutina " + numero;
+    base.semanas = Math.max(1, Math.min(12, Number(base.semanas) || 8));
+
+    if (!Array.isArray(base.ejercicios)) base.ejercicios = [];
+
+    base.ejercicios = base.ejercicios.map(e => {
+      const ejercicio = e && typeof e === "object" ? e : {};
+      const dias = Array.isArray(ejercicio.dias) ? ejercicio.dias : [];
+
+      ejercicio.nombre = String(ejercicio.nombre || "");
+      ejercicio.dias = Array.from({ length: 12 * DIAS }, (_, i) => {
+        const d = dias[i] && typeof dias[i] === "object" ? dias[i] : {};
+        return {
+          series: d.series ?? "",
+          repeticiones: d.repeticiones ?? "",
+          peso: d.peso ?? ""
+        };
+      });
+      return ejercicio;
+    });
+
+    return base;
+  }
+
+  function cargarDB() {
+    try {
+      const dato = JSON.parse(localStorage.getItem(KEY) || "{}");
+      return dato && typeof dato === "object" ? dato : {};
+    } catch {
+      return {};
+    }
+  }
+
+  let db = cargarDB();
+
+  function guardarDB() {
+    localStorage.setItem(KEY, JSON.stringify(db));
+  }
+
+  function asegurarRutinasGenerales(division) {
+    const key = claveGeneral(division);
+    if (!Array.isArray(db[key])) db[key] = [];
+
+    for (let i = 0; i < 10; i++) {
+      db[key][i] = normalizarRutina(db[key][i], i + 1);
     }
 
-    if (!Array.isArray(database[currentPlayerKey])) {
-        database[currentPlayerKey] = [];
+    guardarDB();
+  }
+
+  function copiarRutina(rutina) {
+    return JSON.parse(JSON.stringify(rutina));
+  }
+
+  function asegurarRutinasIndividuales(jugadora, forzar = false, indice = -1) {
+    if (!jugadora) return;
+
+    const division = divisionJugadora(jugadora);
+    asegurarRutinasGenerales(division);
+
+    const key = claveIndividual(division, idJugadora(jugadora));
+    if (!Array.isArray(db[key])) db[key] = [];
+
+    for (let i = 0; i < 10; i++) {
+      const general = db[claveGeneral(division)][i];
+      const actual = db[key][i];
+
+      if (!actual) {
+        db[key][i] = copiarRutina(general);
+        db[key][i].numero = i + 1;
+        continue;
+      }
+
+      db[key][i] = normalizarRutina(actual, i + 1);
+
+      if (forzar && (indice === -1 || indice === i)) {
+        // Actualización de estructura y valores desde la rutina general.
+        // Se copia toda la rutina correspondiente, incluyendo pesos, series y reps.
+        db[key][i] = copiarRutina(general);
+        db[key][i].numero = i + 1;
+      }
     }
 
-    return database[currentPlayerKey];
-}
+    guardarDB();
+  }
 
-function getCurrentRoutine() {
-    const routines = getRoutinesForCurrentPlayer();
-    return routines.find(r => r.id === currentRoutineId) || null;
-}
+  function sincronizarRutina(division, indice) {
+    asegurarRutinasGenerales(division);
+    const general = db[claveGeneral(division)][indice];
+    const jugadoras = todasLasJugadoras()
+      .filter(j => normalizar(divisionJugadora(j)) === normalizar(division));
 
-function ensureRoutineShape(routine) {
-    routine.weeks = Number(routine.weeks) === 5 ? 5 : 4;
+    jugadoras.forEach(j => {
+      asegurarRutinasIndividuales(j, false);
+      const key = claveIndividual(division, idJugadora(j));
+      db[key][indice] = copiarRutina(general);
+      db[key][indice].numero = indice + 1;
+    });
 
-    if (!Array.isArray(routine.exercises)) {
-        routine.exercises = [];
+    guardarDB();
+  }
+
+  function obtenerRutinaActual() {
+    const division = divisionSelect.value;
+    const indice = Number(rutinaSelect.value);
+    asegurarRutinasGenerales(division);
+
+    if (modoSelect.value === "general") {
+      return db[claveGeneral(division)][indice];
     }
 
-    while (routine.exercises.length < EXERCISE_COUNT) {
-        routine.exercises.push({
-            name: "",
-            days: []
-        });
+    const jugadora = obtenerJugadoraSeleccionada();
+    if (!jugadora) return crearRutina(indice + 1);
+
+    asegurarRutinasIndividuales(jugadora, false);
+    const key = claveIndividual(division, idJugadora(jugadora));
+    return db[key][indice] || crearRutina(indice + 1);
+  }
+
+  function obtenerJugadoraSeleccionada() {
+    if (esJugadora) return jugadoraSesion;
+
+    const id = jugadoraSelect.value;
+    return todasLasJugadoras().find(j => idJugadora(j) === id) || null;
+  }
+
+  function puedeEditarEstructura() {
+    return esStaff && modoSelect.value === "general";
+  }
+
+  function puedeEditarValores() {
+    return esStaff || (esJugadora && modoSelect.value === "individual");
+  }
+
+  function guardarRutinaActual(rutina, opciones = {}) {
+    if (guardando) return;
+    guardando = true;
+
+    const division = divisionSelect.value;
+    const indice = Number(rutinaSelect.value);
+    rutina.numero = indice + 1;
+    rutina.semanas = Math.max(1, Math.min(12, Number(rutina.semanas) || 8));
+    rutina.actualizada = new Date().toISOString();
+
+    if (modoSelect.value === "general" && esStaff) {
+      db[claveGeneral(division)][indice] = rutina;
+      guardarDB();
+      sincronizarRutina(division, indice);
+      mostrarEstado("Rutina general guardada y sincronizada con las jugadoras de " + division + ".");
+    } else if (modoSelect.value === "individual" && puedeEditarValores()) {
+      const jugadora = obtenerJugadoraSeleccionada();
+      if (!jugadora) {
+        guardando = false;
+        return;
+      }
+
+      asegurarRutinasIndividuales(jugadora, false);
+      const key = claveIndividual(division, idJugadora(jugadora));
+      db[key][indice] = rutina;
+      guardarDB();
+      mostrarEstado("Cambios guardados en la rutina individual.");
     }
 
-    routine.exercises = routine.exercises.slice(0, EXERCISE_COUNT);
+    guardando = false;
 
-    routine.exercises.forEach(exercise => {
-        if (!exercise || typeof exercise !== "object") {
-            exercise = { name: "", days: [] };
-        }
+    if (opciones.render !== false) renderizar();
+  }
 
-        if (!Array.isArray(exercise.days)) exercise.days = [];
+  function mostrarEstado(mensaje) {
+    $("estadoGuardado").textContent = mensaje;
+  }
 
-        while (exercise.days.length < routine.weeks * DAYS_PER_WEEK) {
-            exercise.days.push({
-                series: "",
-                repetitions: "",
-                weight: ""
-            });
-        }
+  function poblarJugadoras() {
+    const division = divisionSelect.value;
+    const actuales = todasLasJugadoras().filter(j =>
+      normalizar(divisionJugadora(j)) === normalizar(division)
+    );
 
-        exercise.days = exercise.days.slice(
-            0, routine.weeks * DAYS_PER_WEEK
+    jugadoraSelect.innerHTML = "";
+
+    if (esJugadora) {
+      const j = jugadoraSesion || obtenerBianca();
+      const option = document.createElement("option");
+      option.value = idJugadora(j);
+      option.textContent = nombreJugadora(j);
+      jugadoraSelect.appendChild(option);
+      jugadoraSelect.disabled = true;
+
+      // El perfil de jugadora no puede cambiar de división.
+      if (j.division || j.categoria) {
+        const div = DIVISIONES.find(d =>
+          normalizar(d) === normalizar(divisionJugadora(j))
         );
+        if (div) divisionSelect.value = div;
+      }
+      divisionSelect.disabled = true;
+      return;
+    }
 
-        exercise.days.forEach((day, index) => {
-            if (!day || typeof day !== "object") {
-                exercise.days[index] = {
-                    series: "",
-                    repetitions: "",
-                    weight: ""
-                };
-            } else {
-                day.series ??= "";
-                day.repetitions ??= "";
-                day.weight ??= "";
+    jugadoraSelect.disabled = false;
+
+    const todasOption = document.createElement("option");
+    todasOption.value = "__TODAS__";
+    todasOption.textContent = "Todas las jugadoras";
+    jugadoraSelect.appendChild(todasOption);
+
+    actuales.forEach(j => {
+      const option = document.createElement("option");
+      option.value = idJugadora(j);
+      option.textContent = nombreJugadora(j);
+      jugadoraSelect.appendChild(option);
+    });
+
+    if (actuales.length === 0) {
+      const option = document.createElement("option");
+      option.value = "";
+      option.textContent = "No hay jugadoras cargadas";
+      jugadoraSelect.appendChild(option);
+    }
+  }
+
+  function actualizarPermisosVisuales() {
+    $("nombrePerfil").textContent = nombreSesion(usuario);
+    $("avatarPerfil").textContent =
+      nombreSesion(usuario).trim().charAt(0).toUpperCase() || "U";
+    $("rolPerfil").textContent = esJugadora ? "Jugadora" : "Administrador / Cuerpo técnico";
+    $("etiquetaPerfil").textContent = esJugadora ? "Perfil de jugadora" : "Cuerpo técnico";
+
+    if (esJugadora) {
+      document.querySelectorAll(".menu-personal").forEach(el => el.classList.add("oculto"));
+
+      // Bianca solo ve Inicio, Calendario, Gimnasio y Partidos.
+      document.querySelectorAll(".enlace-menu").forEach(enlace => {
+        const texto = normalizar(enlace.innerText);
+        const permitido =
+          texto.includes("inicio") ||
+          texto.includes("calendario") ||
+          texto.includes("gimnasio") ||
+          texto.includes("partidos") ||
+          texto.includes("cerrar sesion");
+
+        enlace.classList.toggle("oculto", !permitido);
+      });
+
+      $("campoModo").classList.add("oculto");
+      modoSelect.value = "individual";
+      $("botonesGestion").classList.add("oculto");
+      $("avisoJugador").classList.remove("oculto");
+      $("avisoGeneral").classList.add("oculto");
+      $("textoPermisos").textContent =
+        "Solo podés modificar las series, las repeticiones y los pesos de tu rutina.";
+    } else {
+      document.querySelectorAll(".menu-personal").forEach(el => el.classList.remove("oculto"));
+      document.querySelectorAll(".enlace-menu").forEach(enlace => enlace.classList.remove("oculto"));
+
+      $("campoModo").classList.remove("oculto");
+      $("botonesGestion").classList.remove("oculto");
+      $("avisoJugador").classList.add("oculto");
+      $("textoPermisos").textContent =
+        "Administrador y cuerpo técnico: gestión de rutinas generales e individuales.";
+    }
+  }
+
+  function renderizarEncabezado(semanas) {
+    const thead = $("encabezadoTabla");
+    thead.innerHTML = "";
+
+    const filaSemanas = document.createElement("tr");
+    const ejercicioTh = document.createElement("th");
+    ejercicioTh.className = "ejercicio-col";
+    ejercicioTh.rowSpan = 2;
+    ejercicioTh.textContent = "Ejercicio";
+    filaSemanas.appendChild(ejercicioTh);
+
+    for (let s = 0; s < semanas; s++) {
+      const th = document.createElement("th");
+      th.className = "semana";
+      th.colSpan = DIAS;
+      th.textContent = "Semana " + (s + 1);
+      filaSemanas.appendChild(th);
+    }
+
+    const filaDias = document.createElement("tr");
+    for (let s = 0; s < semanas; s++) {
+      for (let d = 0; d < DIAS; d++) {
+        const th = document.createElement("th");
+        th.className = "dia";
+        th.textContent = "Día " + (d + 1);
+        filaDias.appendChild(th);
+      }
+    }
+
+    thead.append(filaSemanas, filaDias);
+  }
+
+  function crearInput(valor, tipo, deshabilitado, alCambiar) {
+    const input = document.createElement("input");
+    input.className = tipo === "texto" ? "" : "numero";
+    input.type = tipo === "texto" ? "text" : "number";
+    if (tipo !== "texto") input.min = "0";
+    input.value = valor ?? "";
+    input.disabled = deshabilitado;
+    input.addEventListener("change", () => alCambiar(input.value));
+    return input;
+  }
+
+  function renderizar() {
+    const division = divisionSelect.value;
+    const indice = Number(rutinaSelect.value);
+    const esGeneral = modoSelect.value === "general";
+    const rutina = obtenerRutinaActual();
+
+    const jugadora = obtenerJugadoraSeleccionada();
+    const todasSeleccionadas = !esJugadora &&
+      modoSelect.value === "individual" &&
+      jugadoraSelect.value === "__TODAS__";
+
+    semanasSelect.value = String(rutina.semanas || 8);
+    semanasSelect.disabled = !puedeEditarEstructura();
+
+    $("tituloRutina").textContent =
+      (esGeneral ? "Rutina general " : "Rutina individual ") + (indice + 1);
+
+    $("subtituloRutina").textContent = esGeneral
+      ? "Rutina base de la división. Los cambios se copian automáticamente a la rutina individual del mismo número."
+      : "Rutina individual de " + (todasSeleccionadas ? "todas las jugadoras" : nombreJugadora(jugadora || {})) + ".";
+
+    $("nombreSeleccionado").textContent =
+      "División: " + division +
+      (esGeneral ? "" : " · " + (todasSeleccionadas ? "Todas las jugadoras" : nombreJugadora(jugadora || {})));
+
+    $("estadoRutina").textContent = esGeneral
+      ? "Plantilla general " + (indice + 1) + " de 10"
+      : "Rutina individual " + (indice + 1) + " de 10";
+
+    $("avisoGeneral").classList.toggle("oculto", !(esGeneral && esStaff));
+    $("avisoJugador").classList.toggle("oculto", !esJugadora);
+
+    $("nuevaRutina").textContent = "Guardar rutina general";
+    $("copiarRutina").textContent = "Aplicar a jugadoras";
+
+    if (todasSeleccionadas) {
+      renderizarTodasLasJugadoras(division, indice);
+      $("tablaRutina").classList.add("oculto");
+      $("listaTodas").style.display = "block";
+      return;
+    }
+
+    $("tablaRutina").classList.remove("oculto");
+    $("listaTodas").style.display = "none";
+
+    renderizarEncabezado(rutina.semanas);
+
+    const tbody = $("cuerpoTabla");
+    tbody.innerHTML = "";
+
+    const editableEstructura = puedeEditarEstructura();
+    const editableValores = puedeEditarValores();
+
+    rutina.ejercicios.forEach((ejercicio, ei) => {
+      const tr = document.createElement("tr");
+
+      const tdNombre = document.createElement("td");
+      tdNombre.className = "ejercicio-col";
+      const nombreInput = crearInput(
+        ejercicio.nombre,
+        "texto",
+        !editableEstructura,
+        valor => {
+          const actual = obtenerRutinaActual();
+          actual.ejercicios[ei].nombre = valor;
+          guardarRutinaActual(actual);
+        }
+      );
+      nombreInput.placeholder = "Nombre del ejercicio";
+      tdNombre.appendChild(nombreInput);
+      tr.appendChild(tdNombre);
+
+      for (let dia = 0; dia < rutina.semanas * DIAS; dia++) {
+        const td = document.createElement("td");
+        const datos = ejercicio.dias[dia] || crearDia();
+
+        const fila = document.createElement("div");
+        fila.style.display = "flex";
+        fila.style.flexDirection = "column";
+        fila.style.gap = "5px";
+
+        ["series", "repeticiones", "peso"].forEach(campo => {
+          const input = crearInput(datos[campo], "numero", !editableValores, valor => {
+            const actual = obtenerRutinaActual();
+            if (!actual.ejercicios[ei].dias[dia]) {
+              actual.ejercicios[ei].dias[dia] = crearDia();
             }
-        });
-    });
-}
+            actual.ejercicios[ei].dias[dia][campo] = valor;
+            guardarRutinaActual(actual, { render: false });
+          });
 
-function refreshPlayerOptions() {
-    const previousValue = playerSelect.value;
-    const selectedDivision = divisionSelect.value;
-    const players = getPlayersFromStorage();
-
-    playerSelect.innerHTML = "";
-
-    const placeholder = document.createElement("option");
-    placeholder.value = "";
-    placeholder.textContent = players.length
-        ? "Seleccionar jugadora"
-        : "No se encontraron jugadoras";
-    playerSelect.appendChild(placeholder);
-
-    const matchingPlayers = players
-        .map((player, index) => ({
-            player,
-            index,
-            name: getPlayerName(player),
-            category: getPlayerCategory(player),
-            id: getPlayerId(player, index)
-        }))
-        .filter(item => item.name)
-        .filter(item =>
-            normalizeText(item.category) === normalizeText(selectedDivision)
-        )
-        .sort((a, b) => a.name.localeCompare(b.name, "es"));
-
-    matchingPlayers.forEach(item => {
-        const option = document.createElement("option");
-        option.value = JSON.stringify({
-            id: item.id,
-            name: item.name
-        });
-        option.textContent = item.name;
-        playerSelect.appendChild(option);
-    });
-
-    const stillExists = [...playerSelect.options]
-        .some(option => option.value === previousValue);
-
-    if (stillExists && previousValue) {
-        playerSelect.value = previousValue;
-    } else {
-        playerSelect.value = "";
-        currentPlayerKey = "";
-        currentRoutineId = "";
-        refreshRoutineOptions();
-        renderTable();
-    }
-}
-
-function setCurrentPlayer() {
-    currentPlayerKey = "";
-
-    if (!playerSelect.value) {
-        currentRoutineId = "";
-        refreshRoutineOptions();
-        renderTable();
-        return;
-    }
-
-    try {
-        const selected = JSON.parse(playerSelect.value);
-        currentPlayerKey = [
-            divisionSelect.value,
-            selected.id,
-            selected.name
-        ].join("::");
-    } catch (error) {
-        currentPlayerKey = "";
-    }
-
-    const routines = getRoutinesForCurrentPlayer();
-
-    if (!routines.length) {
-        const routine = createRoutine("Rutina 1", 4);
-        routines.push(routine);
-        currentRoutineId = routine.id;
-        persistDatabase();
-    } else if (!routines.some(r => r.id === currentRoutineId)) {
-        currentRoutineId = routines[0].id;
-    }
-
-    refreshRoutineOptions();
-    renderTable();
-}
-
-function refreshRoutineOptions() {
-    const routines = getRoutinesForCurrentPlayer();
-    routineSelect.innerHTML = "";
-
-    if (!currentPlayerKey) {
-        const option = document.createElement("option");
-        option.value = "";
-        option.textContent = "Seleccioná una jugadora";
-        routineSelect.appendChild(option);
-        routineSelect.disabled = true;
-        weeksSelect.disabled = true;
-        return;
-    }
-
-    routineSelect.disabled = false;
-    weeksSelect.disabled = false;
-
-    routines.forEach(routine => {
-        const option = document.createElement("option");
-        option.value = routine.id;
-        option.textContent = routine.name;
-        routineSelect.appendChild(option);
-    });
-
-    if (!routines.some(r => r.id === currentRoutineId)) {
-        currentRoutineId = routines[0]?.id || "";
-    }
-
-    routineSelect.value = currentRoutineId;
-
-    const routine = getCurrentRoutine();
-    if (routine) {
-        ensureRoutineShape(routine);
-        weeksSelect.value = String(routine.weeks);
-    }
-}
-
-function makeElement(tag, className, textContent) {
-    const element = document.createElement(tag);
-    if (className) element.className = className;
-    if (textContent !== undefined) element.textContent = textContent;
-    return element;
-}
-
-function renderTable() {
-    const routine = getCurrentRoutine();
-
-    if (!currentPlayerKey || !routine) {
-        tableScroll.innerHTML = "";
-        tableScroll.appendChild(makeElement(
-            "div",
-            "empty-message",
-            "Seleccioná una jugadora para ver su planilla de gimnasio."
-        ));
-
-        document.getElementById("tableTitle").textContent =
-            "Planificación de gimnasio";
-        document.getElementById("tableSubtitle").textContent =
-            "Elegí una división y una jugadora para comenzar.";
-        return;
-    }
-
-    ensureRoutineShape(routine);
-
-    document.getElementById("tableTitle").textContent = routine.name;
-    document.getElementById("tableSubtitle").textContent =
-        divisionSelect.value + " · " + getSelectedPlayerName() +
-        " · " + routine.weeks + " semanas";
-
-    const table = document.createElement("table");
-
-    const colgroup = document.createElement("colgroup");
-    const exerciseCol = document.createElement("col");
-    exerciseCol.className = "exercise-col";
-    colgroup.appendChild(exerciseCol);
-
-    for (let i = 0; i < routine.weeks * DAYS_PER_WEEK; i++) {
-        const dayCol = document.createElement("col");
-        dayCol.className = "day-col";
-        colgroup.appendChild(dayCol);
-    }
-
-    table.appendChild(colgroup);
-
-    const thead = document.createElement("thead");
-
-    // Primera fila: semanas agrupadas horizontalmente.
-    const weekRow = document.createElement("tr");
-
-    const exerciseHeader = makeElement(
-        "th", "exercise-header", "Ejercicio"
-    );
-    exerciseHeader.rowSpan = 2;
-    weekRow.appendChild(exerciseHeader);
-
-    for (let week = 0; week < routine.weeks; week++) {
-        const th = makeElement(
-            "th",
-            "week-header",
-            "SEMANA " + (week + 1)
-        );
-        th.colSpan = DAYS_PER_WEEK;
-        weekRow.appendChild(th);
-    }
-
-    thead.appendChild(weekRow);
-
-    // Segunda fila: cada columna es un día.
-    const dayRow = document.createElement("tr");
-
-    for (let week = 0; week < routine.weeks; week++) {
-        for (let day = 0; day < DAYS_PER_WEEK; day++) {
-            const th = makeElement("th", "day-header");
-
-            th.appendChild(document.createTextNode("Día " + (day + 1)));
-
-            const small = makeElement(
-                "small",
-                "",
-                "Semana " + (week + 1)
-            );
-            th.appendChild(small);
-            dayRow.appendChild(th);
-        }
-    }
-
-    thead.appendChild(dayRow);
-    table.appendChild(thead);
-
-    const tbody = document.createElement("tbody");
-
-    // Ocho ejercicios en filas. Cada día tiene sus tres campos.
-    routine.exercises.forEach((exercise, exerciseIndex) => {
-        const row = document.createElement("tr");
-
-        const exerciseCell = makeElement("td", "exercise-cell");
-        const exerciseInner = makeElement(
-            "div", "exercise-cell-inner"
-        );
-
-        exerciseInner.appendChild(makeElement(
-            "span",
-            "exercise-number",
-            "Ejercicio " + (exerciseIndex + 1)
-        ));
-
-        const nameInput = document.createElement("input");
-        nameInput.type = "text";
-        nameInput.className = "exercise-name";
-        nameInput.placeholder = "Nombre del ejercicio";
-        nameInput.value = exercise.name || "";
-        nameInput.setAttribute(
-            "aria-label",
-            "Nombre del ejercicio " + (exerciseIndex + 1)
-        );
-
-        nameInput.addEventListener("input", () => {
-            exercise.name = nameInput.value;
-            persistDatabase();
+          input.title = campo === "series" ? "Series" :
+            campo === "repeticiones" ? "Repeticiones" : "Peso en kg";
+          input.placeholder = campo === "series" ? "S" :
+            campo === "repeticiones" ? "R" : "kg";
+          fila.appendChild(input);
         });
 
-        exerciseInner.appendChild(nameInput);
-        exerciseCell.appendChild(exerciseInner);
-        row.appendChild(exerciseCell);
+        td.appendChild(fila);
+        tr.appendChild(td);
+      }
 
-        for (let dayIndex = 0;
-             dayIndex < routine.weeks * DAYS_PER_WEEK;
-             dayIndex++) {
-
-            const dayData = exercise.days[dayIndex];
-            const dayCell = makeElement("td", "day-cell");
-            const fields = makeElement("div", "day-fields");
-
-            const fieldDefinitions = [
-                {
-                    key: "series",
-                    label: "Series",
-                    placeholder: ""
-                },
-                {
-                    key: "repetitions",
-                    label: "Repeticiones",
-                    placeholder: ""
-                },
-                {
-                    key: "weight",
-                    label: "Peso (kg)",
-                    placeholder: ""
-                }
-            ];
-
-            fieldDefinitions.forEach(definition => {
-                const field = makeElement("div", "cell-field");
-
-                const label = makeElement(
-                    "label", "", definition.label
-                );
-
-                const input = document.createElement("input");
-                input.type = "text";
-                input.className = "cell-input";
-                input.value = dayData[definition.key] ?? "";
-                input.placeholder = definition.placeholder;
-                input.autocomplete = "off";
-
-                input.setAttribute(
-                    "aria-label",
-                    "Ejercicio " + (exerciseIndex + 1) +
-                    ", semana " +
-                    (Math.floor(dayIndex / DAYS_PER_WEEK) + 1) +
-                    ", día " +
-                    ((dayIndex % DAYS_PER_WEEK) + 1) +
-                    ", " + definition.label
-                );
-
-                input.addEventListener("input", () => {
-                    dayData[definition.key] = input.value;
-                    persistDatabase();
-                });
-
-                field.appendChild(label);
-                field.appendChild(input);
-                fields.appendChild(field);
-            });
-
-            dayCell.appendChild(fields);
-            row.appendChild(dayCell);
-        }
-
-        tbody.appendChild(row);
+      tbody.appendChild(tr);
     });
 
-    table.appendChild(tbody);
+    mostrarEstado("");
+  }
 
-    tableScroll.innerHTML = "";
-    tableScroll.appendChild(table);
-}
+  function renderizarTodasLasJugadoras(division, indice) {
+    const contenedor = $("listaTodas");
+    contenedor.innerHTML = "";
 
-function getSelectedPlayerName() {
-    if (!playerSelect.value) return "";
-
-    try {
-        return JSON.parse(playerSelect.value).name || "";
-    } catch (error) {
-        return "";
-    }
-}
-
-function switchRoutine() {
-    currentRoutineId = routineSelect.value;
-    const routine = getCurrentRoutine();
-
-    if (routine) {
-        ensureRoutineShape(routine);
-        weeksSelect.value = String(routine.weeks);
-    }
-
-    renderTable();
-}
-
-function createNewRoutine() {
-    if (!currentPlayerKey) {
-        alert("Primero seleccioná una jugadora.");
-        return;
-    }
-
-    const routines = getRoutinesForCurrentPlayer();
-    const nextNumber = routines.length + 1;
-    const proposedName = "Rutina " + nextNumber;
-    const name = prompt("Nombre de la nueva rutina:", proposedName);
-
-    if (name === null) return;
-
-    const cleanName = name.trim();
-    if (!cleanName) {
-        alert("Ingresá un nombre para la rutina.");
-        return;
-    }
-
-    const weeks = Number(weeksSelect.value) === 5 ? 5 : 4;
-    const routine = createRoutine(cleanName, weeks);
-
-    routines.push(routine);
-    currentRoutineId = routine.id;
-
-    persistDatabase();
-    refreshRoutineOptions();
-    renderTable();
-}
-
-function renameCurrentRoutine() {
-    const routine = getCurrentRoutine();
-
-    if (!routine) {
-        alert("Seleccioná una rutina.");
-        return;
-    }
-
-    const name = prompt("Nuevo nombre de la rutina:", routine.name);
-    if (name === null) return;
-
-    const cleanName = name.trim();
-
-    if (!cleanName) {
-        alert("El nombre no puede estar vacío.");
-        return;
-    }
-
-    routine.name = cleanName;
-    persistDatabase();
-    refreshRoutineOptions();
-    renderTable();
-}
-
-function deleteCurrentRoutine() {
-    const routine = getCurrentRoutine();
-
-    if (!routine || !currentPlayerKey) {
-        alert("Seleccioná una rutina para eliminar.");
-        return;
-    }
-
-    const confirmed = confirm(
-        '¿Querés eliminar la rutina "' + routine.name +
-        '" y todos sus datos? Esta acción no se puede deshacer.'
+    const jugadoras = todasLasJugadoras().filter(j =>
+      normalizar(divisionJugadora(j)) === normalizar(division)
     );
 
-    if (!confirmed) return;
-
-    const routines = getRoutinesForCurrentPlayer();
-    const index = routines.findIndex(r => r.id === routine.id);
-
-    if (index !== -1) routines.splice(index, 1);
-
-    if (!routines.length) {
-        const replacement = createRoutine("Rutina 1", 4);
-        routines.push(replacement);
-        currentRoutineId = replacement.id;
-    } else {
-        currentRoutineId = routines[0].id;
+    if (!jugadoras.length) {
+      contenedor.innerHTML = '<div class="vacio">No hay jugadoras cargadas en esta división.</div>';
+      return;
     }
 
-    persistDatabase();
-    refreshRoutineOptions();
-    renderTable();
-}
+    jugadoras.forEach(j => {
+      asegurarRutinasIndividuales(j, false);
+      const key = claveIndividual(division, idJugadora(j));
+      const rutina = db[key][indice];
 
-function changeWeekCount() {
-    const routine = getCurrentRoutine();
-    if (!routine) return;
+      const tarjeta = document.createElement("div");
+      tarjeta.className = "tarjeta-jugadora";
 
-    const newWeeks = Number(weeksSelect.value) === 5 ? 5 : 4;
+      const h4 = document.createElement("h4");
+      h4.textContent = nombreJugadora(j);
+      tarjeta.appendChild(h4);
 
-    if (newWeeks === routine.weeks) return;
+      const p = document.createElement("p");
+      p.textContent = "Rutina individual " + (indice + 1) + " · " + division;
+      tarjeta.appendChild(p);
 
-    const oldWeeks = routine.weeks;
+      const tabla = document.createElement("div");
+      tabla.className = "tabla-contenedor";
 
-    if (newWeeks < oldWeeks) {
-        const confirmed = confirm(
-            "Al reducir la duración a 4 semanas, se eliminarán " +
-            "los datos de la semana 5 de esta rutina. ¿Querés continuar?"
-        );
+      const table = document.createElement("table");
+      const thead = document.createElement("thead");
+      thead.innerHTML = "<tr><th>Ejercicio</th><th>Día</th><th>Series</th><th>Repeticiones</th><th>Peso (kg)</th></tr>";
+      table.appendChild(thead);
 
-        if (!confirmed) {
-            weeksSelect.value = String(oldWeeks);
-            return;
+      const tbody = document.createElement("tbody");
+
+      rutina.ejercicios.forEach(e => {
+        for (let d = 0; d < rutina.semanas * DIAS; d++) {
+          const datos = e.dias[d] || crearDia();
+          const tr = document.createElement("tr");
+
+          [e.nombre || "Sin ejercicio", "Semana " + (Math.floor(d / DIAS) + 1) + " · Día " + (d % DIAS + 1), datos.series, datos.repeticiones, datos.peso].forEach(v => {
+            const td = document.createElement("td");
+            td.textContent = v === "" ? "—" : v;
+            tr.appendChild(td);
+          });
+
+          tbody.appendChild(tr);
         }
-    }
+      });
 
-    routine.weeks = newWeeks;
-
-    routine.exercises.forEach(exercise => {
-        if (!Array.isArray(exercise.days)) exercise.days = [];
-
-        while (exercise.days.length < newWeeks * DAYS_PER_WEEK) {
-            exercise.days.push({
-                series: "",
-                repetitions: "",
-                weight: ""
-            });
-        }
-
-        exercise.days = exercise.days.slice(
-            0, newWeeks * DAYS_PER_WEEK
-        );
+      table.appendChild(tbody);
+      tabla.appendChild(table);
+      tarjeta.appendChild(tabla);
+      contenedor.appendChild(tarjeta);
     });
+  }
 
-    persistDatabase();
-    renderTable();
-}
+  function crearRutinaGeneralNueva() {
+    if (!esStaff) return;
 
-function exportCSV() {
-    const routine = getCurrentRoutine();
+    const division = divisionSelect.value;
+    const indice = Number(rutinaSelect.value);
 
-    if (!routine || !currentPlayerKey) {
-        alert("Seleccioná una jugadora y una rutina antes de exportar.");
-        return;
+    if (!confirm("¿Querés reiniciar la rutina general " + (indice + 1) + " de " + division + "? Se actualizará también la rutina individual equivalente de las jugadoras de esa división.")) {
+      return;
     }
 
-    ensureRoutineShape(routine);
+    asegurarRutinasGenerales(division);
+    db[claveGeneral(division)][indice] = crearRutina(indice + 1);
+    sincronizarRutina(division, indice);
+    guardarDB();
+    renderizar();
+    mostrarEstado("Rutina general reiniciada y sincronizada.");
+  }
 
-    const rows = [];
+  function aplicarPlantilla() {
+    if (!esStaff) return;
 
-    rows.push([
-        "Division",
-        "Jugadora",
-        "Rutina",
-        "Semana",
-        "Dia",
-        "Ejercicio",
-        "Series",
-        "Repeticiones",
-        "Peso (kg)"
-    ]);
+    const division = divisionSelect.value;
+    const indice = Number(rutinaSelect.value);
 
-    routine.exercises.forEach((exercise, exerciseIndex) => {
-        for (let dayIndex = 0;
-             dayIndex < routine.weeks * DAYS_PER_WEEK;
-             dayIndex++) {
-
-            const week = Math.floor(dayIndex / DAYS_PER_WEEK) + 1;
-            const day = (dayIndex % DAYS_PER_WEEK) + 1;
-            const data = exercise.days[dayIndex];
-
-            rows.push([
-                divisionSelect.value,
-                getSelectedPlayerName(),
-                routine.name,
-                week,
-                day,
-                exercise.name || ("Ejercicio " + (exerciseIndex + 1)),
-                data.series,
-                data.repetitions,
-                data.weight
-            ]);
-        }
-    });
-
-    const escapeCSV = value =>
-        '"' + String(value ?? "").replace(/"/g, '""') + '"';
-
-    const csv = "\uFEFF" + rows
-        .map(row => row.map(escapeCSV).join(";"))
-        .join("\r\n");
-
-    const blob = new Blob([csv], {
-        type: "text/csv;charset=utf-8;"
-    });
-
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-
-    const safePlayerName = getSelectedPlayerName()
-        .replace(/[^\w\-]+/g, "_");
-
-    link.href = url;
-    link.download = "gimnasio_" + safePlayerName + "_" +
-        routine.name.replace(/[^\w\-]+/g, "_") + ".csv";
-
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-
-    URL.revokeObjectURL(url);
-}
-
-// Perfil visible
-try {
-    const rawProfile = localStorage.getItem("usuarioADIUR");
-
-    if (rawProfile) {
-        let profile = rawProfile;
-
-        try {
-            profile = JSON.parse(rawProfile);
-        } catch (error) {
-            // Puede ser un nombre guardado como texto.
-        }
-
-        const profileName =
-            typeof profile === "string"
-                ? profile
-                : (
-                    profile.nombre ||
-                    profile.usuario ||
-                    profile.username ||
-                    profile.name ||
-                    "Perfil de usuario"
-                );
-
-        document.getElementById("profileName").textContent =
-            profileName;
+    if (!confirm("¿Aplicar la rutina general " + (indice + 1) + " a todas las jugadoras de " + division + "? Se reemplazarán sus valores individuales para esta rutina.")) {
+      return;
     }
-} catch (error) {
-    console.warn("No se pudo leer el perfil.");
-}
 
-// Eventos
-divisionSelect.addEventListener("change", () => {
-    currentPlayerKey = "";
-    currentRoutineId = "";
-    refreshPlayerOptions();
-});
+    sincronizarRutina(division, indice);
+    renderizar();
+    mostrarEstado("Rutina general aplicada a todas las jugadoras de " + division + ".");
+  }
 
-playerSelect.addEventListener("change", setCurrentPlayer);
-routineSelect.addEventListener("change", switchRoutine);
-weeksSelect.addEventListener("change", changeWeekCount);
+  function agregarEjercicio() {
+    if (!puedeEditarEstructura()) return;
 
-document.getElementById("newRoutineBtn")
-    .addEventListener("click", createNewRoutine);
+    const rutina = obtenerRutinaActual();
+    rutina.ejercicios.push(crearEjercicio(""));
+    guardarRutinaActual(rutina);
+    mostrarEstado("Ejercicio agregado.");
+  }
 
-document.getElementById("renameRoutineBtn")
-    .addEventListener("click", renameCurrentRoutine);
+  function eliminarEjercicio() {
+    if (!puedeEditarEstructura()) return;
 
-document.getElementById("deleteRoutineBtn")
-    .addEventListener("click", deleteCurrentRoutine);
+    const rutina = obtenerRutinaActual();
+    if (!rutina.ejercicios.length) return;
 
-document.getElementById("exportBtn")
-    .addEventListener("click", exportCSV);
+    if (!confirm("¿Eliminar el último ejercicio de esta rutina?")) return;
 
-// Inicio
-refreshPlayerOptions();
+    rutina.ejercicios.pop();
+    guardarRutinaActual(rutina);
+    mostrarEstado("Ejercicio eliminado.");
+  }
+
+  function cambiarDivision() {
+    if (esJugadora) return;
+
+    poblarJugadoras();
+    asegurarRutinasGenerales(divisionSelect.value);
+
+    // Inicializa copias que falten sin sobrescribir valores personales.
+    todasLasJugadoras()
+      .filter(j => normalizar(divisionJugadora(j)) === normalizar(divisionSelect.value))
+      .forEach(j => asegurarRutinasIndividuales(j, false));
+
+    renderizar();
+  }
+
+  function cambiarModo() {
+    if (esJugadora) {
+      modoSelect.value = "individual";
+      return;
+    }
+
+    const general = modoSelect.value === "general";
+    $("botonesGestion").classList.toggle("oculto", !general);
+    $("avisoGeneral").classList.toggle("oculto", !general);
+    poblarJugadoras();
+    renderizar();
+  }
+
+  $("botonMenu").addEventListener("click", () => {
+    $("barraLateral").classList.toggle("oculta");
+  });
+
+  $("cerrarSesion").addEventListener("click", event => {
+    event.preventDefault();
+    if (confirm("¿Querés cerrar la sesión?")) {
+      localStorage.removeItem(SESSION_KEY);
+      window.location.href = "index.html";
+    }
+  });
+
+  divisionSelect.addEventListener("change", cambiarDivision);
+  rutinaSelect.addEventListener("change", renderizar);
+  modoSelect.addEventListener("change", cambiarModo);
+
+  jugadoraSelect.addEventListener("change", renderizar);
+
+  semanasSelect.addEventListener("change", () => {
+    if (!puedeEditarEstructura()) return;
+    const rutina = obtenerRutinaActual();
+    rutina.semanas = Number(semanasSelect.value);
+    guardarRutinaActual(rutina);
+    mostrarEstado("Cantidad de semanas actualizada y rutina sincronizada.");
+  });
+
+  $("nuevaRutina").addEventListener("click", () => {
+    if (esStaff && modoSelect.value === "general") {
+      const rutina = obtenerRutinaActual();
+      guardarRutinaActual(rutina);
+      mostrarEstado("Rutina general guardada y sincronizada.");
+    }
+  });
+
+  $("copiarRutina").addEventListener("click", aplicarPlantilla);
+  $("agregarEjercicio").addEventListener("click", agregarEjercicio);
+  $("eliminarEjercicio").addEventListener("click", eliminarEjercicio);
+
+  // Inicio
+  actualizarPermisosVisuales();
+
+  if (esJugadora) {
+    jugadoraSesion = jugadoraSesion || obtenerBianca();
+    divisionSelect.value = divisionJugadora(jugadoraSesion);
+    divisionSelect.disabled = true;
+    modoSelect.value = "individual";
+  }
+
+  poblarJugadoras();
+
+  DIVISIONES.forEach(division => {
+    asegurarRutinasGenerales(division);
+  });
+
+  todasLasJugadoras().forEach(j => {
+    asegurarRutinasIndividuales(j, false);
+  });
+
+  // Para Bianca, siempre se muestra su rutina individual.
+  if (esJugadora) {
+    modoSelect.value = "individual";
+    $("campoModo").classList.add("oculto");
+    $("botonesGestion").classList.add("oculto");
+  }
+
+  cambiarModo();
+  renderizar();
+
+})();
 </script>
+
 </body>
 </html>
