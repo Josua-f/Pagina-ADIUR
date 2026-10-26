@@ -1109,10 +1109,6 @@ main {
 
 <body>
 
-<!-- =====================================================
-     BARRA SUPERIOR
-===================================================== -->
-
 <header class="barra-superior">
 
     <button
@@ -1158,26 +1154,14 @@ main {
     aria-hidden="true"
 ></div>
 
-<!-- =====================================================
-     CONTENEDOR
-===================================================== -->
-
 <div class="contenedor">
 
-    <!-- =================================================
-         BARRA LATERAL
-    ================================================== -->
-
     <aside class="sidebar" id="sidebar">
-
-        <!-- INICIO -->
 
         <a href="Pagina Principal.html" class="menu-inicio">
             <span class="icono-inicio" aria-hidden="true">⌂</span>
             INICIO
         </a>
-
-        <!-- PLANTEL -->
 
         <div class="grupo-menu cerrado" id="grupoPlantel">
 
@@ -1204,8 +1188,6 @@ main {
             </div>
 
         </div>
-
-        <!-- ENTRENAMIENTO -->
 
         <div class="grupo-menu" id="grupoEntrenamiento">
 
@@ -1253,8 +1235,6 @@ main {
             </div>
         </div>
 
-        <!-- COMPETENCIA -->
-
         <div class="grupo-menu cerrado" id="grupoCompetencia">
 
             <button
@@ -1291,8 +1271,6 @@ main {
 
             </div>
         </div>
-
-        <!-- RENDIMIENTOS -->
 
         <div class="grupo-menu cerrado" id="grupoRendimientos">
 
@@ -1336,8 +1314,6 @@ main {
             </div>
         </div>
 
-        <!-- CERRAR SESIÓN -->
-
         <div class="separador-sesion">
             <a href="#" class="enlace-cerrar-sesion" id="cerrarSesion">
                 <span class="icono-salir" aria-hidden="true">↪</span>
@@ -1346,10 +1322,6 @@ main {
         </div>
 
     </aside>
-
-    <!-- =================================================
-         CONTENIDO DEL CALENDARIO
-    ================================================== -->
 
     <main>
 
@@ -1407,9 +1379,15 @@ main {
             <div class="dias" id="diasCalendario"></div>
 
             <div class="referencias">
+
                 <div class="referencia">
                     <span class="muestra-color" style="background:#fff"></span>
                     Libre
+                </div>
+
+                <div class="referencia">
+                    <span class="muestra-color" style="background:#2464c5"></span>
+                    Partido
                 </div>
 
                 <div class="referencia">
@@ -1431,6 +1409,7 @@ main {
                     <span class="muestra-color" style="background:#ffdada"></span>
                     Alto
                 </div>
+
             </div>
 
         </section>
@@ -1438,10 +1417,6 @@ main {
     </main>
 
 </div>
-
-<!-- =====================================================
-     MODAL DE ACTIVIDADES
-===================================================== -->
 
 <div class="fondo-modal" id="fondoModal">
 
@@ -1627,10 +1602,6 @@ main {
 
 </div>
 
-<!-- =====================================================
-     PERFIL DEL USUARIO
-===================================================== -->
-
 <div class="fondo-perfil" id="fondoPerfil">
 
     <section class="tarjeta-perfil">
@@ -1737,8 +1708,6 @@ function esBianca() {
     ].includes(usuarioNormalizado);
 }
 
-/* Información de la barra superior */
-
 document.getElementById("nombreUsuario").textContent =
     usuarioGuardado || "Usuario";
 
@@ -1752,8 +1721,6 @@ document.getElementById("rolUsuario").textContent =
     esToto() ? "Cuerpo técnico" :
     esBianca() ? "Jugadora · Sub 14" :
     "Club ADIUR";
-
-/* Información del modal de perfil */
 
 document.getElementById("nombrePerfil").textContent =
     usuarioGuardado || "Usuario";
@@ -1809,8 +1776,6 @@ function cerrarSidebar() {
 botonMenu.addEventListener("click", alternarSidebar);
 capaSidebar.addEventListener("click", cerrarSidebar);
 
-/* Desplegar categorías del menú */
-
 document.querySelectorAll(".titulo-grupo[data-grupo]").forEach(boton => {
     boton.addEventListener("click", () => {
         const grupo = document.getElementById(boton.dataset.grupo);
@@ -1833,8 +1798,6 @@ document.querySelectorAll(".titulo-grupo[data-grupo]").forEach(boton => {
     });
 });
 
-/* Adaptar la barra lateral a computadoras y celulares */
-
 function ajustarSidebar() {
     if (esPantallaMovil()) {
         sidebar.classList.add("oculto");
@@ -1848,8 +1811,6 @@ function ajustarSidebar() {
 window.addEventListener("resize", ajustarSidebar);
 ajustarSidebar();
 
-/* Cerrar la barra lateral al navegar desde un dispositivo móvil */
-
 document.querySelectorAll(".sidebar a").forEach(enlace => {
     enlace.addEventListener("click", () => {
         if (esPantallaMovil()) {
@@ -1857,8 +1818,6 @@ document.querySelectorAll(".sidebar a").forEach(enlace => {
         }
     });
 });
-
-/* Permisos y opciones visibles de Bianca */
 
 if (esBianca()) {
     document.getElementById("grupoPlantel")?.remove();
@@ -1967,6 +1926,10 @@ if (usuarioNormalizado) {
         categoria.value = preferida;
     }
 }
+
+/* =====================================================
+   CAMBIO DE CATEGORÍA
+===================================================== */
 
 categoria.addEventListener("change", () => {
     if (usuarioNormalizado) {
@@ -2244,8 +2207,13 @@ function obtenerActividad(cat, fecha) {
 
     estado = equivalenciasEstado[estado] || estado;
 
+    /* =================================================
+       PARTIDO AHORA ES UN ESTADO VÁLIDO
+    ================================================= */
+
     if (![
         "libre",
+        "partido",
         "suspendido",
         "bajo",
         "medio",
@@ -2449,7 +2417,6 @@ function renderizarCalendario() {
 
     let desplazamiento = new Date(anio, mes, 1).getDay();
 
-    /* La semana comienza el lunes. */
     desplazamiento = desplazamiento === 0
         ? 6
         : desplazamiento - 1;
@@ -2498,16 +2465,12 @@ function renderizarCalendario() {
             celda.classList.add("con-actividad");
         }
 
-        /* Número del día */
-
         const numero = document.createElement("span");
 
         numero.className = "numero-dia";
         numero.textContent = numeroDia;
 
         celda.appendChild(numero);
-
-        /* Botón para agregar o modificar una actividad */
 
         const botonEvento = document.createElement("button");
 
@@ -2532,8 +2495,6 @@ function renderizarCalendario() {
 
         celda.appendChild(botonEvento);
 
-        /* Contenido de la actividad */
-
         if (actividad) {
             celda.classList.add("color-" + actividad.estado);
 
@@ -2545,8 +2506,6 @@ function renderizarCalendario() {
 
             contenido.className =
                 "actividad-contenido pos-" + posicionContenido;
-
-            /* Escudo o imagen */
 
             if (actividad.imagen) {
                 const img = document.createElement("img");
@@ -2567,8 +2526,6 @@ function renderizarCalendario() {
                 contenido.appendChild(img);
             }
 
-            /* Texto */
-
             if (actividad.texto) {
                 const texto = document.createElement("div");
 
@@ -2584,8 +2541,6 @@ function renderizarCalendario() {
 
             celda.appendChild(contenido);
         }
-
-        /* Seleccionar el día para modificarlo */
 
         celda.addEventListener("click", event => {
             if (
