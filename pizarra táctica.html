@@ -1,0 +1,2845 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pizarra táctica | ADIUR Femenino</title>
+
+<style>
+
+:root{
+  --naranja:#f47721;
+  --naranja-oscuro:#dc5e0b;
+  --naranja-claro:#fff0e6;
+  --negro:#171717;
+  --gris:#f4f5f7;
+  --gris-texto:#747474;
+  --borde:#e8e8e8;
+  --blanco:#fff;
+  --amarillo:#f5c400;
+  --azul:#2464c5;
+  --rojo:#d93636;
+  --verde:#25a55b;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial, Helvetica, sans-serif;
+  background:var(--gris);
+  color:var(--negro);
+}
+
+
+/* =========================
+   BARRA SUPERIOR
+========================= */
+
+.topbar{
+  height:74px;
+  background:#fff;
+  border-bottom:1px solid var(--borde);
+  display:flex;
+  align-items:center;
+  padding:0 22px;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:1000;
+}
+
+.menu-btn{
+  width:42px;
+  height:42px;
+  border:none;
+  background:transparent;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:5px;
+  margin-right:13px;
+}
+
+.menu-btn span{
+  width:23px;
+  height:3px;
+  background:var(--negro);
+  border-radius:3px;
+}
+
+.logo-top{
+  width:45px;
+  height:45px;
+  object-fit:contain;
+  margin-right:12px;
+}
+
+.top-title{
+  display:flex;
+  flex-direction:column;
+}
+
+.top-title h1{
+  font-size:19px;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+
+.top-title span{
+  font-size:12px;
+  color:var(--gris-texto);
+  margin-top:2px;
+}
+
+.profile{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.profile-info{
+  text-align:right;
+}
+
+.profile-info strong{
+  display:block;
+  font-size:14px;
+}
+
+.profile-info small{
+  display:block;
+  color:var(--gris-texto);
+  font-size:11px;
+  margin-top:2px;
+}
+
+.avatar{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:var(--naranja);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+  font-size:15px;
+}
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+  position:fixed;
+  top:74px;
+  left:0;
+  bottom:0;
+  width:258px;
+  background:#fff;
+  border-right:1px solid var(--borde);
+  padding:18px 12px;
+  overflow-y:auto;
+  z-index:900;
+  transition:.25s;
+}
+
+.sidebar.closed{
+  transform:translateX(-100%);
+}
+
+.menu-section{
+  margin-bottom:8px;
+}
+
+.menu-title{
+  width:100%;
+  border:none;
+  background:transparent;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:11px 12px;
+  font-size:12px;
+  font-weight:bold;
+  color:#555;
+  text-transform:uppercase;
+  cursor:pointer;
+  border-radius:8px;
+}
+
+.menu-title:hover{
+  background:var(--gris);
+}
+
+.menu-title .arrow{
+  transition:.2s;
+  font-size:12px;
+}
+
+.menu-section.open .menu-title .arrow{
+  transform:rotate(180deg);
+}
+
+.submenu{
+  display:none;
+  padding:2px 0 6px;
+}
+
+.menu-section.open .submenu{
+  display:block;
+}
+
+.menu-link{
+  display:flex;
+  align-items:center;
+  text-decoration:none;
+  color:#444;
+  padding:10px 13px 10px 28px;
+  border-radius:8px;
+  font-size:13px;
+  margin:2px 0;
+  transition:.15s;
+}
+
+.menu-link:hover{
+  background:var(--naranja-claro);
+  color:var(--naranja-oscuro);
+}
+
+.menu-link.active{
+  background:var(--naranja);
+  color:#fff;
+  font-weight:bold;
+}
+
+.menu-inicio{
+  margin-bottom:8px;
+}
+
+.menu-inicio .menu-link{
+  padding-left:13px;
+  font-weight:bold;
+}
+
+.logout{
+  margin-top:18px;
+  border-top:1px solid var(--borde);
+  padding-top:12px;
+}
+
+
+/* =========================
+   CONTENIDO
+========================= */
+
+.main{
+  margin-left:258px;
+  padding:98px 24px 30px;
+  transition:.25s;
+}
+
+.main.full{
+  margin-left:0;
+}
+
+.page-header{
+  margin-bottom:18px;
+}
+
+.page-header h2{
+  font-size:26px;
+}
+
+.page-header p{
+  color:var(--gris-texto);
+  margin-top:5px;
+  font-size:14px;
+}
+
+
+/* =========================
+   CONTROLES
+========================= */
+
+.controls{
+  background:#fff;
+  border:1px solid var(--borde);
+  border-radius:14px;
+  padding:15px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  align-items:end;
+  margin-bottom:18px;
+  box-shadow:0 2px 8px rgba(0,0,0,.04);
+}
+
+.control{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.control label{
+  font-size:11px;
+  font-weight:bold;
+  text-transform:uppercase;
+  color:#666;
+}
+
+.control select,
+.control input{
+  border:1px solid #ddd;
+  border-radius:8px;
+  padding:9px 11px;
+  min-width:145px;
+  outline:none;
+  background:#fff;
+}
+
+.control select:focus,
+.control input:focus{
+  border-color:var(--naranja);
+}
+
+.btn{
+  border:none;
+  border-radius:8px;
+  padding:10px 14px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:12px;
+  transition:.15s;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+}
+
+.btn-orange{
+  background:var(--naranja);
+  color:#fff;
+}
+
+.btn-dark{
+  background:#222;
+  color:#fff;
+}
+
+.btn-light{
+  background:#f1f1f1;
+  color:#333;
+}
+
+.btn-blue{
+  background:var(--azul);
+  color:#fff;
+}
+
+.btn-red{
+  background:var(--rojo);
+  color:#fff;
+}
+
+
+/* =========================
+   PIZARRA
+========================= */
+
+.board-wrapper{
+  background:#fff;
+  border:1px solid var(--borde);
+  border-radius:16px;
+  padding:18px;
+  box-shadow:0 2px 10px rgba(0,0,0,.05);
+}
+
+.board-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:14px;
+  flex-wrap:wrap;
+}
+
+.board-title{
+  font-weight:bold;
+  font-size:15px;
+}
+
+.board-help{
+  font-size:11px;
+  color:var(--gris-texto);
+}
+
+
+/* =========================
+   CANCHA
+   PROPORCIÓN 1470 x 980
+   = 3 : 2
+========================= */
+
+.pitch-area{
+  width: 100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  padding:5px;
+}
+
+.pitch{
+  position:relative;
+
+  /*
+    La imagen original mide:
+    1470 x 980
+
+    Por lo tanto:
+    1470 / 980 = 1.5
+  */
+
+  width:min(100%, 1200px);
+  aspect-ratio:1470 / 980;
+
+  border-radius:8px;
+  overflow:hidden;
+  user-select:none;
+  background:#ddd;
+  box-shadow:0 4px 18px rgba(0,0,0,.15);
+}
+
+.pitch-image{
+  position:absolute;
+  inset:0;
+
+  width:100%;
+  height:100%;
+
+  /*
+    Se muestra toda la imagen,
+    sin deformarla ni recortarla.
+  */
+
+  object-fit:contain;
+
+  display:block;
+  pointer-events:none;
+}
+
+.pitch-overlay{
+  position:absolute;
+  inset:0;
+  z-index:5;
+}
+
+
+/* =========================
+   JUGADORES
+========================= */
+
+.player{
+  position:absolute;
+  width:46px;
+  height:46px;
+  border-radius:50%;
+
+  transform:translate(-50%,-50%);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-weight:bold;
+  font-size:14px;
+
+  cursor:grab;
+
+  z-index:20;
+
+  border:3px solid #fff;
+
+  box-shadow:
+    0 3px 8px rgba(0,0,0,.35);
+
+  user-select:none;
+  touch-action:none;
+}
+
+.player:active{
+  cursor:grabbing;
+}
+
+.player.own{
+  background:var(--naranja);
+  color:#fff;
+}
+
+.player.goalkeeper{
+  background:var(--amarillo);
+  color:#111;
+}
+
+.player.opponent{
+  background:var(--rojo);
+  color:#fff;
+}
+
+.player.opponent.goalkeeper{
+  background:var(--amarillo);
+  color:#111;
+}
+
+.player.free{
+  border-style:dashed;
+}
+
+.player-name{
+  position:absolute;
+  top:48px;
+  left:50%;
+
+  transform:translateX(-50%);
+
+  background:rgba(0,0,0,.72);
+  color:#fff;
+
+  padding:3px 6px;
+
+  border-radius:4px;
+
+  white-space:nowrap;
+
+  font-size:10px;
+  font-weight:normal;
+
+  pointer-events:none;
+}
+
+
+/* =========================
+   PELOTA
+========================= */
+
+.ball{
+  position:absolute;
+
+  width:27px;
+  height:27px;
+
+  border-radius:50%;
+
+  background:#fff;
+
+  border:2px solid #222;
+
+  box-shadow:
+    0 3px 8px rgba(0,0,0,.35);
+
+  transform:translate(-50%,-50%);
+
+  z-index:30;
+
+  cursor:grab;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:15px;
+
+  user-select:none;
+  touch-action:none;
+}
+
+.ball:active{
+  cursor:grabbing;
+}
+
+
+/* =========================
+   LEYENDA
+========================= */
+
+.legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:15px;
+
+  margin-top:15px;
+  padding-top:14px;
+
+  border-top:1px solid var(--borde);
+}
+
+.legend-item{
+  display:flex;
+  align-items:center;
+  gap:7px;
+
+  font-size:11px;
+  color:#555;
+}
+
+.legend-circle{
+  width:15px;
+  height:15px;
+
+  border-radius:50%;
+
+  border:2px solid #fff;
+
+  box-shadow:0 0 0 1px #ccc;
+}
+
+.legend-own{
+  background:var(--naranja);
+}
+
+.legend-opponent{
+  background:var(--rojo);
+}
+
+.legend-goalkeeper{
+  background:var(--amarillo);
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+.modal-bg{
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,.5);
+
+  display:none;
+
+  align-items:center;
+  justify-content:center;
+
+  z-index:2000;
+
+  padding:20px;
+}
+
+.modal-bg.show{
+  display:flex;
+}
+
+.modal{
+  background:#fff;
+
+  width:min(440px,100%);
+
+  border-radius:14px;
+
+  padding:20px;
+
+  box-shadow:
+    0 10px 40px rgba(0,0,0,.25);
+}
+
+.modal h3{
+  margin-bottom:15px;
+}
+
+.modal-row{
+  display:flex;
+  flex-direction:column;
+
+  gap:6px;
+
+  margin-bottom:12px;
+}
+
+.modal-row label{
+  font-size:11px;
+
+  font-weight:bold;
+
+  text-transform:uppercase;
+
+  color:#666;
+}
+
+.modal-row input,
+.modal-row select{
+  padding:10px;
+
+  border:1px solid #ddd;
+
+  border-radius:8px;
+}
+
+.modal-buttons{
+  display:flex;
+
+  justify-content:flex-end;
+
+  gap:8px;
+
+  margin-top:15px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:800px){
+
+  .sidebar{
+    transform:translateX(-100%);
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+  }
+
+  .main{
+    margin-left:0;
+    padding:90px 12px 20px;
+  }
+
+  .profile-info{
+    display:none;
+  }
+
+  .topbar{
+    padding:0 12px;
+  }
+
+  .pitch{
+    width:100%;
+  }
+
+  .player{
+    width:38px;
+    height:38px;
+    font-size:12px;
+  }
+
+  .player-name{
+    top:40px;
+    font-size:9px;
+  }
+
+  .ball{
+    width:23px;
+    height:23px;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     BARRA SUPERIOR
+========================= -->
+
+<header class="topbar">
+
+  <button
+    class="menu-btn"
+    onclick="toggleSidebar()">
+
+    <span></span>
+    <span></span>
+    <span></span>
+
+  </button>
+
+
+  <img
+    class="logo-top"
+    src="Logo ADIUR.jpg"
+    onerror="this.src='logo adiur.jpg'"
+    alt="ADIUR">
+
+
+  <div class="top-title">
+
+    <h1>ADIUR FEMENINO</h1>
+
+    <span>Pizarra táctica</span>
+
+  </div>
+
+
+  <div class="profile">
+
+    <div class="profile-info">
+
+      <strong id="nombreUsuario">
+        Usuario
+      </strong>
+
+      <small id="rolUsuario">
+        Cuerpo técnico
+      </small>
+
+    </div>
+
+
+    <div
+      class="avatar"
+      id="avatarUsuario">
+
+      U
+
+    </div>
+
+  </div>
+
+</header>
+
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside
+  class="sidebar"
+  id="sidebar">
+
+
+  <div class="menu-inicio">
+
+    <a
+      href="Pagina Principal.html"
+      class="menu-link">
+
+      INICIO
+
+    </a>
+
+  </div>
+
+
+
+  <!-- PLANTEL -->
+
+  <div
+    class="menu-section"
+    id="secPlantel">
+
+    <button
+      class="menu-title"
+      onclick="toggleSection('secPlantel')">
+
+      <span>PLANTEL</span>
+
+      <span class="arrow">
+        ▼
+      </span>
+
+    </button>
+
+
+    <div class="submenu">
+
+      <a
+        href="jugadoras.html"
+        class="menu-link">
+
+        Jugadoras
+
+      </a>
+
+
+      <a
+        href="asistencia.html"
+        class="menu-link">
+
+        Asistencia
+
+      </a>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- ENTRENAMIENTO -->
+
+  <div
+    class="menu-section"
+    id="secEntrenamiento">
+
+    <button
+      class="menu-title"
+      onclick="toggleSection('secEntrenamiento')">
+
+      <span>ENTRENAMIENTO</span>
+
+      <span class="arrow">
+        ▼
+      </span>
+
+    </button>
+
+
+    <div class="submenu">
+
+      <a
+        href="calendario.html"
+        class="menu-link">
+
+        Calendario
+
+      </a>
+
+
+      <a
+        href="planificacion.html"
+        class="menu-link">
+
+        Planificación
+
+      </a>
+
+
+      <a
+        href="biblioteca.html"
+        class="menu-link">
+
+        Biblioteca de ejercicios
+
+      </a>
+
+
+      <a
+        href="gimnasio.html"
+        class="menu-link">
+
+        Gimnasio
+
+      </a>
+
+
+      <a
+        href="calculadora.html"
+        class="menu-link">
+
+        Calculadora
+
+      </a>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- COMPETENCIA -->
+
+  <div
+    class="menu-section open"
+    id="secCompetencia">
+
+    <button
+      class="menu-title"
+      onclick="toggleSection('secCompetencia')">
+
+      <span>COMPETENCIA</span>
+
+      <span class="arrow">
+        ▼
+      </span>
+
+    </button>
+
+
+    <div class="submenu">
+
+      <a
+        href="Partidos.html"
+        class="menu-link">
+
+        Fixture
+
+      </a>
+
+
+      <a
+        href="informes.html"
+        class="menu-link">
+
+        Informes
+
+      </a>
+
+
+      <a
+        href="estadisticas.html"
+        class="menu-link">
+
+        Estadísticas
+
+      </a>
+
+
+      <a
+        href="pizarra táctica.html"
+        class="menu-link active"
+        data-ocultar-bianca>
+
+        Pizarra táctica
+
+      </a>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- RENDIMIENTOS -->
+
+  <div
+    class="menu-section"
+    id="secRendimientos">
+
+    <button
+      class="menu-title"
+      onclick="toggleSection('secRendimientos')">
+
+      <span>RENDIMIENTOS</span>
+
+      <span class="arrow">
+        ▼
+      </span>
+
+    </button>
+
+
+    <div class="submenu">
+
+      <a
+        href="testeos.html"
+        class="menu-link">
+
+        Planilla de testeos
+
+      </a>
+
+
+      <a
+        href="tiempos.html"
+        class="menu-link">
+
+        Tiempos
+
+      </a>
+
+
+      <a
+        href="multimedia.html"
+        class="menu-link">
+
+        Multimedia
+
+      </a>
+
+
+      <a
+        href="encuestas.html"
+        class="menu-link">
+
+        Encuestas
+
+      </a>
+
+
+      <a
+        href="lesiones.html"
+        class="menu-link">
+
+        Lesiones
+
+      </a>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="logout">
+
+    <a
+      href="Loing.html"
+      class="menu-link">
+
+      Cerrar sesión
+
+    </a>
+
+  </div>
+
+</aside>
+
+
+
+<!-- =========================
+     CONTENIDO
+========================= -->
+
+<main
+  class="main"
+  id="main">
+
+
+  <div class="page-header">
+
+    <h2>
+      Pizarra táctica
+    </h2>
+
+    <p>
+      Diseñá y guardá movimientos tácticos para ADIUR Femenino.
+    </p>
+
+  </div>
+
+
+
+  <!-- CONTROLES -->
+
+  <section class="controls">
+
+
+    <div class="control">
+
+      <label>
+        División
+      </label>
+
+      <select id="division">
+
+        <option>
+          Sub 10
+        </option>
+
+        <option>
+          Sub 12
+        </option>
+
+        <option>
+          Sub 14
+        </option>
+
+        <option>
+          Sub 16
+        </option>
+
+        <option>
+          Primera
+        </option>
+
+      </select>
+
+    </div>
+
+
+
+    <div class="control">
+
+      <label>
+        Cancha
+      </label>
+
+      <select
+        id="tipoCancha"
+        onchange="cambiarCancha()">
+
+        <option value="completa">
+          Cancha completa
+        </option>
+
+        <option value="mitad">
+          Mitad de cancha
+        </option>
+
+      </select>
+
+    </div>
+
+
+
+    <div class="control">
+
+      <label>
+        Formación propia
+      </label>
+
+      <select
+        id="formacionPropia"
+        onchange="cargarFormacionPropia()">
+
+        <option value="433">
+          4-3-3
+        </option>
+
+        <option value="442">
+          4-4-2
+        </option>
+
+        <option value="4231">
+          4-2-3-1
+        </option>
+
+        <option value="352">
+          3-5-2
+        </option>
+
+        <option value="343">
+          3-4-3
+        </option>
+
+        <option value="451">
+          4-5-1
+        </option>
+
+      </select>
+
+    </div>
+
+
+
+    <div class="control">
+
+      <label>
+        Formación rival
+      </label>
+
+      <select
+        id="formacionRival"
+        onchange="cargarFormacionRival()">
+
+        <option value="ninguna">
+          Sin formación
+        </option>
+
+        <option value="433">
+          4-3-3
+        </option>
+
+        <option value="442">
+          4-4-2
+        </option>
+
+        <option value="4231">
+          4-2-3-1
+        </option>
+
+        <option value="352">
+          3-5-2
+        </option>
+
+        <option value="343">
+          3-4-3
+        </option>
+
+        <option value="451">
+          4-5-1
+        </option>
+
+      </select>
+
+    </div>
+
+
+
+    <button
+      class="btn btn-orange"
+      onclick="agregarRival()">
+
+      + Jugador rival
+
+    </button>
+
+
+
+    <button
+      class="btn btn-light"
+      onclick="agregarJugadorPropio()">
+
+      + Jugador propio
+
+    </button>
+
+
+
+    <button
+      class="btn btn-blue"
+      onclick="agregarPelota()">
+
+      ⚽ Pelota
+
+    </button>
+
+
+
+    <button
+      class="btn btn-dark"
+      onclick="guardarPizarra()">
+
+      Guardar
+
+    </button>
+
+
+
+    <button
+      class="btn btn-red"
+      onclick="limpiarPizarra()">
+
+      Limpiar
+
+    </button>
+
+
+  </section>
+
+
+
+  <!-- PIZARRA -->
+
+  <section class="board-wrapper">
+
+
+    <div class="board-top">
+
+      <div class="board-title">
+
+        Pizarra táctica
+
+      </div>
+
+
+      <div class="board-help">
+
+        Arrastrá jugadores y pelota con el mouse.
+
+      </div>
+
+    </div>
+
+
+
+    <div class="pitch-area">
+
+
+      <div
+        class="pitch"
+        id="pitch">
+
+
+        <img
+          id="pitchImage"
+          class="pitch-image"
+          src="cancha completa.jpg"
+          alt="Cancha">
+
+
+        <div
+          class="pitch-overlay"
+          id="pitchOverlay">
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+
+
+    <div class="legend">
+
+
+      <div class="legend-item">
+
+        <span
+          class="legend-circle legend-own">
+        </span>
+
+        Jugadoras ADIUR
+
+      </div>
+
+
+      <div class="legend-item">
+
+        <span
+          class="legend-circle legend-opponent">
+        </span>
+
+        Jugadoras rivales
+
+      </div>
+
+
+      <div class="legend-item">
+
+        <span
+          class="legend-circle legend-goalkeeper">
+        </span>
+
+        Arquera
+
+      </div>
+
+
+      <div class="legend-item">
+
+        ⚽ Pelota
+
+      </div>
+
+
+    </div>
+
+  </section>
+
+
+</main>
+
+
+
+<!-- =========================
+     MODAL
+========================= -->
+
+<div
+  class="modal-bg"
+  id="modalJugador">
+
+
+  <div class="modal">
+
+
+    <h3>
+      Agregar jugador
+    </h3>
+
+
+    <div class="modal-row">
+
+      <label>
+        Nombre
+      </label>
+
+      <input
+        type="text"
+        id="nombreJugador"
+        placeholder="Ej. Bianca">
+
+    </div>
+
+
+
+    <div class="modal-row">
+
+      <label>
+        Número
+      </label>
+
+      <input
+        type="number"
+        id="numeroJugador"
+        min="1"
+        max="99"
+        value="10">
+
+    </div>
+
+
+
+    <div class="modal-row">
+
+      <label>
+        Equipo
+      </label>
+
+      <select id="tipoJugador">
+
+        <option value="own">
+          ADIUR
+        </option>
+
+        <option value="opponent">
+          Rival
+        </option>
+
+      </select>
+
+    </div>
+
+
+
+    <div class="modal-row">
+
+      <label>
+        Posición
+      </label>
+
+      <select id="posicionJugador">
+
+        <option value="campo">
+          Jugadora de campo
+        </option>
+
+        <option value="arquera">
+          Arquera
+        </option>
+
+      </select>
+
+    </div>
+
+
+
+    <div class="modal-buttons">
+
+      <button
+        class="btn btn-light"
+        onclick="cerrarModal()">
+
+        Cancelar
+
+      </button>
+
+
+      <button
+        class="btn btn-orange"
+        onclick="crearJugadorManual()">
+
+        Agregar
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<script>
+
+/* =========================
+   USUARIO
+========================= */
+
+const usuario =
+  localStorage.getItem("usuarioADIUR") || "Usuario";
+
+const usuariosAdmin = [
+  "fran",
+  "francisco",
+  "franciscoperezbasla"
+];
+
+const usuariosTecnico = [
+  "toto"
+];
+
+let rol = "Jugadora";
+
+
+if(
+  usuariosAdmin.includes(
+    usuario.toLowerCase()
+  )
+){
+
+  rol = "Administrador";
+
+}
+else if(
+  usuariosTecnico.includes(
+    usuario.toLowerCase()
+  )
+){
+
+  rol = "Cuerpo técnico";
+
+}
+
+
+document.getElementById(
+  "nombreUsuario"
+).textContent = usuario;
+
+
+document.getElementById(
+  "rolUsuario"
+).textContent = rol;
+
+
+document.getElementById(
+  "avatarUsuario"
+).textContent =
+  usuario.charAt(0).toUpperCase();
+
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+function toggleSidebar(){
+
+  const sidebar =
+    document.getElementById("sidebar");
+
+  const main =
+    document.getElementById("main");
+
+
+  if(window.innerWidth <= 800){
+
+    sidebar.classList.toggle("open");
+
+  }
+  else{
+
+    sidebar.classList.toggle("closed");
+
+    main.classList.toggle("full");
+
+  }
+
+}
+
+
+function toggleSection(id){
+
+  const section =
+    document.getElementById(id);
+
+  section.classList.toggle("open");
+
+}
+
+
+
+/* =========================
+   BIANCA
+========================= */
+
+const esBianca =
+  usuario.toLowerCase() === "bianca" ||
+  usuario.toLowerCase() === "biancadominguez";
+
+
+if(esBianca){
+
+  document.querySelectorAll(
+    "[data-ocultar-bianca]"
+  ).forEach(el=>{
+
+    el.style.display="none";
+
+  });
+
+
+  document.querySelectorAll(
+    "#secPlantel, #secRendimientos"
+  ).forEach(el=>{
+
+    el.style.display="none";
+
+  });
+
+}
+
+
+
+/* =========================
+   ELEMENTOS
+========================= */
+
+const pitch =
+  document.getElementById("pitch");
+
+const pitchImage =
+  document.getElementById("pitchImage");
+
+let jugadorID = 0;
+
+let arrastrando = null;
+
+let offsetX = 0;
+
+let offsetY = 0;
+
+
+
+/* =========================
+   CAMBIAR CANCHA
+========================= */
+
+function cambiarCancha(){
+
+  const tipo =
+    document.getElementById(
+      "tipoCancha"
+    ).value;
+
+
+  if(tipo === "mitad"){
+
+    pitchImage.src =
+      "mitad de cancha.jpg";
+
+  }
+  else{
+
+    pitchImage.src =
+      "cancha completa.jpg";
+
+  }
+
+}
+
+
+
+/* =========================
+   LIMITAR MOVIMIENTO
+========================= */
+
+function limitar(
+  valor,
+  min,
+  max
+){
+
+  return Math.max(
+    min,
+    Math.min(max,valor)
+  );
+
+}
+
+
+
+function moverElemento(
+  elemento,
+  x,
+  y
+){
+
+  const rect =
+    pitch.getBoundingClientRect();
+
+
+  const ancho =
+    elemento.offsetWidth;
+
+  const alto =
+    elemento.offsetHeight;
+
+
+  const mitadX =
+    ancho / 2;
+
+  const mitadY =
+    alto / 2;
+
+
+  x = limitar(
+    x,
+    mitadX,
+    rect.width - mitadX
+  );
+
+
+  y = limitar(
+    y,
+    mitadY,
+    rect.height - mitadY
+  );
+
+
+  elemento.style.left =
+    (x / rect.width * 100) + "%";
+
+
+  elemento.style.top =
+    (y / rect.height * 100) + "%";
+
+}
+
+
+
+/* =========================
+   ARRASTRE
+========================= */
+
+function iniciarArrastre(e){
+
+  e.preventDefault();
+
+  arrastrando =
+    e.currentTarget;
+
+
+  const rect =
+    pitch.getBoundingClientRect();
+
+
+  const elementoRect =
+    arrastrando.getBoundingClientRect();
+
+
+  offsetX =
+    e.clientX -
+    (
+      elementoRect.left +
+      elementoRect.width / 2
+    );
+
+
+  offsetY =
+    e.clientY -
+    (
+      elementoRect.top +
+      elementoRect.height / 2
+    );
+
+}
+
+
+
+document.addEventListener(
+  "pointermove",
+  function(e){
+
+    if(!arrastrando)
+      return;
+
+
+    const rect =
+      pitch.getBoundingClientRect();
+
+
+    let x =
+      e.clientX -
+      rect.left -
+      offsetX;
+
+
+    let y =
+      e.clientY -
+      rect.top -
+      offsetY;
+
+
+    moverElemento(
+      arrastrando,
+      x,
+      y
+    );
+
+  }
+);
+
+
+
+document.addEventListener(
+  "pointerup",
+  function(){
+
+    arrastrando = null;
+
+  }
+);
+
+
+
+/* =========================
+   CREAR JUGADOR
+========================= */
+
+function crearJugador(
+  numero,
+  x,
+  y,
+  equipo="own",
+  arquero=false,
+  nombre=""
+){
+
+  jugadorID++;
+
+
+  const jugador =
+    document.createElement("div");
+
+
+  jugador.className =
+    "player " +
+    equipo +
+    (
+      arquero
+      ? " goalkeeper"
+      : ""
+    );
+
+
+  jugador.dataset.id =
+    jugadorID;
+
+
+  jugador.dataset.equipo =
+    equipo;
+
+
+  jugador.dataset.numero =
+    numero;
+
+
+  jugador.dataset.arquero =
+    arquero
+    ? "true"
+    : "false";
+
+
+  jugador.style.left =
+    x + "%";
+
+
+  jugador.style.top =
+    y + "%";
+
+
+  jugador.textContent =
+    numero;
+
+
+  if(nombre){
+
+    const nombreEl =
+      document.createElement("span");
+
+
+    nombreEl.className =
+      "player-name";
+
+
+    nombreEl.textContent =
+      nombre;
+
+
+    jugador.appendChild(
+      nombreEl
+    );
+
+  }
+
+
+  jugador.addEventListener(
+    "pointerdown",
+    iniciarArrastre
+  );
+
+
+  jugador.addEventListener(
+    "dblclick",
+    function(){
+
+      if(
+        confirm(
+          "¿Querés eliminar esta jugadora?"
+        )
+      ){
+
+        jugador.remove();
+
+      }
+
+    }
+  );
+
+
+  pitch.appendChild(
+    jugador
+  );
+
+
+  return jugador;
+
+}
+
+
+
+/* =========================
+   FORMACIONES
+========================= */
+
+const formaciones = {
+
+  "433":[
+
+    [1,8,50],
+
+    [2,22,25],
+    [3,22,42],
+    [4,22,58],
+    [5,22,75],
+
+    [6,40,32],
+    [7,40,50],
+    [8,40,68],
+
+    [9,62,25],
+    [10,65,50],
+    [11,62,75]
+
+  ],
+
+
+  "442":[
+
+    [1,8,50],
+
+    [2,22,25],
+    [3,22,42],
+    [4,22,58],
+    [5,22,75],
+
+    [6,43,32],
+    [7,43,68],
+
+    [8,58,35],
+    [9,58,65],
+
+    [10,72,40],
+    [11,72,60]
+
+  ],
+
+
+  "4231":[
+
+    [1,8,50],
+
+    [2,22,25],
+    [3,22,42],
+    [4,22,58],
+    [5,22,75],
+
+    [6,40,40],
+    [7,40,60],
+
+    [8,55,25],
+    [9,57,50],
+    [10,55,75],
+
+    [11,73,50]
+
+  ],
+
+
+  "352":[
+
+    [1,8,50],
+
+    [2,25,32],
+    [3,22,50],
+    [4,25,68],
+
+    [5,42,20],
+    [6,43,38],
+    [7,43,62],
+    [8,42,80],
+
+    [9,60,35],
+    [10,60,65],
+
+    [11,75,50]
+
+  ],
+
+
+  "343":[
+
+    [1,8,50],
+
+    [2,24,30],
+    [3,22,50],
+    [4,24,70],
+
+    [5,43,30],
+    [6,43,50],
+    [7,43,70],
+
+    [8,60,25],
+    [9,62,50],
+    [10,60,75],
+
+    [11,76,50]
+
+  ],
+
+
+  "451":[
+
+    [1,8,50],
+
+    [2,22,25],
+    [3,22,42],
+    [4,22,58],
+    [5,22,75],
+
+    [6,42,20],
+    [7,42,38],
+    [8,42,50],
+    [9,42,62],
+    [10,42,80],
+
+    [11,73,50]
+
+  ]
+
+};
+
+
+
+/* =========================
+   FORMACION PROPIA
+========================= */
+
+function limpiarJugadores(
+  equipo
+){
+
+  document
+    .querySelectorAll(
+      `.player[data-equipo="${equipo}"]`
+    )
+    .forEach(j=>{
+
+      j.remove();
+
+    });
+
+}
+
+
+
+function cargarFormacionPropia(){
+
+  const formacion =
+    document.getElementById(
+      "formacionPropia"
+    ).value;
+
+
+  limpiarJugadores(
+    "own"
+  );
+
+
+  if(
+    !formaciones[formacion]
+  )
+    return;
+
+
+  formaciones[
+    formacion
+  ].forEach(
+    p=>{
+
+      const numero =
+        p[0];
+
+      const x =
+        p[1];
+
+      const y =
+        p[2];
+
+
+      crearJugador(
+        numero,
+        x,
+        y,
+        "own",
+        numero === 1
+      );
+
+    }
+  );
+
+}
+
+
+
+/* =========================
+   FORMACION RIVAL
+========================= */
+
+function cargarFormacionRival(){
+
+  const formacion =
+    document.getElementById(
+      "formacionRival"
+    ).value;
+
+
+  limpiarJugadores(
+    "opponent"
+  );
+
+
+  if(
+    formacion === "ninguna"
+  )
+    return;
+
+
+  if(
+    !formaciones[formacion]
+  )
+    return;
+
+
+  formaciones[
+    formacion
+  ].forEach(
+    p=>{
+
+      const numero =
+        p[0];
+
+
+      const x =
+        100 - p[1];
+
+
+      const y =
+        100 - p[2];
+
+
+      crearJugador(
+        numero,
+        x,
+        y,
+        "opponent",
+        numero === 1
+      );
+
+    }
+  );
+
+}
+
+
+
+/* =========================
+   RIVAL LIBRE
+========================= */
+
+function agregarRival(){
+
+  const numero =
+    prompt(
+      "Número del jugador rival:",
+      "10"
+    );
+
+
+  if(!numero)
+    return;
+
+
+  crearJugador(
+    numero,
+    50,
+    50,
+    "opponent",
+    false
+  );
+
+}
+
+
+
+/* =========================
+   JUGADOR PROPIO LIBRE
+========================= */
+
+function agregarJugadorPropio(){
+
+  document.getElementById(
+    "tipoJugador"
+  ).value =
+    "own";
+
+
+  document.getElementById(
+    "modalJugador"
+  ).classList.add(
+    "show"
+  );
+
+}
+
+
+
+/* =========================
+   PELOTA
+========================= */
+
+function agregarPelota(){
+
+  if(
+    document.querySelector(
+      ".ball"
+    )
+  ){
+
+    alert(
+      "Ya hay una pelota en la cancha."
+    );
+
+    return;
+
+  }
+
+
+  const ball =
+    document.createElement(
+      "div"
+    );
+
+
+  ball.className =
+    "ball";
+
+
+  ball.textContent =
+    "⚽";
+
+
+  ball.style.left =
+    "50%";
+
+
+  ball.style.top =
+    "50%";
+
+
+  ball.addEventListener(
+    "pointerdown",
+    iniciarArrastre
+  );
+
+
+  ball.addEventListener(
+    "dblclick",
+    function(){
+
+      if(
+        confirm(
+          "¿Querés quitar la pelota?"
+        )
+      ){
+
+        ball.remove();
+
+      }
+
+    }
+  );
+
+
+  pitch.appendChild(
+    ball
+  );
+
+}
+
+
+
+/* =========================
+   MODAL
+========================= */
+
+function cerrarModal(){
+
+  document.getElementById(
+    "modalJugador"
+  ).classList.remove(
+    "show"
+  );
+
+}
+
+
+
+function crearJugadorManual(){
+
+  const nombre =
+    document.getElementById(
+      "nombreJugador"
+    ).value.trim();
+
+
+  const numero =
+    document.getElementById(
+      "numeroJugador"
+    ).value;
+
+
+  const equipo =
+    document.getElementById(
+      "tipoJugador"
+    ).value;
+
+
+  const posicion =
+    document.getElementById(
+      "posicionJugador"
+    ).value;
+
+
+  if(!numero){
+
+    alert(
+      "Ingresá un número."
+    );
+
+    return;
+
+  }
+
+
+  crearJugador(
+    numero,
+    50,
+    50,
+    equipo,
+    posicion === "arquera",
+    nombre
+  );
+
+
+  document.getElementById(
+    "nombreJugador"
+  ).value =
+    "";
+
+
+  cerrarModal();
+
+}
+
+
+
+/* =========================
+   GUARDAR PIZARRA
+========================= */
+
+function guardarPizarra(){
+
+  const division =
+    document.getElementById(
+      "division"
+    ).value;
+
+
+  const cancha =
+    document.getElementById(
+      "tipoCancha"
+    ).value;
+
+
+  const jugadores =
+    [];
+
+
+  document
+    .querySelectorAll(
+      ".player"
+    )
+    .forEach(
+      j=>{
+
+        jugadores.push({
+
+          numero:
+            j.dataset.numero,
+
+          equipo:
+            j.dataset.equipo,
+
+          arquero:
+            j.dataset.arquero,
+
+          left:
+            j.style.left,
+
+          top:
+            j.style.top,
+
+          nombre:
+            j.querySelector(
+              ".player-name"
+            )?.textContent || ""
+
+        });
+
+      }
+    );
+
+
+  const pelota =
+    document.querySelector(
+      ".ball"
+    );
+
+
+  const datos = {
+
+    division,
+
+    cancha,
+
+    formacionPropia:
+      document.getElementById(
+        "formacionPropia"
+      ).value,
+
+    formacionRival:
+      document.getElementById(
+        "formacionRival"
+      ).value,
+
+    jugadores,
+
+    pelota:
+      pelota
+      ? {
+
+          left:
+            pelota.style.left,
+
+          top:
+            pelota.style.top
+
+        }
+      : null
+
+  };
+
+
+  localStorage.setItem(
+
+    "pizarraTacticaADIUR_" +
+    division,
+
+    JSON.stringify(datos)
+
+  );
+
+
+  alert(
+    "Pizarra guardada correctamente."
+  );
+
+}
+
+
+
+/* =========================
+   CARGAR PIZARRA
+========================= */
+
+function cargarGuardada(){
+
+  const division =
+    document.getElementById(
+      "division"
+    ).value;
+
+
+  const guardada =
+    localStorage.getItem(
+
+      "pizarraTacticaADIUR_" +
+      division
+
+    );
+
+
+  if(!guardada){
+
+    limpiarPizarra(false);
+
+    cargarFormacionPropia();
+
+    return;
+
+  }
+
+
+  try{
+
+    const datos =
+      JSON.parse(
+        guardada
+      );
+
+
+    limpiarPizarra(false);
+
+
+    document.getElementById(
+      "tipoCancha"
+    ).value =
+      datos.cancha ||
+      "completa";
+
+
+    cambiarCancha();
+
+
+    document.getElementById(
+      "formacionPropia"
+    ).value =
+      datos.formacionPropia ||
+      "433";
+
+
+    document.getElementById(
+      "formacionRival"
+    ).value =
+      datos.formacionRival ||
+      "ninguna";
+
+
+    if(
+      datos.jugadores
+    ){
+
+      datos.jugadores.forEach(
+        j=>{
+
+          crearJugador(
+
+            j.numero,
+
+            parseFloat(
+              j.left
+            ),
+
+            parseFloat(
+              j.top
+            ),
+
+            j.equipo,
+
+            j.arquero === "true",
+
+            j.nombre
+
+          );
+
+        }
+      );
+
+    }
+
+
+    if(
+      datos.pelota
+    ){
+
+      const ball =
+        document.createElement(
+          "div"
+        );
+
+
+      ball.className =
+        "ball";
+
+
+      ball.textContent =
+        "⚽";
+
+
+      ball.style.left =
+        datos.pelota.left;
+
+
+      ball.style.top =
+        datos.pelota.top;
+
+
+      ball.addEventListener(
+        "pointerdown",
+        iniciarArrastre
+      );
+
+
+      ball.addEventListener(
+        "dblclick",
+        function(){
+
+          if(
+            confirm(
+              "¿Querés quitar la pelota?"
+            )
+          ){
+
+            ball.remove();
+
+          }
+
+        }
+      );
+
+
+      pitch.appendChild(
+        ball
+      );
+
+    }
+
+
+  }
+  catch(error){
+
+    console.error(
+      error
+    );
+
+    cargarFormacionPropia();
+
+  }
+
+}
+
+
+
+/* =========================
+   LIMPIAR
+========================= */
+
+function limpiarPizarra(
+  confirmar=true
+){
+
+  if(confirmar){
+
+    if(
+      !confirm(
+        "¿Querés borrar todos los jugadores y la pelota?"
+      )
+    )
+      return;
+
+  }
+
+
+  document
+    .querySelectorAll(
+      ".player, .ball"
+    )
+    .forEach(
+      el=>{
+
+        el.remove();
+
+      }
+    );
+
+}
+
+
+
+/* =========================
+   CAMBIO DE DIVISIÓN
+========================= */
+
+document
+  .getElementById(
+    "division"
+  )
+  .addEventListener(
+    "change",
+    cargarGuardada
+  );
+
+
+
+/* =========================
+   INICIO
+========================= */
+
+window.addEventListener(
+  "load",
+  function(){
+
+    cargarGuardada();
+
+  }
+);
+
+
+
+/* =========================
+   CERRAR MODAL
+========================= */
+
+document
+  .getElementById(
+    "modalJugador"
+  )
+  .addEventListener(
+    "click",
+    function(e){
+
+      if(
+        e.target === this
+      ){
+
+        cerrarModal();
+
+      }
+
+    }
+  );
+
+</script>
+
+</body>
+</html>
