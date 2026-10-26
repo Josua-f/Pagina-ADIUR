@@ -16,6 +16,7 @@
     --gris: #f4f5f7;
     --gris-texto: #747474;
     --blanco: #fff;
+    --azul: #2464c5;
 }
 
 * {
@@ -1465,6 +1466,7 @@ main {
 
             <select id="estadoActividad">
                 <option value="libre">Blanco — Libre</option>
+                <option value="partido">Azul — Partido</option>
                 <option value="suspendido">Gris — Suspendido</option>
                 <option value="bajo">Verde — Bajo</option>
                 <option value="medio">Amarillo — Medio</option>
@@ -2227,6 +2229,7 @@ function obtenerActividad(cat, fecha) {
 
     const equivalenciasEstado = {
         blanco: "libre",
+        azul: "partido",
         gris: "suspendido",
         verde: "bajo",
         amarillo: "medio",
