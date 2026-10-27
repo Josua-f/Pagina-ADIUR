@@ -1,0 +1,1190 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Informes | ADIUR Femenino</title>
+
+<style>
+:root {
+  --naranja: #f47721;
+  --naranja-oscuro: #dc5e0b;
+  --naranja-claro: #fff0e6;
+  --negro: #171717;
+  --gris: #f4f5f7;
+  --gris-texto: #747474;
+  --borde: #e8e8e8;
+  --blanco: #fff;
+  --texto: #242424;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f5f5f5;
+  color: var(--texto);
+}
+
+button, input, select { font: inherit; }
+
+.barra-superior {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  min-height: 84px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 25px;
+  background: white;
+  border-bottom: 1px solid var(--borde);
+}
+
+.menu-boton {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  background: white;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-size: 27px;
+  cursor: pointer;
+  color: var(--negro);
+}
+
+.menu-boton:hover {
+  background: var(--naranja-claro);
+  color: var(--naranja-oscuro);
+}
+
+.logo {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.marca { line-height: 1.25; }
+
+.marca h1 {
+  font-size: 19px;
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: .3px;
+  color: var(--negro);
+}
+
+.marca p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--gris-texto);
+}
+
+.perfil-superior {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.avatar {
+  width: 39px;
+  height: 39px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--naranja);
+  color: white;
+  display: grid;
+  place-items: center;
+  font-weight: bold;
+}
+
+.perfil-superior strong {
+  display: block;
+  font-size: 13px;
+}
+
+.perfil-superior small {
+  color: var(--gris-texto);
+  font-size: 11px;
+}
+
+.contenedor {
+  display: flex;
+  min-height: calc(100vh - 84px);
+}
+
+/* BARRA LATERAL: diseño de la página principal */
+
+.barra-lateral {
+  background: white;
+  border-right: 1px solid var(--borde);
+  width: 258px;
+  flex: 0 0 258px;
+  padding: 20px 13px;
+  transition: margin-left .25s;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.barra-lateral.oculta {
+  margin-left: -258px;
+}
+
+.menu-inicio {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 14px;
+  margin-bottom: 16px;
+  border-radius: 11px;
+  background: var(--naranja-claro);
+  color: var(--naranja-oscuro);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.menu-inicio:hover {
+  background: #ffe4d1;
+}
+
+.icono-menu {
+  width: 20px;
+  min-width: 20px;
+  text-align: center;
+  font-size: 17px;
+}
+
+.grupo-menu {
+  margin-bottom: 11px;
+}
+
+.titulo-grupo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 12px;
+  border-radius: 8px;
+  color: #777;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.1px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.titulo-grupo:hover {
+  background: #f8f8f8;
+  color: var(--negro);
+}
+
+.titulo-grupo .flecha {
+  font-size: 13px;
+  transition: transform .2s;
+}
+
+.grupo-menu.cerrado .flecha {
+  transform: rotate(-90deg);
+}
+
+.submenu {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0 0 5px;
+}
+
+.grupo-menu.cerrado .submenu {
+  display: none;
+}
+
+.submenu a {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #414141;
+  font-size: 12px;
+  line-height: 1.35;
+  transition: background .15s, color .15s;
+}
+
+.submenu a:hover {
+  background: #fff3eb;
+  color: var(--naranja-oscuro);
+}
+
+.submenu a.activo {
+  background: var(--naranja);
+  color: white;
+  font-weight: 700;
+}
+
+.submenu a .nav-punto {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  border-radius: 50%;
+  background: #c9c9c9;
+}
+
+.submenu a.activo .nav-punto {
+  background: white;
+}
+
+.submenu a:hover .nav-punto {
+  background: var(--naranja);
+}
+
+.submenu a.activo:hover .nav-punto {
+  background: white;
+}
+
+.separador-menu {
+  border: 0;
+  border-top: 1px solid var(--borde);
+  margin: 14px 4px;
+}
+
+.enlace-cerrar {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px;
+  border-radius: 8px;
+  color: #c0392b;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.enlace-cerrar:hover {
+  background: #fff0f0;
+}
+
+.capa-sidebar {
+  display: none;
+}
+
+/* CONTENIDO DE GIMNASIO */
+
+.contenido {
+  flex: 1;
+  min-width: 0;
+  padding: 28px;
+}
+
+.encabezado-pagina {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.encabezado-pagina h2 {
+  font-size: 25px;
+  margin: 0 0 7px;
+}
+
+.encabezado-pagina p {
+  color: #777;
+  margin: 0;
+  font-size: 13px;
+}
+
+.etiqueta-perfil {
+  background: #fff0e5;
+  color: #b9510c;
+  padding: 9px 12px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.tarjeta {
+  background: white;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  padding: 22px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px #00000005;
+}
+
+.tarjeta h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+.descripcion {
+  font-size: 12px;
+  color: #777;
+  margin: 0 0 20px;
+  line-height: 1.5;
+}
+
+.filtros {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(130px, 1fr));
+  gap: 15px;
+}
+
+.campo label {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.campo select,
+.campo input {
+  width: 100%;
+  min-width: 0;
+  padding: 11px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  background: white;
+  outline-color: var(--naranja);
+}
+
+.botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.boton {
+  border: 0;
+  padding: 11px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.boton-principal {
+  background: var(--naranja);
+  color: white;
+}
+
+.boton-principal:hover {
+  background: var(--naranja-oscuro);
+}
+
+.boton-secundario {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.boton-peligro {
+  background: #fff0f0;
+  color: #b3261e;
+}
+
+.boton:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.info-rutina {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.info-rutina strong { font-size: 14px; }
+
+.info-rutina span {
+  font-size: 12px;
+  color: #777;
+}
+
+.aviso {
+  padding: 12px 14px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 7px;
+  color: #8a430e;
+  font-size: 12px;
+  line-height: 1.5;
+  margin-bottom: 17px;
+}
+
+.tabla-contenedor {
+  overflow: auto;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  max-width: 100%;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: max-content;
+  min-width: 100%;
+  font-size: 12px;
+}
+
+th, td {
+  border-right: 1px solid #e7e7e7;
+  border-bottom: 1px solid #e7e7e7;
+  padding: 9px;
+  text-align: center;
+  min-width: 90px;
+}
+
+thead th {
+  background: #f3f3f3;
+  font-weight: 800;
+}
+
+thead tr:first-child th {
+  background: #252525;
+  color: white;
+}
+
+thead tr:first-child th:first-child {
+  background: var(--naranja);
+}
+
+th.ejercicio-col,
+td.ejercicio-col {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  min-width: 180px;
+  max-width: 220px;
+  background: white;
+}
+
+thead th.ejercicio-col {
+  background: var(--naranja) !important;
+  color: white;
+  z-index: 5;
+}
+
+td.ejercicio-col input {
+  width: 100%;
+  min-width: 130px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+td input.numero {
+  width: 75px;
+  max-width: 100%;
+  padding: 8px 4px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-align: center;
+}
+
+td input:disabled {
+  background: #f5f5f5;
+  color: #555;
+  border-color: transparent;
+}
+
+td input:focus {
+  outline: 1px solid var(--naranja);
+  border-color: var(--naranja);
+}
+
+th.dia {
+  background: #444;
+  color: white;
+}
+
+th.semana {
+  background: var(--naranja);
+  color: white;
+}
+
+.vacio {
+  color: #777;
+  padding: 25px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.pie-tabla {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+  font-size: 12px;
+  color: #777;
+}
+
+.estado {
+  font-size: 12px;
+  color: #477a3c;
+  margin-top: 12px;
+  min-height: 15px;
+}
+
+#listaTodas { display: none; }
+
+.tarjeta-jugadora {
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  padding: 15px;
+  margin: 12px 0;
+  background: #fff;
+}
+
+.tarjeta-jugadora h4 {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.tarjeta-jugadora p {
+  color: #777;
+  font-size: 12px;
+  margin: 0 0 10px;
+}
+
+.oculto { display: none !important; }
+
+@media (max-width: 1200px) {
+  .filtros {
+    grid-template-columns: repeat(3, minmax(130px, 1fr));
+  }
+}
+
+@media (max-width: 850px) {
+  .barra-lateral {
+    position: fixed;
+    top: 72px;
+    bottom: 0;
+    left: 0;
+    z-index: 150;
+    width: 258px;
+    max-width: 86vw;
+    overflow-y: auto;
+    box-shadow: 3px 0 15px #00000018;
+    margin-left: 0;
+    transition: transform .25s;
+  }
+
+  .barra-lateral.oculta {
+    margin-left: 0;
+    transform: translateX(-110%);
+  }
+
+  .capa-sidebar.visible {
+    display: block;
+    position: fixed;
+    inset: 72px 0 0;
+    z-index: 140;
+    background: #00000045;
+  }
+
+  .contenido { padding: 18px; }
+
+  .filtros {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+  }
+
+  .barra-superior {
+    min-height: 72px;
+  }
+
+  .contenedor {
+    min-height: calc(100vh - 72px);
+  }
+}
+
+@media (min-width: 851px) {
+  .capa-sidebar.visible { display: none; }
+}
+
+@media (max-width: 520px) {
+  .barra-superior {
+    padding: 10px 12px;
+    gap: 9px;
+  }
+
+  .menu-boton {
+    width: 38px;
+    height: 38px;
+  }
+
+  .marca h1 { font-size: 15px; }
+  .marca p { font-size: 11px; }
+  .logo { width: 38px; height: 38px; }
+
+  .perfil-superior { gap: 7px; }
+
+  .perfil-superior strong {
+    max-width: 95px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .perfil-superior small { display: none; }
+
+  .contenido { padding: 13px; }
+
+  .encabezado-pagina h2 { font-size: 21px; }
+
+  .tarjeta { padding: 15px; }
+
+  .filtros { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 380px) {
+  .marca h1 { font-size: 13px; }
+  .marca p { font-size: 10px; }
+  .avatar { width: 33px; height: 33px; }
+}
+
+
+/* INFORMES Y JORNADAS */
+.formulario-jornada { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:15px; }
+.formulario-jornada .campo-completo { grid-column:1/-1; }
+.formulario-jornada label { display:block; font-size:12px; font-weight:700; margin-bottom:8px; }
+.formulario-jornada input, .formulario-jornada select, .formulario-jornada textarea {
+  width:100%; min-width:0; padding:11px; border:1px solid #d9d9d9; border-radius:6px; background:white; outline-color:var(--naranja);
+}
+.formulario-jornada textarea { min-height:100px; resize:vertical; }
+.seccion-jornadas { display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:16px; }
+.tarjeta-jornada { background:white; border:1px solid var(--borde); border-radius:10px; overflow:hidden; box-shadow:0 2px 5px #00000005; }
+.foto-club { width:100%; height:155px; display:flex; align-items:center; justify-content:center; background:#f2f2f2; color:#777; overflow:hidden; }
+.foto-club img { width:100%; height:100%; object-fit:contain; background:#fff; }
+.contenido-jornada { padding:16px; }
+.contenido-jornada h4 { margin:0 0 7px; font-size:16px; }
+.datos-jornada { display:flex; flex-wrap:wrap; gap:7px; margin:10px 0; }
+.chip { display:inline-block; background:#f2f2f2; color:#555; border-radius:20px; padding:5px 9px; font-size:11px; }
+.resultado { color:var(--naranja-oscuro); font-weight:800; }
+.observaciones { font-size:12px; line-height:1.55; color:#555; white-space:pre-wrap; overflow-wrap:anywhere; }
+.jornada-acciones { display:flex; gap:8px; margin-top:14px; }
+.jornada-acciones .boton { flex:1; }
+.resumen { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin-bottom:20px; }
+.resumen-item { background:white; border:1px solid var(--borde); border-radius:9px; padding:16px; }
+.resumen-item span { display:block; color:#777; font-size:12px; margin-bottom:8px; }
+.resumen-item strong { font-size:23px; }
+.filtros-informes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px; }
+.filtros-informes label { display:block; font-size:12px; font-weight:700; margin-bottom:8px; }
+.filtros-informes select { width:100%; padding:11px; border:1px solid #d9d9d9; border-radius:6px; background:white; }
+.vacio-informes { grid-column:1/-1; padding:35px 20px; text-align:center; color:#777; background:#fafafa; border:1px dashed #ddd; border-radius:9px; font-size:13px; line-height:1.6; }
+.archivo-ayuda { color:#777; font-size:11px; margin-top:6px; line-height:1.4; }
+@media(max-width:900px) { .formulario-jornada { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:600px) { .formulario-jornada,.filtros-informes,.resumen { grid-template-columns:1fr; } .formulario-jornada .campo-completo { grid-column:auto; } }
+</style>
+</head>
+<body>
+
+<header class="barra-superior">
+  <button
+    class="menu-boton"
+    id="botonMenu"
+    aria-label="Abrir menú"
+    aria-expanded="true"
+    type="button"
+  >☰</button>
+
+  <img
+    class="logo"
+    src="Logo ADIUR.jpg"
+    alt="ADIUR"
+    onerror="this.onerror=null;this.src='logo adiur.jpg';"
+  >
+
+  <div class="marca">
+    <h1>ADIUR FEMENINO</h1>
+    <p>Informes</p>
+  </div>
+
+  <div class="perfil-superior">
+    <div class="avatar" id="avatarPerfil">U</div>
+    <div>
+      <strong id="nombrePerfil">Usuario</strong>
+      <small id="rolPerfil">Perfil</small>
+    </div>
+  </div>
+</header>
+
+<div class="capa-sidebar" id="capaSidebar"></div>
+
+<div class="contenedor">
+
+  <aside class="barra-lateral" id="barraLateral">
+
+    <a class="menu-inicio" href="Pagina Principal.html">
+      <span class="icono-menu">⌂</span>
+      <span>INICIO</span>
+    </a>
+
+    <div class="grupo-menu cerrado" id="grupoPlantel">
+      <div
+        class="titulo-grupo"
+        role="button"
+        tabindex="0"
+        aria-expanded="false"
+        data-grupo="grupoPlantel"
+      >
+        <span>PLANTEL</span>
+        <span class="flecha">⌄</span>
+      </div>
+
+      <div class="submenu">
+        <a href="jugadoras.html">
+          <span class="nav-punto"></span>
+          <span>Jugadoras</span>
+        </a>
+        <a href="asistencia.html">
+          <span class="nav-punto"></span>
+          <span>Asistencia</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="grupo-menu" id="grupoEntrenamiento">
+      <div
+        class="titulo-grupo"
+        role="button"
+        tabindex="0"
+        aria-expanded="true"
+        data-grupo="grupoEntrenamiento"
+      >
+        <span>ENTRENAMIENTO</span>
+        <span class="flecha">⌄</span>
+      </div>
+
+      <div class="submenu">
+        <a href="calendario.html">
+          <span class="nav-punto"></span>
+          <span>Calendario</span>
+        </a>
+        <a href="planificacion.html">
+          <span class="nav-punto"></span>
+          <span>Planificación</span>
+        </a>
+        <a href="biblioteca.html">
+          <span class="nav-punto"></span>
+          <span>Biblioteca de ejercicios</span>
+        </a>
+        <a href="gimnasio.html">
+          <span class="nav-punto"></span>
+          <span>Gimnasio</span>
+        </a>
+        <a href="calculadora.html">
+          <span class="nav-punto"></span>
+          <span>Calculadora</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="grupo-menu" id="grupoCompetencia">
+      <div
+        class="titulo-grupo"
+        role="button"
+        tabindex="0"
+        aria-expanded="false"
+        data-grupo="grupoCompetencia"
+      >
+        <span>COMPETENCIA</span>
+        <span class="flecha">⌄</span>
+      </div>
+
+      <div class="submenu">
+        <a href="Partidos.html">
+          <span class="nav-punto"></span>
+          <span>Partidos</span>
+        </a>
+        <a href="informes.html" class="activo">
+          <span class="nav-punto"></span>
+          <span>Informes</span>
+        </a>
+        <a href="estadisticas.html">
+          <span class="nav-punto"></span>
+          <span>Estadísticas</span>
+        </a>
+        <a href="pizarra.html">
+          <span class="nav-punto"></span>
+          <span>Pizarra táctica</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="grupo-menu cerrado" id="grupoRendimientos">
+      <div
+        class="titulo-grupo"
+        role="button"
+        tabindex="0"
+        aria-expanded="false"
+        data-grupo="grupoRendimientos"
+      >
+        <span>RENDIMIENTOS</span>
+        <span class="flecha">⌄</span>
+      </div>
+
+      <div class="submenu">
+        <a href="testeos.html">
+          <span class="nav-punto"></span>
+          <span>Planilla de testeos</span>
+        </a>
+        <a href="tiempos.html">
+          <span class="nav-punto"></span>
+          <span>Tiempos</span>
+        </a>
+        <a href="multimedia.html">
+          <span class="nav-punto"></span>
+          <span>Multimedia</span>
+        </a>
+        <a href="encuestas.html">
+          <span class="nav-punto"></span>
+          <span>Encuestas</span>
+        </a>
+        <a href="lesiones.html">
+          <span class="nav-punto"></span>
+          <span>Lesiones</span>
+        </a>
+      </div>
+    </div>
+
+    <hr class="separador-menu">
+
+    <a class="enlace-cerrar" href="#" id="cerrarSesion">
+      <span class="icono-menu">⇥</span>
+      <span>Cerrar sesión</span>
+    </a>
+
+  </aside>
+
+  <main class="contenido">
+    <div class="encabezado-pagina">
+      <div>
+        <h2>Informes</h2>
+        <p>Registro y seguimiento de jornadas competitivas de ADIUR Femenino.</p>
+      </div>
+      <span class="etiqueta-perfil">Cuerpo técnico</span>
+    </div>
+
+    <section class="tarjeta">
+      <h3>Seleccionar división y torneo</h3>
+      <p class="descripcion">Elegí la categoría y la competencia para consultar o cargar sus jornadas.</p>
+      <div class="filtros-informes">
+        <div>
+          <label for="division">División</label>
+          <select id="division">
+            <option>Sub 10</option><option>Sub 12</option><option>Sub 14</option><option>Sub 16</option><option>Primera</option>
+          </select>
+        </div>
+        <div>
+          <label for="torneo">Torneo</label>
+          <select id="torneo"><option value="Rosarina">Rosarina</option></select>
+        </div>
+      </div>
+      <p class="archivo-ayuda" id="ayudaTorneo">Las divisiones formativas participan en Rosarina.</p>
+    </section>
+
+    <div class="resumen">
+      <div class="resumen-item"><span>División seleccionada</span><strong id="resumenDivision">Sub 10</strong></div>
+      <div class="resumen-item"><span>Torneo seleccionado</span><strong id="resumenTorneo">Rosarina</strong></div>
+      <div class="resumen-item"><span>Jornadas cargadas</span><strong id="resumenCantidad">0</strong></div>
+    </div>
+
+    <section class="tarjeta">
+      <h3>Agregar jornada</h3>
+      <p class="descripcion">Cargá la fecha, el club rival y su escudo o foto. También podés guardar el resultado y las observaciones del partido.</p>
+      <form id="formJornada" class="formulario-jornada">
+        <div class="campo">
+          <label for="fecha">Fecha de la jornada</label>
+          <input id="fecha" type="date" required>
+        </div>
+        <div class="campo">
+          <label for="club">Club rival</label>
+          <input id="club" type="text" maxlength="90" placeholder="Ej.: Club Atlético..." required>
+        </div>
+        <div class="campo">
+          <label for="resultado">Resultado (opcional)</label>
+          <input id="resultado" type="text" maxlength="40" placeholder="Ej.: ADIUR 2 - 1 Rival">
+        </div>
+        <div class="campo campo-completo">
+          <label for="foto">Foto o escudo del club rival</label>
+          <input id="foto" type="file" accept="image/*">
+          <div class="archivo-ayuda">Podés elegir una foto del dispositivo. Se guardará junto con la jornada en este navegador.</div>
+        </div>
+        <div class="campo campo-completo">
+          <label for="observaciones">Informe / observaciones</label>
+          <textarea id="observaciones" maxlength="5000" placeholder="Anotá aspectos del partido, rendimiento, situaciones importantes o conclusiones..."></textarea>
+        </div>
+        <div class="campo campo-completo">
+          <button class="boton boton-principal" type="submit">＋ Guardar jornada</button>
+        </div>
+      </form>
+      <div class="estado" id="estado"></div>
+    </section>
+
+    <section class="tarjeta">
+      <h3>Jornadas registradas</h3>
+      <p class="descripcion" id="subtituloJornadas">Jornadas de la división y el torneo seleccionados.</p>
+      <div class="seccion-jornadas" id="listaJornadas"></div>
+    </section>
+  </main>
+</div>
+
+<script>
+(() => {
+  "use strict";
+  const STORAGE_KEY = "informesADIURJornadasV1";
+  const SESSION_KEY = "usuarioADIUR";
+  const $ = id => document.getElementById(id);
+  const division = $("division");
+  const torneo = $("torneo");
+  let jornadas = cargarJornadas();
+  let fotoSeleccionada = "";
+
+  function cargarJornadas() {
+    try {
+      const datos = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      return Array.isArray(datos) ? datos : [];
+    } catch { return []; }
+  }
+
+  function guardarJornadas() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(jornadas));
+      return true;
+    } catch (error) {
+      $("estado").textContent = "No se pudo guardar. La foto puede ser demasiado pesada; probá con una imagen más pequeña.";
+      return false;
+    }
+  }
+
+  function normalizar(texto) {
+    return String(texto || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase();
+  }
+
+  function leerUsuario() {
+    try {
+      const dato = localStorage.getItem(SESSION_KEY);
+      if (!dato) return {};
+      const parseado = JSON.parse(dato);
+      return typeof parseado === "string" ? { usuario: parseado, nombre: parseado } : (parseado || {});
+    } catch { return { usuario: localStorage.getItem(SESSION_KEY) || "" }; }
+  }
+
+  function nombreSesion(usuario) {
+    if (typeof usuario === "string") return usuario || "Usuario";
+    return usuario.nombreCompleto || usuario.nombreYApellido || usuario.nombre || usuario.usuario || usuario.username || "Usuario";
+  }
+
+  function configurarPerfil() {
+    const usuario = leerUsuario();
+    const nombre = nombreSesion(usuario);
+    $("nombrePerfil").textContent = nombre;
+    $("avatarPerfil").textContent = nombre.trim().charAt(0).toUpperCase() || "U";
+    const rol = String(usuario.rol || usuario.tipo || "Cuerpo técnico");
+    $("rolPerfil").textContent = rol;
+  }
+
+  function alternarSidebar() {
+    const sidebar = $("barraLateral"), boton = $("botonMenu"), capa = $("capaSidebar");
+    sidebar.classList.toggle("oculta");
+    const oculta = sidebar.classList.contains("oculta");
+    boton.setAttribute("aria-expanded", String(!oculta));
+    if (window.innerWidth <= 850) capa.classList.toggle("visible", !oculta);
+  }
+
+  function toggleGrupo(id) {
+    const grupo = $(id);
+    if (!grupo) return;
+    grupo.classList.toggle("cerrado");
+    const titulo = grupo.querySelector(".titulo-grupo");
+    if (titulo) titulo.setAttribute("aria-expanded", String(!grupo.classList.contains("cerrado")));
+  }
+
+  function configurarGruposMenu() {
+    document.querySelectorAll(".titulo-grupo").forEach(titulo => {
+      titulo.addEventListener("click", () => toggleGrupo(titulo.dataset.grupo));
+      titulo.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") { event.preventDefault(); toggleGrupo(titulo.dataset.grupo); }
+      });
+    });
+  }
+
+  function ajustarSidebarPorPantalla() {
+    const sidebar = $("barraLateral"), capa = $("capaSidebar"), boton = $("botonMenu");
+    if (window.innerWidth <= 850) {
+      sidebar.classList.add("oculta"); capa.classList.remove("visible"); boton.setAttribute("aria-expanded", "false");
+    } else {
+      sidebar.classList.remove("oculta"); capa.classList.remove("visible"); boton.setAttribute("aria-expanded", "true");
+    }
+  }
+
+  function actualizarTorneos() {
+    const anterior = torneo.value;
+    const esPrimera = division.value === "Primera";
+    const opciones = esPrimera ? ["Rosarina", "Copa Santa Fe", "Regional"] : ["Rosarina"];
+    torneo.innerHTML = "";
+    opciones.forEach(nombre => {
+      const opcion = document.createElement("option"); opcion.value = nombre; opcion.textContent = nombre; torneo.appendChild(opcion);
+    });
+    if (opciones.includes(anterior)) torneo.value = anterior;
+    $("ayudaTorneo").textContent = esPrimera
+      ? "Primera puede registrar jornadas de Rosarina, Copa Santa Fe y Regional."
+      : "Las divisiones Sub 10, Sub 12, Sub 14 y Sub 16 tienen disponible únicamente Rosarina.";
+    renderizar();
+  }
+
+  function jornadasActuales() {
+    return jornadas.filter(j => j.division === division.value && j.torneo === torneo.value)
+      .sort((a,b) => String(a.fecha || "").localeCompare(String(b.fecha || "")));
+  }
+
+  function escaparHTML(valor) {
+    return String(valor ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+  }
+
+  function renderizar() {
+    const actuales = jornadasActuales();
+    $("resumenDivision").textContent = division.value;
+    $("resumenTorneo").textContent = torneo.value;
+    $("resumenCantidad").textContent = actuales.length;
+    $("subtituloJornadas").textContent = `Jornadas de ${division.value} · ${torneo.value}.`;
+    const lista = $("listaJornadas");
+    lista.innerHTML = "";
+    if (!actuales.length) {
+      lista.innerHTML = '<div class="vacio-informes">Todavía no hay jornadas cargadas para esta división y torneo.<br>Completá el formulario de arriba para agregar la primera.</div>';
+      return;
+    }
+    actuales.forEach(j => {
+      const tarjeta = document.createElement("article");
+      tarjeta.className = "tarjeta-jornada";
+      const foto = j.foto
+        ? `<img src="${j.foto}" alt="Foto o escudo de ${escaparHTML(j.club)}">`
+        : `<span>Sin foto del club</span>`;
+      const fecha = j.fecha ? new Date(j.fecha + "T12:00:00").toLocaleDateString("es-AR") : "Sin fecha";
+      tarjeta.innerHTML = `
+        <div class="foto-club">${foto}</div>
+        <div class="contenido-jornada">
+          <h4>${escaparHTML(j.club)}</h4>
+          <div class="datos-jornada"><span class="chip">${escaparHTML(j.division)}</span><span class="chip">${escaparHTML(j.torneo)}</span><span class="chip">${escaparHTML(fecha)}</span></div>
+          ${j.resultado ? `<p class="resultado">${escaparHTML(j.resultado)}</p>` : ""}
+          ${j.observaciones ? `<p class="observaciones">${escaparHTML(j.observaciones)}</p>` : '<p class="observaciones">Sin observaciones cargadas.</p>'}
+          <div class="jornada-acciones"><button class="boton boton-secundario" type="button" data-accion="editar" data-id="${j.id}">Editar</button><button class="boton boton-peligro" type="button" data-accion="eliminar" data-id="${j.id}">Eliminar</button></div>
+        </div>`;
+      lista.appendChild(tarjeta);
+    });
+  }
+
+  function limpiarFormulario() {
+    $("formJornada").reset();
+    fotoSeleccionada = "";
+    $("formJornada").dataset.editando = "";
+    $("formJornada").querySelector('button[type="submit"]').textContent = "＋ Guardar jornada";
+  }
+
+  $("foto").addEventListener("change", () => {
+    const archivo = $("foto").files[0];
+    fotoSeleccionada = "";
+    if (!archivo) return;
+    if (!archivo.type.startsWith("image/")) { $("estado").textContent = "Elegí un archivo de imagen válido."; $("foto").value = ""; return; }
+    const lector = new FileReader();
+    lector.onload = () => {
+      const imagen = new Image();
+      imagen.onload = () => {
+        const max = 500, escala = Math.min(1, max / Math.max(imagen.width, imagen.height));
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.max(1, Math.round(imagen.width * escala));
+        canvas.height = Math.max(1, Math.round(imagen.height * escala));
+        canvas.getContext("2d").drawImage(imagen, 0, 0, canvas.width, canvas.height);
+        fotoSeleccionada = canvas.toDataURL("image/jpeg", 0.78);
+        $("estado").textContent = "Foto cargada. Se guardará al guardar la jornada.";
+      };
+      imagen.onerror = () => { $("estado").textContent = "No se pudo leer la imagen. Probá con otra."; };
+      imagen.src = lector.result;
+    };
+    lector.readAsDataURL(archivo);
+  });
+
+  $("formJornada").addEventListener("submit", event => {
+    event.preventDefault();
+    const form = $("formJornada");
+    const editando = form.dataset.editando;
+    const existente = editando ? jornadas.find(j => j.id === editando) : null;
+    const jornada = {
+      id: existente ? existente.id : String(Date.now()) + Math.random().toString(16).slice(2),
+      division: division.value,
+      torneo: torneo.value,
+      fecha: $("fecha").value,
+      club: $("club").value.trim(),
+      resultado: $("resultado").value.trim(),
+      observaciones: $("observaciones").value.trim(),
+      foto: fotoSeleccionada || (existente ? existente.foto : ""),
+      actualizado: new Date().toISOString()
+    };
+    if (!jornada.fecha || !jornada.club) return;
+    if (existente) jornadas = jornadas.map(j => j.id === existente.id ? jornada : j);
+    else jornadas.push(jornada);
+    if (!guardarJornadas()) return;
+    limpiarFormulario();
+    $("estado").textContent = existente ? "Jornada actualizada correctamente." : "Jornada guardada correctamente.";
+    renderizar();
+  });
+
+  $("listaJornadas").addEventListener("click", event => {
+    const boton = event.target.closest("button[data-accion]");
+    if (!boton) return;
+    const jornada = jornadas.find(j => j.id === boton.dataset.id);
+    if (!jornada) return;
+    if (boton.dataset.accion === "eliminar") {
+      if (!confirm(`¿Querés eliminar la jornada contra ${jornada.club}?`)) return;
+      jornadas = jornadas.filter(j => j.id !== jornada.id);
+      if (guardarJornadas()) { $("estado").textContent = "Jornada eliminada."; renderizar(); }
+      return;
+    }
+    division.value = jornada.division;
+    actualizarTorneos();
+    torneo.value = jornada.torneo;
+    renderizar();
+    $("fecha").value = jornada.fecha || "";
+    $("club").value = jornada.club || "";
+    $("resultado").value = jornada.resultado || "";
+    $("observaciones").value = jornada.observaciones || "";
+    fotoSeleccionada = jornada.foto || "";
+    $("formJornada").dataset.editando = jornada.id;
+    $("formJornada").querySelector('button[type="submit"]').textContent = "Guardar cambios";
+    $("estado").textContent = "Editando jornada. Si no elegís otra foto, se conserva la foto actual.";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  division.addEventListener("change", actualizarTorneos);
+  torneo.addEventListener("change", renderizar);
+  $("botonMenu").addEventListener("click", alternarSidebar);
+  $("capaSidebar").addEventListener("click", () => {
+    $("barraLateral").classList.add("oculta"); $("capaSidebar").classList.remove("visible"); $("botonMenu").setAttribute("aria-expanded", "false");
+  });
+  $("cerrarSesion").addEventListener("click", event => {
+    event.preventDefault();
+    if (confirm("¿Querés cerrar la sesión?")) { localStorage.removeItem(SESSION_KEY); window.location.href = "Loing.html"; }
+  });
+  configurarGruposMenu();
+  window.addEventListener("resize", ajustarSidebarPorPantalla);
+  configurarPerfil();
+  actualizarTorneos();
+})();
+</script>
+</body>
+</html>
