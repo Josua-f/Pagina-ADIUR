@@ -15,28 +15,24 @@
   --gris-texto: #747474;
   --borde: #e8e8e8;
   --blanco: #fff;
-  --amarillo-tarjeta: #f1c40f;
-  --rojo-tarjeta: #e74c3c;
-  --verde-exito: #2ecc71;
+  --rojo: #c8102e;
+  --rojo-oscuro: #a20c25;
 }
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #fff;
+  background: var(--gris);
   color: var(--negro);
 }
 
 button, input, select {
   font: inherit;
-}
-
-button, a {
-  -webkit-tap-highlight-color: transparent;
 }
 
 button {
@@ -178,7 +174,7 @@ a {
   padding: 13px 14px;
   margin-bottom: 16px;
   border-radius: 11px;
-  background: var(--gris);
+  background: #fff;
   color: var(--negro);
   font-size: 13px;
   font-weight: 850;
@@ -186,14 +182,7 @@ a {
 }
 
 .menu-inicio:hover {
-  background: #eaeaea;
-}
-
-.menu-inicio .icono-inicio {
-  width: 15px;
-  text-align: center;
-  font-size: 17px;
-  line-height: 1;
+  background: var(--gris);
 }
 
 .grupo-menu {
@@ -302,10 +291,6 @@ a {
   color: #a93226;
 }
 
-.icono-salir {
-  font-size: 17px;
-}
-
 .capa-sidebar {
   display: none;
 }
@@ -318,21 +303,22 @@ a {
   flex: 1;
   min-width: 0;
   padding: 28px;
+  max-width: 1550px;
+  margin: 0 auto;
 }
 
 .encabezado-seccion {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 15px;
+  gap: 20px;
   margin-bottom: 24px;
+  flex-wrap: wrap;
 }
 
 .encabezado-seccion h2 {
   margin: 0 0 6px;
-  font-size: 26px;
-  font-weight: 900;
+  font-size: 27px;
 }
 
 .encabezado-seccion p {
@@ -341,352 +327,179 @@ a {
   font-size: 13px;
 }
 
-.btn-principal {
-  background: var(--naranja);
-  color: white;
-  border: 0;
-  padding: 11px 18px;
-  border-radius: 10px;
-  font-weight: 800;
-  font-size: 13px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  box-shadow: 0 4px 12px rgba(244, 119, 33, 0.25);
-  transition: background .2s, transform .1s;
-}
-
-.btn-principal:hover {
-  background: var(--naranja-oscuro);
-  transform: translateY(-1px);
-}
-
-/* =====================================================
-   TARJETAS HIGHLIGHT / RESUMEN
-===================================================== */
-
-.resumen-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.card-stat {
-  background: #fff;
+.panel {
+  background: white;
   border: 1px solid var(--borde);
   border-radius: 14px;
-  padding: 18px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
+  padding: 22px;
+  margin-bottom: 25px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.02);
 }
 
-.card-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: var(--naranja-claro);
-  color: var(--naranja-oscuro);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  flex-shrink: 0;
-}
-
-.card-info small {
-  display: block;
-  color: var(--gris-texto);
-  font-size: 11px;
-  text-transform: uppercase;
-  font-weight: bold;
-  letter-spacing: .5px;
-}
-
-.card-info strong {
-  display: block;
-  font-size: 16px;
-  color: var(--negro);
-  margin-top: 2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.card-info span {
-  font-size: 12px;
-  color: var(--naranja-oscuro);
-  font-weight: bold;
-}
-
-/* =====================================================
-   FILTROS Y BUSCADOR
-===================================================== */
-
-.panel-filtros {
-  background: #fff;
-  border: 1px solid var(--borde);
-  border-radius: 14px;
-  padding: 18px;
-  margin-bottom: 22px;
-  display: flex;
-  flex-wrap: wrap;
+.controles-filtros {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 15px;
-  align-items: center;
-  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
-.grupo-filtros {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
-  flex: 1;
-}
-
-.filtro-item {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  min-width: 160px;
-}
-
-.filtro-item label {
+.campo-filtro label {
+  display: block;
   font-size: 11px;
   font-weight: bold;
-  color: var(--gris-texto);
   text-transform: uppercase;
-  letter-spacing: .5px;
+  color: var(--gris-texto);
+  margin-bottom: 6px;
 }
 
-.select-filtro, .input-buscar {
-  padding: 9px 12px;
+.campo-filtro select {
+  width: 100%;
+  padding: 10px 12px;
   border: 1px solid var(--borde);
   border-radius: 8px;
   background: white;
   font-size: 13px;
   outline: none;
-  transition: border-color .15s;
 }
 
-.select-filtro:focus, .input-buscar:focus {
+.campo-filtro select:focus {
   border-color: var(--naranja);
 }
 
-.buscador-box {
-  min-width: 200px;
+.acciones-tabla {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.btn-accion {
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primario {
+  background: var(--naranja);
+  color: white;
+}
+
+.btn-primario:hover {
+  background: var(--naranja-oscuro);
 }
 
 /* =====================================================
-   TABLA DE ESTADÍSTICAS Y FECHAS (JORNADAS)
+   TABLA DE ESTADÍSTICAS
 ===================================================== */
 
-.contenedor-tabla {
-  background: #fff;
-  border: 1px solid var(--borde);
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-}
-
-.tabla-scroll {
+.tabla-contenedor {
+  width: 100%;
   overflow-x: auto;
-  max-width: 100%;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  background: white;
 }
 
-.tabla-estadisticas {
+table {
   width: 100%;
   border-collapse: collapse;
-  text-align: left;
+  text-align: center;
   font-size: 13px;
   white-space: nowrap;
 }
 
-.tabla-estadisticas th {
+th {
   background: #fafafa;
   color: #444;
-  font-weight: 800;
-  padding: 12px;
+  padding: 12px 10px;
+  font-weight: bold;
   border-bottom: 2px solid var(--borde);
-  user-select: none;
-  cursor: pointer;
-  transition: background .15s;
+  border-right: 1px solid var(--borde);
   vertical-align: middle;
 }
 
-.tabla-estadisticas th:hover {
-  background: #f0f0f0;
+th.fija-izquierda {
+  position: sticky;
+  left: 0;
+  background: #f3f3f3;
+  z-index: 10;
+  text-align: left;
+  padding-left: 15px;
 }
 
-.tabla-estadisticas th.sin-orden {
-  cursor: default;
-}
-
-.tabla-estadisticas th.sin-orden:hover {
-  background: #fafafa;
-}
-
-.th-jornada {
-  text-align: center;
-  background: #fffaf5 !important;
-  border-left: 1px dashed var(--borde);
-  min-width: 110px;
-}
-
-.cabecera-jornada-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-}
-
-.cabecera-jornada-box .titulo-jornada {
-  font-size: 11px;
-  font-weight: 900;
-  color: var(--naranja-oscuro);
-  text-transform: uppercase;
-}
-
-.escudo-rival-header {
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-}
-
-.tabla-estadisticas td {
-  padding: 12px;
+td {
+  padding: 10px;
   border-bottom: 1px solid var(--borde);
-  vertical-align: middle;
+  border-right: 1px solid var(--borde);
   color: #333;
 }
 
-.td-jornada-celda {
-  text-align: center;
-  border-left: 1px dashed var(--borde);
-  background: #fcfcfc;
+td.fija-izquierda {
+  position: sticky;
+  left: 0;
+  background: white;
+  z-index: 5;
+  text-align: left;
+  font-weight: bold;
+  padding-left: 15px;
+  border-right: 2px solid var(--borde);
+}
+
+tbody tr:hover td {
+  background: #fafafa;
+}
+
+tbody tr:hover td.fija-izquierda {
+  background: #f5f5f5;
+}
+
+.celda-partido {
   cursor: pointer;
-  transition: background .15s;
+  background: #fff;
+  transition: background 0.15s;
 }
 
-.td-jornada-celda:hover {
-  background: #fff3eb;
+.celda-partido:hover {
+  background: var(--naranja-claro) !important;
 }
 
-.tabla-estadisticas tbody tr:hover {
-  background: #fffbf8;
-}
-
-/* Elementos dentro de celdas */
-
-.celda-jugadora {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-weight: bold;
-}
-
-.avatar-jugadora {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
-  background: #eee;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: bold;
-  color: #555;
-  flex-shrink: 0;
-  border: 1px solid var(--borde);
-}
-
-.posicion-badge {
-  display: inline-block;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: bold;
-  background: var(--gris);
-  color: #555;
-  text-align: center;
-}
-
-.division-badge {
-  display: inline-block;
-  padding: 3px 7px;
-  border-radius: 5px;
-  font-size: 11px;
-  font-weight: 800;
-  background: #eef2ff;
-  color: #3730a3;
-  border: 1px solid #c7d2fe;
-}
-
-.num-destacado {
-  font-weight: 800;
-  color: var(--negro);
-}
-
-.badge-tarjeta {
+.resumen-partido-badge {
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2px 7px;
-  border-radius: 4px;
-  font-weight: bold;
-  font-size: 12px;
-}
-
-.badge-amarilla {
-  background: #fef9e7;
-  color: #b7950b;
-  border: 1px solid #f9e79f;
-}
-
-.badge-roja {
-  background: #fadbd8;
-  color: #78281f;
-  border: 1px solid #f5b7b1;
-}
-
-/* Badges para celdas de fechas/jornadas */
-.match-stat-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  font-size: 11px;
-}
-
-.badge-convocada {
-  font-size: 10px;
-  font-weight: bold;
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-.badge-titular { background: #dcfce7; color: #15803d; }
-.badge-suplente { background: #fef9c3; color: #a16207; }
-.badge-no-jugo { background: #f3f4f6; color: #6b7280; }
-.badge-no-convocada { background: #fee2e2; color: #b91c1c; }
-
-.match-icons {
-  display: flex;
   gap: 4px;
   align-items: center;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: bold;
+}
+
+.badge-titular { background: #e0f5e7; color: #18743b; padding: 2px 6px; border-radius: 4px; }
+.badge-suplente { background: #fff3cd; color: #856404; padding: 2px 6px; border-radius: 4px; }
+.badge-fuera { background: #f8d7da; color: #721c24; padding: 2px 6px; border-radius: 4px; }
+
+.th-jornada {
+  min-width: 110px;
+}
+
+.cabecera-jornada-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.escudo-rival-th {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
 }
 
 /* =====================================================
-   MODALES
+   MODAL DE GESTIÓN DE FECHAS Y DATOS DE PARTIDO
 ===================================================== */
 
-.modal-fondo {
+.modal {
   display: none;
   position: fixed;
   inset: 0;
@@ -694,20 +507,20 @@ a {
   z-index: 200;
   align-items: center;
   justify-content: center;
-  padding: 15px;
+  padding: 20px;
 }
 
-.modal-fondo.activo {
+.modal.activo {
   display: flex;
 }
 
 .modal-contenido {
-  background: #fff;
-  border-radius: 14px;
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
   width: 100%;
-  max-width: 520px;
-  padding: 22px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  max-width: 500px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.15);
   max-height: 90vh;
   overflow-y: auto;
 }
@@ -716,193 +529,85 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 18px;
-  border-bottom: 1px solid var(--borde);
-  padding-bottom: 12px;
+  margin-bottom: 20px;
 }
 
 .modal-header h3 {
-  margin: 0;
   font-size: 18px;
 }
 
-.modal-cerrar {
-  border: 0;
-  background: transparent;
-  font-size: 20px;
-  color: var(--gris-texto);
+.btn-cerrar-modal {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #777;
 }
 
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+.form-group {
+  margin-bottom: 15px;
 }
 
-.form-grupo {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.form-grupo.completo {
-  grid-column: span 2;
-}
-
-.form-grupo label {
+.form-group label {
+  display: block;
   font-size: 12px;
   font-weight: bold;
-  color: #555;
+  margin-bottom: 6px;
+  color: #444;
 }
 
-.form-grupo input, .form-grupo select {
-  padding: 8px 10px;
+.form-group input, .form-group select {
+  width: 100%;
+  padding: 10px;
   border: 1px solid var(--borde);
-  border-radius: 6px;
-  background: white;
+  border-radius: 8px;
+  font-size: 13px;
+  outline: none;
+}
+
+.form-group input:focus, .form-group select:focus {
+  border-color: var(--naranja);
 }
 
 .modal-footer {
-  margin-top: 20px;
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+  margin-top: 20px;
 }
 
-.btn-guardar {
-  background: var(--naranja);
-  color: white;
-  border: 0;
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-weight: bold;
+.btn-secundario {
+  background: white;
+  border: 1px solid var(--borde);
+  color: #444;
 }
 
-.btn-guardar:hover {
-  background: var(--naranja-oscuro);
-}
-
-.btn-cancelar {
+.btn-secundario:hover {
   background: var(--gris);
-  border: 0;
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-weight: bold;
-  color: #555;
 }
-
-/* =====================================================
-   PIE DE PÁGINA
-===================================================== */
-
-.pie-pagina {
-  margin-top: 30px;
-  padding: 18px 0 5px;
-  border-top: 1px solid var(--borde);
-  color: var(--gris-texto);
-  text-align: center;
-  font-size: 11px;
-}
-
-/* =====================================================
-   ADAPTACIÓN RESPONSIVE
-===================================================== */
 
 @media (max-width: 760px) {
-  .barra-superior {
-    min-height: 72px;
-    padding: 10px 13px;
-    gap: 9px;
-  }
-
-  .boton-menu {
-    width: 38px;
-    height: 38px;
-    font-size: 24px;
-  }
-
-  .logo-superior {
-    width: 44px;
-    height: 44px;
-  }
-
-  .titulo-superior h1 {
-    font-size: 16px;
-  }
-
-  .titulo-superior p {
-    font-size: 11px;
-  }
-
-  .nombre-perfil {
-    max-width: 80px;
-    font-size: 12px;
-  }
-
-  .rol-perfil {
-    display: none;
-  }
-
-  .avatar {
-    width: 36px;
-    height: 36px;
-  }
-
-  .contenedor {
-    min-height: calc(100vh - 72px);
-  }
-
   .sidebar {
     position: fixed;
     top: 72px;
     bottom: 0;
     left: 0;
     z-index: 150;
-    width: 258px;
-    max-width: 86vw;
-    overflow-y: auto;
-    box-shadow: 5px 0 25px #00000012;
-    margin-left: 0;
-    transition: transform .25s ease;
-  }
-
-  .sidebar.oculto {
-    margin-left: 0;
     transform: translateX(-110%);
+    box-shadow: 5px 0 25px rgba(0,0,0,0.1);
   }
-
+  .sidebar:not(.oculto) {
+    transform: translateX(0);
+  }
   .capa-sidebar.visible {
     display: block;
     position: fixed;
     inset: 72px 0 0;
+    background: rgba(0,0,0,0.3);
     z-index: 140;
-    background: rgba(0,0,0,.32);
   }
-
   .contenido {
-    padding: 16px 12px;
-  }
-
-  .panel-filtros {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .grupo-filtros {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .filtro-item, .buscador-box {
-    width: 100%;
-  }
-
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .form-grupo.completo {
-    grid-column: span 1;
+    padding: 15px;
   }
 }
 </style>
@@ -910,29 +615,14 @@ a {
 
 <body>
 
+<!-- BARRA SUPERIOR -->
 <header class="barra-superior">
-
-  <button
-    class="boton-menu"
-    id="botonMenu"
-    aria-label="Abrir menú"
-    aria-controls="sidebar"
-    aria-expanded="true"
-    onclick="alternarSidebar()"
-  >☰</button>
-
-  <img
-    class="logo-superior"
-    src="Logo ADIUR.jpg"
-    alt="Logo ADIUR"
-    onerror="if(!this.dataset.intento){this.dataset.intento='1';this.src='logo adiur.jpg'}else{this.style.display='none'}"
-  >
-
+  <button class="boton-menu" id="botonMenu" aria-label="Abrir menú" onclick="alternarSidebar()">☰</button>
+  <img class="logo-superior" src="Logo ADIUR.jpg" alt="Logo ADIUR" onerror="this.style.display='none'">
   <div class="titulo-superior">
     <h1>ADIUR FEMENINO</h1>
     <p>Estadísticas del Plantel</p>
   </div>
-
   <div class="perfil">
     <div class="avatar" id="avatarUsuario">U</div>
     <div>
@@ -940,375 +630,240 @@ a {
       <div class="rol-perfil" id="rolUsuario">Club ADIUR</div>
     </div>
   </div>
-
 </header>
 
 <div class="capa-sidebar" id="capaSidebar" onclick="alternarSidebar()"></div>
 
 <div class="contenedor">
-
+  <!-- BARRA LATERAL -->
   <aside class="sidebar" id="sidebar">
-
-    <!-- INICIO -->
-    <a class="menu-inicio" href="pagina principal.html">
-      <span class="icono-inicio" aria-hidden="true">⌂</span>
-      INICIO
+    <a class="menu-inicio" href="Pagina Principal.html">
+      <span class="icono-inicio">⌂</span> INICIO
     </a>
-
-    <!-- PLANTEL -->
-    <div class="grupo-menu cerrado" id="grupoPlantel">
-      <div
-        class="titulo-grupo"
-        onclick="toggleGrupo('grupoPlantel')"
-        role="button"
-        tabindex="0"
-        aria-expanded="false"
-      >
-        <span>PLANTEL</span>
-        <span class="flecha" aria-hidden="true">›</span>
+    <div class="grupo-menu" id="grupoPlantel">
+      <div class="titulo-grupo" onclick="toggleGrupo('grupoPlantel')">
+        <span>PLANTEL</span><span class="flecha">›</span>
       </div>
-
       <div class="submenu">
-        <a href="jugadoras.html">
-          <span class="nav-punto"></span>Jugadoras
-        </a>
-        <a href="asistencia.html">
-          <span class="nav-punto"></span>Asistencia
-        </a>
+        <a href="jugadoras.html"><span class="nav-punto"></span>Jugadoras</a>
+        <a href="asistencia.html"><span class="nav-punto"></span>Asistencia</a>
       </div>
     </div>
-
-    <!-- ENTRENAMIENTO -->
     <div class="grupo-menu cerrado" id="grupoEntrenamiento">
-      <div
-        class="titulo-grupo"
-        onclick="toggleGrupo('grupoEntrenamiento')"
-        role="button"
-        tabindex="0"
-        aria-expanded="false"
-      >
-        <span>ENTRENAMIENTO</span>
-        <span class="flecha" aria-hidden="true">›</span>
+      <div class="titulo-grupo" onclick="toggleGrupo('grupoEntrenamiento')">
+        <span>ENTRENAMIENTO</span><span class="flecha">›</span>
       </div>
-
       <div class="submenu">
-        <a href="calendario.html">
-          <span class="nav-punto"></span>Calendario
-        </a>
-        <a href="planificacion.html" data-ocultar-bianca>
-          <span class="nav-punto"></span>Planificación
-        </a>
-        <a href="biblioteca.html" data-ocultar-bianca>
-          <span class="nav-punto"></span>Biblioteca de ejercicios
-        </a>
-        <a href="gimnasio.html">
-          <span class="nav-punto"></span>Gimnasio
-        </a>
-        <a href="calculadora.html" data-ocultar-bianca>
-          <span class="nav-punto"></span>Calculadora
-        </a>
+        <a href="calendario.html"><span class="nav-punto"></span>Calendario</a>
+        <a href="planificacion.html"><span class="nav-punto"></span>Planificación</a>
+        <a href="gimnasio.html"><span class="nav-punto"></span>Gimnasio</a>
       </div>
     </div>
-
-    <!-- COMPETENCIA -->
-    <div class="grupo-menu" id="grupoCompetencia">
-      <div
-        class="titulo-grupo"
-        onclick="toggleGrupo('grupoCompetencia')"
-        role="button"
-        tabindex="0"
-        aria-expanded="true"
-      >
-        <span>COMPETENCIA</span>
-        <span class="flecha" aria-hidden="true">›</span>
+    <div class="grupo-menu cerrado" id="grupoCompetencia">
+      <div class="titulo-grupo" onclick="toggleGrupo('grupoCompetencia')">
+        <span>COMPETENCIA</span><span class="flecha">›</span>
       </div>
-
       <div class="submenu">
-        <a href="Partidos.html">
-          <span class="nav-punto"></span>Partidos
-        </a>
-        <a href="informes.html" data-ocultar-bianca>
-          <span class="nav-punto"></span>Informes
-        </a>
-        <a href="estadisticas.html" class="activo" data-ocultar-bianca>
-          <span class="nav-punto"></span>Estadísticas
-        </a>
-        <a href="pizarra.html" data-ocultar-bianca>
-          <span class="nav-punto"></span>Pizarra táctica
-        </a>
+        <a href="Partidos.html"><span class="nav-punto"></span>Partidos</a>
+        <a href="estadisticas.html" class="activo"><span class="nav-punto"></span>Estadísticas</a>
+        <a href="pizarra.html"><span class="nav-punto"></span>Pizarra táctica</a>
       </div>
     </div>
-
-    <!-- RENDIMIENTOS -->
-    <div class="grupo-menu cerrado" id="grupoRendimientos">
-      <div
-        class="titulo-grupo"
-        onclick="toggleGrupo('grupoRendimientos')"
-        role="button"
-        tabindex="0"
-        aria-expanded="false"
-      >
-        <span>RENDIMIENTOS</span>
-        <span class="flecha" aria-hidden="true">›</span>
-      </div>
-
-      <div class="submenu">
-        <a href="testeos.html">
-          <span class="nav-punto"></span>Planilla de testeos
-        </a>
-        <a href="tiempos.html">
-          <span class="nav-punto"></span>Tiempos
-        </a>
-        <a href="multimedia.html">
-          <span class="nav-punto"></span>Multimedia
-        </a>
-        <a href="encuestas.html">
-          <span class="nav-punto"></span>Encuestas
-        </a>
-        <a href="lesiones.html">
-          <span class="nav-punto"></span>Lesiones
-        </a>
-      </div>
-    </div>
-
-    <!-- CERRAR SESIÓN -->
     <div class="separador-sesion">
-      <a
-        class="enlace-cerrar-sesion"
-        href="#"
-        onclick="cerrarSesion(event)"
-      >
-        <span class="icono-salir" aria-hidden="true">↪</span>
-        Cerrar sesión
+      <a class="enlace-cerrar-sesion" href="#" onclick="cerrarSesion(event)">
+        <span class="icono-salir">↪</span> Cerrar sesión
       </a>
     </div>
-
   </aside>
 
   <!-- CONTENIDO PRINCIPAL -->
   <main class="contenido">
-
-    <section class="encabezado-seccion">
+    <div class="encabezado-seccion">
       <div>
-        <h2>Estadísticas Individuales y Fechas</h2>
-        <p>Métricas acumuladas por jugadora y rendimiento por Jornada.</p>
+        <h2>Panel de Estadísticas</h2>
+        <p>Seguimiento de rendimiento, partidos jugados, goles y asistencias por división.</p>
       </div>
-      <div id="boxBotonAgregarJornada" style="display: none;">
-        <button class="btn-principal" onclick="abrirModalNuevaJornada()">
-          ➕ Agregar Fecha / Jornada
-        </button>
-      </div>
-    </section>
+    </div>
 
-    <!-- RESUMEN DE DESTACADAS -->
-    <section class="resumen-cards">
-      <div class="card-stat">
-        <div class="card-icon">⚽</div>
-        <div class="card-info">
-          <small>Máxima Goleadora</small>
-          <strong id="topGoleadora">--</strong>
-          <span id="topGolesCant">0 goles</span>
-        </div>
-      </div>
-
-      <div class="card-stat">
-        <div class="card-icon">🅰️</div>
-        <div class="card-info">
-          <small>Máxima Asistidora</small>
-          <strong id="topAsistente">--</strong>
-          <span id="topAsisCant">0 asistencias</span>
-        </div>
-      </div>
-
-      <div class="card-stat">
-        <div class="card-icon">⏱️</div>
-        <div class="card-info">
-          <small>Más Minutos</small>
-          <strong id="topMinutos">--</strong>
-          <span id="topMinCant">0 min</span>
-        </div>
-      </div>
-
-      <div class="card-stat">
-        <div class="card-icon">⭐</div>
-        <div class="card-info">
-          <small>Más Titularidades</small>
-          <strong id="topTitular">--</strong>
-          <span id="topTitCant">0 partidos</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- PANELES DE FILTROS -->
-    <section class="panel-filtros">
-      <div class="grupo-filtros">
-        
-        <!-- Filtro División (Obtenido dinámicamente) -->
-        <div class="filtro-item">
-          <label for="filtroDivision">División / Categoría</label>
-          <select id="filtroDivision" class="select-filtro" onchange="alCambiarDivision()">
-            <!-- Dinámico -->
+    <!-- FILTROS PRINCIPALES -->
+    <div class="panel">
+      <div class="controles-filtros">
+        <div class="campo-filtro">
+          <label for="filtroDivision">División</label>
+          <select id="filtroDivision" onchange="cambiarDivision()">
+            <option value="Sub 10">Sub 10</option>
+            <option value="Sub 12">Sub 12</option>
+            <option value="Sub 14" selected>Sub 14</option>
+            <option value="Sub 16">Sub 16</option>
+            <option value="Primera">Primera</option>
           </select>
         </div>
 
-        <!-- Filtro Competencias (Dinámico) -->
-        <div class="filtro-item">
+        <div class="campo-filtro">
           <label for="filtroCompetencia">Competencia</label>
-          <select id="filtroCompetencia" class="select-filtro" onchange="renderizarTabla()">
-            <!-- Dinámico -->
+          <select id="filtroCompetencia" onchange="renderizarEstadisticas()">
+            <!-- Se llena dinámicamente -->
           </select>
         </div>
 
-        <!-- Filtro Posición -->
-        <div class="filtro-item">
-          <label for="filtroPosicion">Posición</label>
-          <select id="filtroPosicion" class="select-filtro" onchange="renderizarTabla()">
-            <option value="todas">Todas</option>
-            <option value="Arquera">Arqueras</option>
-            <option value="Defensora">Defensoras</option>
-            <option value="Mediocampista">Mediocampistas</option>
-            <option value="Delantera">Delanteras</option>
-            <option value="Polivalente">Polivalentes</option>
+        <div class="campo-filtro">
+          <label for="filtroPosicion">Posición / Jugadoras</label>
+          <select id="filtroPosicion" onchange="renderizarEstadisticas()">
+            <option value="todas">Todas las jugadoras</option>
+            <option value="arqueras">Arqueras</option>
+            <option value="defensoras">Defensoras</option>
+            <option value="mediocampistas">Mediocampistas</option>
+            <option value="delanteras">Delanteras</option>
+            <option value="polivalentes">Polivalentes / Polifuncional</option>
           </select>
         </div>
-
       </div>
 
-      <!-- Buscador -->
-      <div class="filtro-item buscador-box">
-        <label for="inputBuscar">Buscar Jugadora</label>
-        <input 
-          type="text" 
-          id="inputBuscar" 
-          class="input-buscar" 
-          placeholder="Nombre o apellido..." 
-          oninput="renderizarTabla()"
-        >
+      <div class="acciones-tabla" id="contenedorAccionesAdmin">
+        <button class="btn-accion btn-primario" onclick="abrirModalNuevaFecha()">+ Agregar Fecha / Jornada</button>
       </div>
-    </section>
+    </div>
 
-    <!-- TABLA PRINCIPAL DE ESTADÍSTICAS Y FECHAS -->
-    <section class="contenedor-tabla">
-      <div class="tabla-scroll">
-        <table class="tabla-estadisticas">
+    <!-- TABLA PRINCIPAL -->
+    <div class="panel" style="padding: 0; overflow: hidden;">
+      <div class="tabla-contenedor">
+        <table id="tablaEstadisticas">
           <thead>
             <tr id="encabezadoTabla">
-              <th onclick="ordenarPor('nombre')">Jugadora ↕</th>
-              <th onclick="ordenarPor('posicion')">Posición ↕</th>
-              <th onclick="ordenarPor('division')">División ↕</th>
-              <th onclick="ordenarPor('pj')">PJ ↕</th>
-              <th onclick="ordenarPor('minutos')">Min ↕</th>
-              <th onclick="ordenarPor('amarillas')">🟨 ↕</th>
-              <th onclick="ordenarPor('rojas')">🟥 ↕</th>
-              <th onclick="ordenarPor('goles')">⚽ Goles ↕</th>
-              <th onclick="ordenarPor('asistencias')">🅰️ Asis ↕</th>
-              <th onclick="ordenarPor('promedioMin')">Min/PJ ↕</th>
-              <th onclick="ordenarPor('goles90')">G/90 ↕</th>
-              <th onclick="ordenarPor('titularidades')">Titular ↕</th>
-              <!-- Dinámicas: Columnas de Jornadas / Fechas -->
+              <th class="fija-izquierda">Jugadora</th>
+              <th>Posición</th>
+              <th>PJ</th>
+              <th>Min</th>
+              <th>🟨</th>
+              <th>🟥</th>
+              <th>⚽</th>
+              <th>🅰️</th>
+              <th>Min/PJ</th>
+              <th>G/90</th>
+              <th>Tit.</th>
             </tr>
           </thead>
-          <tbody id="cuerpoTabla">
-            <!-- Carga Dinámica mediante JS -->
+          <tbody id="cuerpoTablaEstadisticas">
+            <!-- Se llena dinámicamente -->
           </tbody>
         </table>
       </div>
-    </section>
-
-    <footer class="pie-pagina">
-      ADIUR FEMENINO · Más que un club, una familia.
-    </footer>
-
+    </div>
   </main>
 </div>
 
-<!-- MODAL CREAR NUEVA JORNADA / FECHA -->
-<div class="modal-fondo" id="modalNuevaJornada">
+<!-- MODAL PARA AGREGAR NUEVA FECHA/JORNADA -->
+<div class="modal" id="modalFecha">
   <div class="modal-contenido">
     <div class="modal-header">
-      <h3>➕ Agregar Nueva Jornada / Fecha</h3>
-      <button class="modal-cerrar" onclick="cerrarModalNuevaJornada()">&times;</button>
+      <h3 id="tituloModalFecha">Agregar Nueva Fecha</h3>
+      <button class="btn-cerrar-modal" onclick="cerrarModal('modalFecha')">&times;</button>
     </div>
-    <form id="formNuevaJornada" onsubmit="guardarNuevaJornada(event)">
-      <div class="form-grid">
-        <div class="form-grupo">
-          <label>Número de Jornada</label>
-          <input type="number" id="numJornada" min="1" required placeholder="Ej: 1">
-        </div>
-        <div class="form-grupo">
-          <label>Club Rival / Escudo</label>
-          <select id="selectRival" required>
-            <!-- Llenado con Lista de Escudos -->
-          </select>
-        </div>
+    <form id="formFecha" onsubmit="guardarNuevaFecha(event)">
+      <div class="form-group">
+        <label for="numeroJornada">Número de Jornada / Fecha</label>
+        <input type="number" id="numeroJornada" min="1" required placeholder="Ej: 1, 2, 3...">
+      </div>
+      <div class="form-group">
+        <label for="rivalFecha">Rival del Partido</label>
+        <select id="rivalFecha" required>
+          <option value="">Seleccionar rival</option>
+          <option value="ALIANZA.png">Alianza</option>
+          <option value="ARGENTINO.png">Argentino</option>
+          <option value="BANCO.jpg">Banco</option>
+          <option value="BOTAFOGO.jpg">Botafogo</option>
+          <option value="CENTRAL.png">Central (Rosario Central)</option>
+          <option value="CGR.png">CGR</option>
+          <option value="CORONEL AGUIRRE.png">Coronel Aguirre</option>
+          <option value="GRAL PAZ.jpg">General Paz</option>
+          <option value="LAMADRID.jpg">Lamadrid</option>
+          <option value="LEONES.jpg">Leones</option>
+          <option value="MITRE.png">Mitre</option>
+          <option value="MORNING.jpg">Morning</option>
+          <option value="NEWELLS.png">Newell's Old Boys</option>
+          <option value="ORIENTAL.jpg">Oriental</option>
+          <option value="PABLO VI.jpg">Pablo VI</option>
+          <option value="PROVINCIAL.png">Provincial</option>
+          <option value="RENATO.jpg">Renato</option>
+          <option value="SAN JOSE.jpg">San José</option>
+          <option value="SAN ROQUE.jpg">San Roque</option>
+          <option value="SAN TELMO.png">San Telmo</option>
+          <option value="SOCIAL LUX.jpg">Social Lux</option>
+          <option value="SPARTA.jpg">Sparta</option>
+          <option value="TIRO FEDERAL.jpg">Tiro Federal</option>
+          <option value="TIRO SUIZO.jpg">Tiro Suizo</option>
+          <option value="TORITO.png">Torito</option>
+          <option value="UNION AMERICANA.png">Unión Americana</option>
+          <option value="VG GALVEZ.png">Villa Gobernador Gálvez</option>
+          <option value="14 JUNIO.jpg">14 Junio</option>
+        </select>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn-cancelar" onclick="cerrarModalNuevaJornada()">Cancelar</button>
-        <button type="submit" class="btn-guardar">Crear Fecha</button>
+        <button type="button" class="btn-accion btn-secundario" onclick="cerrarModal('modalFecha')">Cancelar</button>
+        <button type="submit" class="btn-accion btn-primario">Crear Fecha</button>
       </div>
     </form>
   </div>
 </div>
 
-<!-- MODAL EDICIÓN DE DESEMPEÑO POR JORNADA -->
-<div class="modal-fondo" id="modalEdicionPartido">
+<!-- MODAL PARA EDITAR RENDIMIENTO DE JUGADORA EN UN PARTIDO -->
+<div class="modal" id="modalPartidoJugadora">
   <div class="modal-contenido">
     <div class="modal-header">
-      <div>
-        <h3 id="modalPartidoTitulo">Cargar Partido</h3>
-        <small id="modalPartidoSubtitulo" style="color:var(--naranja-oscuro); font-weight:bold;"></small>
-      </div>
-      <button class="modal-cerrar" onclick="cerrarModalEdicionPartido()">&times;</button>
+      <h3 id="tituloModalPJ">Editar Rendimiento en Partido</h3>
+      <button class="btn-cerrar-modal" onclick="cerrarModal('modalPartidoJugadora')">&times;</button>
     </div>
-    <form id="formEdicionPartido" onsubmit="guardarEdicionPartido(event)">
-      <div class="form-grid">
-        
-        <div class="form-grupo">
-          <label>Convocada</label>
-          <select id="editConvocada" onchange="alCambiarConvocada()">
-            <option value="si">Sí</option>
-            <option value="no">No</option>
-          </select>
-        </div>
-
-        <div class="form-grupo">
-          <label>Rol en el Partido</label>
-          <select id="editRol">
-            <option value="Titular">Titular</option>
-            <option value="Suplente">Suplente</option>
-            <option value="No jugo">No jugó</option>
-          </select>
-        </div>
-
-        <div class="form-grupo">
-          <label>Minutos Jugados</label>
-          <input type="number" id="editPartidoMinutos" min="0" value="0">
-        </div>
-
-        <div class="form-grupo">
-          <label>Goles ⚽</label>
-          <input type="number" id="editPartidoGoles" min="0" value="0">
-        </div>
-
-        <div class="form-grupo">
-          <label>Asistencias 🅰️</label>
-          <input type="number" id="editPartidoAsistencias" min="0" value="0">
-        </div>
-
-        <div class="form-grupo">
-          <label>Tarjetas Amarillas 🟨</label>
-          <input type="number" id="editPartidoAmarillas" min="0" max="2" value="0">
-        </div>
-
-        <div class="form-grupo completo">
-          <label>Tarjetas Rojas 🟥</label>
-          <input type="number" id="editPartidoRojas" min="0" max="1" value="0">
-        </div>
-
+    <form id="formPartidoJugadora" onsubmit="guardarDatosPartidoJugadora(event)">
+      <input type="hidden" id="editJugadoraId">
+      <input type="hidden" id="editJornadaId">
+      
+      <div class="form-group">
+        <label for="convocadaSelect">Convocatoria</label>
+        <select id="convocadaSelect" required onchange="actualizarCamposConvocatoria()">
+          <option value="si">Convocada</option>
+          <option value="no">No convocada</option>
+        </select>
       </div>
+
+      <div id="camposRendimientoPartido">
+        <div class="form-group">
+          <label for="rolPartidoSelect">Condición</label>
+          <select id="rolPartidoSelect">
+            <option value="Titular">Titular</option>
+            <option value="Suplente">Suplente (Ingresó / No ingresó)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="minutosJugadosInput" id="labelMinutosJugados">Minutos jugados</label>
+          <input type="number" id="minutosJugadosInput" min="0" max="150" value="50">
+          <small style="color: var(--gris-texto); display: block; margin-top: 4px;" id="ayudaMinutosReglamentarios">Reglamentario para esta división: 2 tiempos de 25 min (Total: 50 min)</small>
+        </div>
+
+        <div class="form-group">
+          <label for="golesInput">Goles ⚽</label>
+          <input type="number" id="golesInput" min="0" value="0">
+        </div>
+
+        <div class="form-group">
+          <label for="asistenciasInput">Asistencias 🅰️</label>
+          <input type="number" id="asistenciasInput" min="0" value="0">
+        </div>
+
+        <div class="form-group">
+          <label for="amarillasInput">Tarjetas Amarillas 🟨</label>
+          <input type="number" id="amarillasInput" min="0" max="2" value="0">
+        </div>
+
+        <div class="form-group">
+          <label for="rojasInput">Tarjetas Rojas 🟥</label>
+          <input type="number" id="rojasInput" min="0" max="1" value="0">
+        </div>
+      </div>
+
       <div class="modal-footer">
-        <button type="button" class="btn-cancelar" onclick="cerrarModalEdicionPartido()">Cancelar</button>
-        <button type="submit" class="btn-guardar">Guardar Partido</button>
+        <button type="button" class="btn-accion btn-secundario" onclick="cerrarModal('modalPartidoJugadora')">Cancelar</button>
+        <button type="submit" class="btn-accion btn-primario">Guardar Datos</button>
       </div>
     </form>
   </div>
@@ -1316,78 +871,40 @@ a {
 
 <script>
 /* =====================================================
-   LISTA DE ESCUDOS / ESCUDEROS DISPONIBLES
+   REGLAS DE TIEMPO POR DIVISIÓN
 ===================================================== */
-const RIVALES_ESCUDOS = [
-  { nombre: "14 de Junio", logo: "14 JUNIO.jpg" },
-  { nombre: "Alianza", logo: "ALIANZA.png" },
-  { nombre: "Argentino", logo: "ARGENTINO.png" },
-  { nombre: "Banco", logo: "BANCO.jpg" },
-  { nombre: "Botafogo", logo: "BOTAFOGO.jpg" },
-  { nombre: "Rosario Central", logo: "CENTRAL.png" },
-  { nombre: "CGR", logo: "CGR.png" },
-  { nombre: "Coronel Aguirre", logo: "CORONEL AGUIRRE.png" },
-  { nombre: "General Paz", logo: "GRAL PAZ.jpg" },
-  { nombre: "Lamadrid", logo: "LAMADRID.jpg" },
-  { nombre: "Leones", logo: "LEONES.jpg" },
-  { nombre: "Mitre", logo: "MITRE.png" },
-  { nombre: "Morning Star", logo: "MORNING.jpg" },
-  { nombre: "Newell's Old Boys", logo: "NEWELLS.png" },
-  { nombre: "Oriental", logo: "ORIENTAL.jpg" },
-  { nombre: "Pablo VI", logo: "PABLO VI.jpg" },
-  { nombre: "Provincial", logo: "PROVINCIAL.png" },
-  { nombre: "Renato Cesarini", logo: "RENATO.jpg" },
-  { nombre: "San José", logo: "SAN JOSE.jpg" },
-  { nombre: "San Roque", logo: "SAN ROQUE.jpg" },
-  { nombre: "San Telmo", logo: "SAN TELMO.png" },
-  { nombre: "Social Lux", logo: "SOCIAL LUX.jpg" },
-  { nombre: "Sparta", logo: "SPARTA.jpg" },
-  { nombre: "Tiro Federal", logo: "TIRO FEDERAL.jpg" },
-  { nombre: "Tiro Suizo", logo: "TIRO SUIZO.jpg" },
-  { nombre: "Torito", logo: "TORITO.png" },
-  { nombre: "Unión Americana", logo: "UNION AMERICANA.png" },
-  { nombre: "Villa Gobernador Gálvez", logo: "VG GALVEZ.png" }
-];
+function obtenerMinutosReglamentarios(division) {
+  switch((division || "").toLowerCase()) {
+    case "sub 10":
+    case "sub 12":
+      return { tiempoPorTiempo: 20, totalReglamentario: 40, descripcion: "2 tiempos de 20 min (Total: 40 min)" };
+    case "sub 14":
+      return { tiempoPorTiempo: 25, totalReglamentario: 50, descripcion: "2 tiempos de 25 min (Total: 50 min)" };
+    case "sub 16":
+      return { tiempoPorTiempo: 30, totalReglamentario: 60, descripcion: "2 tiempos de 30 min (Total: 60 min)" };
+    case "primera":
+      return { tiempoPorTiempo: 45, totalReglamentario: 90, descripcion: "2 tiempos de 45 min (Total: 90 min)" };
+    default:
+      return { tiempoPorTiempo: 45, totalReglamentario: 90, descripcion: "2 tiempos de 45 min (Total: 90 min)" };
+  }
+}
 
 /* =====================================================
    USUARIO Y PERMISOS
 ===================================================== */
-
-const usuarioGuardado = localStorage.getItem("usuarioADIUR");
-
+const usuarioGuardado = (localStorage.getItem("usuarioADIUR") || "").trim();
 if (!usuarioGuardado) {
   window.location.href = "Loing.html";
 }
 
-const usuarioNormalizado = (usuarioGuardado || "").trim().toLowerCase();
-
-const esFran = ["fran", "francisco"].includes(usuarioNormalizado);
+const usuarioNormalizado = usuarioGuardado.toLowerCase();
+const esFran = ["fran", "francisco", "francisco perez basla"].includes(usuarioNormalizado);
 const esToto = usuarioNormalizado === "toto";
 const esBianca = ["biancadominguez", "bianca"].includes(usuarioNormalizado);
 
-const esCuerpoTecnico = esFran || esToto;
-
-const nombreMostrar = usuarioGuardado || "Usuario";
-
-document.getElementById("nombreUsuario").textContent = nombreMostrar;
-document.getElementById("avatarUsuario").textContent = nombreMostrar.charAt(0).toUpperCase();
-
-document.getElementById("rolUsuario").textContent =
-  esFran ? "Administrador" :
-  esToto ? "Cuerpo técnico" :
-  esBianca ? "Jugadora · Sub 14" :
-  "Club ADIUR";
-
-if (esBianca) {
-  document.getElementById("grupoPlantel")?.remove();
-  document.getElementById("grupoRendimientos")?.remove();
-  document.querySelectorAll("[data-ocultar-bianca]").forEach(e => e.style.display = "none");
-}
-
-if (esCuerpoTecnico) {
-  const boxBtn = document.getElementById("boxBotonAgregarJornada");
-  if (boxBtn) boxBtn.style.display = "block";
-}
+document.getElementById("nombreUsuario").textContent = usuarioGuardado;
+document.getElementById("avatarUsuario").textContent = usuarioGuardado.charAt(0).toUpperCase();
+document.getElementById("rolUsuario").textContent = esFran ? "Administrador" : esToto ? "Cuerpo técnico" : esBianca ? "Jugadora · Sub 14" : "Club ADIUR";
 
 function cerrarSesion(event) {
   event.preventDefault();
@@ -1395,664 +912,334 @@ function cerrarSesion(event) {
   window.location.href = "Loing.html";
 }
 
-/* =====================================================
-   MENÚ LATERAL & ACCESIBILIDAD
-===================================================== */
-
 function alternarSidebar() {
-  const sidebar = document.getElementById("sidebar");
-  const capa = document.getElementById("capaSidebar");
-  const boton = document.getElementById("botonMenu");
-
-  sidebar.classList.toggle("oculto");
-  const abierto = !sidebar.classList.contains("oculto");
-  boton.setAttribute("aria-expanded", String(abierto));
-
-  if (window.innerWidth <= 760) {
-    capa.classList.toggle("visible", abierto);
-  }
+  document.getElementById("sidebar").classList.toggle("oculto");
+  document.getElementById("capaSidebar").classList.toggle("visible");
 }
 
 function toggleGrupo(id) {
-  const grupo = document.getElementById(id);
-  if (!grupo) return;
-
-  grupo.classList.toggle("cerrado");
-  const titulo = grupo.querySelector(".titulo-grupo");
-  if (titulo) {
-    titulo.setAttribute("aria-expanded", String(!grupo.classList.contains("cerrado")));
-  }
-}
-
-function ajustarSidebarPorPantalla() {
-  const sidebar = document.getElementById("sidebar");
-  const capa = document.getElementById("capaSidebar");
-  const boton = document.getElementById("botonMenu");
-
-  if (window.innerWidth <= 760) {
-    sidebar.classList.add("oculto");
-    capa.classList.remove("visible");
-    boton.setAttribute("aria-expanded", "false");
-  } else {
-    sidebar.classList.remove("oculto");
-    capa.classList.remove("visible");
-    boton.setAttribute("aria-expanded", "true");
-  }
-}
-
-ajustarSidebarPorPantalla();
-window.addEventListener("resize", ajustarSidebarPorPantalla);
-
-/* =====================================================
-   DATOS BASE DE JUGADORAS (FALLBACK REALISTA)
-===================================================== */
-
-const plantelesBaseFallback = {
-  "Sub 10": [
-    { id: "s10_1", nombre: "Sofía Martínez", posicion: "Arquera", division: "Sub 10" },
-    { id: "s10_2", nombre: "Emma Gómez", posicion: "Defensora", division: "Sub 10" },
-    { id: "s10_3", nombre: "Lucía Rossi", posicion: "Mediocampista", division: "Sub 10" },
-    { id: "s10_4", nombre: "Mia Fernández", posicion: "Delantera", division: "Sub 10" },
-    { id: "s10_5", nombre: "Clara Pérez", posicion: "Polivalente", division: "Sub 10" }
-  ],
-  "Sub 12": [
-    { id: "s12_1", nombre: "Martina López", posicion: "Arquera", division: "Sub 12" },
-    { id: "s12_2", nombre: "Alma Benítez", posicion: "Defensora", division: "Sub 12" },
-    { id: "s12_3", nombre: "Zoe Rodríguez", posicion: "Mediocampista", division: "Sub 12" },
-    { id: "s12_4", nombre: "Valentina Díaz", posicion: "Delantera", division: "Sub 12" }
-  ],
-  "Sub 14": [
-    { id: "s14_1", nombre: "Bianca Domínguez", posicion: "Mediocampista", division: "Sub 14" },
-    { id: "s14_2", nombre: "Camila Torres", posicion: "Arquera", division: "Sub 14" },
-    { id: "s14_3", nombre: "Lola Romero", posicion: "Defensora", division: "Sub 14" },
-    { id: "s14_4", nombre: "Delfina Acosta", posicion: "Delantera", division: "Sub 14" }
-  ],
-  "Sub 16": [
-    { id: "s16_1", nombre: "Catalina Silva", posicion: "Arquera", division: "Sub 16" },
-    { id: "s16_2", nombre: "Morena Sosa", posicion: "Defensora", division: "Sub 16" },
-    { id: "s16_3", nombre: "Julieta Castro", posicion: "Mediocampista", division: "Sub 16" },
-    { id: "s16_4", nombre: "Renata Morales", posicion: "Delantera", division: "Sub 16" }
-  ],
-  "Primera": [
-    { id: "p_1", nombre: "Agostina Scifo", posicion: "Arquera", division: "Primera" },
-    { id: "p_2", nombre: "Florencia Ruiz", posicion: "Defensora", division: "Primera" },
-    { id: "p_3", nombre: "María Victoria", posicion: "Mediocampista", division: "Primera" },
-    { id: "p_4", nombre: "Luciana Carbone", posicion: "Delantera", division: "Primera" },
-    { id: "p_5", nombre: "Paula Giménez", posicion: "Polivalente", division: "Primera" }
-  ]
-};
-
-/* =====================================================
-   ESTADO Y OBTENCIÓN DINÁMICA DE JUGADORAS Y DIVISIONES
-===================================================== */
-
-let columnaOrden = "goles";
-let ordenAscendente = false;
-
-// Cargar todas las jugadoras desde LocalStorage (sincronizadas)
-function obtenerTodasLasJugadoras() {
-  const claves = ["jugadorasADIUR", "plantelADIUR", "jugadoras"];
-  let jugadorasGuardadas = null;
-
-  for (const c of claves) {
-    const data = localStorage.getItem(c);
-    if (data) {
-      try {
-        const parsed = JSON.parse(data);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          jugadorasGuardadas = parsed;
-          break;
-        } else if (typeof parsed === 'object') {
-          let acumulado = [];
-          Object.keys(parsed).forEach(div => {
-            if (Array.isArray(parsed[div])) {
-              parsed[div].forEach(j => {
-                if (!j.division) j.division = div;
-                acumulado.push(j);
-              });
-            }
-          });
-          if (acumulado.length > 0) {
-            jugadorasGuardadas = acumulado;
-            break;
-          }
-        }
-      } catch(e) {
-        console.error("Error al parsear jugadoras guardadas", e);
-      }
-    }
-  }
-
-  // Si no se encontraron en localStorage, usar fallback
-  if (!jugadorasGuardadas) {
-    let fallbackGlobal = [];
-    Object.keys(plantelesBaseFallback).forEach(div => {
-      fallbackGlobal.push(...plantelesBaseFallback[div]);
-    });
-    return fallbackGlobal;
-  }
-
-  return jugadorasGuardadas;
-}
-
-// Cargar opciones dinámicas del selector de divisiones
-function cargarOpcionesDivisiones() {
-  const selectDiv = document.getElementById("filtroDivision");
-  const jugadoras = obtenerTodasLasJugadoras();
-  
-  // Extraer divisiones únicas
-  const divisionesSet = new Set();
-  
-  // Agregar divisiones por defecto base para asegurar cobertura
-  ["Sub 10", "Sub 12", "Sub 14", "Sub 16", "Primera"].forEach(d => divisionesSet.add(d));
-
-  jugadoras.forEach(j => {
-    if (j.division) divisionesSet.add(j.division.trim());
-  });
-
-  const divisionesArr = Array.from(divisionesSet);
-  selectDiv.innerHTML = "";
-
-  divisionesArr.forEach(div => {
-    const opt = document.createElement("option");
-    opt.value = div;
-    opt.textContent = div;
-    if (div === "Sub 14" || div === "Primera") {
-      // Default preferido si existe
-    }
-    selectDiv.appendChild(opt);
-  });
-
-  // Elegir "Sub 14" si está disponible por defecto, de lo contrario la primera
-  if (divisionesSet.has("Sub 14")) {
-    selectDiv.value = "Sub 14";
-  } else if (divisionesArr.length > 0) {
-    selectDiv.value = divisionesArr[0];
-  }
+  document.getElementById(id).classList.toggle("cerrado");
 }
 
 /* =====================================================
-   MANEJO DE JORNADAS Y PARTIDOS POR DIVISIÓN
+   ESTRUCTURA DE DATOS Y LOCALSTORAGE
 ===================================================== */
-
-function obtenerClaveJornadas(division, competencia) {
-  return `jornadas_ADIUR_${division.replace(/\s+/g, '_')}_${competencia.replace(/\s+/g, '_')}`;
+function obtenerClaveDatosEstadisticas(division) {
+  return "estadisticasADIUR_" + division.replace(/\s+/g, '_');
 }
 
-function obtenerJornadas(division, competencia) {
-  const key = obtenerClaveJornadas(division, competencia);
-  const data = localStorage.getItem(key);
-  if (data) {
-    try {
-      return JSON.parse(data);
-    } catch(e) {
-      console.error("Error al leer jornadas", e);
-    }
+function obtenerJugadoras() {
+  let datos = localStorage.getItem("jugadorasADIUR") || localStorage.getItem("plantelADIUR");
+  let lista = [];
+  if (datos) {
+    try { lista = JSON.parse(datos); } catch(e) { lista = []; }
   }
-  return [];
-}
-
-function guardarJornadas(division, competencia, jornadas) {
-  const key = obtenerClaveJornadas(division, competencia);
-  localStorage.setItem(key, JSON.stringify(jornadas));
-}
-
-function obtenerClavePartidos(division, competencia) {
-  return `partidos_stats_ADIUR_${division.replace(/\s+/g, '_')}_${competencia.replace(/\s+/g, '_')}`;
-}
-
-function obtenerPartidosStats(division, competencia) {
-  const key = obtenerClavePartidos(division, competencia);
-  const data = localStorage.getItem(key);
-  if (data) {
-    try {
-      return JSON.parse(data);
-    } catch(e) {
-      console.error("Error al leer stats de partidos", e);
-    }
+  if (!lista || lista.length === 0) {
+    lista = [
+      { id: "1", nombre: "Martina Pérez", categoria: "Sub 14", posicion: "Mediocampista" },
+      { id: "2", nombre: "Lucía Gómez", categoria: "Sub 14", posicion: "Delantera" },
+      { id: "3", nombre: "Camila Benítez", categoria: "Sub 14", posicion: "Defensora" },
+      { id: "4", nombre: "Sofía Martínez", categoria: "Sub 14", posicion: "Arquera" },
+      { id: "5", nombre: "Valentina Rossi", categoria: "Sub 12", posicion: "Delantera" },
+      { id: "6", nombre: "Julieta Fernández", categoria: "Sub 16", posicion: "Mediocampista" },
+      { id: "7", nombre: "Carla Sosa", categoria: "Primera", posicion: "Delantera" }
+    ];
   }
-  return {};
+  return lista;
 }
 
-function guardarPartidosStats(division, competencia, stats) {
-  const key = obtenerClavePartidos(division, competencia);
-  localStorage.setItem(key, JSON.stringify(stats));
-}
-
-/* =====================================================
-   COMPETENCIAS DINÁMICAS Y NAVEGACIÓN
-===================================================== */
-
-function actualizarOpcionesCompetencia() {
+function cambiarDivision() {
   const division = document.getElementById("filtroDivision").value;
   const selectComp = document.getElementById("filtroCompetencia");
   selectComp.innerHTML = "";
 
-  let opciones = [];
-
-  if (["Sub 10", "Sub 12", "Sub 14", "Sub 16"].includes(division)) {
-    opciones = [
-      { val: "todas", text: "Todas" },
-      { val: "rosarina_grupo", text: "Rosarina Grupo" },
-      { val: "rosarina_copa_oro", text: "Rosarina Copa Oro" },
-      { val: "rosarina_copa_plata", text: "Rosarina Copa Plata" }
-    ];
+  if (division === "Primera") {
+    ["Rosarina", "Copa Santa Fe", "Regional"].forEach(comp => {
+      let opt = document.createElement("option");
+      opt.value = comp;
+      opt.textContent = comp;
+      selectComp.appendChild(opt);
+    });
   } else {
-    opciones = [
-      { val: "todas", text: "Todas" },
-      { val: "rosarina", text: "Rosarina" },
-      { val: "copa_santa_fe", text: "Copa Santa Fe" },
-      { val: "regional", text: "Regional" }
-    ];
+    ["Todas", "Rosarina Grupo", "Rosarina Copa Oro", "Rosarina Copa Plata"].forEach(comp => {
+      let opt = document.createElement("option");
+      opt.value = comp;
+      opt.textContent = comp;
+      selectComp.appendChild(opt);
+    });
   }
-
-  opciones.forEach(op => {
-    const option = document.createElement("option");
-    option.value = op.val;
-    option.textContent = op.text;
-    selectComp.appendChild(option);
-  });
+  renderizarEstadisticas();
 }
 
-function alCambiarDivision() {
-  actualizarOpcionesCompetencia();
-  renderizarTabla();
+function obtenerJornadasActuales() {
+  const division = document.getElementById("filtroDivision").value;
+  const clave = obtenerClaveDatosEstadisticas(division) + "_jornadas";
+  let jornadas = localStorage.getItem(clave);
+  if (jornadas) {
+    try { return JSON.parse(jornadas); } catch(e) {}
+  }
+  return [
+    { id: "j1", numero: 1, rival: "CENTRAL.png" }
+  ];
+}
+
+function guardarJornadasActuales(jornadas) {
+  const division = document.getElementById("filtroDivision").value;
+  const clave = obtenerClaveDatosEstadisticas(division) + "_jornadas";
+  localStorage.setItem(clave, JSON.stringify(jornadas));
+}
+
+function obtenerDatosPartidosJugadoras() {
+  const division = document.getElementById("filtroDivision").value;
+  const competencia = document.getElementById("filtroCompetencia").value;
+  const clave = obtenerClaveDatosEstadisticas(division) + "_" + competencia.replace(/\s+/g, '_') + "_partidos";
+  let datos = localStorage.getItem(clave);
+  if (datos) {
+    try { return JSON.parse(datos); } catch(e) {}
+  }
+  return {};
+}
+
+function guardarDatosPartidosJugadoras(datos) {
+  const division = document.getElementById("filtroDivision").value;
+  const competencia = document.getElementById("filtroCompetencia").value;
+  const clave = obtenerClaveDatosEstadisticas(division) + "_" + competencia.replace(/\s+/g, '_') + "_partidos";
+  localStorage.setItem(clave, JSON.stringify(datos));
 }
 
 /* =====================================================
-   RENDERIZADO DE TABLA Y JORNADAS
+   RENDERIZAR TABLA DE ESTADÍSTICAS
 ===================================================== */
-
-function normalizarTexto(txt) {
-  return String(txt || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-}
-
-function renderizarTabla() {
-  const division = document.getElementById("filtroDivision").value;
-  const competencia = document.getElementById("filtroCompetencia").value;
-  const posFiltro = document.getElementById("filtroPosicion").value;
-  const textoBuscar = normalizarTexto(document.getElementById("inputBuscar").value);
-
-  const todasJugadoras = obtenerTodasLasJugadoras();
+function renderizarEstadisticas() {
+  const divisionSeleccionada = document.getElementById("filtroDivision").value;
+  const filtroPos = document.getElementById("filtroPosicion").value;
   
-  // FILTRADO ESTRICTO DE DIVISIÓN
-  let jugadorasFiltradas = todasJugadoras.filter(j => {
-    const divJugadora = (j.division || "").trim().toLowerCase();
-    const divSeleccionada = (division || "").trim().toLowerCase();
-    return divJugadora === divSeleccionada;
+  const todasJugadoras = obtenerJugadoras();
+  const jugadorasDivision = todasJugadoras.filter(j => {
+    const cat = (j.categoria || "").trim().toLowerCase();
+    return cat === divisionSeleccionada.toLowerCase();
   });
 
-  const jornadas = obtenerJornadas(division, competencia);
-  const partidosMap = obtenerPartidosStats(division, competencia);
+  const jugadorasFiltradas = jugadorasDivision.filter(j => {
+    if (filtroPos === "todas") return true;
+    const pos = (j.posicion || "").trim().toLowerCase();
+    if (filtroPos === "arqueras") return pos.includes("arquera");
+    if (filtroPos === "defensoras") return pos.includes("defensora");
+    if (filtroPos === "mediocampistas") return pos.includes("mediocampista");
+    if (filtroPos === "delanteras") return pos.includes("delantera");
+    if (filtroPos === "polivalentes") return pos.includes("polivalente") || pos.includes("polifuncional");
+    return true;
+  });
 
-  // Renderizar Encabezados de Fechas en la Tabla
-  const trEncabezado = document.getElementById("encabezadoTabla");
-  
-  // Limpiar headers anteriores de jornadas
-  document.querySelectorAll(".th-jornada").forEach(e => e.remove());
+  const jornadas = obtenerJornadasActuales();
+  const registrosPartidos = obtenerDatosPartidosJugadoras();
+
+  const trHead = document.getElementById("encabezadoTabla");
+  trHead.innerHTML = `
+    <th class="fija-izquierda">Jugadora</th>
+    <th>Posición</th>
+    <th>PJ</th>
+    <th>Min</th>
+    <th>🟨</th>
+    <th>🟥</th>
+    <th>⚽</th>
+    <th>🅰️</th>
+    <th>Min/PJ</th>
+    <th>G/90</th>
+    <th>Tit.</th>
+  `;
 
   jornadas.forEach(jornada => {
-    const th = document.createElement("th");
-    th.className = "th-jornada sin-orden";
+    let th = document.createElement("th");
+    th.className = "th-jornada";
     th.innerHTML = `
-      <div class="cabecera-jornada-box">
-        <span class="titulo-jornada">Jornada ${jornada.numero}</span>
-        <img src="${jornada.logoRival}" class="escudo-rival-header" alt="${jornada.nombreRival}" title="${jornada.nombreRival}">
+      <div class="cabecera-jornada-content">
+        <span>Jornada ${jornada.numero}</span>
+        <img class="escudo-rival-th" src="${jornada.rival}" alt="Rival" onerror="this.style.display='none'">
       </div>
     `;
-    trEncabezado.appendChild(th);
+    trHead.appendChild(th);
   });
 
-  const cuerpo = document.getElementById("cuerpoTabla");
-  cuerpo.innerHTML = "";
+  const tbody = document.getElementById("cuerpoTablaEstadisticas");
+  tbody.innerHTML = "";
 
-  // Procesar Estadísticas Individuales Recalculadas por Fechas Cargadas
-  let listaProcesada = jugadorasFiltradas.map(j => {
-    const id = j.id || (j.nombre.replace(/\s+/g, '_').toLowerCase());
-    
-    // Calcular estadísticas acumuladas desde las Jornadas
-    let pj = 0;
-    let min = 0;
-    let titularidades = 0;
-    let goles = 0;
-    let asistencias = 0;
-    let amarillas = 0;
-    let rojas = 0;
+  if (jugadorasFiltradas.length === 0) {
+    let tr = document.createElement("tr");
+    tr.innerHTML = `<td colspan="${11 + jornadas.length}" style="text-align: center; padding: 30px; color: #777;">No hay jugadoras cargadas en la división ${divisionSeleccionada}. Agrégalas desde jugadoras.html</td>`;
+    tbody.appendChild(tr);
+    return;
+  }
+
+  jugadorasFiltradas.forEach(jugadora => {
+    const jId = jugadora.id || jugadora.nombre;
+    const historialJugadora = registrosPartidos[jId] || {};
+
+    let pj = 0, min = 0, amarillas = 0, rojas = 0, goles = 0, asistencias = 0, titulares = 0;
 
     jornadas.forEach(jornada => {
-      const matchKey = `${id}_J${jornada.numero}`;
-      const reg = partidosMap[matchKey];
-
+      const reg = historialJugadora[jornada.id];
       if (reg && reg.convocada === "si") {
         pj++;
-        if (reg.rol === "Titular") titularidades++;
         min += Number(reg.minutos || 0);
-        goles += Number(reg.goles || 0);
-        asistencias += Number(reg.asistencias || 0);
         amarillas += Number(reg.amarillas || 0);
         rojas += Number(reg.rojas || 0);
+        goles += Number(reg.goles || 0);
+        asistencias += Number(reg.asistencias || 0);
+        if (reg.rol === "Titular") titulares++;
       }
     });
 
-    const promedioMin = pj > 0 ? (min / pj) : 0;
-    const goles90 = min > 0 ? ((goles / min) * 90) : 0;
+    const minPorPj = pj > 0 ? (min / pj).toFixed(1) : "0.0";
+    const goles90 = min > 0 ? ((goles * 90) / min).toFixed(2) : "0.00";
 
-    return {
-      id: id,
-      nombre: j.nombre,
-      posicion: j.posicion || "Jugadora",
-      division: j.division || division,
-      foto: j.foto || "",
-      pj: pj,
-      minutos: min,
-      titularidades: titularidades,
-      goles: goles,
-      asistencias: asistencias,
-      amarillas: amarillas,
-      rojas: rojas,
-      promedioMin: promedioMin,
-      goles90: goles90
-    };
-  });
-
-  // Filtrado por Posición
-  if (posFiltro !== "todas") {
-    listaProcesada = listaProcesada.filter(j => normalizarTexto(j.posicion) === normalizarTexto(posFiltro));
-  }
-
-  // Búsqueda por Texto
-  if (textoBuscar) {
-    listaProcesada = listaProcesada.filter(j => normalizarTexto(j.nombre).includes(textoBuscar));
-  }
-
-  // Ordenamiento
-  listaProcesada.sort((a, b) => {
-    let valA = a[columnaOrden];
-    let valB = b[columnaOrden];
-
-    if (typeof valA === "string") {
-      valA = valA.toLowerCase();
-      valB = valB.toLowerCase();
-    }
-
-    if (valA < valB) return ordenAscendente ? -1 : 1;
-    if (valA > valB) return ordenAscendente ? 1 : -1;
-    return 0;
-  });
-
-  // Actualizar Tarjetas Resumen
-  actualizarDestacadas(listaProcesada);
-
-  if (listaProcesada.length === 0) {
-    const totalCols = 12 + jornadas.length;
-    cuerpo.innerHTML = `
-      <tr>
-        <td colspan="${totalCols}" style="text-align:center; padding: 35px; color:#888;">
-          No se encontraron jugadoras cargadas para la división <strong>${division}</strong>.
-        </td>
-      </tr>
-    `;
-    return;
-  }
-
-  listaProcesada.forEach(j => {
-    const tr = document.createElement("tr");
-
-    const inicial = j.nombre.charAt(0).toUpperCase();
-    const avatarHtml = j.foto
-      ? `<img src="${j.foto}" class="avatar-jugadora" alt="${j.nombre}">`
-      : `<div class="avatar-jugadora">${inicial}</div>`;
-
-    let htmlFila = `
-      <td>
-        <div class="celda-jugadora">
-          ${avatarHtml}
-          <span>${j.nombre}</span>
-        </div>
-      </td>
-      <td><span class="posicion-badge">${j.posicion}</span></td>
-      <td><span class="division-badge">${j.division}</span></td>
-      <td class="num-destacado">${j.pj}</td>
-      <td>${j.minutos}'</td>
-      <td><span class="badge-tarjeta badge-amarilla">${j.amarillas}</span></td>
-      <td><span class="badge-tarjeta badge-roja">${j.rojas}</span></td>
-      <td class="num-destacado" style="color:var(--naranja-oscuro);">${j.goles}</td>
-      <td>${j.asistencias}</td>
-      <td>${j.promedioMin.toFixed(1)}'</td>
-      <td>${j.goles90.toFixed(2)}</td>
-      <td>${j.titularidades}</td>
+    let tr = document.createElement("tr");
+    let htmlRow = `
+      <td class="fija-izquierda"><strong>${jugadora.nombre}</strong></td>
+      <td>${jugadora.posicion || "Sin asignar"}</td>
+      <td><strong>${pj}</strong></td>
+      <td>${min}</td>
+      <td>${amarillas}</td>
+      <td>${rojas}</td>
+      <td><strong>${goles}</strong></td>
+      <td>${asistencias}</td>
+      <td>${minPorPj}</td>
+      <td>${goles90}</td>
+      <td>${titulares}</td>
     `;
 
-    // Generar Celdas de Fechas / Jornadas para esta jugadora
     jornadas.forEach(jornada => {
-      const matchKey = `${j.id}_J${jornada.numero}`;
-      const reg = partidosMap[matchKey] || { convocada: "no", rol: "No jugo", minutos: 0, goles: 0, asistencias: 0, amarillas: 0, rojas: 0 };
-
-      let badgeRol = `<span class="badge-convocada badge-no-convocada">No conv.</span>`;
-      if (reg.convocada === "si") {
-        if (reg.rol === "Titular") badgeRol = `<span class="badge-convocada badge-titular">Titular</span>`;
-        else if (reg.rol === "Suplente") badgeRol = `<span class="badge-convocada badge-suplente">Suplente</span>`;
-        else badgeRol = `<span class="badge-convocada badge-no-jugo">Sin jugar</span>`;
+      const reg = historialJugadora[jornada.id];
+      let contenidoCelda = `<span class="badge-fuera">-</span>`;
+      
+      if (reg) {
+        if (reg.convocada === "no") {
+          contenidoCelda = `<span class="badge-fuera" title="No convocada">No conv.</span>`;
+        } else {
+          let badgeRol = reg.rol === "Titular" ? `<span class="badge-titular">Tit.</span>` : `<span class="badge-suplente">Sup.</span>`;
+          let resumenAcciones = `${badgeRol} ${reg.minutos}'`;
+          if (Number(reg.goles) > 0) resumenAcciones += ` ⚽${reg.goles}`;
+          if (Number(reg.asistencias) > 0) resumenAcciones += ` 🅰️${reg.asistencias}`;
+          if (Number(reg.amarillas) > 0) resumenAcciones += ` 🟨`;
+          if (Number(reg.rojas) > 0) resumenAcciones += ` 🟥`;
+          contenidoCelda = `<div class="resumen-partido-badge">${resumenAcciones}</div>`;
+        }
       }
 
-      let detallesIconos = [];
-      if (reg.convocada === "si") {
-        if (reg.minutos > 0) detallesIconos.push(`⏱️${reg.minutos}'`);
-        if (reg.goles > 0) detallesIconos.push(`⚽${reg.goles}`);
-        if (reg.asistencias > 0) detallesIconos.push(`🅰️${reg.asistencias}`);
-        if (reg.amarillas > 0) detallesIconos.push(`🟨${reg.amarillas}`);
-        if (reg.rojas > 0) detallesIconos.push(`🟥${reg.rojas}`);
-      }
-
-      const onclickAttr = esCuerpoTecnico ? `onclick="abrirModalEdicionPartido('${j.id}', '${j.nombre}', ${jornada.numero}, '${jornada.nombreRival}')"` : '';
-
-      htmlFila += `
-        <td class="td-jornada-celda" ${onclickAttr}>
-          <div class="match-stat-box">
-            ${badgeRol}
-            ${detallesIconos.length > 0 ? `<div class="match-icons">${detallesIconos.join(' ')}</div>` : ''}
-          </div>
-        </td>
-      `;
+      htmlRow += `<td class="celda-partido" onclick="abrirModalPartido('${jId}', '${jornada.id}', '${jugadora.nombre.replace(/'/g, "\\'")}')">${contenidoCelda}</td>`;
     });
 
-    tr.innerHTML = htmlFila;
-    cuerpo.appendChild(tr);
+    tr.innerHTML = htmlRow;
+    tbody.appendChild(tr);
   });
 }
 
-function ordenarPor(col) {
-  if (columnaOrden === col) {
-    ordenAscendente = !ordenAscendente;
+/* =====================================================
+   GESTIÓN DE MODALES Y EDICIÓN
+===================================================== */
+function abrirModalNuevaFecha() {
+  document.getElementById("formFecha").reset();
+  const jornadas = obtenerJornadasActuales();
+  document.getElementById("numeroJornada").value = jornadas.length + 1;
+  document.getElementById("modalFecha").classList.add("activo");
+}
+
+function guardarNuevaFecha(event) {
+  event.preventDefault();
+  const num = document.getElementById("numeroJornada").value;
+  const rival = document.getElementById("rivalFecha").value;
+  
+  if (!rival) {
+    alert("Por favor seleccioná un rival.");
+    return;
+  }
+
+  let jornadas = obtenerJornadasActuales();
+  const nuevaId = "j_" + Date.now();
+  jornadas.push({ id: nuevaId, numero: num, rival: rival });
+  guardarJornadasActuales(jornadas);
+
+  cerrarModal("modalFecha");
+  renderizarEstadisticas();
+}
+
+function abrirModalPartido(jugadoraId, jornadaId, nombreJugadora) {
+  const divisionActual = document.getElementById("filtroDivision").value;
+  const reglasTiempo = obtenerMinutosReglamentarios(divisionActual);
+
+  document.getElementById("editJugadoraId").value = jugadoraId;
+  document.getElementById("editJornadaId").value = jornadaId;
+  document.getElementById("tituloModalPJ").textContent = `Rendimiento de ${nombreJugadora} (${divisionActual})`;
+
+  document.getElementById("ayudaMinutosReglamentarios").textContent = `Reglamentario para ${divisionActual}: ${reglasTiempo.descripcion} (+ opción de alargue)`;
+
+  const registrosPartidos = obtenerDatosPartidosJugadoras();
+  const reg = (registrosPartidos[jugadoraId] && registrosPartidos[jugadoraId][jornadaId]) || {
+    convocada: "si",
+    rol: "Titular",
+    minutos: reglasTiempo.totalReglamentario,
+    goles: 0,
+    asistencias: 0,
+    amarillas: 0,
+    rojas: 0
+  };
+
+  document.getElementById("convocadaSelect").value = reg.convocada;
+  document.getElementById("rolPartidoSelect").value = reg.rol || "Titular";
+  document.getElementById("minutosJugadosInput").value = reg.minutos !== undefined ? reg.minutos : reglasTiempo.totalReglamentario;
+  document.getElementById("golesInput").value = reg.goles || 0;
+  document.getElementById("asistenciasInput").value = reg.asistencias || 0;
+  document.getElementById("amarillasInput").value = reg.amarillas || 0;
+  document.getElementById("rojasInput").value = reg.rojas || 0;
+
+  actualizarCamposConvocatoria();
+  document.getElementById("modalPartidoJugadora").classList.add("activo");
+}
+
+function actualizarCamposConvocatoria() {
+  const convocada = document.getElementById("convocadaSelect").value;
+  const contenedor = document.getElementById("camposRendimientoPartido");
+  contenedor.style.display = convocada === "si" ? "block" : "none";
+}
+
+function guardarDatosPartidoJugadora(event) {
+  event.preventDefault();
+  const jugadoraId = document.getElementById("editJugadoraId").value;
+  const jornadaId = document.getElementById("editJornadaId").value;
+  const convocada = document.getElementById("convocadaSelect").value;
+
+  let registrosPartidos = obtenerDatosPartidosJugadoras();
+  if (!registrosPartidos[jugadoraId]) {
+    registrosPartidos[jugadoraId] = {};
+  }
+
+  if (convocada === "no") {
+    registrosPartidos[jugadoraId][jornadaId] = { convocada: "no" };
   } else {
-    columnaOrden = col;
-    ordenAscendente = false;
-  }
-  renderizarTabla();
-}
-
-function actualizarDestacadas(lista) {
-  if (!lista || lista.length === 0) {
-    document.getElementById("topGoleadora").textContent = "--";
-    document.getElementById("topGolesCant").textContent = "0 goles";
-    document.getElementById("topAsistente").textContent = "--";
-    document.getElementById("topAsisCant").textContent = "0 asistencias";
-    document.getElementById("topMinutos").textContent = "--";
-    document.getElementById("topMinCant").textContent = "0 min";
-    document.getElementById("topTitular").textContent = "--";
-    document.getElementById("topTitCant").textContent = "0 partidos";
-    return;
+    registrosPartidos[jugadoraId][jornadaId] = {
+      convocada: "si",
+      rol: document.getElementById("rolPartidoSelect").value,
+      minutos: Number(document.getElementById("minutosJugadosInput").value),
+      goles: Number(document.getElementById("golesInput").value),
+      asistencias: Number(document.getElementById("asistenciasInput").value),
+      amarillas: Number(document.getElementById("amarillasInput").value),
+      rojas: Number(document.getElementById("rojasInput").value)
+    };
   }
 
-  const topGol = [...lista].sort((a,b) => b.goles - a.goles)[0];
-  const topAsis = [...lista].sort((a,b) => b.asistencias - a.asistencias)[0];
-  const topMin = [...lista].sort((a,b) => b.minutos - a.minutos)[0];
-  const topTit = [...lista].sort((a,b) => b.titularidades - a.titularidades)[0];
-
-  if (topGol) {
-    document.getElementById("topGoleadora").textContent = topGol.nombre;
-    document.getElementById("topGolesCant").textContent = topGol.goles + " goles";
-  }
-
-  if (topAsis) {
-    document.getElementById("topAsistente").textContent = topAsis.nombre;
-    document.getElementById("topAsisCant").textContent = topAsis.asistencias + " asistencias";
-  }
-
-  if (topMin) {
-    document.getElementById("topMinutos").textContent = topMin.nombre;
-    document.getElementById("topMinCant").textContent = topMin.minutos + " min";
-  }
-
-  if (topTit) {
-    document.getElementById("topTitular").textContent = topTit.nombre;
-    document.getElementById("topTitCant").textContent = topTit.titularidades + " partidos";
-  }
+  guardarDatosPartidosJugadoras(registrosPartidos);
+  cerrarModal("modalPartidoJugadora");
+  renderizarEstadisticas();
 }
 
-/* =====================================================
-   MANEJO DE MODAL AGREGAR NUEVA JORNADA
-===================================================== */
-
-function abrirModalNuevaJornada() {
-  const selectRival = document.getElementById("selectRival");
-  selectRival.innerHTML = "";
-
-  RIVALES_ESCUDOS.forEach(r => {
-    const opt = document.createElement("option");
-    opt.value = r.logo;
-    opt.textContent = r.nombre;
-    selectRival.appendChild(opt);
-  });
-
-  const division = document.getElementById("filtroDivision").value;
-  const competencia = document.getElementById("filtroCompetencia").value;
-  const jornadas = obtenerJornadas(division, competencia);
-
-  document.getElementById("numJornada").value = jornadas.length + 1;
-  document.getElementById("modalNuevaJornada").classList.add("activo");
+function cerrarModal(id) {
+  document.getElementById(id).classList.remove("activo");
 }
 
-function cerrarModalNuevaJornada() {
-  document.getElementById("modalNuevaJornada").classList.remove("activo");
-}
-
-function guardarNuevaJornada(e) {
-  e.preventDefault();
-  const division = document.getElementById("filtroDivision").value;
-  const competencia = document.getElementById("filtroCompetencia").value;
-
-  const num = Number(document.getElementById("numJornada").value);
-  const logo = document.getElementById("selectRival").value;
-  const rivalObj = RIVALES_ESCUDOS.find(r => r.logo === logo) || { nombre: "Rival" };
-
-  const jornadas = obtenerJornadas(division, competencia);
-
-  if (jornadas.some(j => j.numero === num)) {
-    alert("Ya existe una jornada cargada con el número " + num);
-    return;
-  }
-
-  jornadas.push({
-    numero: num,
-    logoRival: logo,
-    nombreRival: rivalObj.nombre
-  });
-
-  jornadas.sort((a,b) => a.numero - b.numero);
-
-  guardarJornadas(division, competencia, jornadas);
-  cerrarModalNuevaJornada();
-  renderizarTabla();
-}
-
-/* =====================================================
-   MANEJO DE MODAL EDICIÓN DE PARTIDO POR JORNADA
-===================================================== */
-
-let partidoEdicionActual = null;
-
-function abrirModalEdicionPartido(idJugadora, nombreJugadora, numJornada, rival) {
-  if (!esCuerpoTecnico) return;
-
-  const division = document.getElementById("filtroDivision").value;
-  const competencia = document.getElementById("filtroCompetencia").value;
-  const partidosMap = obtenerPartidosStats(division, competencia);
-
-  const matchKey = `${idJugadora}_J${numJornada}`;
-  const reg = partidosMap[matchKey] || { convocada: "si", rol: "Titular", minutos: 80, goles: 0, asistencias: 0, amarillas: 0, rojas: 0 };
-
-  partidoEdicionActual = {
-    idJugadora,
-    numJornada,
-    division,
-    competencia,
-    matchKey
-  };
-
-  document.getElementById("modalPartidoTitulo").textContent = `${nombreJugadora}`;
-  document.getElementById("modalPartidoSubtitulo").textContent = `Jornada ${numJornada} vs ${rival}`;
-
-  document.getElementById("editConvocada").value = reg.convocada || "si";
-  document.getElementById("editRol").value = reg.rol || "Titular";
-  document.getElementById("editPartidoMinutos").value = reg.minutos || 0;
-  document.getElementById("editPartidoGoles").value = reg.goles || 0;
-  document.getElementById("editPartidoAsistencias").value = reg.asistencias || 0;
-  document.getElementById("editPartidoAmarillas").value = reg.amarillas || 0;
-  document.getElementById("editPartidoRojas").value = reg.rojas || 0;
-
-  alCambiarConvocada();
-  document.getElementById("modalEdicionPartido").classList.add("activo");
-}
-
-function alCambiarConvocada() {
-  const esConvocada = document.getElementById("editConvocada").value === "si";
-  document.getElementById("editRol").disabled = !esConvocada;
-  document.getElementById("editPartidoMinutos").disabled = !esConvocada;
-  document.getElementById("editPartidoGoles").disabled = !esConvocada;
-  document.getElementById("editPartidoAsistencias").disabled = !esConvocada;
-  document.getElementById("editPartidoAmarillas").disabled = !esConvocada;
-  document.getElementById("editPartidoRojas").disabled = !esConvocada;
-}
-
-function cerrarModalEdicionPartido() {
-  document.getElementById("modalEdicionPartido").classList.remove("activo");
-  partidoEdicionActual = null;
-}
-
-function guardarEdicionPartido(e) {
-  e.preventDefault();
-  if (!partidoEdicionActual) return;
-
-  const { division, competencia, matchKey } = partidoEdicionActual;
-  const partidosMap = obtenerPartidosStats(division, competencia);
-
-  const convocada = document.getElementById("editConvocada").value;
-
-  partidosMap[matchKey] = {
-    convocada: convocada,
-    rol: convocada === "si" ? document.getElementById("editRol").value : "No jugo",
-    minutos: convocada === "si" ? Number(document.getElementById("editPartidoMinutos").value) || 0 : 0,
-    goles: convocada === "si" ? Number(document.getElementById("editPartidoGoles").value) || 0 : 0,
-    asistencias: convocada === "si" ? Number(document.getElementById("editPartidoAsistencias").value) || 0 : 0,
-    amarillas: convocada === "si" ? Number(document.getElementById("editPartidoAmarillas").value) || 0 : 0,
-    rojas: convocada === "si" ? Number(document.getElementById("editPartidoRojas").value) || 0 : 0
-  };
-
-  guardarPartidosStats(division, competencia, partidosMap);
-  cerrarModalEdicionPartido();
-  renderizarTabla();
-}
-
-/* =====================================================
-   INICIALIZACIÓN DE LA PÁGINA
-===================================================== */
-
-window.onload = function() {
-  cargarOpcionesDivisiones();
-  actualizarOpcionesCompetencia();
-  renderizarTabla();
-};
+window.addEventListener("DOMContentLoaded", () => {
+  cambiarDivision();
+});
 </script>
+
 </body>
 </html>
