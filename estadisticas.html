@@ -21,18 +21,21 @@
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
   background: var(--gris);
   color: var(--negro);
 }
 
 button, input, select {
   font: inherit;
+}
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
 }
 
 button {
@@ -167,6 +170,8 @@ a {
   margin-left: -258px;
 }
 
+/* Inicio seleccionado */
+
 .menu-inicio {
   display: flex;
   align-items: center;
@@ -174,16 +179,26 @@ a {
   padding: 13px 14px;
   margin-bottom: 16px;
   border-radius: 11px;
-  background: #fff;
-  color: var(--negro);
+  background: var(--naranja-claro);
+  color: var(--naranja-oscuro);
   font-size: 13px;
   font-weight: 850;
   transition: background .2s;
 }
 
 .menu-inicio:hover {
-  background: var(--gris);
+  background: #ffe7d6;
+  color: var(--naranja-oscuro);
 }
+
+.menu-inicio .icono-inicio {
+  width: 15px;
+  text-align: center;
+  font-size: 17px;
+  line-height: 1;
+}
+
+/* Categorías */
 
 .grupo-menu {
   margin-bottom: 8px;
@@ -223,6 +238,8 @@ a {
 .grupo-menu:not(.cerrado) .flecha {
   transform: rotate(90deg);
 }
+
+/* Opciones desplegables */
 
 .submenu {
   display: flex;
@@ -269,6 +286,8 @@ a {
   background: var(--naranja);
 }
 
+/* Cerrar sesión */
+
 .separador-sesion {
   border-top: 1px solid #e8e8e8;
   margin: 19px 0 0;
@@ -291,12 +310,16 @@ a {
   color: #a93226;
 }
 
+.icono-salir {
+  font-size: 17px;
+}
+
 .capa-sidebar {
   display: none;
 }
 
 /* =====================================================
-   CONTENIDO PRINCIPAL
+   CONTENIDO PRINCIPAL Y ESTADÍSTICAS
 ===================================================== */
 
 .contenido {
@@ -593,8 +616,12 @@ tbody tr:hover td.fija-izquierda {
     bottom: 0;
     left: 0;
     z-index: 150;
+    width: 258px;
+    max-width: 86vw;
+    box-shadow: 5px 0 25px #00000012;
+    margin-left: 0;
     transform: translateX(-110%);
-    box-shadow: 5px 0 25px rgba(0,0,0,0.1);
+    transition: transform .25s ease;
   }
   .sidebar:not(.oculto) {
     transform: translateX(0);
@@ -603,11 +630,11 @@ tbody tr:hover td.fija-izquierda {
     display: block;
     position: fixed;
     inset: 72px 0 0;
-    background: rgba(0,0,0,0.3);
+    background: rgba(0,0,0,.32);
     z-index: 140;
   }
   .contenido {
-    padding: 15px;
+    padding: 21px 14px;
   }
 }
 </style>
@@ -615,14 +642,28 @@ tbody tr:hover td.fija-izquierda {
 
 <body>
 
-<!-- BARRA SUPERIOR -->
 <header class="barra-superior">
-  <button class="boton-menu" id="botonMenu" aria-label="Abrir menú" onclick="alternarSidebar()">☰</button>
-  <img class="logo-superior" src="Logo ADIUR.jpg" alt="Logo ADIUR" onerror="this.style.display='none'">
+  <button
+    class="boton-menu"
+    id="botonMenu"
+    aria-label="Abrir menú"
+    aria-controls="sidebar"
+    aria-expanded="true"
+    onclick="alternarSidebar()"
+  >☰</button>
+
+  <img
+    class="logo-superior"
+    src="Logo ADIUR.jpg"
+    alt="Logo ADIUR"
+    onerror="if(!this.dataset.intento){this.dataset.intento='1';this.src='logo adiur.jpg'}else{this.style.display='none'}"
+  >
+
   <div class="titulo-superior">
     <h1>ADIUR FEMENINO</h1>
     <p>Estadísticas del Plantel</p>
   </div>
+
   <div class="perfil">
     <div class="avatar" id="avatarUsuario">U</div>
     <div>
@@ -635,49 +676,148 @@ tbody tr:hover td.fija-izquierda {
 <div class="capa-sidebar" id="capaSidebar" onclick="alternarSidebar()"></div>
 
 <div class="contenedor">
-  <!-- BARRA LATERAL -->
+
   <aside class="sidebar" id="sidebar">
-    <a class="menu-inicio" href="Pagina Principal.html">
-      <span class="icono-inicio">⌂</span> INICIO
+
+    <!-- INICIO -->
+    <a class="menu-inicio" href="pagina principal.html" aria-current="page">
+      <span class="icono-inicio" aria-hidden="true">⌂</span>
+      INICIO
     </a>
-    <div class="grupo-menu" id="grupoPlantel">
-      <div class="titulo-grupo" onclick="toggleGrupo('grupoPlantel')">
-        <span>PLANTEL</span><span class="flecha">›</span>
+
+    <!-- PLANTEL -->
+    <div class="grupo-menu cerrado" id="grupoPlantel">
+      <div
+        class="titulo-grupo"
+        onclick="toggleGrupo('grupoPlantel')"
+        role="button"
+        tabindex="0"
+        aria-expanded="false"
+      >
+        <span>PLANTEL</span>
+        <span class="flecha" aria-hidden="true">›</span>
       </div>
+
       <div class="submenu">
-        <a href="jugadoras.html"><span class="nav-punto"></span>Jugadoras</a>
-        <a href="asistencia.html"><span class="nav-punto"></span>Asistencia</a>
+        <a href="jugadoras.html">
+          <span class="nav-punto"></span>Jugadoras
+        </a>
+        <a href="asistencia.html">
+          <span class="nav-punto"></span>Asistencia
+        </a>
       </div>
     </div>
+
+    <!-- ENTRENAMIENTO -->
     <div class="grupo-menu cerrado" id="grupoEntrenamiento">
-      <div class="titulo-grupo" onclick="toggleGrupo('grupoEntrenamiento')">
-        <span>ENTRENAMIENTO</span><span class="flecha">›</span>
+      <div
+        class="titulo-grupo"
+        onclick="toggleGrupo('grupoEntrenamiento')"
+        role="button"
+        tabindex="0"
+        aria-expanded="false"
+      >
+        <span>ENTRENAMIENTO</span>
+        <span class="flecha" aria-hidden="true">›</span>
       </div>
+
       <div class="submenu">
-        <a href="calendario.html"><span class="nav-punto"></span>Calendario</a>
-        <a href="planificacion.html"><span class="nav-punto"></span>Planificación</a>
-        <a href="gimnasio.html"><span class="nav-punto"></span>Gimnasio</a>
+        <a href="calendario.html">
+          <span class="nav-punto"></span>Calendario
+        </a>
+        <a href="planificacion.html" data-ocultar-bianca>
+          <span class="nav-punto"></span>Planificación
+        </a>
+        <a href="biblioteca.html" data-ocultar-bianca>
+          <span class="nav-punto"></span>Biblioteca de ejercicios
+        </a>
+        <a href="gimnasio.html">
+          <span class="nav-punto"></span>Gimnasio
+        </a>
+        <a href="calculadora.html" data-ocultar-bianca>
+          <span class="nav-punto"></span>Calculadora
+        </a>
       </div>
     </div>
+
+    <!-- COMPETENCIA -->
     <div class="grupo-menu cerrado" id="grupoCompetencia">
-      <div class="titulo-grupo" onclick="toggleGrupo('grupoCompetencia')">
-        <span>COMPETENCIA</span><span class="flecha">›</span>
+      <div
+        class="titulo-grupo"
+        onclick="toggleGrupo('grupoCompetencia')"
+        role="button"
+        tabindex="0"
+        aria-expanded="false"
+      >
+        <span>COMPETENCIA</span>
+        <span class="flecha" aria-hidden="true">›</span>
       </div>
+
       <div class="submenu">
-        <a href="Partidos.html"><span class="nav-punto"></span>Partidos</a>
-        <a href="estadisticas.html" class="activo"><span class="nav-punto"></span>Estadísticas</a>
-        <a href="pizarra.html"><span class="nav-punto"></span>Pizarra táctica</a>
+        <a href="Partidos.html">
+          <span class="nav-punto"></span>Partidos
+        </a>
+        <a href="informes.html" data-ocultar-bianca>
+          <span class="nav-punto"></span>Informes
+        </a>
+        <a href="estadisticas.html" class="activo" data-ocultar-bianca>
+          <span class="nav-punto"></span>Estadísticas
+        </a>
+        <a href="pizarra.html" data-ocultar-bianca>
+          <span class="nav-punto"></span>Pizarra táctica
+        </a>
       </div>
     </div>
+
+    <!-- RENDIMIENTOS -->
+    <div class="grupo-menu cerrado" id="grupoRendimientos">
+      <div
+        class="titulo-grupo"
+        onclick="toggleGrupo('grupoRendimientos')"
+        role="button"
+        tabindex="0"
+        aria-expanded="false"
+      >
+        <span>RENDIMIENTOS</span>
+        <span class="flecha" aria-hidden="true">›</span>
+      </div>
+
+      <div class="submenu">
+        <a href="testeos.html">
+          <span class="nav-punto"></span>Planilla de testeos
+        </a>
+        <a href="tiempos.html">
+          <span class="nav-punto"></span>Tiempos
+        </a>
+        <a href="multimedia.html">
+          <span class="nav-punto"></span>Multimedia
+        </a>
+        <a href="encuestas.html">
+          <span class="nav-punto"></span>Encuestas
+        </a>
+        <a href="lesiones.html">
+          <span class="nav-punto"></span>Lesiones
+        </a>
+      </div>
+    </div>
+
+    <!-- CERRAR SESIÓN -->
     <div class="separador-sesion">
-      <a class="enlace-cerrar-sesion" href="#" onclick="cerrarSesion(event)">
-        <span class="icono-salir">↪</span> Cerrar sesión
+      <a
+        class="enlace-cerrar-sesion"
+        href="#"
+        onclick="cerrarSesion(event)"
+      >
+        <span class="icono-salir" aria-hidden="true">↪</span>
+        Cerrar sesión
       </a>
     </div>
+
   </aside>
 
-  <!-- CONTENIDO PRINCIPAL -->
+  <!-- CONTENIDO DE LA PÁGINA -->
   <main class="contenido">
+
     <div class="encabezado-seccion">
       <div>
         <h2>Panel de Estadísticas</h2>
@@ -749,6 +889,7 @@ tbody tr:hover td.fija-izquierda {
         </table>
       </div>
     </div>
+
   </main>
 </div>
 
@@ -892,19 +1033,43 @@ function obtenerMinutosReglamentarios(division) {
 /* =====================================================
    USUARIO Y PERMISOS
 ===================================================== */
-const usuarioGuardado = (localStorage.getItem("usuarioADIUR") || "").trim();
+const usuarioGuardado = localStorage.getItem("usuarioADIUR");
+
 if (!usuarioGuardado) {
   window.location.href = "Loing.html";
 }
 
-const usuarioNormalizado = usuarioGuardado.toLowerCase();
-const esFran = ["fran", "francisco", "francisco perez basla"].includes(usuarioNormalizado);
-const esToto = usuarioNormalizado === "toto";
-const esBianca = ["biancadominguez", "bianca"].includes(usuarioNormalizado);
+const usuarioNormalizado = (usuarioGuardado || "").trim().toLowerCase();
 
-document.getElementById("nombreUsuario").textContent = usuarioGuardado;
-document.getElementById("avatarUsuario").textContent = usuarioGuardado.charAt(0).toUpperCase();
-document.getElementById("rolUsuario").textContent = esFran ? "Administrador" : esToto ? "Cuerpo técnico" : esBianca ? "Jugadora · Sub 14" : "Club ADIUR";
+const esFran = ["fran", "francisco"].includes(usuarioNormalizado);
+const esToto = usuarioNormalizado === "toto";
+
+const esBianca = [
+  "biancadominguez",
+  "bianca"
+].includes(usuarioNormalizado);
+
+const nombreMostrar = usuarioGuardado || "Usuario";
+
+document.getElementById("nombreUsuario").textContent = nombreMostrar;
+document.getElementById("avatarUsuario").textContent =
+  nombreMostrar.charAt(0).toUpperCase();
+
+document.getElementById("rolUsuario").textContent =
+  esFran ? "Administrador" :
+  esToto ? "Cuerpo técnico" :
+  esBianca ? "Jugadora · Sub 14" :
+  "Club ADIUR";
+
+/* Permisos de visualización del menú */
+if (esBianca) {
+  document.getElementById("grupoPlantel")?.remove();
+  document.getElementById("grupoRendimientos")?.remove();
+
+  document.querySelectorAll("[data-ocultar-bianca]").forEach(enlace => {
+    enlace.style.display = "none";
+  });
+}
 
 function cerrarSesion(event) {
   event.preventDefault();
@@ -912,14 +1077,78 @@ function cerrarSesion(event) {
   window.location.href = "Loing.html";
 }
 
+/* =====================================================
+   MENÚ LATERAL
+===================================================== */
+
 function alternarSidebar() {
-  document.getElementById("sidebar").classList.toggle("oculto");
-  document.getElementById("capaSidebar").classList.toggle("visible");
+  const sidebar = document.getElementById("sidebar");
+  const capa = document.getElementById("capaSidebar");
+  const boton = document.getElementById("botonMenu");
+
+  sidebar.classList.toggle("oculto");
+
+  const abierto = !sidebar.classList.contains("oculto");
+
+  boton.setAttribute("aria-expanded", String(abierto));
+
+  if (window.innerWidth <= 760) {
+    capa.classList.toggle("visible", abierto);
+  }
 }
 
 function toggleGrupo(id) {
-  document.getElementById(id).classList.toggle("cerrado");
+  const grupo = document.getElementById(id);
+  if (!grupo) return;
+
+  grupo.classList.toggle("cerrado");
+
+  const titulo = grupo.querySelector(".titulo-grupo");
+
+  if (titulo) {
+    titulo.setAttribute(
+      "aria-expanded",
+      String(!grupo.classList.contains("cerrado"))
+    );
+  }
 }
+
+/* Navegación por teclado */
+
+document.querySelectorAll(".titulo-grupo[role='button']").forEach(titulo => {
+  titulo.addEventListener("keydown", event => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+
+      const grupo = titulo.closest(".grupo-menu");
+
+      if (grupo) {
+        toggleGrupo(grupo.id);
+      }
+    }
+  });
+});
+
+/* Adaptar la barra lateral según el tamaño de pantalla */
+
+function ajustarSidebarPorPantalla() {
+  const sidebar = document.getElementById("sidebar");
+  const capa = document.getElementById("capaSidebar");
+  const boton = document.getElementById("botonMenu");
+
+  if (window.innerWidth <= 760) {
+    sidebar.classList.add("oculto");
+    capa.classList.remove("visible");
+    boton.setAttribute("aria-expanded", "false");
+  } else {
+    sidebar.classList.remove("oculto");
+    capa.classList.remove("visible");
+    boton.setAttribute("aria-expanded", "true");
+  }
+}
+
+ajustarSidebarPorPantalla();
+window.addEventListener("resize", ajustarSidebarPorPantalla);
 
 /* =====================================================
    ESTRUCTURA DE DATOS Y LOCALSTORAGE
