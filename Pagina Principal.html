@@ -1206,7 +1206,7 @@ a {
               class="selector-division"
               id="filtroFixture"
               aria-label="Filtrar partidos por división"
-              onchange="renderizarFixture()"
+              onchange="renderizarPartidos()"
             >
               <option value="Todas">Todas las divisiones</option>
               <option value="Sub 10">Sub 10</option>
@@ -1217,7 +1217,7 @@ a {
             </select>
           </div>
 
-          <div class="lista-resultados" id="listaFixture"></div>
+          <div class="lista-Partidos" id="listaFixture"></div>
 
           <a class="boton-secundario" href="Partidos.html">
             Ver todos los partidos →
@@ -1367,7 +1367,7 @@ document.getElementById("fechaHoy").textContent =
     month: "long",
     year: "numeric"
   }).format(new Date());
-  
+
 /* Preferencias de división */
 
 const clavePreferencia =
