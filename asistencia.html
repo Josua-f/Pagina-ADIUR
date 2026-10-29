@@ -118,6 +118,7 @@ a {
   align-items: center;
   gap: 10px;
   min-width: 0;
+  flex-shrink: 0;
 }
 
 .avatar {
@@ -128,24 +129,35 @@ a {
   align-items: center;
   justify-content: center;
   background: var(--negro);
-  color: white;
+  color: #fff;
   border-radius: 50%;
   font-weight: bold;
+  font-size: 16px;
+}
+
+.informacion-perfil {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
 }
 
 .nombre-perfil {
+  display: block;
   max-width: 150px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: var(--negro);
   font-size: 13px;
   font-weight: bold;
 }
 
 .rol-perfil {
+  display: block;
+  margin-top: 4px;
   color: var(--gris-texto);
   font-size: 11px;
-  margin-top: 4px;
 }
 
 /* =====================================================
@@ -314,15 +326,19 @@ a {
 .contenido {
   flex: 1;
   min-width: 0;
-  padding: 26px;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 34px 34px 48px;
 }
 
 .cabecera-pagina {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 22px;
-  margin-bottom: 22px;
+  margin-bottom: 26px;
 }
 
 .etiqueta-seccion {
@@ -334,17 +350,118 @@ a {
   margin-bottom: 7px;
 }
 
+.cabecera-pagina .etiqueta-seccion {
+  margin-bottom: 8px;
+  letter-spacing: 1.35px;
+}
+
 .cabecera-pagina h2 {
-  margin: 0 0 7px;
-  font-size: 28px;
-  font-weight: 900;
+  margin: 0 0 8px;
+  color: #17181c;
+  font-size: clamp(25px, 2.3vw, 32px);
+  line-height: 1.15;
+  font-weight: 850;
+  letter-spacing: -.65px;
 }
 
 .cabecera-pagina p {
+  max-width: 690px;
+  margin: 0;
+  color: #727783;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+/* =====================================================
+   SELECTOR PRINCIPAL DE CATEGORÍA
+===================================================== */
+
+.selector-categoria-panel {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  margin-bottom: 22px;
+  padding: 20px 23px;
+  background: #fff;
+  border: 1px solid var(--borde);
+  border-left: 4px solid var(--naranja);
+  border-radius: 15px;
+  box-shadow: 0 3px 13px #00000005;
+}
+
+.selector-categoria-icono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 13px;
+  background: var(--naranja-claro);
+  color: var(--naranja-oscuro);
+  font-size: 23px;
+}
+
+.selector-categoria-texto {
+  flex: 1;
+  min-width: 0;
+}
+
+.selector-categoria-texto .etiqueta-seccion {
+  margin-bottom: 5px;
+}
+
+.selector-categoria-texto h3 {
+  margin: 0 0 5px;
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.selector-categoria-texto p {
   margin: 0;
   color: var(--gris-texto);
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1.5;
+}
+
+.selector-categoria-principal {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  width: 260px;
+  max-width: 100%;
+  flex-shrink: 0;
+}
+
+.selector-categoria-principal label {
+  color: #666;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .8px;
+}
+
+.selector-categoria-principal select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 36px 10px 13px;
+  border: 1px solid #e2e2e2;
+  border-radius: 10px;
+  background: #fff;
+  color: #222;
+  font-size: 13px;
+  font-weight: 800;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+
+.selector-categoria-principal select:hover {
+  border-color: #f5b48c;
+}
+
+.selector-categoria-principal select:focus-visible {
+  border-color: var(--naranja);
+  outline: 2px solid #f4772130;
+  outline-offset: 2px;
 }
 
 /* =====================================================
@@ -362,7 +479,7 @@ a {
 }
 
 /* =====================================================
-   MES Y CATEGORÍA
+   MES Y NAVEGACIÓN
 ===================================================== */
 
 .cabecera-mes {
@@ -393,39 +510,8 @@ a {
 
 .mes-derecha {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   gap: 16px;
-}
-
-.selector-categoria {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  min-width: 175px;
-}
-
-.selector-categoria label {
-  color: #666;
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: .8px;
-}
-
-.selector-categoria select {
-  width: 100%;
-  min-height: 40px;
-  padding: 9px 32px 9px 12px;
-  border: 1px solid #e5e5e5;
-  border-radius: 9px;
-  background: white;
-  color: #222;
-  font-size: 12px;
-  font-weight: 800;
-  outline: none;
-}
-
-.selector-categoria select:focus {
-  border-color: var(--naranja);
 }
 
 .controles-mes {
@@ -540,7 +626,7 @@ a {
 .boton-mes:focus-visible,
 .boton-estado:focus-visible,
 .boton-sin-entreno:focus-visible,
-.selector-categoria select:focus-visible,
+.selector-categoria-principal select:focus-visible,
 .selector-jugadora:focus-visible {
   outline: 2px solid var(--naranja);
   outline-offset: 2px;
@@ -600,6 +686,11 @@ a {
   background: var(--amarillo-fondo);
 }
 
+.muestra-justificada {
+  color: var(--violeta);
+  background: var(--violeta-fondo);
+}
+
 .muestra-sin-entreno {
   background: var(--gris-evento);
   color: var(--gris-texto);
@@ -629,11 +720,52 @@ a {
   line-height: 1.5;
 }
 
+.planilla-acciones {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.selector-orden {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 155px;
+}
+
+.selector-orden label {
+  color: #777;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .7px;
+}
+
+.selector-orden select {
+  width: 100%;
+  min-height: 36px;
+  padding: 8px 30px 8px 10px;
+  border: 1px solid #e4e4e4;
+  border-radius: 9px;
+  background: #fff;
+  color: #333;
+  font-size: 11px;
+  font-weight: 700;
+  outline: none;
+}
+
+.selector-orden select:focus-visible {
+  outline: 2px solid var(--naranja);
+  outline-offset: 2px;
+}
+
 .estado-guardado {
   color: var(--verde);
   font-size: 11px;
   font-weight: 700;
   text-align: right;
+  white-space: nowrap;
 }
 
 .tabla-contenedor {
@@ -1175,7 +1307,7 @@ a {
 
 @media (max-width: 1150px) {
   .contenido {
-    padding: 20px;
+    padding: 30px 24px 40px;
   }
 
   .tabla-asistencia .columna-jugadora {
@@ -1219,6 +1351,16 @@ a {
     font-size: 11px;
   }
 
+  .perfil {
+    gap: 6px;
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
   .nombre-perfil {
     max-width: 80px;
     font-size: 12px;
@@ -1226,11 +1368,6 @@ a {
 
   .rol-perfil {
     display: none;
-  }
-
-  .avatar {
-    width: 36px;
-    height: 36px;
   }
 
   .contenedor {
@@ -1265,7 +1402,7 @@ a {
   }
 
   .contenido {
-    padding: 18px 10px;
+    padding: 24px 15px 34px;
   }
 
   .cabecera-pagina {
@@ -1275,7 +1412,28 @@ a {
   }
 
   .cabecera-pagina h2 {
-    font-size: 24px;
+    font-size: 25px;
+  }
+
+  .selector-categoria-panel {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 13px;
+    padding: 17px 14px;
+  }
+
+  .selector-categoria-icono {
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
+  }
+
+  .selector-categoria-principal {
+    width: 100%;
+  }
+
+  .selector-categoria-texto h3 {
+    font-size: 16px;
   }
 
   .cabecera-mes {
@@ -1292,12 +1450,6 @@ a {
   .mes-derecha {
     align-items: flex-end;
     justify-content: space-between;
-  }
-
-  .selector-categoria {
-    min-width: 0;
-    flex: 1;
-    max-width: 260px;
   }
 
   .boton-mes {
@@ -1333,8 +1485,22 @@ a {
     padding: 16px 14px 12px;
   }
 
+  .planilla-acciones {
+    width: 100%;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .selector-orden {
+    width: 100%;
+    min-width: 0;
+    max-width: 280px;
+  }
+
   .estado-guardado {
     text-align: left;
+    white-space: normal;
   }
 
   .tabla-contenedor {
@@ -1421,27 +1587,44 @@ a {
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 480px) {
+  .barra-superior {
+    padding: 8px;
+    gap: 6px;
+  }
+
+  .boton-menu {
+    width: 32px;
+    height: 36px;
+    font-size: 23px;
+  }
+
+  .logo-superior {
+    width: 34px;
+    height: 34px;
+  }
+
   .titulo-superior h1 {
     font-size: 14px;
   }
 
   .titulo-superior p {
-    font-size: 10px;
-  }
-
-  .logo-superior {
-    width: 37px;
-    height: 37px;
+    font-size: 9px;
   }
 
   .perfil {
-    gap: 5px;
+    gap: 6px;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
   }
 
   .nombre-perfil {
-    max-width: 62px;
-    font-size: 11px;
+    max-width: 60px;
+    font-size: 12px;
   }
 
   .mes-informacion h3 {
@@ -1450,10 +1633,6 @@ a {
 
   .mes-derecha {
     gap: 8px;
-  }
-
-  .selector-categoria select {
-    font-size: 11px;
   }
 
   .dia-semana {
@@ -1471,6 +1650,185 @@ a {
     font-size: 21px;
   }
 }
+
+/* =====================================================
+   PERFIL Y BARRA SUPERIOR
+   Ajustados a la identidad visual de jugadoras.html
+===================================================== */
+
+.barra-superior {
+  min-height: 84px;
+  padding: 12px 25px;
+  gap: 14px;
+  background: rgba(255,255,255,.97);
+  border-bottom: 1px solid #e9eaf0;
+  box-shadow: 0 2px 10px rgba(20, 26, 36, .025);
+  backdrop-filter: blur(12px);
+}
+
+.boton-menu {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  background: transparent;
+  font-size: 25px;
+  line-height: 1;
+  color: #24252b;
+}
+
+.boton-menu:hover {
+  background: #f5f6f8;
+  border-color: #eceef2;
+}
+
+.logo-superior {
+  width: 52px;
+  height: 52px;
+}
+
+.titulo-superior h1 {
+  font-size: 21px;
+  letter-spacing: .55px;
+}
+
+.titulo-superior p {
+  font-size: 12px;
+  color: #7b808b;
+}
+
+.perfil {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  background: #1b1c20;
+  color: #fff;
+  border: 3px solid #f1f2f5;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.informacion-perfil {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+}
+
+.nombre-perfil {
+  display: block;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--negro);
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.rol-perfil {
+  display: block;
+  margin-top: 4px;
+  color: var(--gris-texto);
+  font-size: 11px;
+}
+
+@media (max-width: 760px) {
+  .barra-superior {
+    min-height: 72px;
+    padding: 10px 13px;
+    gap: 9px;
+  }
+
+  .boton-menu {
+    width: 38px;
+    height: 38px;
+    font-size: 24px;
+  }
+
+  .logo-superior {
+    width: 44px;
+    height: 44px;
+  }
+
+  .titulo-superior h1 {
+    font-size: 16px;
+  }
+
+  .titulo-superior p {
+    font-size: 11px;
+  }
+
+  .perfil {
+    gap: 6px;
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .nombre-perfil {
+    max-width: 80px;
+    font-size: 12px;
+  }
+
+  .rol-perfil {
+    display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .barra-superior {
+    padding: 8px;
+    gap: 6px;
+  }
+
+  .boton-menu {
+    width: 32px;
+    height: 36px;
+    font-size: 23px;
+  }
+
+  .logo-superior {
+    width: 34px;
+    height: 34px;
+  }
+
+  .titulo-superior h1 {
+    font-size: 14px;
+  }
+
+  .titulo-superior p {
+    font-size: 9px;
+  }
+
+  .nombre-perfil {
+    max-width: 60px;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+  }
+}
+
 </style>
 </head>
 
@@ -1501,7 +1859,7 @@ a {
 
   <div class="perfil">
     <div class="avatar" id="avatarUsuario">U</div>
-    <div>
+    <div class="informacion-perfil">
       <div class="nombre-perfil" id="nombreUsuario">Usuario</div>
       <div class="rol-perfil" id="rolUsuario">Club ADIUR</div>
     </div>
@@ -1519,7 +1877,7 @@ a {
 
   <aside class="sidebar" id="sidebar">
 
-    <a class="menu-inicio" href="Pagina Principal.html">
+    <a class="menu-inicio" href="pagina principal.html">
       <span class="icono-inicio" aria-hidden="true">⌂</span>
       INICIO
     </a>
@@ -1669,13 +2027,32 @@ a {
 
     <section class="cabecera-pagina">
       <div>
-        <span class="etiqueta-seccion">PLANTEL</span>
+        <span class="etiqueta-seccion">PLANTEL - ASISTENCIA</span>
         <h2>Asistencia mensual</h2>
         <p>
           Registrá la asistencia por categoría y consultá el seguimiento
           individual de cada jugadora al final de la página.
         </p>
       </div>
+    </section>
+
+    <!-- SELECTOR PRINCIPAL DE CATEGORÍA -->
+
+    <section class="selector-categoria-panel" aria-label="Seleccionar categoría del plantel">
+
+      <div class="selector-categoria-icono" aria-hidden="true">⚽</div>
+
+      <div class="selector-categoria-texto">
+        <span class="etiqueta-seccion">CATEGORÍA DEL PLANTEL</span>
+        <h3>Seleccioná la categoría</h3>
+        <p>La planilla mensual y el seguimiento individual se actualizan según la categoría elegida.</p>
+      </div>
+
+      <div class="selector-categoria-principal">
+        <label for="filtroCategoria">CATEGORÍA</label>
+        <select id="filtroCategoria" aria-label="Seleccionar categoría"></select>
+      </div>
+
     </section>
 
     <!-- PLANILLA MENSUAL -->
@@ -1690,11 +2067,6 @@ a {
         </div>
 
         <div class="mes-derecha">
-
-          <div class="selector-categoria">
-            <label for="filtroCategoria">CATEGORÍA DEL PLANTEL</label>
-            <select id="filtroCategoria" aria-label="Seleccionar categoría"></select>
-          </div>
 
           <div class="controles-mes">
             <button
@@ -1752,6 +2124,11 @@ a {
         </span>
 
         <span class="leyenda-item">
+          <span class="muestra-leyenda muestra-justificada">J</span>
+          Justificada
+        </span>
+
+        <span class="leyenda-item">
           <span class="muestra-leyenda muestra-sin-entreno">—</span>
           Sin entrenamiento
         </span>
@@ -1759,21 +2136,36 @@ a {
       </div>
 
       <div class="planilla-cabecera">
+
         <div>
           <h3 id="tituloPlanilla">Planilla de jugadoras</h3>
           <p>
             Tocá un casillero para alternar entre sin marcar,
-            presente, ausente y tarde.
+            presente, ausente, tarde y justificada.
           </p>
         </div>
 
-        <div
-          class="estado-guardado"
-          id="estadoGuardado"
-          aria-live="polite"
-        >
-          Guardado automático activado
+        <div class="planilla-acciones">
+
+          <div class="selector-orden">
+            <label for="ordenLista">ORDENAR JUGADORAS</label>
+
+            <select id="ordenLista" aria-label="Ordenar jugadoras de la planilla">
+              <option value="apellido">Apellido · A–Z</option>
+              <option value="puesto">Por puesto</option>
+            </select>
+          </div>
+
+          <div
+            class="estado-guardado"
+            id="estadoGuardado"
+            aria-live="polite"
+          >
+            Guardado automático activado
+          </div>
+
         </div>
+
       </div>
 
       <div class="tabla-contenedor">
@@ -1784,19 +2176,21 @@ a {
       </div>
 
       <div class="pie-planilla">
+
         <span>
-          <strong id="cantidadJugadoras">0 jugadoras</strong>
-          · Orden alfabético
+          <strong id="cantidadJugadoras">0 jugadoras activas</strong>
+          · <span id="textoOrdenLista">Orden: Apellido A–Z</span>
         </span>
 
         <span>
           Los registros se guardan automáticamente por categoría.
         </span>
+
       </div>
 
     </section>
 
-    <!-- SEGUIMIENTO INDIVIDUAL: SOLO ESTADÍSTICAS -->
+    <!-- SEGUIMIENTO INDIVIDUAL -->
 
     <section class="seguimiento-individual" id="seguimientoIndividual">
 
@@ -1812,6 +2206,7 @@ a {
         </div>
 
         <div class="selector-individual">
+
           <label for="selectorJugadoraSeguimiento">
             SELECCIONAR JUGADORA
           </label>
@@ -1820,6 +2215,7 @@ a {
             class="selector-jugadora"
             id="selectorJugadoraSeguimiento"
           ></select>
+
         </div>
 
       </div>
@@ -1992,6 +2388,7 @@ const CLAVE_DIAS_SEMANA = "diasEntrenamientoSemanaADIUR";
 const CLAVE_DIAS_SIN_ENTRENO = "diasSinEntrenamientoADIUR";
 const CLAVE_CATEGORIA = "categoriaAsistenciaSeleccionadaADIUR";
 const CLAVE_JUGADORA_SEGUIMIENTO = "jugadoraSeguimientoAsistenciaADIUR";
+const CLAVE_ORDEN_LISTA = "ordenAsistenciaJugadorasADIUR";
 
 const DIAS_SEMANA = [
   { valor: 1, nombre: "Lunes" },
@@ -2124,7 +2521,7 @@ function inicialesJugadora(nombre) {
 let jugadoras = cargarJugadoras();
 
 /* =====================================================
-   CATEGORÍAS
+   CATEGORÍAS Y ORDENAMIENTO
 ===================================================== */
 
 function obtenerCategoriasDisponibles() {
@@ -2167,20 +2564,101 @@ function obtenerCategoriaInicial() {
 
 let categoriaSeleccionada = obtenerCategoriaInicial();
 
+let ordenLista = localStorage.getItem(CLAVE_ORDEN_LISTA) === "puesto"
+  ? "puesto"
+  : "apellido";
+
+function esJugadoraActiva(jugadora) {
+  const estado = normalizarTexto(
+    jugadora.estado || jugadora.status || jugadora.estadoJugadora || ""
+  );
+
+  return estado === "activo" || estado === "activa";
+}
+
+function obtenerApellidoParaOrden(jugadora) {
+  const apellidoSeparado =
+    jugadora.apellido ||
+    jugadora.apellidos ||
+    jugadora.surname ||
+    jugadora.lastName ||
+    jugadora.last_name;
+
+  if (apellidoSeparado && String(apellidoSeparado).trim()) {
+    return normalizarTexto(apellidoSeparado);
+  }
+
+  const nombreCompleto = String(jugadora.nombre || "").trim();
+
+  if (!nombreCompleto) return "";
+
+  if (nombreCompleto.includes(",")) {
+    return normalizarTexto(nombreCompleto.split(",")[0]);
+  }
+
+  const partes = nombreCompleto.split(/\s+/).filter(Boolean);
+
+  return normalizarTexto(
+    partes.length > 1 ? partes[partes.length - 1] : partes[0]
+  );
+}
+
+function obtenerPuestoParaOrden(jugadora) {
+  return normalizarTexto(
+    jugadora.posicion || jugadora.puesto || jugadora.position || ""
+  );
+}
+
+const ORDEN_PUESTOS_ASISTENCIA = [
+  "arquera",
+  "defensora",
+  "mediocampista",
+  "delantera",
+  "polifuncional"
+];
+
+function compararJugadorasPorApellido(a, b) {
+  return obtenerApellidoParaOrden(a).localeCompare(
+    obtenerApellidoParaOrden(b),
+    "es",
+    { sensitivity: "base", ignorePunctuation: true }
+  ) || String(a.nombre || "").localeCompare(
+    String(b.nombre || ""),
+    "es",
+    { sensitivity: "base", ignorePunctuation: true }
+  );
+}
+
 function jugadorasCategoriaActual() {
   if (!categoriaSeleccionada) return [];
 
-  return jugadoras
-    .filter(j =>
-      normalizarCategoria(j.categoria) ===
-      normalizarCategoria(categoriaSeleccionada)
-    )
-    .sort((a, b) =>
-      a.nombre.localeCompare(b.nombre, "es", {
-        sensitivity: "base",
-        ignorePunctuation: true
-      })
-    );
+  const activas = jugadoras.filter(j =>
+    esJugadoraActiva(j) &&
+    normalizarCategoria(j.categoria) ===
+    normalizarCategoria(categoriaSeleccionada)
+  );
+
+  return activas.sort((a, b) => {
+    if (ordenLista === "puesto") {
+      const puestoA = obtenerPuestoParaOrden(a);
+      const puestoB = obtenerPuestoParaOrden(b);
+
+      const indiceA = ORDEN_PUESTOS_ASISTENCIA.indexOf(puestoA);
+      const indiceB = ORDEN_PUESTOS_ASISTENCIA.indexOf(puestoB);
+
+      const rangoA = indiceA === -1
+        ? ORDEN_PUESTOS_ASISTENCIA.length
+        : indiceA;
+
+      const rangoB = indiceB === -1
+        ? ORDEN_PUESTOS_ASISTENCIA.length
+        : indiceB;
+
+      if (rangoA !== rangoB) return rangoA - rangoB;
+    }
+
+    return compararJugadorasPorApellido(a, b);
+  });
 }
 
 function guardarCategoriaSeleccionada() {
@@ -2351,6 +2829,7 @@ function guardarSesiones() {
     informarGuardado();
   } catch (error) {
     console.error("No se pudo guardar la asistencia.", error);
+
     document.getElementById("estadoGuardado").textContent =
       "No se pudo guardar. Revisá el almacenamiento del navegador.";
   }
@@ -2688,7 +3167,8 @@ const ESTADOS_CICLICOS = [
   "",
   "presente",
   "ausente",
-  "tarde"
+  "tarde",
+  "justificada"
 ];
 
 function siguienteEstado(estadoActual) {
@@ -2852,7 +3332,8 @@ function renderizarCuerpo(fechas) {
     cuerpo.innerHTML = `
       <tr class="fila-vacia">
         <td colspan="${cantidadColumnas}">
-          No hay jugadoras asignadas a ${escaparHTML(categoriaSeleccionada)}.
+          No hay jugadoras con estado ACTIVO en ${escaparHTML(categoriaSeleccionada)}.
+          Solo las jugadoras activas aparecen en esta planilla.
         </td>
       </tr>
     `;
@@ -2943,7 +3424,6 @@ function renderizarCuerpo(fechas) {
 
 /* =====================================================
    SEGUIMIENTO INDIVIDUAL
-   Solo conserva las estadísticas, sin historial diario.
 ===================================================== */
 
 function obtenerJugadoraSeguimientoSeleccionada() {
@@ -3040,16 +3520,6 @@ function renderizarSeguimientoIndividual() {
     }
   });
 
-  /*
-    Las llegadas tarde cuentan como asistencias.
-    Las ausencias se cuentan por separado.
-
-    El porcentaje se calcula sobre los días que tienen
-    una marca de presente, ausente o tarde.
-    Se excluyen los días sin entrenamiento y las fechas
-    sin registrar.
-  */
-
   const asistencias = presentes + tardes;
 
   const porcentaje = diasMarcados > 0
@@ -3083,59 +3553,43 @@ function renderizarSeguimientoIndividual() {
     <div class="metricas-individuales">
 
       <div class="metrica metrica-presente">
-
         <div class="metrica-superior">
           <span class="metrica-icono">✓</span>
         </div>
 
         <p class="metrica-numero">${asistencias}</p>
 
-        <span class="metrica-etiqueta">
-          Asistencias
-        </span>
-
+        <span class="metrica-etiqueta">Asistencias</span>
       </div>
 
       <div class="metrica metrica-ausente">
-
         <div class="metrica-superior">
           <span class="metrica-icono">×</span>
         </div>
 
         <p class="metrica-numero">${ausentes}</p>
 
-        <span class="metrica-etiqueta">
-          Inasistencias
-        </span>
-
+        <span class="metrica-etiqueta">Inasistencias</span>
       </div>
 
       <div class="metrica metrica-tarde">
-
         <div class="metrica-superior">
           <span class="metrica-icono">T</span>
         </div>
 
         <p class="metrica-numero">${tardes}</p>
 
-        <span class="metrica-etiqueta">
-          Llegadas tarde
-        </span>
-
+        <span class="metrica-etiqueta">Llegadas tarde</span>
       </div>
 
       <div class="metrica metrica-porcentaje">
-
         <div class="metrica-superior">
           <span class="metrica-icono">%</span>
         </div>
 
         <p class="metrica-numero">${porcentaje}%</p>
 
-        <span class="metrica-etiqueta">
-          Porcentaje de asistencia
-        </span>
-
+        <span class="metrica-etiqueta">Porcentaje de asistencia</span>
       </div>
 
     </div>
@@ -3153,7 +3607,6 @@ function renderizarSeguimientoIndividual() {
     </div>
 
     <div class="pie-seguimiento">
-
       <span>
         <strong>${nombre}</strong> · ${categoria}
       </span>
@@ -3161,7 +3614,6 @@ function renderizarSeguimientoIndividual() {
       <span>
         Seguimiento: ${mes}
       </span>
-
     </div>
   `;
 }
@@ -3193,8 +3645,22 @@ function renderizarMatriz() {
 
   document.getElementById("cantidadJugadoras").textContent =
     cantidad === 1
-      ? "1 jugadora de " + categoriaSeleccionada
-      : cantidad + " jugadoras de " + (categoriaSeleccionada || "la categoría");
+      ? "1 jugadora activa de " + categoriaSeleccionada
+      : cantidad + " jugadoras activas de " + (categoriaSeleccionada || "la categoría");
+
+  const textoOrden = document.getElementById("textoOrdenLista");
+
+  if (textoOrden) {
+    textoOrden.textContent = ordenLista === "puesto"
+      ? "Orden: Por puesto"
+      : "Orden: Apellido A–Z";
+  }
+
+  const selectorOrden = document.getElementById("ordenLista");
+
+  if (selectorOrden && selectorOrden.value !== ordenLista) {
+    selectorOrden.value = ordenLista;
+  }
 }
 
 /* =====================================================
@@ -3217,6 +3683,15 @@ document.getElementById("filtroCategoria").addEventListener(
   "change",
   cambiarCategoria
 );
+
+document.getElementById("ordenLista").addEventListener("change", event => {
+  ordenLista = event.target.value === "puesto" ? "puesto" : "apellido";
+
+  localStorage.setItem(CLAVE_ORDEN_LISTA, ordenLista);
+
+  renderizarMatriz();
+  renderizarSeguimientoIndividual();
+});
 
 /* =====================================================
    CAMBIAR JUGADORA DEL SEGUIMIENTO
