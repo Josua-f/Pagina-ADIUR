@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Planificación de Microciclos - ADIUR FEM</title>
+<title>Planificación - ADIUR FEM</title>
 
 <style>
 :root {
@@ -24,11 +24,16 @@
   --azul-fondo: #e8f0ff;
   --suspendido: #777777;
   --suspendido-fondo: #eeeeee;
-  --radio: 12px;
-  --alto-topbar: 82px;
+  --fondo-pagina: #f7f8fa;
+  --borde-suave: #edf0f3;
+  --radio: 14px;
+  --alto-topbar: 84px;
+  --sombra: 0 3px 16px rgba(23, 23, 23, .035);
 }
 
-*, *::before, *::after { box-sizing: border-box; }
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 
 html {
   scroll-behavior: smooth;
@@ -39,13 +44,31 @@ body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   color: var(--negro);
-  background: #f7f8fa;
+  background: var(--fondo-pagina);
+  -webkit-font-smoothing: antialiased;
 }
 
-button, input, select, textarea { font: inherit; }
-button, a { -webkit-tap-highlight-color: transparent; }
-button { cursor: pointer; }
-a { color: inherit; text-decoration: none; }
+button, input, select, textarea {
+  font: inherit;
+}
+
+select,
+select option {
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
 button:focus-visible,
 input:focus-visible,
@@ -61,7 +84,13 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* BARRA SUPERIOR */
+[hidden] {
+  display: none !important;
+}
+
+/* =====================================================
+   BARRA SUPERIOR
+===================================================== */
 
 .barra-superior {
   position: sticky;
@@ -69,32 +98,37 @@ button:disabled {
   z-index: 200;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 15px;
   min-height: var(--alto-topbar);
-  padding: 11px 22px;
-  background: #fff;
+  padding: 12px 25px;
+  background: rgba(255, 255, 255, .97);
   border-bottom: 1px solid var(--borde);
+  box-shadow: 0 2px 12px #00000005;
+  backdrop-filter: blur(12px);
 }
 
 .boton-menu {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 41px;
-  height: 41px;
+  width: 42px;
+  height: 42px;
   flex-shrink: 0;
   border: 0;
-  border-radius: 9px;
-  background: white;
+  border-radius: 10px;
+  background: transparent;
   color: var(--negro);
   font-size: 25px;
+  transition: background .2s;
 }
 
-.boton-menu:hover { background: var(--gris); }
+.boton-menu:hover {
+  background: var(--gris);
+}
 
 .logo-superior {
-  width: 49px;
-  height: 49px;
+  width: 53px;
+  height: 53px;
   flex-shrink: 0;
   padding: 2px;
   background: #fff;
@@ -102,39 +136,59 @@ button:disabled {
   object-fit: contain;
 }
 
-.titulo-superior { flex: 1; min-width: 0; }
+.titulo-superior {
+  flex: 1;
+  min-width: 0;
+}
 
 .titulo-superior h1 {
   margin: 0 0 5px;
-  font-size: 21px;
+  font-size: 23px;
   font-weight: 900;
-  letter-spacing: .4px;
+  letter-spacing: .5px;
 }
 
 .titulo-superior p {
   margin: 0;
   color: var(--gris-texto);
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .perfil {
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: 0;
+  margin-left: auto;
+  padding: 5px 8px 5px 5px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  transition: background .2s, border-color .2s;
+}
+
+.perfil:hover {
+  background: #fafafa;
+  border-color: var(--borde);
 }
 
 .avatar {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   flex-shrink: 0;
   border-radius: 50%;
   background: var(--negro);
-  color: white;
-  font-size: 12px;
+  color: #fff;
+  font-size: 14px;
   font-weight: 900;
+}
+
+.informacion-perfil {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
 .nombre-perfil {
@@ -152,7 +206,9 @@ button:disabled {
   font-size: 11px;
 }
 
-/* MENÚ LATERAL */
+/* =====================================================
+   ESTRUCTURA GENERAL
+===================================================== */
 
 .contenedor {
   display: flex;
@@ -160,76 +216,103 @@ button:disabled {
   min-height: calc(100vh - var(--alto-topbar));
 }
 
+/* =====================================================
+   BARRA LATERAL
+===================================================== */
+
 .sidebar {
   width: 258px;
   flex: 0 0 258px;
-  padding: 19px 13px;
+  padding: 20px 13px;
   background: #fff;
   border-right: 1px solid var(--borde);
+  overflow-x: hidden;
   overflow-y: auto;
   transition: margin-left .25s ease, transform .25s ease;
 }
 
-.sidebar.oculto { margin-left: -258px; }
+.sidebar.oculto {
+  margin-left: -258px;
+}
 
 .menu-inicio {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 13px 14px;
-  margin-bottom: 14px;
-  border-radius: 10px;
+  margin-bottom: 16px;
+  border-radius: 11px;
   background: var(--naranja-claro);
   color: var(--naranja-oscuro);
-  font-size: 12px;
-  font-weight: 900;
+  font-size: 13px;
+  font-weight: 850;
+  transition: background .2s;
 }
 
-.menu-inicio:hover { background: #ffe7d6; }
+.menu-inicio:hover {
+  background: #ffe7d6;
+}
 
 .icono-inicio {
   width: 17px;
+  flex-shrink: 0;
   text-align: center;
-  font-size: 18px;
+  font-size: 19px;
 }
 
-.grupo-menu { margin-bottom: 7px; }
+.grupo-menu {
+  margin-bottom: 7px;
+}
 
 .titulo-grupo {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 43px;
+  width: 100%;
+  min-height: 44px;
   padding: 12px 13px;
-  border-radius: 8px;
-  color: #171717;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--negro);
+  text-align: left;
   font-size: 11px;
   font-weight: 900;
-  letter-spacing: .6px;
-  cursor: pointer;
+  letter-spacing: .8px;
   user-select: none;
+  transition: background .2s;
 }
 
-.titulo-grupo:hover { background: #f8f8f8; }
+.titulo-grupo:hover {
+  background: #f7f8fa;
+}
 
 .flecha {
   display: inline-block;
-  font-size: 16px;
-  line-height: 1;
+  flex-shrink: 0;
+  font-size: 17px;
+  font-weight: 700;
   transition: transform .2s;
 }
 
-.grupo-menu.cerrado .flecha { transform: rotate(0deg); }
-.grupo-menu:not(.cerrado) .flecha { transform: rotate(90deg); }
+.grupo-menu.cerrado .flecha {
+  transform: rotate(0deg);
+}
+
+.grupo-menu:not(.cerrado) .flecha {
+  transform: rotate(90deg);
+}
 
 .submenu {
   display: flex;
   flex-direction: column;
   gap: 3px;
-  padding-bottom: 5px;
+  padding: 0 0 5px;
 }
 
-.grupo-menu.cerrado .submenu { display: none; }
+.grupo-menu.cerrado .submenu {
+  display: none;
+}
 
 .submenu a {
   display: flex;
@@ -238,8 +321,9 @@ button:disabled {
   padding: 10px 12px;
   border-radius: 9px;
   color: #656872;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.4;
+  transition: background .15s, color .15s;
 }
 
 .submenu a:hover {
@@ -253,6 +337,10 @@ button:disabled {
   font-weight: 850;
 }
 
+.submenu a.activo:hover {
+  background: #ffe7d6;
+}
+
 .nav-punto {
   width: 6px;
   height: 6px;
@@ -261,11 +349,13 @@ button:disabled {
   background: #d7d9de;
 }
 
-.submenu a.activo .nav-punto { background: var(--naranja); }
+.submenu a.activo .nav-punto {
+  background: var(--naranja);
+}
 
 .separador-sesion {
-  margin-top: 18px;
-  padding-top: 10px;
+  margin-top: 19px;
+  padding-top: 12px;
   border-top: 1px solid var(--borde);
 }
 
@@ -276,177 +366,355 @@ button:disabled {
   padding: 12px;
   border-radius: 9px;
   color: #c0392b;
-  font-size: 12px;
-  font-weight: 800;
+  font-size: 13px;
+  font-weight: 700;
 }
 
-.enlace-cerrar-sesion:hover { background: #fff2f1; }
-.capa-sidebar { display: none; }
+.enlace-cerrar-sesion:hover {
+  background: #fff2f1;
+}
 
-/* CONTENIDO GENERAL */
+.capa-sidebar {
+  display: none;
+}
+
+/* =====================================================
+   CONTENIDO PRINCIPAL
+===================================================== */
 
 .contenido {
   flex: 1;
   min-width: 0;
-  padding: 25px;
+  width: 100%;
+  max-width: 1650px;
+  margin: 0 auto;
+  padding: 30px;
 }
 
-.cabecera-pagina { margin-bottom: 20px; }
+.cabecera-pagina {
+  margin-bottom: 26px;
+}
 
 .etiqueta-seccion {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   color: var(--naranja-oscuro);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 900;
-  letter-spacing: 1.4px;
+  letter-spacing: 2px;
+  line-height: 1.4;
+  text-transform: uppercase;
 }
 
 .cabecera-pagina h2 {
   margin: 0;
-  font-size: 28px;
+  color: var(--negro);
+  font-size: 32px;
   font-weight: 900;
-  letter-spacing: -.5px;
+  line-height: 1.2;
+  letter-spacing: -.7px;
 }
 
-.etiqueta-categoria {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  margin-top: 12px;
-  padding: 7px 10px;
-  border: 1px solid #f5d2bc;
-  border-radius: 8px;
-  background: #fffaf6;
-  color: var(--naranja-oscuro);
-  font-size: 11px;
-  font-weight: 900;
+.descripcion-pagina {
+  max-width: 700px;
+  margin: 10px 0 0;
+  color: var(--gris-texto);
+  font-size: 14px;
+  line-height: 1.6;
 }
 
-/* CONTROLES SEMANALES */
+/* =====================================================
+   SELECTOR DE CATEGORÍA
+===================================================== */
 
 .panel-semanal {
-  margin-bottom: 19px;
-  padding: 18px;
+  margin-bottom: 23px;
+  padding: 20px;
   border: 1px solid var(--borde);
   border-radius: var(--radio);
   background: #fff;
-  box-shadow: 0 3px 13px #00000004;
+  box-shadow: var(--sombra);
 }
 
 .controles-semana {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 14px;
-  flex-wrap: wrap;
+  display: block;
+  width: 100%;
 }
 
-.navegacion-semana {
-  display: flex;
-  align-items: flex-end;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.boton-flecha {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 39px;
-  flex-shrink: 0;
-  border: 1px solid var(--borde);
-  border-radius: 9px;
-  background: white;
-  color: #333;
-  font-size: 23px;
-}
-
-.boton-flecha:hover {
-  border-color: #f3ba96;
-  background: var(--naranja-claro);
-  color: var(--naranja-oscuro);
+.panel-categoria {
+  width: 50%;
+  max-width: 560px;
+  min-width: 0;
 }
 
 .campo-control {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 7px;
   min-width: 0;
 }
 
 .campo-control label {
-  color: var(--gris-texto);
+  color: #757985;
   font-size: 10px;
   font-weight: 900;
-  letter-spacing: .45px;
+  letter-spacing: .7px;
 }
 
 .campo-control select,
 .campo-control input {
   width: 100%;
-  min-height: 39px;
-  padding: 8px 10px;
-  border: 1px solid var(--borde);
+  min-height: 43px;
+  padding: 10px 12px;
+  border: 1px solid #e1e4e8;
   border-radius: 9px;
-  background: white;
+  background: #fff;
   color: var(--negro);
   font-size: 12px;
   font-weight: 700;
+  transition: border-color .2s, box-shadow .2s, background .2s;
 }
 
-.control-categoria { width: 145px; }
-.control-semana { width: 145px; }
-.control-fecha { width: 170px; }
-
-.acciones-semana {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.campo-control select:focus,
+.campo-control input:focus {
+  outline: none;
+  border-color: var(--naranja);
+  box-shadow: 0 0 0 3px #f4772112;
 }
+
+.campo-control select:hover {
+  border-color: #cbd0d8;
+}
+
+.campo-control input:disabled,
+.campo-control select:disabled {
+  background: #f5f6f8;
+  color: #777d86;
+  cursor: not-allowed;
+}
+
+/* =====================================================
+   BOTONES
+===================================================== */
 
 .boton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
-  min-height: 39px;
-  padding: 10px 13px;
+  gap: 8px;
+  min-height: 41px;
+  padding: 10px 15px;
   border: 1px solid transparent;
   border-radius: 9px;
-  font-size: 11px;
-  font-weight: 900;
+  font-size: 12px;
+  font-weight: 850;
+  line-height: 1.3;
   white-space: nowrap;
-  transition: background .15s, border-color .15s;
+  transition: background .18s, border-color .18s, transform .15s;
+}
+
+.boton:active {
+  transform: scale(.98);
 }
 
 .boton-principal {
   background: var(--naranja);
-  color: white;
+  color: #fff;
 }
 
-.boton-principal:hover { background: var(--naranja-oscuro); }
+.boton-principal:hover {
+  background: var(--naranja-oscuro);
+}
 
 .boton-secundario {
   border-color: var(--borde);
-  background: white;
-  color: #333;
+  background: #fff;
+  color: #454851;
 }
 
 .boton-secundario:hover {
-  border-color: #ccc;
-  background: #f8f8f8;
+  border-color: #cbd0d8;
+  background: #f8f9fa;
 }
+
+/* =====================================================
+   REFERENCIA MD
+===================================================== */
+
+.panel-md {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 15px 17px;
+  border: 1px solid #dce6f8;
+  border-radius: 11px;
+  background: #f7f9ff;
+}
+
+.icono-md {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  background: var(--azul-fondo);
+  color: var(--azul);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.texto-md {
+  min-width: 0;
+}
+
+.texto-md strong {
+  display: block;
+  margin: 1px 0 5px;
+  color: #254f94;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.texto-md p {
+  margin: 0;
+  color: #5d6d86;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* =====================================================
+   ENCABEZADO DE SESIONES Y SELECTOR DE MICROCICLO
+===================================================== */
+
+.cabecera-planilla {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 13px;
+}
+
+.navegacion-microciclo {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  flex: 1 1 470px;
+  max-width: 640px;
+  min-width: 0;
+}
+
+.control-microciclo {
+  flex: 1;
+  min-width: 0;
+}
+
+.control-microciclo select {
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #e1e4e8;
+  border-radius: 10px;
+  background: #fff;
+  color: #25272d;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.control-microciclo select:hover {
+  border-color: #f0bd9c;
+}
+
+.control-microciclo select:focus {
+  outline: none;
+  border-color: var(--naranja);
+  box-shadow: 0 0 0 3px #f4772112;
+}
+
+.boton-flecha-microciclo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  padding: 0;
+  border: 1px solid #e2e5e9;
+  border-radius: 10px;
+  background: #fff;
+  color: #30343b;
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 1;
+  transition: background .2s, border-color .2s, color .2s;
+}
+
+.boton-flecha-microciclo:hover {
+  border-color: #f3ba96;
+  background: var(--naranja-claro);
+  color: var(--naranja-oscuro);
+}
+
+.acciones-planilla {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.acciones-planilla .boton {
+  min-height: 42px;
+}
+
+.boton-agregar {
+  border-color: #f2c7aa;
+  background: #fff;
+  color: var(--naranja-oscuro);
+}
+
+.boton-agregar:hover {
+  border-color: var(--naranja);
+  background: var(--naranja-claro);
+}
+
+.boton-agregar .mas {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--naranja);
+  color: #fff;
+  font-size: 16px;
+}
+
+.boton[hidden],
+[hidden] {
+  display: none !important;
+}
+
+/* =====================================================
+   ESTADO DE GUARDADO
+===================================================== */
 
 .estado-guardado {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
   min-height: 18px;
-  margin-top: 13px;
+  margin-bottom: 16px;
+  padding: 0;
+  border: 0;
   color: var(--gris-texto);
-  font-size: 10px;
+  font-size: 11px;
+  line-height: 1.5;
 }
 
 .punto-guardado {
@@ -457,118 +725,26 @@ button:disabled {
   background: var(--verde);
 }
 
-.punto-guardado.error { background: var(--rojo); }
-
-/* REFERENCIA MD */
-
-.panel-md {
-  display: flex;
-  align-items: flex-start;
-  gap: 11px;
-  margin-bottom: 19px;
-  padding: 12px 15px;
-  border: 1px solid #d7e4fb;
-  border-radius: 10px;
-  background: #f6f9ff;
+.punto-guardado.error {
+  background: var(--rojo);
 }
 
-.icono-md {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 29px;
-  height: 29px;
-  flex-shrink: 0;
-  border-radius: 8px;
-  background: var(--azul-fondo);
-  color: var(--azul);
-  font-size: 12px;
-  font-weight: 900;
-}
-
-.texto-md { min-width: 0; }
-
-.texto-md strong {
-  display: block;
-  margin: 1px 0 4px;
-  color: #254f94;
-  font-size: 11px;
-}
-
-.texto-md p {
-  margin: 0;
-  color: #5d6d86;
-  font-size: 11px;
-  line-height: 1.5;
-}
-
-/* CABECERA DE SESIONES */
-
-.cabecera-planilla {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 14px;
-  flex-wrap: wrap;
-  margin-bottom: 14px;
-}
-
-.cabecera-planilla h3 {
-  margin: 0 0 5px;
-  font-size: 19px;
-  font-weight: 900;
-}
-
-.cabecera-planilla p {
-  margin: 0;
-  color: var(--gris-texto);
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.acciones-planilla {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.boton-agregar {
-  background: #fff;
-  border: 1px solid #f2c7aa;
-  color: var(--naranja-oscuro);
-}
-
-.boton-agregar:hover {
-  background: var(--naranja-claro);
-  border-color: var(--naranja);
-}
-
-.boton-agregar .mas {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  border-radius: 6px;
-  background: var(--naranja);
-  color: white;
-  font-size: 15px;
-  line-height: 1;
-}
+/* =====================================================
+   ESTADOS DEL MICROCICLO
+===================================================== */
 
 .estado-microciclo {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  flex-shrink: 0;
-  padding: 8px 10px;
+  gap: 8px;
+  min-height: 34px;
+  padding: 8px 11px;
   border: 1px solid var(--borde);
-  border-radius: 8px;
-  background: white;
-  color: #666;
+  border-radius: 9px;
+  background: #fff;
+  color: #686868;
   font-size: 10px;
-  font-weight: 900;
+  font-weight: 850;
 }
 
 .estado-microciclo .punto {
@@ -579,12 +755,14 @@ button:disabled {
 }
 
 .estado-microciclo.con-partido {
-  border-color: #cddcf9;
+  border-color: #d4e1fa;
   background: var(--azul-fondo);
   color: var(--azul);
 }
 
-.estado-microciclo.con-partido .punto { background: var(--azul); }
+.estado-microciclo.con-partido .punto {
+  background: var(--azul);
+}
 
 .estado-microciclo.con-suspendido {
   border-color: #ddd;
@@ -592,15 +770,71 @@ button:disabled {
   color: #555;
 }
 
-.estado-microciclo.con-suspendido .punto { background: var(--suspendido); }
+.estado-microciclo.con-suspendido .punto {
+  background: var(--suspendido);
+}
 
-/* TARJETAS DE SESIONES */
+.estado-microciclo.microciclo-guardado {
+  border-color: #c9ead5;
+  background: var(--verde-fondo);
+  color: var(--verde);
+}
+
+.estado-microciclo.microciclo-guardado .punto {
+  background: var(--verde);
+}
+
+.estado-microciclo.microciclo-edicion {
+  border-color: #f5d2bc;
+  background: var(--naranja-claro);
+  color: var(--naranja-oscuro);
+}
+
+.estado-microciclo.microciclo-edicion .punto {
+  background: var(--naranja);
+}
+
+/* =====================================================
+   AVISO SOLO LECTURA
+===================================================== */
+
+.aviso-solo-lectura {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 13px;
+  margin-bottom: 16px;
+  border: 1px solid #c9ead5;
+  border-radius: 10px;
+  background: #f5fcf7;
+  color: #277446;
+  font-size: 11px;
+  font-weight: 750;
+  line-height: 1.6;
+}
+
+.aviso-solo-lectura .icono-lectura {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  border-radius: 7px;
+  background: #dff5e7;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+/* =====================================================
+   TARJETAS DEL MICROCICLO
+===================================================== */
 
 .grid-microciclo {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   align-items: stretch;
-  gap: 12px;
+  gap: 15px;
   min-width: 0;
 }
 
@@ -609,18 +843,35 @@ button:disabled {
   flex-direction: column;
   min-width: 0;
   overflow: hidden;
-  border: 1px solid var(--borde);
+  border: 1px solid #e6e9ed;
   border-top: 4px solid #d8d8d8;
-  border-radius: 12px;
-  background: white;
-  box-shadow: 0 3px 10px #00000003;
+  border-radius: 13px;
+  background: #fff;
+  box-shadow: 0 3px 12px #00000004;
+  transition: border-color .2s, box-shadow .2s, transform .2s;
   scroll-margin-top: 100px;
 }
 
-.tarjeta-dia[data-intensidad="baja"] { border-top-color: var(--verde); }
-.tarjeta-dia[data-intensidad="media"] { border-top-color: #e1ad18; }
-.tarjeta-dia[data-intensidad="alta"] { border-top-color: var(--rojo); }
-.tarjeta-dia[data-intensidad="partido"] { border-top-color: var(--azul); }
+.tarjeta-dia:hover {
+  box-shadow: 0 6px 18px #00000009;
+  transform: translateY(-1px);
+}
+
+.tarjeta-dia[data-intensidad="baja"] {
+  border-top-color: var(--verde);
+}
+
+.tarjeta-dia[data-intensidad="media"] {
+  border-top-color: #e2b21d;
+}
+
+.tarjeta-dia[data-intensidad="alta"] {
+  border-top-color: var(--rojo);
+}
+
+.tarjeta-dia[data-intensidad="partido"] {
+  border-top-color: var(--azul);
+}
 
 .tarjeta-dia[data-intensidad="suspendido"] {
   border-top-color: var(--suspendido);
@@ -628,8 +879,9 @@ button:disabled {
 }
 
 .cabecera-dia {
-  padding: 13px 12px 12px;
-  border-bottom: 1px solid #eeeeee;
+  padding: 15px 14px 13px;
+  border-bottom: 1px solid #eef0f2;
+  background: #fff;
 }
 
 .primera-linea-dia {
@@ -637,13 +889,13 @@ button:disabled {
   align-items: flex-start;
   justify-content: space-between;
   gap: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 13px;
 }
 
 .identidad-dia {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   min-width: 0;
 }
 
@@ -651,12 +903,13 @@ button:disabled {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 33px;
-  height: 33px;
+  width: 36px;
+  height: 36px;
   flex-shrink: 0;
-  border-radius: 9px;
-  background: var(--gris);
-  color: #333;
+  border: 1px solid #f2d4c1;
+  border-radius: 10px;
+  background: var(--naranja-claro);
+  color: var(--naranja-oscuro);
   font-size: 12px;
   font-weight: 900;
 }
@@ -673,7 +926,7 @@ button:disabled {
   color: var(--gris-texto);
   font-size: 10px;
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 .acciones-cabecera-dia {
@@ -689,27 +942,31 @@ button:disabled {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  min-height: 26px;
-  padding: 5px 7px;
+  min-height: 27px;
+  padding: 6px 8px;
+  border: 1px solid #e7e9ed;
   border-radius: 7px;
-  background: #f0f1f3;
-  color: #686868;
+  background: #f5f6f8;
+  color: #656872;
   font-size: 10px;
   font-weight: 900;
   white-space: nowrap;
 }
 
 .etiqueta-md.es-partido {
+  border-color: #d4e1fa;
   background: var(--azul-fondo);
   color: var(--azul);
 }
 
 .etiqueta-md.es-previo {
+  border-color: #f7dec9;
   background: var(--naranja-claro);
   color: var(--naranja-oscuro);
 }
 
 .etiqueta-md.es-posterior {
+  border-color: #c9ead5;
   background: var(--verde-fondo);
   color: var(--verde);
 }
@@ -718,38 +975,45 @@ button:disabled {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
   padding: 0;
   border: 1px solid #f2c9c9;
-  border-radius: 7px;
+  border-radius: 8px;
   background: #fff;
   color: var(--rojo);
-  font-size: 14px;
+  font-size: 16px;
+  transition: background .2s;
 }
 
-.boton-eliminar-sesion:hover { background: var(--rojo-fondo); }
+.boton-eliminar-sesion:hover {
+  background: var(--rojo-fondo);
+}
+
+/* =====================================================
+   CAMPOS GENERALES
+===================================================== */
 
 .cuerpo-dia {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 15px;
   flex: 1;
-  padding: 12px;
+  padding: 14px;
 }
 
 .campo {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 7px;
   min-width: 0;
 }
 
 .campo label {
-  color: #565656;
-  font-size: 9px;
+  color: #666b75;
+  font-size: 10px;
   font-weight: 900;
-  letter-spacing: .2px;
+  letter-spacing: .4px;
   line-height: 1.4;
 }
 
@@ -759,61 +1023,123 @@ button:disabled {
   display: block;
   width: 100%;
   min-width: 0;
-  border: 1px solid #e2e4e7;
-  border-radius: 8px;
-  background: white;
-  color: #222;
-  font-size: 11px;
+  border: 1px solid #e0e4e8;
+  border-radius: 9px;
+  background: #fff;
+  color: #27292e;
+  font-size: 12px;
+  transition: border-color .2s, box-shadow .2s, background .2s;
 }
 
 .campo input,
 .campo select {
-  min-height: 35px;
-  padding: 8px;
+  min-height: 39px;
+  padding: 9px 10px;
 }
 
-.campo select { font-weight: 800; }
+.campo select {
+  font-weight: 700;
+}
 
 .campo textarea {
-  min-height: 125px;
-  padding: 9px;
+  min-height: 130px;
+  padding: 11px;
   resize: vertical;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .campo textarea::placeholder,
-.campo input::placeholder { color: #a6a6a6; }
+.campo input::placeholder {
+  color: #a1a5ad;
+  font-size: 11px;
+}
 
 .campo input:focus,
 .campo select:focus,
 .campo textarea:focus {
   outline: none;
   border-color: var(--naranja);
-  box-shadow: 0 0 0 3px #f4772112;
+  box-shadow: 0 0 0 3px #f4772110;
 }
 
 .campo input[readonly] {
   background: #f7f8fa;
-  color: #4b4b4b;
+  color: #626670;
   cursor: default;
 }
 
-/* BLOQUES DE ENTRENAMIENTO */
+/* =====================================================
+   PROPORCIONES: CONTENIDO + DURACIÓN
+===================================================== */
 
-.bloque-entrenamiento {
-  padding-top: 11px;
-  border-top: 1px solid #eeeeee;
+.campo-con-duracion {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 72px;
+  align-items: start;
+  gap: 9px;
+  min-width: 0;
+}
+
+.contenido-entrenamiento {
+  min-width: 0;
+}
+
+.campo-duracion {
+  min-width: 0;
+}
+
+.campo-duracion label {
+  min-height: 28px;
+  display: flex;
+  align-items: flex-start;
+  font-size: 9px;
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
+.campo-duracion input {
+  width: 100%;
+  min-width: 0;
+  min-height: 39px;
+  padding: 8px 3px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.campo-duracion input::placeholder {
+  color: #a1a5ad;
+  font-size: 10px;
+}
+
+.unidad-duracion {
+  display: block;
+  margin-top: 5px;
+  color: #8a8e97;
+  font-size: 9px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* =====================================================
+   BLOQUES DE ENTRENAMIENTO
+===================================================== */
+
+.bloque-entrenamiento,
+.bloque-partido {
+  padding-top: 14px;
+  border-top: 1px solid #eff0f2;
 }
 
 .titulo-bloque {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin: 0 0 9px;
-  color: #5d5d5d;
-  font-size: 9px;
+  gap: 8px;
+  margin: 0 0 12px;
+  color: #545963;
+  font-size: 10px;
   font-weight: 900;
-  letter-spacing: .65px;
+  letter-spacing: .7px;
   line-height: 1.4;
 }
 
@@ -821,44 +1147,407 @@ button:disabled {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 23px;
+  height: 23px;
   flex-shrink: 0;
+  border: 1px solid #f4ddcc;
+  border-radius: 7px;
+  background: var(--naranja-claro);
+  color: var(--naranja-oscuro);
+  font-size: 10px;
+}
+
+.campo-entrenamiento {
+  margin-bottom: 12px;
+}
+
+.campo-entrenamiento:last-child {
+  margin-bottom: 0;
+}
+
+.campo-entrenamiento textarea {
+  min-height: 125px;
+}
+
+.campo-entrenamiento.fisico textarea {
+  min-height: 110px;
+}
+
+.subbloques-entrenamiento {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.bloque-subentrenamiento {
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid #eceef1;
+  border-radius: 10px;
+  background: #fcfcfd;
+}
+
+.cabecera-subbloque {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 7px;
+  margin-bottom: 10px;
+}
+
+.cabecera-subbloque strong {
+  min-width: 0;
+  color: #444954;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .35px;
+  line-height: 1.5;
+}
+
+.etiqueta-bloque {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 5px 7px;
   border-radius: 6px;
   background: var(--naranja-claro);
   color: var(--naranja-oscuro);
   font-size: 9px;
+  font-weight: 900;
 }
 
-.campo-entrenamiento { margin-bottom: 10px; }
-.campo-entrenamiento:last-child { margin-bottom: 0; }
-.campo-entrenamiento textarea { min-height: 125px; }
-.campo-entrenamiento.fisico textarea { min-height: 110px; }
-
-/* PARTIDOS */
-
-.bloque-partido {
-  padding-top: 11px;
-  border-top: 1px solid #eeeeee;
+.bloque-subentrenamiento .campo-con-duracion {
+  margin-bottom: 0;
 }
+
+.bloque-subentrenamiento textarea {
+  min-height: 100px;
+}
+
+.boton-agregar-bloque {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 38px;
+  margin-top: 10px;
+  padding: 9px 12px;
+  border: 1px dashed #edbf9e;
+  border-radius: 9px;
+  background: #fffaf6;
+  color: var(--naranja-oscuro);
+  font-size: 11px;
+  font-weight: 850;
+  transition: background .2s, border-color .2s;
+}
+
+.boton-agregar-bloque:hover {
+  border-color: var(--naranja);
+  background: var(--naranja-claro);
+}
+
+.boton-agregar-bloque .mas {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 21px;
+  height: 21px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  background: var(--naranja);
+  color: #fff;
+  font-size: 15px;
+}
+
+/* =====================================================
+   CAMPOS ESPECÍFICOS DE FÍSICO
+===================================================== */
+
+.tipo-fisico {
+  margin-bottom: 11px;
+}
+
+.detalles-fisicos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.detalles-fisicos .campo {
+  min-width: 0;
+}
+
+.detalles-fisicos .campo label {
+  font-size: 9px;
+  letter-spacing: .1px;
+}
+
+.detalles-fisicos .campo select,
+.detalles-fisicos .campo input {
+  min-height: 37px;
+  padding: 8px 7px;
+  font-size: 11px;
+}
+
+.campo-area-pasadas {
+  grid-column: 1 / -1;
+}
+
+.detalle-fisico-vacio {
+  grid-column: 1 / -1;
+  padding: 11px;
+  border: 1px dashed #e2e4e8;
+  border-radius: 8px;
+  background: #fff;
+  color: #868b94;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.aviso-contenido-antiguo {
+  margin-top: 9px;
+  padding: 9px;
+  border: 1px solid #f0d7bf;
+  border-radius: 8px;
+  background: #fffaf5;
+  color: #735638;
+  font-size: 10px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.aviso-contenido-antiguo strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 10px;
+}
+
+.boton-limpiar-legado {
+  display: block;
+  margin-top: 7px;
+  padding: 5px 7px;
+  border: 1px solid #ead4c3;
+  border-radius: 6px;
+  background: #fff;
+  color: #8b4b20;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.boton-limpiar-legado:hover {
+  background: var(--naranja-claro);
+}
+
+/* =====================================================
+   VISTA DE SOLO LECTURA
+===================================================== */
+
+.tarjeta-dia.modo-lectura {
+  box-shadow: 0 3px 13px #00000005;
+}
+
+.tarjeta-dia.modo-lectura:hover {
+  transform: none;
+  box-shadow: 0 3px 13px #00000005;
+}
+
+.tarjeta-dia.modo-lectura .cuerpo-dia {
+  gap: 16px;
+}
+
+.lectura-seccion {
+  min-width: 0;
+  padding-top: 13px;
+  border-top: 1px solid #edf0f3;
+}
+
+.lectura-seccion:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.lectura-titulo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+  color: #4d535d;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .6px;
+  line-height: 1.5;
+}
+
+.lectura-numero {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border: 1px solid #f2d4c1;
+  border-radius: 7px;
+  background: var(--naranja-claro);
+  color: var(--naranja-oscuro);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.lectura-bloque {
+  padding: 11px;
+  border: 1px solid #eceef1;
+  border-radius: 9px;
+  background: #fcfcfd;
+}
+
+.lectura-bloque + .lectura-bloque {
+  margin-top: 8px;
+}
+
+.lectura-bloque-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 7px;
+}
+
+.lectura-bloque-cabecera strong {
+  color: #444954;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.lectura-duracion {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 5px 7px;
+  border-radius: 6px;
+  background: var(--naranja-claro);
+  color: var(--naranja-oscuro);
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.lectura-contenido {
+  margin: 0;
+  color: #555b65;
+  font-size: 12px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.lectura-vacio {
+  margin: 0;
+  color: #a0a4ac;
+  font-size: 11px;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.lectura-etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 9px;
+}
+
+.lectura-etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 8px;
+  border: 1px solid #e4e7ec;
+  border-radius: 7px;
+  background: #fff;
+  color: #5d636e;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.lectura-etiqueta strong {
+  color: #343942;
+}
+
+.lectura-partido {
+  padding: 13px;
+  border: 1px solid #dce6f8;
+  border-radius: 10px;
+  background: #f8faff;
+}
+
+.lectura-partido .nombre-preview-rival {
+  display: block;
+  margin-top: 7px;
+}
+
+.lectura-partido .preview-rival {
+  margin-bottom: 12px;
+}
+
+.lectura-estado {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 7px;
+  background: #f4f5f7;
+  color: #606570;
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.lectura-estado.partido {
+  background: var(--azul-fondo);
+  color: var(--azul);
+}
+
+.lectura-estado.suspendido {
+  background: var(--suspendido-fondo);
+  color: #555;
+}
+
+.lectura-estado.baja {
+  background: var(--verde-fondo);
+  color: var(--verde);
+}
+
+.lectura-estado.media {
+  background: var(--amarillo-fondo);
+  color: var(--amarillo);
+}
+
+.lectura-estado.alta {
+  background: var(--rojo-fondo);
+  color: var(--rojo);
+}
+
+/* =====================================================
+   PARTIDO
+===================================================== */
 
 .preview-rival {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  min-height: 120px;
-  padding: 12px;
-  border: 1px dashed #d8e3f8;
-  border-radius: 10px;
+  gap: 9px;
+  min-height: 145px;
+  padding: 15px;
+  border: 1px solid #dce6f8;
+  border-radius: 11px;
   background: #f8faff;
   text-align: center;
 }
 
 .imagen-rival {
-  width: 76px;
-  height: 76px;
+  width: 86px;
+  height: 86px;
   object-fit: contain;
 }
 
@@ -868,39 +1557,42 @@ button:disabled {
   justify-content: center;
   width: 76px;
   height: 76px;
+  border: 1px solid #dfe7f5;
   border-radius: 50%;
   background: #edf2fb;
   color: #8293b0;
-  font-size: 31px;
+  font-size: 29px;
 }
 
 .nombre-preview-rival {
   color: #405171;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 900;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 .aviso-imagen-rival {
   margin: 0;
   color: #8a8a8a;
-  font-size: 9px;
-  line-height: 1.4;
+  font-size: 10px;
+  line-height: 1.5;
 }
 
-/* SESIÓN SUSPENDIDA */
+/* =====================================================
+   SUSPENDIDO
+===================================================== */
 
 .bloque-suspendido {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  min-height: 175px;
-  padding: 22px 15px;
-  border: 1px solid #dedede;
-  border-radius: 10px;
-  background: var(--suspendido-fondo);
+  gap: 10px;
+  min-height: 220px;
+  padding: 24px 16px;
+  border: 1px solid #e1e1e1;
+  border-radius: 11px;
+  background: #f7f7f7;
   color: #555;
   text-align: center;
 }
@@ -909,47 +1601,60 @@ button:disabled {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 46px;
+  height: 46px;
+  border: 1px solid #e0e0e0;
   border-radius: 50%;
-  background: #dedede;
+  background: #eaeaea;
   color: #666;
-  font-size: 23px;
+  font-size: 24px;
   font-weight: 900;
 }
 
-.bloque-suspendido strong { font-size: 12px; font-weight: 900; }
+.bloque-suspendido strong {
+  font-size: 12px;
+  font-weight: 900;
+}
 
 .bloque-suspendido p {
   max-width: 235px;
   margin: 0;
   color: #737373;
-  font-size: 10px;
-  line-height: 1.6;
+  font-size: 11px;
+  line-height: 1.7;
 }
+
+/* =====================================================
+   PIE DE TARJETA
+===================================================== */
 
 .pie-dia {
   margin-top: auto;
-  padding: 9px 12px;
-  border-top: 1px solid #eeeeee;
-  background: #fcfcfc;
-  color: #7a7a7a;
-  font-size: 9px;
+  padding: 11px 14px;
+  border-top: 1px solid #eef0f2;
+  background: #fcfcfd;
+  color: #777d86;
+  font-size: 10px;
   line-height: 1.5;
 }
 
-.pie-dia strong { font-weight: 900; }
+.pie-dia strong {
+  color: #555b65;
+  font-weight: 900;
+}
 
-/* AYUDA */
+/* =====================================================
+   AYUDA Y PIE DE PÁGINA
+===================================================== */
 
 .ayuda-planificacion {
   display: flex;
   align-items: flex-start;
-  gap: 11px;
-  margin-top: 19px;
-  padding: 14px 16px;
+  gap: 12px;
+  margin-top: 23px;
+  padding: 16px 17px;
   border: 1px solid #f2e2d6;
-  border-radius: 10px;
+  border-radius: 11px;
   background: #fffaf6;
 }
 
@@ -957,37 +1662,42 @@ button:disabled {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   flex-shrink: 0;
-  border-radius: 8px;
+  border: 1px solid #f2d8c5;
+  border-radius: 9px;
   background: var(--naranja-claro);
   color: var(--naranja-oscuro);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 900;
 }
 
 .ayuda-planificacion strong {
   display: block;
-  margin-bottom: 5px;
-  font-size: 11px;
+  margin-bottom: 6px;
+  color: #47372c;
+  font-size: 12px;
 }
 
 .ayuda-planificacion p {
   margin: 0;
   color: #696969;
   font-size: 11px;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 .pie-pagina {
-  padding: 22px 0 8px;
-  color: #949494;
+  padding: 26px 0 8px;
+  color: #999da5;
   font-size: 10px;
+  letter-spacing: .3px;
   text-align: center;
 }
 
-/* NOTIFICACIONES */
+/* =====================================================
+   NOTIFICACIONES
+===================================================== */
 
 .mensaje-flotante {
   position: fixed;
@@ -995,10 +1705,11 @@ button:disabled {
   bottom: 20px;
   z-index: 500;
   max-width: min(380px, calc(100vw - 35px));
-  padding: 13px 16px;
-  border-radius: 10px;
+  padding: 14px 17px;
+  border: 1px solid #333;
+  border-radius: 11px;
   background: #202020;
-  color: white;
+  color: #fff;
   box-shadow: 0 8px 25px #00000024;
   font-size: 12px;
   font-weight: 700;
@@ -1014,94 +1725,383 @@ button:disabled {
   transform: translateY(0);
 }
 
-/* RESPONSIVE */
+/* =====================================================
+   TABLET
+===================================================== */
 
 @media (max-width: 1250px) {
-  .contenido { padding: 20px; }
-  .grid-microciclo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .controles-semana { align-items: stretch; }
-  .acciones-semana { width: 100%; }
+  .contenido {
+    padding: 23px;
+  }
+
+  .grid-microciclo {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cabecera-planilla {
+    align-items: stretch;
+  }
+
+  .navegacion-microciclo {
+    max-width: none;
+    flex-basis: 100%;
+  }
 }
 
+/* =====================================================
+   CELULARES
+===================================================== */
+
 @media (max-width: 760px) {
-  .barra-superior { gap: 9px; padding: 10px 12px; }
-  .logo-superior { width: 41px; height: 41px; }
-  .titulo-superior h1 { font-size: 15px; margin-bottom: 3px; }
-  .titulo-superior p { font-size: 10px; line-height: 1.4; }
-  .perfil { display: none; }
+  :root {
+    --alto-topbar: 72px;
+  }
+
+  .barra-superior {
+    min-height: 72px;
+    gap: 9px;
+    padding: 10px 13px;
+  }
+
+  .boton-menu {
+    width: 38px;
+    height: 38px;
+    font-size: 24px;
+  }
+
+  .logo-superior {
+    width: 44px;
+    height: 44px;
+  }
+
+  .titulo-superior h1 {
+    font-size: 16px;
+    letter-spacing: .1px;
+  }
+
+  .titulo-superior p {
+    font-size: 11px;
+  }
+
+  .perfil {
+    gap: 6px;
+    padding: 4px;
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .nombre-perfil {
+    max-width: 80px;
+    font-size: 12px;
+  }
+
+  .rol-perfil {
+    display: none;
+  }
 
   .sidebar {
     position: fixed;
-    top: var(--alto-topbar);
+    top: 72px;
     bottom: 0;
     left: 0;
     z-index: 350;
+    width: 258px;
+    max-width: 86vw;
     height: auto;
+    flex: none;
     margin-left: 0;
-    transform: translateX(-110%);
+    padding: 20px 13px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #fff;
+    border-right: 1px solid var(--borde);
     box-shadow: 8px 0 22px #0000000d;
+    transform: translateX(-110%);
   }
 
-  .sidebar.oculto { margin-left: 0; }
-  .sidebar.visible { transform: translateX(0); }
+  .sidebar.oculto {
+    margin-left: 0;
+  }
+
+  .sidebar.visible {
+    transform: translateX(0);
+  }
 
   .capa-sidebar.visible {
     display: block;
     position: fixed;
-    inset: var(--alto-topbar) 0 0;
+    inset: 72px 0 0;
     z-index: 340;
     background: #00000045;
   }
 
-  .contenido { padding: 18px 13px; }
-  .cabecera-pagina h2 { font-size: 23px; }
-  .cabecera-pagina { margin-bottom: 17px; }
-  .panel-semanal { padding: 13px; }
+  .contenido {
+    padding: 22px 13px;
+  }
 
-  .navegacion-semana {
-    display: grid;
-    grid-template-columns: 36px minmax(0, 1fr) 36px;
-    align-items: end;
+  .cabecera-pagina {
+    margin-bottom: 21px;
+  }
+
+  .etiqueta-seccion {
+    margin-bottom: 8px;
+    font-size: 10px;
+    letter-spacing: 1.6px;
+  }
+
+  .cabecera-pagina h2 {
+    font-size: 25px;
+    letter-spacing: -.4px;
+  }
+
+  .descripcion-pagina {
+    font-size: 13px;
+  }
+
+  .panel-semanal {
+    padding: 14px;
+    margin-bottom: 18px;
+  }
+
+  .panel-categoria {
     width: 100%;
+    max-width: none;
   }
 
-  .control-categoria,
-  .control-semana,
-  .control-fecha { width: 100%; }
-
-  .acciones-semana {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 7px;
+  .panel-md {
+    gap: 10px;
+    padding: 12px;
+    margin-bottom: 21px;
   }
 
-  .acciones-semana .boton { min-width: 0; width: 100%; }
-  .panel-md { padding: 11px; }
+  .texto-md p {
+    font-size: 11px;
+  }
 
   .cabecera-planilla {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 13px;
+  }
+
+  .navegacion-microciclo {
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: none;
+    gap: 6px;
+  }
+
+  .boton-flecha-microciclo {
+    width: 38px;
+    height: 42px;
+    flex-basis: 38px;
+    font-size: 23px;
+  }
+
+  .control-microciclo select {
+    min-height: 42px;
+    padding: 8px 7px;
+    font-size: 10px;
+  }
+
+  .acciones-planilla {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 7px;
+    flex-wrap: wrap;
+  }
+
+  .acciones-planilla .boton {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 9px 10px;
+    font-size: 10px;
+  }
+
+  .estado-microciclo {
+    padding: 7px 9px;
+    font-size: 9px;
+  }
+
+  .grid-microciclo {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .tarjeta-dia:hover {
+    transform: none;
+  }
+
+  .cabecera-dia {
+    padding: 14px;
+  }
+
+  .cuerpo-dia {
+    gap: 14px;
+    padding: 14px;
+  }
+
+  .campo textarea {
+    font-size: 12px;
+  }
+
+  .campo-entrenamiento textarea {
+    min-height: 115px;
+  }
+
+  .campo-entrenamiento.fisico textarea {
+    min-height: 100px;
+  }
+
+  .campo-con-duracion {
+    grid-template-columns: minmax(0, 1fr) 68px;
+    gap: 8px;
+  }
+
+  .campo-duracion label {
+    font-size: 8px;
+    letter-spacing: 0;
+  }
+
+  .bloque-subentrenamiento {
+    padding: 9px;
+  }
+
+  .detalles-fisicos {
+    gap: 8px;
+  }
+
+  .detalles-fisicos .campo select,
+  .detalles-fisicos .campo input {
+    padding: 7px 5px;
+    font-size: 10px;
+  }
+
+  .pie-dia {
+    padding: 10px 14px;
+  }
+
+  .ayuda-planificacion {
+    padding: 13px;
+  }
+
+  .lectura-bloque {
+    padding: 10px;
+  }
+
+  .lectura-contenido {
+    font-size: 12px;
+  }
+
+  .aviso-solo-lectura {
     align-items: flex-start;
+    font-size: 10px;
+  }
+
+  .estado-guardado {
+    margin-bottom: 14px;
+  }
+}
+
+/* =====================================================
+   CELULARES PEQUEÑOS
+===================================================== */
+
+@media (max-width: 380px) {
+  .barra-superior {
+    padding: 8px;
+    gap: 6px;
+  }
+
+  .boton-menu {
+    width: 32px;
+    height: 36px;
+    font-size: 22px;
+  }
+
+  .logo-superior {
+    width: 35px;
+    height: 35px;
+  }
+
+  .titulo-superior h1 {
+    font-size: 13px;
+  }
+
+  .titulo-superior p {
+    font-size: 9px;
+  }
+
+  .perfil {
+    display: none;
+  }
+
+  .contenido {
+    padding: 18px 9px;
+  }
+
+  .cabecera-pagina h2 {
+    font-size: 22px;
+  }
+
+  .navegacion-microciclo {
+    gap: 4px;
+  }
+
+  .boton-flecha-microciclo {
+    width: 31px;
+    flex-basis: 31px;
+    height: 40px;
+  }
+
+  .control-microciclo select {
+    padding: 7px 4px;
+    font-size: 9px;
+  }
+
+  .acciones-planilla {
+    align-items: stretch;
     flex-direction: column;
   }
 
-  .acciones-planilla { width: 100%; }
-  .acciones-planilla .boton { flex: 1; }
-  .grid-microciclo { grid-template-columns: 1fr; gap: 13px; }
-  .tarjeta-dia { width: 100%; }
-  .cabecera-dia, .cuerpo-dia { padding: 13px; }
-  .campo-entrenamiento textarea { min-height: 115px; }
+  .acciones-planilla .boton {
+    flex: auto;
+    width: 100%;
+  }
+
+  .campo-con-duracion {
+    grid-template-columns: minmax(0, 1fr) 62px;
+    gap: 6px;
+  }
+
+  .campo-duracion input {
+    padding: 7px 2px;
+  }
+
+  .bloque-subentrenamiento {
+    padding: 8px;
+  }
+
+  .lectura-bloque-cabecera {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
 
-@media (max-width: 420px) {
-  .boton-menu { width: 33px; height: 37px; font-size: 22px; }
-  .logo-superior { width: 36px; height: 36px; }
-  .titulo-superior h1 { font-size: 13px; }
-  .cabecera-pagina h2 { font-size: 21px; }
-}
-
-/* IMPRESIÓN Y PDF */
+/* =====================================================
+   IMPRESIÓN / PDF
+===================================================== */
 
 @media print {
-  @page { size: A4 landscape; margin: 8mm; }
+  @page {
+    size: A4 landscape;
+    margin: 8mm;
+  }
 
   body {
     background: #fff;
@@ -1120,20 +2120,37 @@ button:disabled {
   .boton-menu,
   .sidebar,
   .capa-sidebar,
-  .acciones-semana,
-  .boton-flecha,
+  .acciones-planilla,
+  .boton-flecha-microciclo,
   .boton-agregar,
   .boton-eliminar-sesion,
+  .boton-agregar-bloque,
+  .boton-limpiar-legado,
   .ayuda-planificacion,
   .pie-pagina,
-  .mensaje-flotante {
+  .mensaje-flotante,
+  #botonGuardarSemana,
+  #botonEditarSemana,
+  .aviso-solo-lectura {
     display: none !important;
   }
 
-  .contenedor { display: block; min-height: auto; }
-  .contenido { padding: 10px 0 0; }
-  .cabecera-pagina { margin-bottom: 10px; }
-  .cabecera-pagina h2 { font-size: 19px; }
+  .contenedor {
+    display: block;
+    min-height: auto;
+  }
+
+  .contenido {
+    padding: 10px 0 0;
+  }
+
+  .cabecera-pagina {
+    margin-bottom: 10px;
+  }
+
+  .cabecera-pagina h2 {
+    font-size: 20px;
+  }
 
   .panel-semanal {
     margin-bottom: 9px;
@@ -1141,11 +2158,14 @@ button:disabled {
     box-shadow: none;
   }
 
-  .control-categoria { width: 115px; }
-  .control-semana { width: 110px; }
-  .control-fecha { width: 135px; }
-  .panel-md { margin-bottom: 9px; padding: 7px; }
-  .cabecera-planilla { margin-bottom: 8px; }
+  .panel-md {
+    margin-bottom: 9px;
+    padding: 7px;
+  }
+
+  .cabecera-planilla {
+    margin-bottom: 8px;
+  }
 
   .grid-microciclo {
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1156,12 +2176,26 @@ button:disabled {
     break-inside: avoid;
     border-color: #ccc;
     box-shadow: none;
+    transform: none;
   }
 
-  .cabecera-dia, .cuerpo-dia { padding: 7px; }
-  .nombre-dia { font-size: 11px; }
-  .numero-sesion { width: 25px; height: 25px; }
-  .campo label { font-size: 7px; }
+  .cabecera-dia,
+  .cuerpo-dia {
+    padding: 7px;
+  }
+
+  .nombre-dia {
+    font-size: 11px;
+  }
+
+  .numero-sesion {
+    width: 25px;
+    height: 25px;
+  }
+
+  .campo label {
+    font-size: 7px;
+  }
 
   .campo input,
   .campo select {
@@ -1178,11 +2212,90 @@ button:disabled {
     overflow: visible;
   }
 
-  .campo-entrenamiento textarea { min-height: 70px; }
-  .imagen-rival, .placeholder-rival { width: 48px; height: 48px; }
-  .preview-rival { min-height: 75px; padding: 5px; }
-  .pie-dia { padding: 5px; }
-  .estado-guardado { margin-top: 5px; }
+  .campo-entrenamiento textarea {
+    min-height: 70px;
+  }
+
+  .campo-con-duracion {
+    grid-template-columns: minmax(0, 1fr) 56px;
+    gap: 5px;
+  }
+
+  .campo-duracion label {
+    min-height: 16px;
+    font-size: 6px;
+  }
+
+  .campo-duracion input {
+    min-height: 23px;
+    padding: 3px;
+    font-size: 8px;
+  }
+
+  .bloque-subentrenamiento {
+    padding: 5px;
+    break-inside: avoid;
+  }
+
+  .bloque-subentrenamiento textarea {
+    min-height: 45px;
+  }
+
+  .cabecera-subbloque {
+    margin-bottom: 4px;
+  }
+
+  .cabecera-subbloque strong {
+    font-size: 7px;
+  }
+
+  .detalles-fisicos .campo select,
+  .detalles-fisicos .campo input {
+    min-height: 22px;
+    padding: 3px;
+    font-size: 7px;
+  }
+
+  .imagen-rival,
+  .placeholder-rival {
+    width: 48px;
+    height: 48px;
+  }
+
+  .preview-rival {
+    min-height: 75px;
+    padding: 5px;
+  }
+
+  .pie-dia {
+    padding: 5px;
+  }
+
+  .estado-guardado {
+    margin-top: 5px;
+  }
+
+  .lectura-bloque {
+    padding: 5px;
+  }
+
+  .lectura-contenido {
+    font-size: 8px;
+    line-height: 1.45;
+  }
+
+  .lectura-titulo {
+    font-size: 7px;
+  }
+
+  .lectura-duracion,
+  .lectura-bloque-cabecera strong {
+    font-size: 7px;
+  }
+
+  .lectura-seccion {
+    padding-top: 6px;
+  }
 }
 </style>
 </head>
@@ -1213,7 +2326,7 @@ button:disabled {
 
   <div class="perfil">
     <div class="avatar" id="avatarUsuario">DT</div>
-    <div>
+    <div class="informacion-perfil">
       <div class="nombre-perfil" id="nombreUsuario">Entrenador</div>
       <div class="rol-perfil" id="rolUsuario">Cuerpo técnico</div>
     </div>
@@ -1226,16 +2339,16 @@ button:disabled {
 
   <aside class="sidebar" id="sidebar">
 
-    <a class="menu-inicio" href="Pagina Principal.html">
+    <a class="menu-inicio" href="Pàgina Principal.html">
       <span class="icono-inicio">⌂</span>
       INICIO
     </a>
 
     <div class="grupo-menu cerrado" id="grupoPlantel">
-      <div class="titulo-grupo" onclick="toggleGrupo('grupoPlantel')">
+      <button class="titulo-grupo" type="button" onclick="toggleGrupo('grupoPlantel')">
         <span>PLANTEL</span>
         <span class="flecha">›</span>
-      </div>
+      </button>
       <div class="submenu">
         <a href="jugadoras.html"><span class="nav-punto"></span>Jugadoras</a>
         <a href="asistencia.html"><span class="nav-punto"></span>Asistencia</a>
@@ -1243,24 +2356,24 @@ button:disabled {
     </div>
 
     <div class="grupo-menu" id="grupoEntrenamiento">
-      <div class="titulo-grupo" onclick="toggleGrupo('grupoEntrenamiento')">
+      <button class="titulo-grupo" type="button" onclick="toggleGrupo('grupoEntrenamiento')">
         <span>ENTRENAMIENTO</span>
         <span class="flecha">›</span>
-      </div>
+      </button>
       <div class="submenu">
         <a href="calendario.html"><span class="nav-punto"></span>Calendario</a>
-        <a href="#" class="activo" onclick="event.preventDefault()"><span class="nav-punto"></span>Planificación</a>
-        <a href="biblioteca de ejercicios.html"><span class="nav-punto"></span>Biblioteca de ejercicios</a>
+        <a href="planificacion.html" class="activo" aria-current="page"><span class="nav-punto"></span>Planificación</a>
+        <a href="biblioteca.html"><span class="nav-punto"></span>Biblioteca de ejercicios</a>
         <a href="gimnasio.html"><span class="nav-punto"></span>Gimnasio</a>
         <a href="calculadora.html"><span class="nav-punto"></span>Calculadora</a>
       </div>
     </div>
 
     <div class="grupo-menu cerrado" id="grupoCompetencia">
-      <div class="titulo-grupo" onclick="toggleGrupo('grupoCompetencia')">
+      <button class="titulo-grupo" type="button" onclick="toggleGrupo('grupoCompetencia')">
         <span>COMPETENCIA</span>
         <span class="flecha">›</span>
-      </div>
+      </button>
       <div class="submenu">
         <a href="Partidos.html"><span class="nav-punto"></span>Partidos</a>
         <a href="informes.html"><span class="nav-punto"></span>Informes</a>
@@ -1270,12 +2383,12 @@ button:disabled {
     </div>
 
     <div class="grupo-menu cerrado" id="grupoRendimientos">
-      <div class="titulo-grupo" onclick="toggleGrupo('grupoRendimientos')">
+      <button class="titulo-grupo" type="button" onclick="toggleGrupo('grupoRendimientos')">
         <span>RENDIMIENTOS</span>
         <span class="flecha">›</span>
-      </div>
+      </button>
       <div class="submenu">
-        <a href="planilla de testeos.html"><span class="nav-punto"></span>Planilla de testeos</a>
+        <a href="testeos.html"><span class="nav-punto"></span>Planilla de testeos</a>
         <a href="tiempos.html"><span class="nav-punto"></span>Tiempos</a>
         <a href="multimedia.html"><span class="nav-punto"></span>Multimedia</a>
         <a href="encuestas.html"><span class="nav-punto"></span>Encuestas</a>
@@ -1295,56 +2408,28 @@ button:disabled {
   <main class="contenido">
 
     <section class="cabecera-pagina">
-      <span class="etiqueta-seccion">PLANIFICACIÓN TÉCNICA Y FÍSICA</span>
+      <span class="etiqueta-seccion">ENTRENAMIENTO · PLANIFICACIÓN</span>
       <h2>Planificación de microciclos</h2>
-      <span class="etiqueta-categoria" id="etiquetaCategoria">⚽ CATEGORÍA SUB 16</span>
+      <p class="descripcion-pagina">
+        Organizá las sesiones semanales y consultá los contenidos técnicos y físicos de cada categoría.
+      </p>
     </section>
 
+    <!-- PANEL SUPERIOR: SELECTOR DE CATEGORÍA -->
+
     <section class="panel-semanal">
-
       <div class="controles-semana">
-
-        <div class="navegacion-semana">
-
-          <div class="campo-control control-categoria">
-            <label for="selectCategoria">CATEGORÍA</label>
-            <select id="selectCategoria" onchange="seleccionarCategoria(this.value)">
-              <option value="Sub 10">Sub 10</option>
-              <option value="Sub 12">Sub 12</option>
-              <option value="Sub 14">Sub 14</option>
-              <option value="Sub 16">Sub 16</option>
-              <option value="Primera">Primera</option>
-            </select>
-          </div>
-
-          <button type="button" class="boton-flecha" onclick="cambiarSemana(-1)" aria-label="Semana anterior" title="Semana anterior">‹</button>
-
-          <div class="campo-control control-semana">
-            <label for="selectMicrociclo">MICROCICLO</label>
-            <select id="selectMicrociclo" onchange="seleccionarSemana(this.value)"></select>
-          </div>
-
-          <button type="button" class="boton-flecha" onclick="cambiarSemana(1)" aria-label="Semana siguiente" title="Semana siguiente">›</button>
-
+        <div class="campo-control panel-categoria">
+          <label for="selectCategoria">CATEGORÍA DEL PLANTEL</label>
+          <select id="selectCategoria" onchange="seleccionarCategoria(this.value)">
+            <option value="Sub 10">Sub 10</option>
+            <option value="Sub 12">Sub 12</option>
+            <option value="Sub 14">Sub 14</option>
+            <option value="Sub 16">Sub 16</option>
+            <option value="Primera">Primera</option>
+          </select>
         </div>
-
-        <div class="campo-control control-fecha">
-          <label for="fechaInicioSemana">LUNES DE LA SEMANA</label>
-          <input id="fechaInicioSemana" type="date" onchange="cambiarFechaInicioSemana(this.value)">
-        </div>
-
-        <div class="acciones-semana">
-          <button type="button" class="boton boton-principal" onclick="guardarSemana()">✓ Guardar semana</button>
-          <button type="button" class="boton boton-secundario" onclick="window.print()">⎙ Imprimir / PDF</button>
-        </div>
-
       </div>
-
-      <div class="estado-guardado" aria-live="polite">
-        <span class="punto-guardado" id="puntoGuardado"></span>
-        <span id="estadoGuardado">Los cambios se guardan automáticamente en este navegador.</span>
-      </div>
-
     </section>
 
     <section class="panel-md">
@@ -1359,23 +2444,76 @@ button:disabled {
 
       <div class="cabecera-planilla">
 
-        <div>
-          <h3 id="tituloSemanaActual">Semana 39</h3>
-          <p id="descripcionSesiones">Sesiones de entrenamiento de la categoría.</p>
+        <!-- SELECTOR DE MICROCICLO EN EL LUGAR DEL TÍTULO SEMANAL -->
+
+        <div class="navegacion-microciclo">
+
+          <button
+            type="button"
+            class="boton-flecha-microciclo"
+            onclick="cambiarSemana(-1)"
+            aria-label="Microciclo anterior"
+            title="Microciclo anterior"
+          >‹</button>
+
+          <div class="campo-control control-microciclo">
+            <label for="selectMicrociclo">MICROCICLO</label>
+            <select id="selectMicrociclo" onchange="seleccionarSemana(this.value)"></select>
+          </div>
+
+          <button
+            type="button"
+            class="boton-flecha-microciclo"
+            onclick="cambiarSemana(1)"
+            aria-label="Microciclo siguiente"
+            title="Microciclo siguiente"
+          >›</button>
+
         </div>
 
         <div class="acciones-planilla">
+
           <div class="estado-microciclo" id="estadoMicrociclo">
             <span class="punto"></span>
             <span id="textoEstadoMicrociclo">Planificación semanal</span>
           </div>
 
-          <button type="button" class="boton boton-agregar" id="botonAgregarSesion" onclick="agregarSesion()">
+          <button
+            type="button"
+            class="boton boton-principal"
+            id="botonGuardarSemana"
+            onclick="guardarSemana()"
+          >✓ Guardar microciclo</button>
+
+          <button
+            type="button"
+            class="boton boton-agregar"
+            id="botonAgregarSesion"
+            onclick="agregarSesion()"
+          >
             <span class="mas">+</span>
             AGREGAR SESIÓN
           </button>
-        </div>
 
+          <button
+            type="button"
+            class="boton boton-secundario"
+            id="botonEditarSemana"
+            onclick="editarSemana()"
+            hidden
+          >✎ Editar microciclo</button>
+
+        </div>
+      </div>
+
+      <div class="estado-guardado" aria-live="polite">
+        <span class="punto-guardado" id="puntoGuardado"></span>
+        <span id="estadoGuardado">Los cambios se guardan automáticamente en este navegador.</span>
+      </div>
+
+      <div class="aviso-solo-lectura" id="avisoSoloLectura" hidden>
+        <span class="icono-lectura">✓</span>
+        <span>Este microciclo está guardado y se encuentra en modo de solo lectura. Para cambiar sus sesiones, elegí <strong>Editar microciclo</strong>.</span>
       </div>
 
       <div class="grid-microciclo" id="gridMicrociclo"></div>
@@ -1387,7 +2525,7 @@ button:disabled {
       <div>
         <strong>Planificación conectada con el calendario</strong>
         <p>
-          Las sesiones se guardan automáticamente. Los entrenamientos publican su intensidad y contenidos; los partidos publican el rival, el escudo y el torneo. Una sesión suspendida se muestra como tal y no requiere completar contenidos.
+          Las sesiones se guardan automáticamente como borrador mientras editás. Al guardar el microciclo, los días se muestran en modo de consulta. Los entrenamientos publican sus contenidos, duraciones e intensidad; los partidos publican el rival, el escudo y el torneo.
         </p>
       </div>
     </section>
@@ -1402,8 +2540,6 @@ button:disabled {
 <script>
 "use strict";
 
-/* CONFIGURACIÓN GENERAL */
-
 const CLAVE_PLANIFICACION = "microciclosPlanificacionADIUR_Sub16_v1";
 const CLAVE_CALENDARIO = "actividadesADIUR";
 const ORIGEN_PLANIFICACION = "planificacionMicrocicloADIUR";
@@ -1415,13 +2551,7 @@ const DIAS_SEMANA = [
   "Viernes", "Sábado", "Domingo"
 ];
 
-/*
-  CONFIGURACIÓN BASE:
-  Sub 10 y Sub 12 tienen dos entrenamientos y un partido.
-  Sus días son martes, jueves y sábado.
-  Las sesiones adicionales se incorporan únicamente con
-  el botón AGREGAR SESIÓN.
-*/
+const DIAS_RUTINA_GIMNASIO = ["Día 1", "Día 2", "Día 3"];
 
 const DIAS_BASE_POR_CATEGORIA = {
   "Sub 10": [1, 3, 5],
@@ -1447,8 +2577,8 @@ let semanaActual = 39;
 let fechaInicioActual = FECHA_REFERENCIA;
 let sesionesActuales = [];
 let temporizadorMensaje = null;
-
-/* COMPETICIONES POR CATEGORÍA */
+let modoEdicion = true;
+let microcicloGuardado = false;
 
 const COMPETICIONES_POR_DIVISION = {
   "Sub 10": ["Rosarina", "Copa Oro - ARF", "Copa Plata - ARF"],
@@ -1458,42 +2588,13 @@ const COMPETICIONES_POR_DIVISION = {
   "Primera": ["Fase Regular - ARF", "Copa Oro - ARF", "Copa Santa Fe", "Torneo Regional AFA"]
 };
 
-/* INTENSIDADES */
-
 const CONFIGURACION_INTENSIDAD = {
-  baja: {
-    etiqueta: "BAJA · VERDE",
-    color: "verde",
-    hex: "#2eaa62",
-    estado: "Bajo"
-  },
-  media: {
-    etiqueta: "MEDIA · AMARILLO",
-    color: "amarillo",
-    hex: "#f3c928",
-    estado: "Medio"
-  },
-  alta: {
-    etiqueta: "ALTA · ROJO",
-    color: "rojo",
-    hex: "#e74c3c",
-    estado: "Alto"
-  },
-  partido: {
-    etiqueta: "PARTIDO · AZUL",
-    color: "azul",
-    hex: "#2464c5",
-    estado: "Partido"
-  },
-  suspendido: {
-    etiqueta: "SUSPENDIDO · GRIS",
-    color: "gris",
-    hex: "#888888",
-    estado: "Suspendido"
-  }
+  baja: { etiqueta: "BAJA · VERDE", color: "verde", hex: "#2eaa62", estado: "Bajo" },
+  media: { etiqueta: "MEDIA · AMARILLO", color: "amarillo", hex: "#f3c928", estado: "Medio" },
+  alta: { etiqueta: "ALTA · ROJO", color: "rojo", hex: "#e74c3c", estado: "Alto" },
+  partido: { etiqueta: "PARTIDO · AZUL", color: "azul", hex: "#2464c5", estado: "Partido" },
+  suspendido: { etiqueta: "SUSPENDIDO · GRIS", color: "gris", hex: "#888888", estado: "Suspendido" }
 };
-
-/* CATÁLOGO DE CLUBES Y ESCUDOS */
 
 const ESCUDOS_CLUBES = [
   { nombre: "14 de Junio", ruta: "CLUBES/14 JUNIO.jpg" },
@@ -1526,7 +2627,7 @@ const ESCUDOS_CLUBES = [
   { nombre: "Villa Gobernador Gálvez", ruta: "CLUBES/VG GALVEZ.png" }
 ];
 
-/* PLANIFICACIONES HISTÓRICAS SUB 16 */
+/* HISTÓRICO DE MICROCICLOS */
 
 const microciclosData = {
   32: [
@@ -1603,7 +2704,9 @@ const microciclosData = {
   ]
 };
 
-/* UTILIDADES */
+/* =====================================================
+   UTILIDADES
+===================================================== */
 
 function escaparHTML(valor) {
   return String(valor ?? "")
@@ -1678,6 +2781,24 @@ function formatearFecha(fechaISO, incluirAnio = true) {
   return fecha.toLocaleDateString("es-AR", opciones);
 }
 
+function formatearRangoMicrociclo(fechaInicioISO) {
+  const fechaInicio = fechaISOaObjeto(fechaInicioISO);
+
+  if (!fechaInicio) return "Fechas pendientes";
+
+  const fechaFinalISO = sumarDiasISO(fechaInicioISO, 6);
+  const mesInicio = fechaInicio
+    .toLocaleDateString("es-AR", { month: "short" })
+    .replace(".", "")
+    .toLowerCase();
+
+  const diaInicio = String(fechaInicio.getDate()).padStart(2, "0");
+  const fechaInicioCorta = `${diaInicio}-${mesInicio}`;
+  const fechaFinal = formatearFecha(fechaFinalISO, true);
+
+  return `${fechaInicioCorta} al ${fechaFinal}`;
+}
+
 function obtenerFechaPredeterminada(numeroSemana) {
   const diferencia = (numeroSemana - SEMANA_REFERENCIA) * 7;
   return sumarDiasISO(FECHA_REFERENCIA, diferencia);
@@ -1746,7 +2867,23 @@ function detectarCompeticionEnTexto(texto, categoria) {
   return opciones[0];
 }
 
-/* PREFERENCIA DE CATEGORÍA */
+function normalizarDuracion(valor) {
+  if (valor === null || valor === undefined || valor === "") {
+    return "";
+  }
+
+  const numero = Number(valor);
+
+  if (!Number.isFinite(numero) || numero < 0) {
+    return "";
+  }
+
+  return String(numero);
+}
+
+/* =====================================================
+   PREFERENCIA DE CATEGORÍA
+===================================================== */
 
 function obtenerClavePreferenciaCategoria() {
   let usuario = "";
@@ -1783,15 +2920,278 @@ function guardarPreferenciaCategoria() {
   }
 }
 
-/* ESTRUCTURA DE SESIONES */
+/* =====================================================
+   CREACIÓN Y NORMALIZACIÓN DE BLOQUES
+===================================================== */
+
+function crearBloquesTTTVacios() {
+  return [
+    { contenido: "", duracion: "" },
+    { contenido: "", duracion: "" }
+  ];
+}
+
+function crearBloqueFisicoVacio() {
+  return {
+    tipo: "",
+    duracion: "",
+    diaRutina: "",
+    semanaRutina: "",
+    areaPasadas: "",
+    cantidadPasadas: "",
+    metrosPasada: "",
+    cantidadSaltos: "",
+    notaAnterior: ""
+  };
+}
+
+function crearBloquesFisicosVacios() {
+  return [
+    crearBloqueFisicoVacio(),
+    crearBloqueFisicoVacio()
+  ];
+}
+
+function normalizarBloquesEntrenamiento(bloquesGuardados, contenidoAntiguo = "") {
+  const textoAntiguo = String(contenidoAntiguo ?? "");
+
+  if (Array.isArray(bloquesGuardados)) {
+    const hayDatosEnBloques = bloquesGuardados.some(bloque =>
+      Boolean(String(bloque?.contenido ?? bloque?.texto ?? "").trim()) ||
+      Boolean(String(bloque?.duracion ?? "").trim())
+    );
+
+    if (hayDatosEnBloques || !textoAntiguo.trim()) {
+      const bloques = bloquesGuardados.slice(0, 3).map(bloque => ({
+        contenido: String(bloque?.contenido ?? bloque?.texto ?? ""),
+        duracion: normalizarDuracion(bloque?.duracion)
+      }));
+
+      while (bloques.length < 2) {
+        bloques.push({ contenido: "", duracion: "" });
+      }
+
+      return bloques;
+    }
+  }
+
+  return [
+    { contenido: textoAntiguo, duracion: "" },
+    { contenido: "", duracion: "" }
+  ];
+}
+
+function normalizarBloquesFisicos(bloquesGuardados, contenidoAntiguo = "") {
+  const textoAntiguo = String(contenidoAntiguo ?? "");
+
+  if (Array.isArray(bloquesGuardados)) {
+    const tieneEstructuraNueva = bloquesGuardados.some(bloque =>
+      bloque &&
+      typeof bloque === "object" &&
+      (
+        Object.prototype.hasOwnProperty.call(bloque, "tipo") ||
+        Object.prototype.hasOwnProperty.call(bloque, "diaRutina") ||
+        Object.prototype.hasOwnProperty.call(bloque, "semanaRutina") ||
+        Object.prototype.hasOwnProperty.call(bloque, "areaPasadas") ||
+        Object.prototype.hasOwnProperty.call(bloque, "cantidadSaltos") ||
+        Object.prototype.hasOwnProperty.call(bloque, "notaAnterior")
+      )
+    );
+
+    if (tieneEstructuraNueva) {
+      const bloques = bloquesGuardados.slice(0, 3).map(bloque => {
+        const diaGuardado = String(bloque?.diaRutina ?? "");
+        const semanaGuardada = String(bloque?.semanaRutina ?? "");
+        const semanaNumero = Number(semanaGuardada);
+
+        return {
+          ...crearBloqueFisicoVacio(),
+          tipo: ["Gimnasio", "Pasadas", "Pliometría"].includes(bloque?.tipo)
+            ? bloque.tipo
+            : "",
+          duracion: normalizarDuracion(bloque?.duracion),
+          diaRutina: DIAS_RUTINA_GIMNASIO.includes(diaGuardado)
+            ? diaGuardado
+            : "",
+          semanaRutina:
+            semanaGuardada !== "" &&
+            Number.isInteger(semanaNumero) &&
+            semanaNumero >= 1 &&
+            semanaNumero <= 6
+              ? String(semanaNumero)
+              : "",
+          areaPasadas: String(bloque?.areaPasadas ?? ""),
+          cantidadPasadas: String(bloque?.cantidadPasadas ?? ""),
+          metrosPasada: String(bloque?.metrosPasada ?? ""),
+          cantidadSaltos: String(bloque?.cantidadSaltos ?? ""),
+          notaAnterior: String(bloque?.notaAnterior ?? "")
+        };
+      });
+
+      while (bloques.length < 2) {
+        bloques.push(crearBloqueFisicoVacio());
+      }
+
+      return bloques;
+    }
+
+    const antiguos = bloquesGuardados
+      .slice(0, 3)
+      .map(bloque => ({
+        texto: String(bloque?.contenido ?? bloque?.texto ?? ""),
+        duracion: normalizarDuracion(bloque?.duracion)
+      }));
+
+    if (antiguos.some(bloque => bloque.texto.trim() || bloque.duracion)) {
+      const convertidos = antiguos.map(bloque => ({
+        ...crearBloqueFisicoVacio(),
+        duracion: bloque.duracion,
+        notaAnterior: bloque.texto
+      }));
+
+      while (convertidos.length < 2) {
+        convertidos.push(crearBloqueFisicoVacio());
+      }
+
+      return convertidos;
+    }
+  }
+
+  const bloques = crearBloquesFisicosVacios();
+
+  if (textoAntiguo.trim()) {
+    bloques[0].notaAnterior = textoAntiguo;
+  }
+
+  return bloques;
+}
+
+function describirBloqueFisico(bloque) {
+  if (!bloque) return "";
+
+  const tipo = String(bloque.tipo || "");
+  const partes = [];
+
+  if (tipo === "Gimnasio") {
+    const dia = String(bloque.diaRutina || "");
+    const semana = String(bloque.semanaRutina || "");
+
+    if (dia) partes.push(dia);
+    if (semana) partes.push("Semana " + semana);
+
+    if (partes.length) {
+      return "Gimnasio · " + partes.join(" · ");
+    }
+
+    return "Gimnasio · Rutina sin completar";
+  }
+
+  if (tipo === "Pasadas") {
+    const area = String(bloque.areaPasadas || "");
+    const cantidad = String(bloque.cantidadPasadas || "");
+    const metros = String(bloque.metrosPasada || "");
+
+    if (area) partes.push("Área: " + area);
+    if (cantidad) partes.push(cantidad + " pasadas");
+    if (metros) partes.push(metros + " m");
+
+    return "Pasadas" + (partes.length ? " · " + partes.join(" · ") : " · Datos pendientes");
+  }
+
+  if (tipo === "Pliometría") {
+    const saltos = String(bloque.cantidadSaltos || "");
+
+    return "Pliometría" +
+      (saltos ? " · " + saltos + " saltos" : " · Cantidad de saltos pendiente");
+  }
+
+  return "";
+}
+
+function actualizarCamposLegado(sesion) {
+  sesion.ttt = (sesion.tttBloques || [])
+    .map(bloque => String(bloque.contenido || "").trim())
+    .filter(Boolean)
+    .join("\n\n");
+
+  const lineasFisicas = [];
+
+  (sesion.fisicoBloques || []).forEach(bloque => {
+    if (bloque.tipo) {
+      lineasFisicas.push(describirBloqueFisico(bloque));
+    }
+
+    if (String(bloque.notaAnterior || "").trim()) {
+      lineasFisicas.push(String(bloque.notaAnterior).trim());
+    }
+  });
+
+  sesion.fisico = lineasFisicas.join("\n\n");
+}
+
+function obtenerDuracionParaTexto(duracion) {
+  const valor = String(duracion ?? "").trim();
+  return valor ? ` (${valor} min)` : "";
+}
+
+function obtenerLineasDeBloquesTTT(bloques) {
+  const lineas = [];
+
+  (Array.isArray(bloques) ? bloques : []).forEach((bloque, indice) => {
+    const contenido = String(bloque?.contenido ?? "").trim();
+    const duracion = String(bloque?.duracion ?? "").trim();
+
+    if (!contenido && !duracion) return;
+
+    const encabezado = "TTT · Bloque " + (indice + 1) + obtenerDuracionParaTexto(duracion);
+
+    lineas.push(
+      contenido ? encabezado + ": " + contenido : encabezado
+    );
+  });
+
+  return lineas;
+}
+
+function obtenerLineasDeBloquesFisicos(bloques) {
+  const lineas = [];
+
+  (Array.isArray(bloques) ? bloques : []).forEach((bloque, indice) => {
+    const descripcion = describirBloqueFisico(bloque);
+    const duracion = String(bloque?.duracion ?? "").trim();
+    const notaAnterior = String(bloque?.notaAnterior ?? "").trim();
+
+    if (descripcion) {
+      lineas.push(
+        "Físico · Bloque " + (indice + 1) +
+        obtenerDuracionParaTexto(duracion) + ": " + descripcion
+      );
+    }
+
+    if (notaAnterior) {
+      lineas.push(
+        "Contenido físico anterior · Bloque " + (indice + 1) + ": " + notaAnterior
+      );
+    }
+  });
+
+  return lineas;
+}
+
+/* =====================================================
+   SESIONES
+===================================================== */
 
 function crearSesionVacia(diaSemana = 0, intensidad = "media") {
   return {
     diaSemana,
     intensidad,
     ec: "",
+    ecDuracion: "",
     ttt: "",
+    tttBloques: crearBloquesTTTVacios(),
     fisico: "",
+    fisicoBloques: crearBloquesFisicosVacios(),
     rival: "",
     competicion: "",
     activa: false,
@@ -1845,14 +3245,33 @@ function normalizarSesion(registro, indicePredeterminado) {
     (original.ec || "") + " " + (original.ttt || "")
   );
 
-  const ec = original.ec || "";
-  const ttt = intensidad === "partido" ? "" : (original.ttt || "");
-  const fisico = original.fisico || original.bloqueFisico || "";
+  const ec = String(original.ec || "");
+  const ecDuracion = normalizarDuracion(original.ecDuracion ?? original.duracionEC);
+
+  const tttBloques = normalizarBloquesEntrenamiento(
+    original.tttBloques,
+    original.ttt || ""
+  );
+
+  const fisicoBloques = normalizarBloquesFisicos(
+    original.fisicoBloques,
+    original.fisico || original.bloqueFisico || ""
+  );
+
+  const ttt = tttBloques
+    .map(bloque => String(bloque.contenido || "").trim())
+    .filter(Boolean)
+    .join("\n\n");
 
   const tieneDatos =
     Boolean(ec.trim()) ||
+    Boolean(ecDuracion.trim()) ||
     Boolean(ttt.trim()) ||
-    Boolean(fisico.trim()) ||
+    fisicoBloques.some(bloque =>
+      Boolean(bloque.tipo) ||
+      Boolean(bloque.duracion) ||
+      Boolean(bloque.notaAnterior)
+    ) ||
     Boolean(original.rival) ||
     Boolean(original.competicion || original.torneo) ||
     intensidad === "partido" ||
@@ -1868,19 +3287,27 @@ function normalizarSesion(registro, indicePredeterminado) {
     activa = tieneDatos;
   }
 
-  return {
+  const sesion = {
     ...crearSesionVacia(diaSemana, intensidad),
     ec,
+    ecDuracion,
     ttt,
-    fisico,
+    tttBloques,
+    fisicoBloques,
     rival: original.rival || "",
     competicion: original.competicion || original.torneo || "",
     activa,
     extra: Boolean(original.extra)
   };
+
+  actualizarCamposLegado(sesion);
+
+  return sesion;
 }
 
-/* SESIONES PREDETERMINADAS POR CATEGORÍA */
+/* =====================================================
+   SESIONES PREDETERMINADAS
+===================================================== */
 
 function crearSesionesPredeterminadas(numeroSemana, categoria) {
   if (
@@ -1902,7 +3329,7 @@ function crearSesionesPredeterminadas(numeroSemana, categoria) {
 
       const esPartido = intensidad === "partido";
 
-      return {
+      const sesion = {
         ...crearSesionVacia(dia, intensidad),
         ec: esPartido || intensidad === "suspendido" ? "" : (dato.ec || ""),
         ttt: esPartido || intensidad === "suspendido" ? "" : (dato.ttt || ""),
@@ -1914,6 +3341,14 @@ function crearSesionesPredeterminadas(numeroSemana, categoria) {
         activa: true,
         extra: false
       };
+
+      sesion.tttBloques = normalizarBloquesEntrenamiento(
+        null,
+        sesion.ttt
+      );
+
+      actualizarCamposLegado(sesion);
+      return sesion;
     });
   }
 
@@ -1939,7 +3374,9 @@ function crearSesionesPredeterminadas(numeroSemana, categoria) {
   });
 }
 
-/* CARGA DE ALMACENAMIENTO */
+/* =====================================================
+   ALMACENAMIENTO
+===================================================== */
 
 function cargarAlmacen() {
   try {
@@ -2001,21 +3438,6 @@ function migrarSesionesAntiguas(listaAntigua, categoria) {
   });
 }
 
-/*
-  CORRECCIÓN PRINCIPAL:
-  normaliza Sub 10 y Sub 12 a sus tres días base:
-  martes, jueves y sábado.
-
-  Si el navegador conserva una planificación anterior de cuatro
-  días, se reutilizan martes y sábado y se traslada a jueves una
-  sesión de entrenamiento compatible, priorizando la que estaba
-  guardada para viernes.
-
-  Las sesiones marcadas como extra:true se conservan. Si una
-  sesión adicional ocupa uno de los días base, se reubica en el
-  primer día disponible para evitar duplicados.
-*/
-
 function ajustarSesionesBaseCategoria(sesiones, categoria) {
   if (categoria !== "Sub 10" && categoria !== "Sub 12") {
     return sesiones;
@@ -2026,7 +3448,6 @@ function ajustarSesionesBaseCategoria(sesiones, categoria) {
 
   const extras = sesiones.filter(sesion => sesion.extra);
   const baseDisponibles = sesiones.filter(sesion => !sesion.extra);
-
   const sesionesBaseAjustadas = [];
 
   for (let indice = 0; indice < cantidadBase; indice++) {
@@ -2037,15 +3458,11 @@ function ajustarSesionesBaseCategoria(sesiones, categoria) {
     );
 
     if (indiceEncontrado < 0) {
-      let diasPrioritarios;
-
-      if (diaObjetivo === 1) {
-        diasPrioritarios = [0, 2, 3, 4, 5, 6];
-      } else if (diaObjetivo === 3) {
-        diasPrioritarios = [4, 2, 0, 6, 1, 5];
-      } else {
-        diasPrioritarios = [4, 6, 3, 2, 1, 0];
-      }
+      const diasPrioritarios = diaObjetivo === 1
+        ? [0, 2, 3, 4, 5, 6]
+        : diaObjetivo === 3
+          ? [4, 2, 0, 6, 1, 5]
+          : [4, 6, 3, 2, 1, 0];
 
       for (const diaAlternativo of diasPrioritarios) {
         indiceEncontrado = baseDisponibles.findIndex(
@@ -2080,12 +3497,6 @@ function ajustarSesionesBaseCategoria(sesiones, categoria) {
       sesionesBaseAjustadas.push(nuevaSesion);
     }
   }
-
-  /*
-    Mantiene las sesiones adicionales que fueron agregadas
-    intencionalmente y evita que queden duplicadas en un día
-    que ahora forma parte de la distribución base.
-  */
 
   const diasOcupados = new Set(
     sesionesBaseAjustadas.map(sesion => Number(sesion.diaSemana))
@@ -2122,9 +3533,11 @@ function obtenerSemana(numeroSemana, categoria) {
 
   let fechaInicio = obtenerFechaPredeterminada(numeroSemana);
   let sesiones = null;
+  let confirmada = false;
 
   if (guardada && !Array.isArray(guardada) && typeof guardada === "object") {
     fechaInicio = guardada.fechaInicio || fechaInicio;
+    confirmada = guardada.guardada === true;
 
     if (Array.isArray(guardada.sesiones)) {
       sesiones = guardada.sesiones.map((sesion, indice) =>
@@ -2148,10 +3561,6 @@ function obtenerSemana(numeroSemana, categoria) {
     normalizarSesion(sesion, indice)
   );
 
-  /*
-    Aplica la normalización antes de completar sesiones faltantes.
-    Así no se mantienen las cuatro sesiones antiguas de Sub 10/Sub 12.
-  */
   sesiones = ajustarSesionesBaseCategoria(sesiones, categoria);
 
   while (sesiones.length < cantidadBase) {
@@ -2162,11 +3571,14 @@ function obtenerSemana(numeroSemana, categoria) {
 
   return {
     fechaInicio: normalizarALunes(fechaInicio),
-    sesiones
+    sesiones,
+    guardada: confirmada
   };
 }
 
-/* GUARDAR PLANIFICACIÓN */
+/* =====================================================
+   GUARDADO AUTOMÁTICO Y GUARDAR MICROCICLO
+===================================================== */
 
 function guardarDatosAutomaticamente(mostrarMensaje = false) {
   try {
@@ -2176,9 +3588,12 @@ function guardarDatosAutomaticamente(mostrarMensaje = false) {
       almacen[categoriaActual] = {};
     }
 
+    sesionesActuales.forEach(actualizarCamposLegado);
+
     almacen[categoriaActual][String(semanaActual)] = {
       fechaInicio: fechaInicioActual,
-      sesiones: sesionesActuales
+      sesiones: sesionesActuales,
+      guardada: microcicloGuardado
     };
 
     localStorage.setItem(CLAVE_PLANIFICACION, JSON.stringify(almacen));
@@ -2190,7 +3605,9 @@ function guardarDatosAutomaticamente(mostrarMensaje = false) {
     });
 
     actualizarEstadoGuardado(
-      "Planificación y calendario guardados · " + hora,
+      microcicloGuardado
+        ? "Microciclo guardado · " + hora
+        : "Borrador guardado automáticamente · " + hora,
       false
     );
 
@@ -2219,7 +3636,48 @@ function guardarDatosAutomaticamente(mostrarMensaje = false) {
 }
 
 function guardarSemana() {
-  guardarDatosAutomaticamente(true);
+  if (!modoEdicion) {
+    mostrarNotificacion("El microciclo ya está guardado. Elegí Editar microciclo para modificarlo.");
+    return;
+  }
+
+  microcicloGuardado = true;
+
+  const guardado = guardarDatosAutomaticamente(false);
+
+  if (!guardado) {
+    microcicloGuardado = false;
+    return;
+  }
+
+  modoEdicion = false;
+  renderizarSemana();
+
+  actualizarEstadoGuardado(
+    "Microciclo guardado y bloqueado para edición. Podés volver a editarlo cuando lo necesites.",
+    false
+  );
+
+  mostrarNotificacion(
+    "Microciclo guardado. Ahora podés consultar los días sin modificar los contenidos."
+  );
+}
+
+function editarSemana() {
+  if (modoEdicion) return;
+
+  modoEdicion = true;
+  microcicloGuardado = false;
+
+  renderizarSemana();
+  guardarDatosAutomaticamente(false);
+
+  actualizarEstadoGuardado(
+    "Modo edición activado. Los cambios se guardan automáticamente como borrador.",
+    false
+  );
+
+  mostrarNotificacion("Microciclo habilitado para editar. Guardalo cuando termines.");
 }
 
 function actualizarEstadoGuardado(texto, esError) {
@@ -2245,7 +3703,9 @@ function mostrarNotificacion(texto) {
   }, 3200);
 }
 
-/* CALENDARIO COMPARTIDO */
+/* =====================================================
+   CALENDARIO COMPARTIDO
+===================================================== */
 
 function leerActividadesCalendario() {
   try {
@@ -2283,15 +3743,24 @@ function obtenerTextoParaCalendario(sesion, fecha) {
   }
 
   const configuracion = obtenerConfiguracionIntensidad(sesion.intensidad);
-
   const lineas = [
     "Entrenamiento · " + categoriaActual,
     "Intensidad: " + configuracion.estado
   ];
 
-  if (sesion.ec.trim()) lineas.push("Entrada en calor: " + sesion.ec.trim());
-  if (sesion.ttt.trim()) lineas.push("TTT: " + sesion.ttt.trim());
-  if (sesion.fisico.trim()) lineas.push("Físico: " + sesion.fisico.trim());
+  if (sesion.ec.trim() || String(sesion.ecDuracion || "").trim()) {
+    const duracionEC = obtenerDuracionParaTexto(sesion.ecDuracion);
+    const contenidoEC = sesion.ec.trim();
+
+    lineas.push(
+      contenidoEC
+        ? `Entrada en calor${duracionEC}: ${contenidoEC}`
+        : `Entrada en calor${duracionEC}`
+    );
+  }
+
+  lineas.push(...obtenerLineasDeBloquesTTT(sesion.tttBloques));
+  lineas.push(...obtenerLineasDeBloquesFisicos(sesion.fisicoBloques));
 
   if (lineas.length === 2) {
     lineas.push("Contenidos pendientes de completar.");
@@ -2304,7 +3773,6 @@ function crearActividadCalendario(sesion, indice, fecha) {
   const configuracion = obtenerConfiguracionIntensidad(sesion.intensidad);
   const esPartido = sesion.intensidad === "partido";
   const esSuspendido = sesion.intensidad === "suspendido";
-
   const club = esPartido ? obtenerClubPorNombre(sesion.rival) : null;
 
   const idMicrociclo =
@@ -2363,8 +3831,11 @@ function crearActividadCalendario(sesion, indice, fecha) {
     imagenUrl: imagenRival,
     entradaCalor: (!esPartido && !esSuspendido) ? sesion.ec : "",
     ec: (!esPartido && !esSuspendido) ? sesion.ec : "",
+    duracionEntradaCalor: (!esPartido && !esSuspendido) ? sesion.ecDuracion : "",
     ttt: (!esPartido && !esSuspendido) ? sesion.ttt : "",
+    tttBloques: (!esPartido && !esSuspendido) ? clonarObjeto(sesion.tttBloques) : [],
     fisico: (!esPartido && !esSuspendido) ? sesion.fisico : "",
+    fisicoBloques: (!esPartido && !esSuspendido) ? clonarObjeto(sesion.fisicoBloques) : [],
     md: obtenerEtiquetaMD(sesion, indice).texto
   };
 }
@@ -2438,7 +3909,25 @@ function sincronizarCalendarioSemana() {
   localStorage.setItem(CLAVE_CALENDARIO, JSON.stringify(actividades));
 }
 
-/* CAMBIAR CATEGORÍA Y SEMANA */
+/* =====================================================
+   SELECTOR DE MICROCICLOS
+===================================================== */
+
+function obtenerEstadoRegistroSemana(registro, categoria, numero) {
+  if (registro && registro.guardada === true) {
+    return "Guardada";
+  }
+
+  if (registro) {
+    return "Borrador";
+  }
+
+  if (categoria === "Sub 16" && microciclosData[numero]) {
+    return "Histórico";
+  }
+
+  return "Nueva";
+}
 
 function actualizarSelectorSemana() {
   const selector = document.getElementById("selectMicrociclo");
@@ -2456,15 +3945,17 @@ function actualizarSelectorSemana() {
 
   for (let numero = minSemana; numero <= maxSemana; numero++) {
     const opcion = document.createElement("option");
-    opcion.value = String(numero);
+    const registro = semanasCategoria[String(numero)];
 
-    if (categoriaActual === "Sub 16" && microciclosData[numero]) {
-      opcion.textContent = "Semana " + numero;
-    } else if (semanasCategoria[String(numero)]) {
-      opcion.textContent = "Semana " + numero + " · Guardada";
-    } else {
-      opcion.textContent = "Semana " + numero + " · Nueva";
-    }
+    const fechaInicio = registro && registro.fechaInicio
+      ? normalizarALunes(registro.fechaInicio)
+      : obtenerFechaPredeterminada(numero);
+
+    const rango = formatearRangoMicrociclo(fechaInicio);
+    const estado = obtenerEstadoRegistroSemana(registro, categoriaActual, numero);
+
+    opcion.value = String(numero);
+    opcion.textContent = `Semana ${numero} · ${rango} · ${estado}`;
 
     selector.appendChild(opcion);
   }
@@ -2476,6 +3967,7 @@ function seleccionarSemana(valor) {
   const numero = Number(valor);
   if (!Number.isInteger(numero)) return;
 
+  // Guardar el microciclo que se está dejando sin cambiar su estado.
   guardarDatosAutomaticamente(false);
 
   semanaActual = numero;
@@ -2484,8 +3976,19 @@ function seleccionarSemana(valor) {
 
   fechaInicioActual = semana.fechaInicio;
   sesionesActuales = semana.sesiones;
+  microcicloGuardado = Boolean(semana.guardada);
+  modoEdicion = !microcicloGuardado;
 
   renderizarSemana();
+
+  actualizarEstadoGuardado(
+    microcicloGuardado
+      ? "Microciclo guardado · Modo de solo lectura."
+      : "Borrador disponible para editar. Los cambios se guardan automáticamente.",
+    false
+  );
+
+  // Se actualiza el calendario con el microciclo que ahora está seleccionado.
   guardarDatosAutomaticamente(false);
 }
 
@@ -2506,37 +4009,25 @@ function seleccionarCategoria(valor) {
 
   fechaInicioActual = semana.fechaInicio;
   sesionesActuales = semana.sesiones;
+  microcicloGuardado = Boolean(semana.guardada);
+  modoEdicion = !microcicloGuardado;
 
   renderizarSemana();
-  guardarDatosAutomaticamente(false);
 
+  actualizarEstadoGuardado(
+    microcicloGuardado
+      ? "Microciclo guardado · Modo de solo lectura."
+      : "Borrador disponible para editar. Los cambios se guardan automáticamente.",
+    false
+  );
+
+  guardarDatosAutomaticamente(false);
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-/* FECHA AUTOMÁTICA */
-
-function cambiarFechaInicioSemana(valor) {
-  if (!valor) return;
-
-  const lunes = normalizarALunes(valor);
-  if (!lunes) return;
-
-  fechaInicioActual = lunes;
-
-  renderizarSemana();
-  guardarDatosAutomaticamente(false);
-
-  if (valor !== lunes) {
-    mostrarNotificacion(
-      "La fecha de referencia se ajustó al lunes " +
-      formatearFecha(lunes, true) + "."
-    );
-  } else {
-    mostrarNotificacion("Fechas de las sesiones actualizadas.");
-  }
-}
-
-/* OPCIONES DE LOS SELECTORES */
+/* =====================================================
+   SELECTORES DE CAMPOS
+===================================================== */
 
 function crearOpcionesDias(valor) {
   return DIAS_SEMANA.map((dia, indice) => `
@@ -2581,7 +4072,46 @@ function crearOpcionesRivales(valor) {
   return html;
 }
 
-/* MATCH DAY */
+function crearOpcionesTipoFisico(valor) {
+  const opciones = [
+    { valor: "", etiqueta: "Seleccionar tipo..." },
+    { valor: "Gimnasio", etiqueta: "Gimnasio" },
+    { valor: "Pasadas", etiqueta: "Pasadas" },
+    { valor: "Pliometría", etiqueta: "Pliometría" }
+  ];
+
+  return opciones.map(opcion => `
+    <option value="${escaparHTML(opcion.valor)}" ${valor === opcion.valor ? "selected" : ""}>${escaparHTML(opcion.etiqueta)}</option>
+  `).join("");
+}
+
+function crearOpcionesDiaRutina(valor) {
+  let html = '<option value="">Seleccionar día...</option>';
+
+  html += DIAS_RUTINA_GIMNASIO.map(dia => `
+    <option value="${escaparHTML(dia)}" ${valor === dia ? "selected" : ""}>${escaparHTML(dia)}</option>
+  `).join("");
+
+  return html;
+}
+
+function crearOpcionesSemanaRutina(valor) {
+  let html = '<option value="">Seleccionar semana...</option>';
+
+  for (let semana = 1; semana <= 6; semana++) {
+    html += `
+      <option value="${semana}" ${String(valor) === String(semana) ? "selected" : ""}>
+        Semana ${semana}
+      </option>
+    `;
+  }
+
+  return html;
+}
+
+/* =====================================================
+   MATCH DAY
+===================================================== */
 
 function obtenerIndicePartido() {
   return sesionesActuales.findIndex(sesion => sesion.intensidad === "partido");
@@ -2632,7 +4162,9 @@ function actualizarReferenciaMD() {
     ". Las demás sesiones se identifican como MD-n antes del encuentro y MD+n después del encuentro.";
 }
 
-/* GENERAR CAMPOS DE TEXTO */
+/* =====================================================
+   CAMPO CON DURACIÓN: ENTRADA EN CALOR
+===================================================== */
 
 function campoTexto({
   indice,
@@ -2641,23 +4173,324 @@ function campoTexto({
   valor,
   placeholder,
   clase = "",
-  filas = 5
+  filas = 5,
+  duracion = ""
 }) {
   return `
-    <div class="campo campo-entrenamiento ${clase}">
-      <label for="campo-${indice}-${campo}">${etiqueta}</label>
-      <textarea
-        id="campo-${indice}-${campo}"
-        data-index="${indice}"
-        data-field="${campo}"
-        rows="${filas}"
-        placeholder="${escaparHTML(placeholder)}"
-      >${escaparHTML(valor)}</textarea>
+    <div class="campo-entrenamiento campo-con-duracion ${clase}">
+      <div class="campo contenido-entrenamiento">
+        <label for="campo-${indice}-${campo}">${etiqueta}</label>
+        <textarea
+          id="campo-${indice}-${campo}"
+          data-index="${indice}"
+          data-field="${campo}"
+          rows="${filas}"
+          placeholder="${escaparHTML(placeholder)}"
+        >${escaparHTML(valor)}</textarea>
+      </div>
+
+      <div class="campo campo-duracion">
+        <label for="campo-${indice}-${campo}Duracion">DURACIÓN</label>
+        <input
+          id="campo-${indice}-${campo}Duracion"
+          type="number"
+          min="0"
+          step="1"
+          inputmode="numeric"
+          data-index="${indice}"
+          data-field="${campo}Duracion"
+          value="${escaparHTML(duracion)}"
+          placeholder="Min"
+          aria-label="Duración en minutos de ${escaparHTML(etiqueta)}"
+        >
+        <span class="unidad-duracion">min</span>
+      </div>
     </div>
   `;
 }
 
-/* CONTENIDO DE SESIÓN SEGÚN INTENSIDAD */
+/* =====================================================
+   BLOQUES TTT
+===================================================== */
+
+function renderizarBloquesTTT(sesion, indice) {
+  sesion.tttBloques = normalizarBloquesEntrenamiento(
+    sesion.tttBloques,
+    sesion.ttt || ""
+  );
+
+  const bloquesHTML = sesion.tttBloques.map((bloque, indiceBloque) => `
+    <div class="bloque-subentrenamiento">
+      <div class="cabecera-subbloque">
+        <strong>TTT · BLOQUE ${indiceBloque + 1}</strong>
+        <span class="etiqueta-bloque">${indiceBloque + 1} DE ${sesion.tttBloques.length}</span>
+      </div>
+
+      <div class="campo-con-duracion">
+        <div class="campo contenido-entrenamiento">
+          <label for="campo-${indice}-tttBloques-${indiceBloque}-contenido">TAREA TÉCNICO-TÁCTICA</label>
+          <textarea
+            id="campo-${indice}-tttBloques-${indiceBloque}-contenido"
+            data-index="${indice}"
+            data-block-group="tttBloques"
+            data-block-index="${indiceBloque}"
+            data-block-field="contenido"
+            rows="5"
+            placeholder="Ejercicios, consignas tácticas, organización, espacios, series, pausas y objetivos..."
+          >${escaparHTML(bloque.contenido)}</textarea>
+        </div>
+
+        <div class="campo campo-duracion">
+          <label for="campo-${indice}-tttBloques-${indiceBloque}-duracion">DURACIÓN</label>
+          <input
+            id="campo-${indice}-tttBloques-${indiceBloque}-duracion"
+            type="number"
+            min="0"
+            step="1"
+            inputmode="numeric"
+            data-index="${indice}"
+            data-block-group="tttBloques"
+            data-block-index="${indiceBloque}"
+            data-block-field="duracion"
+            value="${escaparHTML(bloque.duracion)}"
+            placeholder="Min"
+            aria-label="Duración en minutos de TTT bloque ${indiceBloque + 1}"
+          >
+          <span class="unidad-duracion">min</span>
+        </div>
+      </div>
+    </div>
+  `).join("");
+
+  const botonAgregar = sesion.tttBloques.length < 3
+    ? `
+      <button
+        type="button"
+        class="boton-agregar-bloque"
+        onclick="agregarBloqueEntrenamiento(${indice}, 'tttBloques')"
+      >
+        <span class="mas">+</span>
+        AGREGAR TERCER BLOQUE
+      </button>
+    `
+    : "";
+
+  return `
+    <div class="subbloques-entrenamiento">
+      ${bloquesHTML}
+      ${botonAgregar}
+    </div>
+  `;
+}
+
+/* =====================================================
+   CAMPOS DINÁMICOS DE FÍSICO
+===================================================== */
+
+function renderizarDetallesFisicos(bloque, indice, indiceBloque) {
+  const base = `
+    data-index="${indice}"
+    data-block-group="fisicoBloques"
+    data-block-index="${indiceBloque}"
+  `;
+
+  if (bloque.tipo === "Gimnasio") {
+    return `
+      <div class="detalles-fisicos">
+        <div class="campo">
+          <label for="campo-${indice}-fisico-${indiceBloque}-diaRutina">DÍA DE RUTINA</label>
+          <select
+            id="campo-${indice}-fisico-${indiceBloque}-diaRutina"
+            ${base}
+            data-block-field="diaRutina"
+          >
+            ${crearOpcionesDiaRutina(bloque.diaRutina)}
+          </select>
+        </div>
+
+        <div class="campo">
+          <label for="campo-${indice}-fisico-${indiceBloque}-semanaRutina">SEMANA DE RUTINA</label>
+          <select
+            id="campo-${indice}-fisico-${indiceBloque}-semanaRutina"
+            ${base}
+            data-block-field="semanaRutina"
+          >
+            ${crearOpcionesSemanaRutina(bloque.semanaRutina)}
+          </select>
+        </div>
+      </div>
+    `;
+  }
+
+  if (bloque.tipo === "Pasadas") {
+    return `
+      <div class="detalles-fisicos">
+        <div class="campo campo-area-pasadas">
+          <label for="campo-${indice}-fisico-${indiceBloque}-areaPasadas">ÁREA A TRABAJAR</label>
+          <input
+            id="campo-${indice}-fisico-${indiceBloque}-areaPasadas"
+            type="text"
+            ${base}
+            data-block-field="areaPasadas"
+            value="${escaparHTML(bloque.areaPasadas)}"
+            placeholder="Escribí el área a trabajar..."
+          >
+        </div>
+
+        <div class="campo">
+          <label for="campo-${indice}-fisico-${indiceBloque}-cantidadPasadas">CANTIDAD</label>
+          <input
+            id="campo-${indice}-fisico-${indiceBloque}-cantidadPasadas"
+            type="number"
+            min="1"
+            step="1"
+            inputmode="numeric"
+            ${base}
+            data-block-field="cantidadPasadas"
+            value="${escaparHTML(bloque.cantidadPasadas)}"
+            placeholder="Pasadas"
+          >
+        </div>
+
+        <div class="campo">
+          <label for="campo-${indice}-fisico-${indiceBloque}-metrosPasada">METROS</label>
+          <input
+            id="campo-${indice}-fisico-${indiceBloque}-metrosPasada"
+            type="number"
+            min="1"
+            step="1"
+            inputmode="numeric"
+            ${base}
+            data-block-field="metrosPasada"
+            value="${escaparHTML(bloque.metrosPasada)}"
+            placeholder="Metros"
+          >
+        </div>
+      </div>
+    `;
+  }
+
+  if (bloque.tipo === "Pliometría") {
+    return `
+      <div class="detalles-fisicos">
+        <div class="campo">
+          <label for="campo-${indice}-fisico-${indiceBloque}-cantidadSaltos">CANTIDAD DE SALTOS</label>
+          <input
+            id="campo-${indice}-fisico-${indiceBloque}-cantidadSaltos"
+            type="number"
+            min="1"
+            step="1"
+            inputmode="numeric"
+            ${base}
+            data-block-field="cantidadSaltos"
+            value="${escaparHTML(bloque.cantidadSaltos)}"
+            placeholder="Saltos"
+          >
+        </div>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="detalle-fisico-vacio">
+      Seleccioná Gimnasio, Pasadas o Pliometría para completar los datos del bloque.
+    </div>
+  `;
+}
+
+function renderizarBloquesFisicos(sesion, indice) {
+  sesion.fisicoBloques = normalizarBloquesFisicos(
+    sesion.fisicoBloques,
+    sesion.fisico || ""
+  );
+
+  const bloquesHTML = sesion.fisicoBloques.map((bloque, indiceBloque) => {
+    const notaAnterior = String(bloque.notaAnterior || "").trim();
+
+    return `
+      <div class="bloque-subentrenamiento">
+        <div class="cabecera-subbloque">
+          <strong>FÍSICO · BLOQUE ${indiceBloque + 1}</strong>
+          <span class="etiqueta-bloque">${indiceBloque + 1} DE ${sesion.fisicoBloques.length}</span>
+        </div>
+
+        <div class="campo-con-duracion">
+          <div class="contenido-entrenamiento">
+            <div class="campo tipo-fisico">
+              <label for="campo-${indice}-fisico-${indiceBloque}-tipo">TIPO DE TRABAJO FÍSICO</label>
+              <select
+                id="campo-${indice}-fisico-${indiceBloque}-tipo"
+                data-index="${indice}"
+                data-block-group="fisicoBloques"
+                data-block-index="${indiceBloque}"
+                data-block-field="tipo"
+              >
+                ${crearOpcionesTipoFisico(bloque.tipo)}
+              </select>
+            </div>
+
+            ${renderizarDetallesFisicos(bloque, indice, indiceBloque)}
+
+            ${notaAnterior ? `
+              <div class="aviso-contenido-antiguo">
+                <strong>Contenido anterior conservado</strong>
+                ${escaparHTML(notaAnterior)}
+                <button
+                  type="button"
+                  class="boton-limpiar-legado"
+                  onclick="limpiarContenidoFisicoAnterior(${indice}, ${indiceBloque})"
+                >Quitar contenido anterior</button>
+              </div>
+            ` : ""}
+          </div>
+
+          <div class="campo campo-duracion">
+            <label for="campo-${indice}-fisico-${indiceBloque}-duracion">DURACIÓN</label>
+            <input
+              id="campo-${indice}-fisico-${indiceBloque}-duracion"
+              type="number"
+              min="0"
+              step="1"
+              inputmode="numeric"
+              data-index="${indice}"
+              data-block-group="fisicoBloques"
+              data-block-index="${indiceBloque}"
+              data-block-field="duracion"
+              value="${escaparHTML(bloque.duracion)}"
+              placeholder="Min"
+              aria-label="Duración en minutos de Físico bloque ${indiceBloque + 1}"
+            >
+            <span class="unidad-duracion">min</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  const botonAgregar = sesion.fisicoBloques.length < 3
+    ? `
+      <button
+        type="button"
+        class="boton-agregar-bloque"
+        onclick="agregarBloqueEntrenamiento(${indice}, 'fisicoBloques')"
+      >
+        <span class="mas">+</span>
+        AGREGAR TERCER BLOQUE
+      </button>
+    `
+    : "";
+
+  return `
+    <div class="subbloques-entrenamiento">
+      ${bloquesHTML}
+      ${botonAgregar}
+    </div>
+  `;
+}
+
+/* =====================================================
+   CONTENIDO DE LA SESIÓN EN MODO EDICIÓN
+===================================================== */
 
 function renderizarContenidoSesion(sesion, indice) {
   if (sesion.intensidad === "suspendido") {
@@ -2705,11 +4538,13 @@ function renderizarContenidoSesion(sesion, indice) {
         <span class="numero-bloque">1</span>
         ENTRADA EN CALOR
       </h5>
+
       ${campoTexto({
         indice,
         campo: "ec",
-        etiqueta: "Contenido de la entrada en calor",
+        etiqueta: "CONTENIDO DE LA ENTRADA EN CALOR",
         valor: sesion.ec,
+        duracion: sesion.ecDuracion,
         placeholder: "Movilidad, activación, coordinación, velocidad, juegos...",
         filas: 5
       })}
@@ -2720,14 +4555,8 @@ function renderizarContenidoSesion(sesion, indice) {
         <span class="numero-bloque">2</span>
         TTT · TAREA TÉCNICO-TÁCTICA
       </h5>
-      ${campoTexto({
-        indice,
-        campo: "ttt",
-        etiqueta: "Tareas técnico-tácticas",
-        valor: sesion.ttt,
-        placeholder: "Ejercicios, consignas, organización, espacios, series, pausas y objetivos...",
-        filas: 6
-      })}
+
+      ${renderizarBloquesTTT(sesion, indice)}
     </div>
 
     <div class="bloque-entrenamiento">
@@ -2735,20 +4564,11 @@ function renderizarContenidoSesion(sesion, indice) {
         <span class="numero-bloque">3</span>
         FÍSICO
       </h5>
-      ${campoTexto({
-        indice,
-        campo: "fisico",
-        etiqueta: "Contenido del bloque físico",
-        valor: sesion.fisico,
-        placeholder: "Fuerza, velocidad, resistencia, series, repeticiones, distancias, pausas...",
-        clase: "fisico",
-        filas: 5
-      })}
+
+      ${renderizarBloquesFisicos(sesion, indice)}
     </div>
   `;
 }
-
-/* VISTA PREVIA DEL ESCUDO */
 
 function crearHTMLPreviewRival(nombre) {
   const club = obtenerClubPorNombre(nombre);
@@ -2773,7 +4593,199 @@ function crearHTMLPreviewRival(nombre) {
   `;
 }
 
-/* TARJETAS DE SESIÓN */
+/* =====================================================
+   NUEVA VISTA DE SOLO LECTURA
+===================================================== */
+
+function crearHTMLContenidoLectura(titulo, contenido, duracion = "", numero = "") {
+  const texto = String(contenido ?? "").trim();
+  const tiempo = String(duracion ?? "").trim();
+
+  if (!texto && !tiempo) return "";
+
+  const identificador = numero ? " · BLOQUE " + numero : "";
+
+  return `
+    <div class="lectura-bloque">
+      <div class="lectura-bloque-cabecera">
+        <strong>${escaparHTML(titulo + identificador)}</strong>
+        ${tiempo ? `<span class="lectura-duracion">${escaparHTML(tiempo)} min</span>` : ""}
+      </div>
+      ${texto
+        ? `<p class="lectura-contenido">${escaparHTML(texto)}</p>`
+        : `<p class="lectura-vacio">Contenido pendiente de completar.</p>`
+      }
+    </div>
+  `;
+}
+
+function crearHTMLLecturaFisica(bloque, indiceBloque) {
+  const descripcion = describirBloqueFisico(bloque);
+  const duracion = String(bloque?.duracion ?? "").trim();
+  const notaAnterior = String(bloque?.notaAnterior ?? "").trim();
+
+  if (!descripcion && !duracion && !notaAnterior) {
+    return "";
+  }
+
+  let contenido = descripcion;
+
+  if (bloque.tipo === "Pasadas") {
+    const detalles = [];
+    if (bloque.areaPasadas) detalles.push("Área: " + bloque.areaPasadas);
+    if (bloque.cantidadPasadas) detalles.push(bloque.cantidadPasadas + " pasadas");
+    if (bloque.metrosPasada) detalles.push(bloque.metrosPasada + " metros");
+    contenido = detalles.length ? detalles.join(" · ") : "Datos de pasadas pendientes";
+  } else if (bloque.tipo === "Gimnasio") {
+    const detalles = [];
+    if (bloque.diaRutina) detalles.push(bloque.diaRutina);
+    if (bloque.semanaRutina) detalles.push("Semana " + bloque.semanaRutina);
+    contenido = detalles.length ? detalles.join(" · ") : "Datos de rutina pendientes";
+  } else if (bloque.tipo === "Pliometría") {
+    contenido = bloque.cantidadSaltos
+      ? bloque.cantidadSaltos + " saltos"
+      : "Cantidad de saltos pendiente";
+  }
+
+  let html = "";
+
+  if (descripcion || duracion) {
+    html += `
+      <div class="lectura-bloque">
+        <div class="lectura-bloque-cabecera">
+          <strong>FÍSICO · BLOQUE ${indiceBloque + 1} · ${escaparHTML(bloque.tipo || "Sin tipo")}</strong>
+          ${duracion ? `<span class="lectura-duracion">${escaparHTML(duracion)} min</span>` : ""}
+        </div>
+        <p class="lectura-contenido">${escaparHTML(contenido || descripcion)}</p>
+      </div>
+    `;
+  }
+
+  if (notaAnterior) {
+    html += `
+      <div class="lectura-bloque">
+        <div class="lectura-bloque-cabecera">
+          <strong>CONTENIDO FÍSICO ANTERIOR · BLOQUE ${indiceBloque + 1}</strong>
+        </div>
+        <p class="lectura-contenido">${escaparHTML(notaAnterior)}</p>
+      </div>
+    `;
+  }
+
+  return html;
+}
+
+function renderizarContenidoSesionLectura(sesion, indice) {
+  if (sesion.intensidad === "suspendido") {
+    return `
+      <div class="bloque-suspendido">
+        <div class="icono-suspendido">—</div>
+        <strong>SESIÓN SUSPENDIDA</strong>
+        <p>Esta sesión quedó registrada como suspendida.</p>
+      </div>
+    `;
+  }
+
+  if (sesion.intensidad === "partido") {
+    const club = obtenerClubPorNombre(sesion.rival);
+    const rival = sesion.rival || "Rival a confirmar";
+    const competicion = sesion.competicion || "Competición a confirmar";
+
+    return `
+      <section class="lectura-seccion">
+        <h5 class="lectura-titulo">
+          <span class="lectura-numero">MD</span>
+          INFORMACIÓN DEL PARTIDO
+        </h5>
+
+        <div class="lectura-partido">
+          <div class="preview-rival">
+            ${club
+              ? `
+                <img
+                  class="imagen-rival"
+                  src="${escaparHTML(club.ruta)}"
+                  alt="Escudo de ${escaparHTML(club.nombre)}"
+                  onerror="this.style.display='none';"
+                >
+              `
+              : `<div class="placeholder-rival" aria-hidden="true">⚽</div>`
+            }
+            <span class="nombre-preview-rival">${escaparHTML(rival)}</span>
+          </div>
+
+          <div class="lectura-etiquetas">
+            <span class="lectura-etiqueta">
+              <strong>Torneo:</strong> ${escaparHTML(competicion)}
+            </span>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  const bloquesTTT = (sesion.tttBloques || [])
+    .map((bloque, indiceBloque) =>
+      crearHTMLContenidoLectura(
+        "TTT · Tarea técnico-táctica",
+        bloque.contenido,
+        bloque.duracion,
+        indiceBloque + 1
+      )
+    )
+    .filter(Boolean)
+    .join("");
+
+  const bloquesFisicos = (sesion.fisicoBloques || [])
+    .map((bloque, indiceBloque) =>
+      crearHTMLLecturaFisica(bloque, indiceBloque)
+    )
+    .filter(Boolean)
+    .join("");
+
+  const contenidoEC = String(sesion.ec || "").trim();
+  const duracionEC = String(sesion.ecDuracion || "").trim();
+
+  return `
+    <section class="lectura-seccion">
+      <h5 class="lectura-titulo">
+        <span class="lectura-numero">1</span>
+        ENTRADA EN CALOR
+      </h5>
+
+      ${contenidoEC || duracionEC
+        ? crearHTMLContenidoLectura(
+            "Entrada en calor",
+            contenidoEC,
+            duracionEC
+          )
+        : `<p class="lectura-vacio">Sin contenido registrado.</p>`
+      }
+    </section>
+
+    <section class="lectura-seccion">
+      <h5 class="lectura-titulo">
+        <span class="lectura-numero">2</span>
+        TTT · TAREA TÉCNICO-TÁCTICA
+      </h5>
+
+      ${bloquesTTT || `<p class="lectura-vacio">Sin bloques técnico-tácticos registrados.</p>`}
+    </section>
+
+    <section class="lectura-seccion">
+      <h5 class="lectura-titulo">
+        <span class="lectura-numero">3</span>
+        FÍSICO
+      </h5>
+
+      ${bloquesFisicos || `<p class="lectura-vacio">Sin bloques físicos registrados.</p>`}
+    </section>
+  `;
+}
+
+/* =====================================================
+   TARJETAS DE SESIÓN · EDICIÓN
+===================================================== */
 
 function crearTarjetaSesion(sesion, indice) {
   const fecha = obtenerFechaDeSesion(sesion);
@@ -2798,6 +4810,7 @@ function crearTarjetaSesion(sesion, indice) {
 
           <div class="acciones-cabecera-dia">
             <span class="etiqueta-md ${md.clase}">${escaparHTML(md.texto)}</span>
+
             ${puedeEliminar ? `
               <button
                 type="button"
@@ -2848,16 +4861,65 @@ function crearTarjetaSesion(sesion, indice) {
   `;
 }
 
-/* RENDERIZADO GENERAL */
+/* =====================================================
+   TARJETAS DE SESIÓN · SOLO LECTURA
+===================================================== */
 
-function actualizarTituloSemana() {
-  const domingo = sumarDiasISO(fechaInicioActual, 6);
+function crearTarjetaSesionSoloLectura(sesion, indice) {
+  const md = obtenerEtiquetaMD(sesion, indice);
+  const configuracion = obtenerConfiguracionIntensidad(sesion.intensidad);
 
-  document.getElementById("tituloSemanaActual").textContent =
-    "Semana " + semanaActual + " · " +
-    formatearFecha(fechaInicioActual, false) + " al " +
-    formatearFecha(domingo, true);
+  const claseEstado = sesion.intensidad === "partido"
+    ? "partido"
+    : sesion.intensidad === "suspendido"
+      ? "suspendido"
+      : sesion.intensidad;
+
+  const fecha = obtenerFechaDeSesion(sesion);
+
+  return `
+    <article
+      class="tarjeta-dia modo-lectura"
+      id="sesion-${indice}"
+      data-intensidad="${sesion.intensidad}"
+    >
+      <header class="cabecera-dia">
+        <div class="primera-linea-dia">
+          <div class="identidad-dia">
+            <div class="numero-sesion">S${indice + 1}</div>
+            <div>
+              <h4 class="nombre-dia">${escaparHTML(DIAS_SEMANA[sesion.diaSemana])}</h4>
+              <span class="fecha-calculada">${escaparHTML(formatearFecha(fecha, true))}</span>
+            </div>
+          </div>
+
+          <div class="acciones-cabecera-dia">
+            <span class="etiqueta-md ${md.clase}">${escaparHTML(md.texto)}</span>
+          </div>
+        </div>
+
+        <div class="lectura-etiquetas">
+          <span class="lectura-estado ${claseEstado}">
+            ${escaparHTML(configuracion.etiqueta)}
+          </span>
+        </div>
+      </header>
+
+      <div class="cuerpo-dia">
+        ${renderizarContenidoSesionLectura(sesion, indice)}
+      </div>
+
+      <footer class="pie-dia">
+        <strong>SESIÓN ${indice + 1}</strong>
+        · MICROCICLO GUARDADO
+      </footer>
+    </article>
+  `;
 }
+
+/* =====================================================
+   RENDERIZADO GENERAL
+===================================================== */
 
 function actualizarEstadoMicrociclo() {
   const partidos = sesionesActuales.filter(sesion =>
@@ -2871,35 +4933,31 @@ function actualizarEstadoMicrociclo() {
   const estado = document.getElementById("estadoMicrociclo");
   const texto = document.getElementById("textoEstadoMicrociclo");
 
-  estado.classList.remove("con-partido", "con-suspendido");
+  estado.classList.remove(
+    "con-partido",
+    "con-suspendido",
+    "microciclo-guardado",
+    "microciclo-edicion"
+  );
+
+  if (!modoEdicion && microcicloGuardado) {
+    estado.classList.add("microciclo-guardado");
+    texto.textContent = "Guardado · Solo lectura";
+    return;
+  }
+
+  estado.classList.add("microciclo-edicion");
 
   if (suspendidos > 0) {
     estado.classList.add("con-suspendido");
-  } else if (partidos > 0) {
-    estado.classList.add("con-partido");
-  }
-
-  if (suspendidos > 0) {
-    texto.textContent = "Hay sesiones suspendidas";
+    texto.textContent = "Borrador · Hay sesiones suspendidas";
   } else if (partidos === 0) {
-    texto.textContent = "Partido sin definir";
+    texto.textContent = "Borrador · Partido sin definir";
   } else if (partidos === 1) {
-    texto.textContent = "Partido definido";
+    texto.textContent = "Borrador · Partido definido";
   } else {
-    texto.textContent = "Más de un partido";
-  }
-}
-
-function actualizarDescripcionCategoria() {
-  const cantidadBase = CANTIDAD_SESIONES_BASE[categoriaActual] || 4;
-
-  if (categoriaActual === "Sub 10" || categoriaActual === "Sub 12") {
-    document.getElementById("descripcionSesiones").textContent =
-      "Dos días de entrenamiento (martes y jueves) y un partido (sábado), con opción de agregar sesiones.";
-  } else {
-    document.getElementById("descripcionSesiones").textContent =
-      (cantidadBase - 1) +
-      " días de entrenamiento y un partido, con opción de agregar sesiones.";
+    estado.classList.add("con-partido");
+    texto.textContent = "Borrador · Más de un partido";
   }
 }
 
@@ -2912,35 +4970,45 @@ function actualizarBotonAgregar() {
 
   const noHayDiasDisponibles = diasOcupados.size >= DIAS_SEMANA.length;
 
-  boton.disabled = noHayDiasDisponibles;
+  boton.disabled = !modoEdicion || noHayDiasDisponibles;
 
-  boton.title = noHayDiasDisponibles
-    ? "Ya hay una sesión asignada a cada día de la semana."
-    : "Agregar una sesión adicional.";
+  boton.title = !modoEdicion
+    ? "Para agregar una sesión, primero elegí Editar microciclo."
+    : noHayDiasDisponibles
+      ? "Ya hay una sesión asignada a cada día de la semana."
+      : "Agregar una sesión adicional.";
+}
+
+function actualizarControlesEdicion() {
+  const botonGuardar = document.getElementById("botonGuardarSemana");
+  const botonEditar = document.getElementById("botonEditarSemana");
+  const aviso = document.getElementById("avisoSoloLectura");
+
+  botonGuardar.hidden = !modoEdicion;
+  botonEditar.hidden = modoEdicion;
+  aviso.hidden = modoEdicion;
 }
 
 function renderizarSemana() {
   document.getElementById("selectCategoria").value = categoriaActual;
 
-  document.getElementById("etiquetaCategoria").textContent =
-    "⚽ CATEGORÍA " + categoriaActual.toUpperCase();
-
-  document.getElementById("fechaInicioSemana").value = fechaInicioActual;
-
   actualizarSelectorSemana();
-  actualizarTituloSemana();
   actualizarReferenciaMD();
   actualizarEstadoMicrociclo();
-  actualizarDescripcionCategoria();
   actualizarBotonAgregar();
+  actualizarControlesEdicion();
 
   document.getElementById("gridMicrociclo").innerHTML =
     sesionesActuales.map((sesion, indice) =>
-      crearTarjetaSesion(sesion, indice)
+      modoEdicion
+        ? crearTarjetaSesion(sesion, indice)
+        : crearTarjetaSesionSoloLectura(sesion, indice)
     ).join("");
 }
 
-/* AGREGAR SESIÓN */
+/* =====================================================
+   AGREGAR SESIÓN
+===================================================== */
 
 function obtenerPrimerDiaLibre() {
   const ocupados = new Set(
@@ -2951,6 +5019,11 @@ function obtenerPrimerDiaLibre() {
 }
 
 function agregarSesion() {
+  if (!modoEdicion) {
+    mostrarNotificacion("Para agregar una sesión, primero elegí Editar microciclo.");
+    return;
+  }
+
   if (sesionesActuales.length >= DIAS_SEMANA.length) {
     mostrarNotificacion("Ya hay una sesión asignada a cada día de la semana.");
     return;
@@ -2988,9 +5061,94 @@ function agregarSesion() {
   }
 }
 
-/* ELIMINAR SESIÓN ADICIONAL */
+/* =====================================================
+   AGREGAR BLOQUE TTT O FÍSICO
+===================================================== */
+
+function agregarBloqueEntrenamiento(indice, grupo) {
+  if (!modoEdicion) {
+    mostrarNotificacion("Primero elegí Editar microciclo.");
+    return;
+  }
+
+  const sesion = sesionesActuales[indice];
+
+  if (!sesion || !["tttBloques", "fisicoBloques"].includes(grupo)) {
+    return;
+  }
+
+  if (!Array.isArray(sesion[grupo])) {
+    sesion[grupo] = grupo === "tttBloques"
+      ? crearBloquesTTTVacios()
+      : crearBloquesFisicosVacios();
+  }
+
+  if (sesion[grupo].length >= 3) {
+    mostrarNotificacion("Esta sección ya tiene sus tres bloques.");
+    return;
+  }
+
+  if (grupo === "tttBloques") {
+    sesion[grupo].push({ contenido: "", duracion: "" });
+  } else {
+    sesion[grupo].push(crearBloqueFisicoVacio());
+  }
+
+  actualizarCamposLegado(sesion);
+  sesion.activa = true;
+
+  renderizarSemana();
+  guardarDatosAutomaticamente(false);
+
+  const textoSeccion = grupo === "tttBloques" ? "TTT" : "Físico";
+  mostrarNotificacion("Se agregó un bloque de " + textoSeccion + ".");
+
+  const nuevoElemento = grupo === "tttBloques"
+    ? document.getElementById(`campo-${indice}-tttBloques-2-contenido`)
+    : document.getElementById(`campo-${indice}-fisico-2-tipo`);
+
+  if (nuevoElemento) {
+    nuevoElemento.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+
+    nuevoElemento.focus({ preventScroll: true });
+  }
+}
+
+function limpiarContenidoFisicoAnterior(indice, indiceBloque) {
+  if (!modoEdicion) {
+    mostrarNotificacion("Primero elegí Editar microciclo.");
+    return;
+  }
+
+  const sesion = sesionesActuales[indice];
+
+  if (!sesion || !Array.isArray(sesion.fisicoBloques)) return;
+  if (!sesion.fisicoBloques[indiceBloque]) return;
+
+  sesion.fisicoBloques[indiceBloque].notaAnterior = "";
+
+  actualizarCamposLegado(sesion);
+  sesion.activa = true;
+
+  renderizarSemana();
+  guardarDatosAutomaticamente(false);
+
+  mostrarNotificacion("Se quitó el texto físico anterior.");
+}
+
+/* =====================================================
+   ELIMINAR SESIÓN ADICIONAL
+===================================================== */
 
 function eliminarSesion(indice) {
+  if (!modoEdicion) {
+    mostrarNotificacion("Primero elegí Editar microciclo.");
+    return;
+  }
+
   const sesion = sesionesActuales[indice];
   if (!sesion || !sesion.extra) return;
 
@@ -3009,23 +5167,80 @@ function eliminarSesion(indice) {
   mostrarNotificacion("La sesión adicional fue eliminada.");
 }
 
-/* EDICIÓN DE CAMPOS */
+/* =====================================================
+   EDICIÓN DE CAMPOS
+===================================================== */
 
 function procesarEntrada(evento) {
+  if (!modoEdicion) return;
+
   const elemento = evento.target;
 
-  if (!elemento?.dataset?.field) return;
+  if (!elemento) return;
   if (elemento.tagName === "SELECT") return;
 
-  const indice = Number(elemento.dataset.index);
-  const campo = elemento.dataset.field;
+  const grupoBloques = elemento.dataset.blockGroup;
+  const tieneCampoNormal = Boolean(elemento.dataset.field);
 
-  if (!Number.isInteger(indice) || !sesionesActuales[indice] || !campo) {
+  if (!grupoBloques && !tieneCampoNormal) return;
+
+  const indice = Number(elemento.dataset.index);
+
+  if (
+    !Number.isInteger(indice) ||
+    !sesionesActuales[indice]
+  ) {
     return;
   }
 
-  sesionesActuales[indice][campo] = elemento.value;
-  sesionesActuales[indice].activa = true;
+  const sesion = sesionesActuales[indice];
+
+  if (grupoBloques) {
+    const indiceBloque = Number(elemento.dataset.blockIndex);
+    const campoBloque = elemento.dataset.blockField;
+    const bloques = sesion[grupoBloques];
+
+    if (
+      !Array.isArray(bloques) ||
+      !Number.isInteger(indiceBloque) ||
+      !bloques[indiceBloque] ||
+      !campoBloque
+    ) {
+      return;
+    }
+
+    const camposPermitidos = grupoBloques === "tttBloques"
+      ? ["contenido", "duracion"]
+      : [
+          "duracion",
+          "semanaRutina",
+          "areaPasadas",
+          "cantidadPasadas",
+          "metrosPasada",
+          "cantidadSaltos"
+        ];
+
+    if (!camposPermitidos.includes(campoBloque)) return;
+
+    bloques[indiceBloque][campoBloque] =
+      campoBloque === "duracion"
+        ? normalizarDuracion(elemento.value)
+        : elemento.value;
+
+    actualizarCamposLegado(sesion);
+  } else {
+    const campo = elemento.dataset.field;
+
+    if (!campo) return;
+
+    if (campo === "ecDuracion") {
+      sesion[campo] = normalizarDuracion(elemento.value);
+    } else {
+      sesion[campo] = elemento.value;
+    }
+  }
+
+  sesion.activa = true;
 
   guardarDatosAutomaticamente(false);
 
@@ -3038,9 +5253,112 @@ function procesarEntrada(evento) {
 }
 
 function procesarCambio(evento) {
+  if (!modoEdicion) return;
+
   const elemento = evento.target;
 
-  if (!elemento?.dataset?.field) return;
+  if (!elemento) return;
+
+  const grupoBloques = elemento.dataset.blockGroup;
+
+  if (grupoBloques) {
+    const indice = Number(elemento.dataset.index);
+    const indiceBloque = Number(elemento.dataset.blockIndex);
+    const campoBloque = elemento.dataset.blockField;
+
+    if (
+      !Number.isInteger(indice) ||
+      !sesionesActuales[indice] ||
+      !["tttBloques", "fisicoBloques"].includes(grupoBloques)
+    ) {
+      return;
+    }
+
+    const sesion = sesionesActuales[indice];
+    const bloques = sesion[grupoBloques];
+
+    if (
+      !Array.isArray(bloques) ||
+      !Number.isInteger(indiceBloque) ||
+      !bloques[indiceBloque] ||
+      !campoBloque
+    ) {
+      return;
+    }
+
+    const bloque = bloques[indiceBloque];
+
+    if (grupoBloques === "fisicoBloques" && campoBloque === "tipo") {
+      const tipoNuevo = elemento.value;
+
+      if (!["", "Gimnasio", "Pasadas", "Pliometría"].includes(tipoNuevo)) {
+        return;
+      }
+
+      const duracionConservada = bloque.duracion;
+      const notaConservada = bloque.notaAnterior;
+
+      Object.assign(bloque, crearBloqueFisicoVacio());
+
+      bloque.tipo = tipoNuevo;
+      bloque.duracion = duracionConservada;
+      bloque.notaAnterior = notaConservada;
+
+      actualizarCamposLegado(sesion);
+      sesion.activa = true;
+
+      renderizarSemana();
+      guardarDatosAutomaticamente(false);
+      return;
+    }
+
+    if (grupoBloques === "tttBloques") {
+      if (!["contenido", "duracion"].includes(campoBloque)) return;
+
+      bloque[campoBloque] = elemento.value;
+    } else {
+      const camposFisicosPermitidos = [
+        "diaRutina",
+        "semanaRutina",
+        "areaPasadas",
+        "cantidadPasadas",
+        "metrosPasada",
+        "cantidadSaltos",
+        "duracion"
+      ];
+
+      if (!camposFisicosPermitidos.includes(campoBloque)) return;
+
+      if (campoBloque === "semanaRutina") {
+        const semana = Number(elemento.value);
+
+        bloque[campoBloque] =
+          elemento.value !== "" &&
+          Number.isInteger(semana) &&
+          semana >= 1 &&
+          semana <= 6
+            ? String(semana)
+            : "";
+      } else if (campoBloque === "diaRutina") {
+        bloque[campoBloque] = DIAS_RUTINA_GIMNASIO.includes(elemento.value)
+          ? elemento.value
+          : "";
+      } else {
+        bloque[campoBloque] =
+          campoBloque === "duracion"
+            ? normalizarDuracion(elemento.value)
+            : elemento.value;
+      }
+    }
+
+    actualizarCamposLegado(sesion);
+    sesion.activa = true;
+
+    guardarDatosAutomaticamente(false);
+    return;
+  }
+
+  if (!elemento.dataset.field) return;
 
   const indice = Number(elemento.dataset.index);
   const campo = elemento.dataset.field;
@@ -3101,7 +5419,9 @@ function procesarCambio(evento) {
   guardarDatosAutomaticamente(false);
 }
 
-/* CAMBIAR RIVAL Y ESCUDO */
+/* =====================================================
+   VISTA DEL RIVAL
+===================================================== */
 
 function actualizarVistaRival(indice) {
   const sesion = sesionesActuales[indice];
@@ -3113,7 +5433,9 @@ function actualizarVistaRival(indice) {
   preview.innerHTML = crearHTMLPreviewRival(sesion.rival);
 }
 
-/* MENÚ LATERAL */
+/* =====================================================
+   MENÚ LATERAL
+===================================================== */
 
 function alternarSidebar() {
   const sidebar = document.getElementById("sidebar");
@@ -3152,7 +5474,9 @@ function cerrarSesion(evento) {
   window.location.href = "Loing.html";
 }
 
-/* PERFIL */
+/* =====================================================
+   PERFIL
+===================================================== */
 
 function inicializarPerfil() {
   let usuario = null;
@@ -3218,7 +5542,9 @@ function inicializarPerfil() {
   document.getElementById("avatarUsuario").textContent = iniciales || "DT";
 }
 
-/* INICIALIZACIÓN */
+/* =====================================================
+   INICIALIZACIÓN
+===================================================== */
 
 function inicializarPlanificacion() {
   inicializarPerfil();
@@ -3230,6 +5556,8 @@ function inicializarPlanificacion() {
 
   fechaInicioActual = semana.fechaInicio;
   sesionesActuales = semana.sesiones;
+  microcicloGuardado = Boolean(semana.guardada);
+  modoEdicion = !microcicloGuardado;
 
   renderizarSemana();
 
@@ -3240,15 +5568,11 @@ function inicializarPlanificacion() {
     .addEventListener("change", procesarCambio);
 
   actualizarEstadoGuardado(
-    "Los cambios se guardan automáticamente en este navegador.",
+    microcicloGuardado
+      ? "Microciclo guardado · Modo de solo lectura."
+      : "Borrador disponible para editar. Los cambios se guardan automáticamente.",
     false
   );
-
-  /*
-    Guarda también la estructura normalizada. De este modo,
-    al abrir nuevamente Sub 10 o Sub 12 no vuelve a aparecer
-    la cuarta sesión heredada.
-  */
 
   guardarDatosAutomaticamente(false);
 
