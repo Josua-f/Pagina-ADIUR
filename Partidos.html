@@ -14,15 +14,15 @@
     --naranja: #f47721;
     --naranja-oscuro: #dc5e0b;
     --naranja-claro: #fff0e6;
-    --naranja-suave: #fff3e9;
+    --naranja-suave: #fff7f1;
     --negro: #171717;
     --rojo: #a00000;
-    --fondo: #f5f5f5;
-    --texto: #222;
-    --borde: #e8e8e8;
+    --fondo: #f7f8fa;
+    --texto: #242424;
+    --borde: #e7e9ed;
     --gris: #f4f5f7;
-    --gris-texto: #747474;
-    --sombra: 0 4px 18px rgba(0,0,0,.045);
+    --gris-texto: #737782;
+    --sombra: 0 3px 14px rgba(23,23,23,.035);
 }
 
 * {
@@ -32,19 +32,22 @@
     font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
+}
+
 body {
     background: var(--fondo);
     color: var(--texto);
+    -webkit-font-smoothing: antialiased;
 }
 
-button,
-input,
-select {
+button, input, select {
     font: inherit;
 }
 
-button,
-a {
+button, a {
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -57,10 +60,22 @@ a {
     text-decoration: none;
 }
 
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 3px solid rgba(244,119,33,.24);
+    outline-offset: 2px;
+}
+
 /* =====================================================
    BARRA SUPERIOR
-   DISEÑO DE ADIUR FEMENINO
 ===================================================== */
+
+.barra-superior,
+.barra-superior * {
+    font-family: Arial, Helvetica, sans-serif;
+}
 
 .barra-superior {
     position: sticky;
@@ -71,28 +86,30 @@ a {
     gap: 15px;
     min-height: 84px;
     padding: 12px 25px;
-    background: #fff;
+    background: rgba(255,255,255,.97);
     border-bottom: 1px solid var(--borde);
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.barra-superior * {
-    font-family: Arial, Helvetica, sans-serif;
+    box-shadow: 0 2px 12px rgba(23,23,23,.025);
+    backdrop-filter: blur(12px);
 }
 
 .boton-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 42px;
     height: 42px;
     flex-shrink: 0;
     border: 0;
-    border-radius: 9px;
-    background: #fff;
+    border-radius: 10px;
+    background: transparent;
     color: var(--negro);
-    font-size: 27px;
+    font-size: 25px;
+    transition: background .2s, color .2s;
 }
 
 .boton-menu:hover {
     background: var(--gris);
+    color: var(--naranja-oscuro);
 }
 
 .identidad-club {
@@ -103,14 +120,14 @@ a {
 }
 
 .logo-club {
-    width: 55px;
-    height: 55px;
+    width: 53px;
+    height: 53px;
     flex-shrink: 0;
     object-fit: contain;
     border-radius: 50%;
     padding: 2px;
     background: #fff;
-    margin-right: 15px;
+    margin-right: 13px;
 }
 
 .textos-club {
@@ -120,7 +137,8 @@ a {
 
 .textos-club h1 {
     margin: 0 0 5px;
-    font-size: 23px;
+    color: var(--negro);
+    font-size: 22px;
     font-weight: 900;
     letter-spacing: .5px;
 }
@@ -128,10 +146,10 @@ a {
 .textos-club p {
     margin: 0;
     color: var(--gris-texto);
-    font-size: 13px;
+    font-size: 12px;
 }
 
-/* PERFIL DEL USUARIO */
+/* PERFIL */
 
 .perfil {
     display: flex;
@@ -140,11 +158,18 @@ a {
     flex-shrink: 0;
     min-width: 0;
     margin-left: auto;
-    padding: 0;
-    border: none;
+    padding: 5px 9px 5px 5px;
+    border: 1px solid transparent;
+    border-radius: 12px;
     background: transparent;
     text-align: left;
     color: inherit;
+    transition: background .2s, border-color .2s;
+}
+
+.perfil:hover {
+    background: #fafafa;
+    border-color: var(--borde);
 }
 
 .avatar {
@@ -157,14 +182,13 @@ a {
     border-radius: 50%;
     background: var(--negro);
     color: #fff;
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 13px;
+    font-weight: 900;
 }
 
 .informacion-perfil {
     display: flex;
     flex-direction: column;
-    gap: 0;
     min-width: 0;
 }
 
@@ -176,7 +200,7 @@ a {
     white-space: nowrap;
     color: var(--negro);
     font-size: 13px;
-    font-weight: bold;
+    font-weight: 800;
 }
 
 .rol-perfil {
@@ -200,6 +224,11 @@ a {
    BARRA LATERAL
 ===================================================== */
 
+.sidebar,
+.sidebar * {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 .sidebar {
     width: 258px;
     flex: 0 0 258px;
@@ -209,18 +238,11 @@ a {
     transition: margin-left .25s ease;
     overflow-x: hidden;
     overflow-y: auto;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.sidebar * {
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 .sidebar.oculto {
     margin-left: -258px;
 }
-
-/* INICIO */
 
 .menu-inicio {
     display: flex;
@@ -229,61 +251,58 @@ a {
     padding: 13px 14px;
     margin-bottom: 16px;
     border-radius: 11px;
-    background: #fff;
-    color: var(--negro);
-    font-size: 13px;
-    font-weight: 850;
-    transition: background .2s, color .2s;
+    background: var(--naranja-claro);
+    color: var(--naranja-oscuro);
+    font-size: 12px;
+    font-weight: 900;
+    transition: background .2s;
 }
 
 .menu-inicio:hover {
-    background: #f8f8f8;
-    color: var(--negro);
+    background: #ffe7d6;
+    color: var(--naranja-oscuro);
 }
 
 .menu-inicio .icono-inicio {
-    width: 15px;
+    width: 20px;
     flex-shrink: 0;
     text-align: center;
-    font-size: 17px;
+    font-size: 18px;
     line-height: 1;
 }
 
-/* CATEGORÍAS DEL MENÚ */
-
 .grupo-menu {
-    margin-bottom: 8px;
+    margin-bottom: 7px;
 }
 
 .titulo-grupo {
-    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-    min-height: 46px;
+    width: 100%;
+    min-height: 44px;
     padding: 12px 13px;
     border: 0;
-    border-radius: 8px;
+    border-radius: 9px;
     background: transparent;
-    color: var(--negro);
+    color: #202020;
     text-align: left;
-    cursor: pointer;
     font-size: 11px;
-    font-weight: 850;
-    letter-spacing: .8px;
+    font-weight: 900;
+    letter-spacing: .7px;
     user-select: none;
+    transition: background .2s;
 }
 
 .titulo-grupo:hover {
-    background: #f8f8f8;
+    background: #f7f8fa;
 }
 
 .flecha {
     display: inline-block;
     flex-shrink: 0;
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 17px;
     line-height: 1;
     transition: transform .2s;
 }
@@ -295,8 +314,6 @@ a {
 .grupo-menu:not(.cerrado) .flecha {
     transform: rotate(90deg);
 }
-
-/* SUBMENÚ */
 
 .submenu {
     display: flex;
@@ -316,7 +333,8 @@ a {
     padding: 10px 12px;
     border-radius: 9px;
     color: #656872;
-    font-size: 13px;
+    font-size: 12px;
+    line-height: 1.45;
     transition: background .15s, color .15s;
 }
 
@@ -328,32 +346,29 @@ a {
 .submenu a.actual {
     background: var(--naranja-claro);
     color: var(--naranja-oscuro);
-    font-weight: 800;
+    font-weight: 850;
 }
 
 .submenu a.actual:hover {
     background: #ffe7d6;
-    color: var(--naranja-oscuro);
 }
 
 .nav-punto {
     width: 6px;
     height: 6px;
     flex-shrink: 0;
-    background: #d7d9de;
     border-radius: 50%;
+    background: #d7d9de;
 }
 
 .submenu a.actual .nav-punto {
     background: var(--naranja);
 }
 
-/* CERRAR SESIÓN */
-
 .separador-sesion {
-    border-top: 1px solid var(--borde);
-    margin: 19px 0 0;
+    margin-top: 19px;
     padding-top: 12px;
+    border-top: 1px solid var(--borde);
 }
 
 .enlace-cerrar-sesion {
@@ -363,8 +378,9 @@ a {
     padding: 12px;
     border-radius: 9px;
     color: #c0392b;
-    font-size: 13px;
-    font-weight: 700;
+    font-size: 12px;
+    font-weight: 800;
+    transition: background .2s;
 }
 
 .enlace-cerrar-sesion:hover {
@@ -388,58 +404,99 @@ main {
     flex: 1;
     width: 100%;
     min-width: 0;
-    max-width: 1650px;
-    margin: 28px auto;
-    padding: 0 25px 40px;
+    max-width: 1700px;
+    margin: 0 auto;
+    padding: 30px 30px 45px;
 }
+
+/* =====================================================
+   CABECERA ESTÁNDAR ADIUR FEMENINO
+===================================================== */
 
 .page-heading {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    gap: 20px;
+    justify-content: space-between;
     flex-wrap: wrap;
+    gap: 20px;
     margin-bottom: 24px;
 }
 
-.page-heading h2 {
-    font-size: 27px;
-    font-weight: 800;
-    margin-bottom: 7px;
-    letter-spacing: -.6px;
+.page-heading > div:first-child {
+    flex: 1;
+    min-width: 0;
 }
 
+/* Etiqueta superior naranja */
+
+.page-heading > div:first-child::before {
+    content: "COMPETENCIA · PARTIDOS";
+    display: block;
+    margin-bottom: 10px;
+    color: var(--naranja-oscuro);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1.8px;
+    line-height: 1.4;
+}
+
+/* Título principal */
+
+.page-heading h2 {
+    margin: 0 0 8px;
+    color: var(--negro);
+    font-size: 31px;
+    font-weight: 900;
+    letter-spacing: -.7px;
+    line-height: 1.2;
+}
+
+/* Descripción */
+
 .page-heading p {
-    color: #777;
-    font-size: 14px;
-    line-height: 1.5;
+    max-width: 720px;
+    margin: 0;
+    color: var(--gris-texto);
+    font-size: 13px;
+    line-height: 1.7;
 }
 
 .botones-fixture {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 10px;
     flex-wrap: wrap;
+    gap: 9px;
 }
 
+/* BOTONES */
+
 .btn {
-    border: none;
-    padding: 12px 17px;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: 13px;
-    transition: background .2s, transform .2s, box-shadow .2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 42px;
+    padding: 11px 15px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    font-size: 11px;
+    font-weight: 900;
+    line-height: 1.4;
+    white-space: nowrap;
+    transition: background .18s, border-color .18s, color .18s,
+        transform .15s, box-shadow .18s;
 }
 
 .btn:hover {
     transform: translateY(-1px);
-    box-shadow: 0 3px 9px #00000010;
+    box-shadow: 0 4px 11px rgba(0,0,0,.07);
 }
 
 .btn-primary {
     background: var(--naranja);
     color: #fff;
+    box-shadow: 0 2px 5px rgba(244,119,33,.12);
 }
 
 .btn-primary:hover {
@@ -447,14 +504,25 @@ main {
 }
 
 .btn-secondary {
-    background: #ededed;
-    color: #333;
+    border-color: #e0e3e8;
+    background: #fff;
+    color: #353941;
+}
+
+.btn-secondary:hover {
+    border-color: #cbd0d8;
+    background: #f8f9fa;
 }
 
 .btn-danger {
-    background: #fff0f0;
-    color: var(--rojo);
-    border: 1px solid #f1caca;
+    border-color: #f1cccc;
+    background: #fde9e9;
+    color: #ae2525;
+}
+
+.btn-danger:hover {
+    border-color: #e9aaaa;
+    background: #fbdede;
 }
 
 /* =====================================================
@@ -465,54 +533,78 @@ main {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 12px;
-    margin-bottom: 25px;
+    margin-bottom: 22px;
 }
 
 .stat {
+    position: relative;
     min-width: 0;
-    padding: 16px 12px;
-    background: #fff;
+    min-height: 100px;
+    padding: 17px 16px;
+    overflow: hidden;
     border: 1px solid var(--borde);
-    border-radius: 15px;
+    border-top: 2px solid var(--naranja);
+    border-radius: 13px;
+    background: #fff;
     box-shadow: var(--sombra);
-    border-top: 3px solid var(--naranja);
-    transition: transform .2s, box-shadow .2s;
+    transition: transform .2s, box-shadow .2s, border-color .2s;
+}
+
+.stat::after {
+    content: "";
+    position: absolute;
+    right: -17px;
+    bottom: -28px;
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    background: rgba(244,119,33,.045);
+    pointer-events: none;
 }
 
 .stat:hover {
     transform: translateY(-2px);
-    box-shadow: 0 7px 22px rgba(0,0,0,.06);
+    border-color: #efd3c0;
+    box-shadow: 0 8px 20px rgba(23,23,23,.06);
 }
 
 .stat span {
+    position: relative;
+    z-index: 1;
     display: block;
-    font-size: 12px;
-    font-weight: 700;
-    color: #666;
+    color: var(--gris-texto);
+    font-size: 10px;
+    font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: .35px;
+    letter-spacing: .65px;
     line-height: 1.4;
 }
 
 .stat strong {
+    position: relative;
+    z-index: 1;
     display: block;
-    margin-top: 8px;
-    font-size: 27px;
-    font-weight: 800;
-    color: var(--naranja-oscuro);
+    margin-top: 9px;
+    color: #202020;
+    font-size: 29px;
+    font-weight: 900;
+    letter-spacing: -.8px;
+    line-height: 1.1;
 }
 
-/* FILTROS */
+/* =====================================================
+   FILTROS
+===================================================== */
 
 .filters {
     display: grid;
-    grid-template-columns: minmax(180px, 2fr) repeat(2, minmax(150px, 1fr));
-    gap: 13px;
-    padding: 17px;
-    background: #fff;
+    grid-template-columns: minmax(180px, 1.6fr) repeat(2, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 27px;
+    padding: 19px;
     border: 1px solid var(--borde);
-    border-radius: 16px;
-    margin-bottom: 22px;
+    border-radius: 13px;
+    background: #fff;
     box-shadow: var(--sombra);
 }
 
@@ -524,29 +616,43 @@ main {
 }
 
 .field label {
-    font-size: 12px;
-    color: #606060;
-    font-weight: 700;
+    color: #59606b;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: .45px;
+    line-height: 1.45;
 }
 
 .field input,
 .field select {
+    display: block;
     width: 100%;
     min-width: 0;
-    height: 42px;
-    padding: 0 12px;
-    border: 1px solid #dedfe3;
-    border-radius: 10px;
+    height: 43px;
+    padding: 10px 12px;
+    border: 1px solid #dfe3e8;
+    border-radius: 9px;
     background: #fff;
+    color: #242424;
     outline: none;
-    font-size: 13px;
-    transition: border-color .2s, box-shadow .2s;
+    font-size: 12px;
+    transition: border-color .2s, box-shadow .2s, background .2s;
+}
+
+.field input::placeholder {
+    color: #a0a4ad;
+    font-size: 11px;
+}
+
+.field input:hover,
+.field select:hover {
+    border-color: #c8cdd4;
 }
 
 .field input:focus,
 .field select:focus {
     border-color: var(--naranja);
-    box-shadow: 0 0 0 3px #f4772117;
+    box-shadow: 0 0 0 3px rgba(244,119,33,.09);
 }
 
 /* =====================================================
@@ -561,35 +667,38 @@ main {
     display: flex;
     align-items: center;
     gap: 12px;
-    background: #292929;
-    color: #fff;
-    padding: 16px 19px;
-    border-radius: 15px;
     margin-bottom: 20px;
-    border-left: 5px solid var(--naranja);
-    box-shadow: 0 5px 14px #0000000b;
+    padding: 17px 19px;
+    border: 1px solid #292929;
+    border-left: 4px solid var(--naranja);
+    border-radius: 12px;
+    background: #202020;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(23,23,23,.055);
 }
 
 .division-heading h3 {
-    font-size: 17px;
-    font-weight: 800;
-    letter-spacing: .4px;
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: .7px;
 }
 
 .division-heading span {
     margin-left: auto;
-    font-size: 12px;
-    color: #e2e2e2;
-    background: #ffffff14;
     padding: 6px 10px;
-    border-radius: 20px;
+    border: 1px solid #ffffff12;
+    border-radius: 7px;
+    background: #ffffff10;
+    color: #e7e7e7;
+    font-size: 10px;
+    font-weight: 800;
     white-space: nowrap;
 }
 
 /* COMPETICIONES */
 
 .competition-section {
-    margin-bottom: 25px;
+    margin-bottom: 27px;
 }
 
 .competition-heading {
@@ -597,53 +706,56 @@ main {
     justify-content: space-between;
     align-items: center;
     gap: 10px;
-    margin: 0 0 12px 2px;
-    padding: 2px 0 2px 12px;
-    border-left: 3px solid #f4bd91;
+    margin: 0 0 13px 2px;
+    padding: 5px 0 5px 12px;
+    border-left: 3px solid #f3b78d;
 }
 
 .competition-heading h4 {
-    font-size: 13px;
-    font-weight: 800;
+    color: #353941;
+    font-size: 11px;
+    font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: .7px;
-    color: #424242;
+    letter-spacing: .8px;
 }
 
 .competition-heading span {
-    color: #777;
-    font-size: 11px;
+    color: #8a8e97;
+    font-size: 10px;
     white-space: nowrap;
 }
 
-/* FECHAS */
+/* =====================================================
+   FECHAS Y JORNADAS
+===================================================== */
 
 .columnas-fechas {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: start;
-    gap: 14px;
+    gap: 15px;
 }
 
 .columna-fechas {
     display: flex;
     flex-direction: column;
-    gap: 13px;
+    gap: 15px;
     min-width: 0;
 }
 
 .jornada-card {
     min-width: 0;
-    background: #fff;
-    border: 1px solid #ececec;
-    border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 3px 13px rgba(0,0,0,.035);
-    transition: box-shadow .2s;
+    border: 1px solid #e5e8ec;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(23,23,23,.025);
+    transition: border-color .2s, box-shadow .2s;
 }
 
 .jornada-card:hover {
-    box-shadow: 0 6px 19px rgba(0,0,0,.065);
+    border-color: #e5d2c5;
+    box-shadow: 0 5px 17px rgba(23,23,23,.055);
 }
 
 .jornada-heading {
@@ -651,10 +763,11 @@ main {
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 39px;
-    padding: 10px 12px;
-    background: linear-gradient(120deg, #ff7a18, #f47721);
-    color: #fff;
+    min-height: 41px;
+    padding: 10px 13px;
+    border-bottom: 1px solid #f0d8c6;
+    background: #fff6ef;
+    color: #b8500b;
     text-align: center;
 }
 
@@ -662,8 +775,8 @@ main {
     display: block;
     width: 100%;
     text-align: center;
-    font-size: 12px;
-    font-weight: 800;
+    font-size: 10px;
+    font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 1px;
     line-height: 1.25;
@@ -677,28 +790,29 @@ main {
     align-items: center;
     gap: 4px;
     min-width: 0;
-    min-height: 49px;
-    padding: 8px 9px;
+    min-height: 55px;
+    padding: 10px 9px;
     background: #fff;
-    transition: background .2s;
+    transition: background .18s;
 }
 
 .partido + .partido {
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid #f0f1f3;
 }
 
 .partido:hover {
     background: #fffaf6;
 }
 
-.partido.modo-eliminar {
-    background: #fff2f2;
+.partido.modo-eliminar,
+body.eliminando .partido {
+    background: #fff4f4;
 }
 
 .escudo-mini {
+    display: block;
     width: 28px;
     height: 28px;
-    display: block;
     object-fit: contain;
     flex-shrink: 0;
     justify-self: center;
@@ -706,41 +820,43 @@ main {
 
 .equipo-nombre {
     min-width: 0;
-    font-size: 10px;
-    line-height: 1.25;
-    font-weight: 800;
+    color: #333741;
+    font-size: 9px;
+    font-weight: 900;
+    line-height: 1.3;
     text-align: center;
     text-transform: uppercase;
     overflow-wrap: anywhere;
-    color: #292929;
     letter-spacing: -.15px;
 }
 
 .marcador-gol {
-    min-width: 0;
-    min-height: 29px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 3px 2px;
-    border: 1px solid #e8e8e8;
-    border-radius: 8px;
-    background: #f7f7f7;
-    color: #222;
-    font-weight: 800;
+    justify-content: center;
+    min-width: 0;
+    min-height: 31px;
+    padding: 4px 2px;
+    border: 1px solid #e6e8ec;
+    border-radius: 7px;
+    background: #f6f7f9;
+    color: #202020;
     font-size: 12px;
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
 }
 
 .vs {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     min-height: 24px;
-    padding: 3px 2px;
-    border-radius: 7px;
-    background: #fff1e6;
-    color: #9f490b;
-    font-size: 9px;
+    padding: 4px 2px;
+    border: 1px solid #f4dfd0;
+    border-radius: 6px;
+    background: #fff4eb;
+    color: #b8500b;
+    font-size: 8px;
     font-weight: 900;
     text-align: center;
 }
@@ -750,35 +866,51 @@ main {
 .acciones {
     position: relative;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     min-width: 0;
+    min-height: 30px;
 }
 
 .btn-puntos {
-    border: none;
-    background: transparent;
-    font-size: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 29px;
+    height: 29px;
+    padding: 0;
+    border: 1px solid transparent;
     border-radius: 7px;
+    background: transparent;
+    color: #747782;
+    font-size: 20px;
     line-height: 1;
-    padding: 5px;
-    color: #777;
+    transition: background .15s, color .15s, border-color .15s;
 }
 
 .btn-puntos:hover {
-    background: #fff0e5;
+    border-color: #f4dfd0;
+    background: var(--naranja-claro);
     color: var(--naranja-oscuro);
 }
 
 .btn-seleccionar-eliminar {
     display: none;
-    border: 1px solid #d92d20;
-    color: #b42318;
-    background: #fff;
-    border-radius: 7px;
+    align-items: center;
+    justify-content: center;
+    min-width: 29px;
+    min-height: 29px;
     padding: 5px;
-    font-size: 10px;
-    font-weight: 700;
+    border: 1px solid #f0c5c5;
+    border-radius: 7px;
+    background: #fff;
+    color: #b42318;
+    font-size: 11px;
+}
+
+.btn-seleccionar-eliminar:hover {
+    border-color: #e9aaaa;
+    background: #fde9e9;
 }
 
 body.eliminando .btn-seleccionar-eliminar {
@@ -789,35 +921,59 @@ body.eliminando .btn-puntos {
     display: none;
 }
 
-body.eliminando .partido {
-    background: #fff5f5;
+/* INFORMACIÓN COMPLEMENTARIA DEL PARTIDO */
+
+.partido-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 7px 14px;
+    padding: 7px 10px 10px;
+    border-top: 1px solid #f0f1f3;
+    background: #fcfcfd;
+    color: #747782;
+    font-size: 10px;
+    line-height: 1.5;
 }
 
 /* ESTADO VACÍO */
 
 .empty {
+    padding: 48px 24px;
+    border: 1px dashed #d5d9df;
+    border-radius: 13px;
     background: #fff;
-    border: 1px dashed #d8d8d8;
-    border-radius: 16px;
+    color: #777d86;
     text-align: center;
-    padding: 42px 20px;
-    color: #777;
+    box-shadow: var(--sombra);
 }
 
 .empty .empty-icon {
-    font-size: 38px;
-    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 16px;
+    border: 1px solid #f3d6c3;
+    border-radius: 16px;
+    background: var(--naranja-claro);
+    font-size: 27px;
 }
 
 .empty h3 {
-    color: #333;
     margin-bottom: 8px;
-    font-size: 17px;
+    color: #252525;
+    font-size: 16px;
+    font-weight: 900;
 }
 
 .empty p {
-    font-size: 13px;
-    line-height: 1.6;
+    max-width: 400px;
+    margin: 0 auto;
+    color: #777d86;
+    font-size: 12px;
+    line-height: 1.8;
 }
 
 /* =====================================================
@@ -829,11 +985,12 @@ body.eliminando .partido {
     position: fixed;
     inset: 0;
     z-index: 200;
-    background: rgba(0,0,0,.52);
-    padding: 20px;
-    overflow-y: auto;
     align-items: center;
     justify-content: center;
+    padding: 22px;
+    overflow-y: auto;
+    background: rgba(19,21,24,.56);
+    backdrop-filter: blur(4px);
 }
 
 .modal-overlay.visible {
@@ -841,106 +998,141 @@ body.eliminando .partido {
 }
 
 .modal {
-    background: #fff;
     width: 100%;
-    max-width: 690px;
-    border-radius: 17px;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,.25);
+    max-width: 720px;
+    max-height: 92vh;
     margin: auto;
+    overflow: auto;
+    border: 1px solid #e5e7eb;
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: 0 22px 70px rgba(0,0,0,.24);
+    animation: modalAparecer .18s ease-out;
+}
+
+@keyframes modalAparecer {
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(.99);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
     padding: 20px 24px;
     border-bottom: 1px solid var(--borde);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
+    background: #fff;
 }
 
 .modal-header h3 {
-    font-size: 20px;
-    font-weight: 800;
+    color: #202020;
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: -.3px;
 }
 
 .modal-close {
-    border: none;
-    background: #f0f0f0;
-    border-radius: 50%;
-    width: 34px;
-    height: 34px;
-    font-size: 21px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid #e3e5e8;
+    border-radius: 9px;
+    background: #f7f8fa;
+    color: #42464f;
+    font-size: 22px;
+    line-height: 1;
+    transition: background .15s, color .15s;
+}
+
+.modal-close:hover {
+    background: var(--naranja-claro);
+    color: var(--naranja-oscuro);
 }
 
 .modal-body {
-    padding: 22px 24px;
+    padding: 23px 24px;
+    background: #fff;
 }
 
 .form-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
+    gap: 17px 16px;
 }
 
-/* ESCUDOS EN EL FORMULARIO */
+/* ESCUDOS DEL FORMULARIO */
 
 .escudos-form {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-top: 20px;
+    gap: 15px;
+    margin-top: 22px;
 }
 
 .escudo-upload {
-    border: 1px solid var(--borde);
-    border-radius: 13px;
-    padding: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    text-align: center;
+    gap: 11px;
     min-width: 0;
-    background: #fff;
+    padding: 17px;
+    border: 1px solid #e5e8ec;
+    border-radius: 11px;
+    background: #fcfcfd;
+    text-align: center;
+    transition: border-color .2s;
+}
+
+.escudo-upload:hover {
+    border-color: #edc9b2;
 }
 
 .escudo-preview {
-    width: 76px;
-    height: 76px;
-    object-fit: contain;
-    border: 1px solid #e9e9e9;
-    border-radius: 50%;
+    width: 78px;
+    height: 78px;
     padding: 4px;
+    object-fit: contain;
+    border: 1px solid #e5e8ec;
+    border-radius: 12px;
     background: #fff;
 }
 
 .escudo-upload label {
-    font-size: 13px;
-    font-weight: 700;
+    color: #343842;
+    font-size: 11px;
+    font-weight: 900;
 }
 
-.escudo-fijo-aviso {
-    color: #777;
-    font-size: 12px;
-    line-height: 1.5;
-}
-
+.escudo-fijo-aviso,
 .form-help,
 .notice {
-    color: #777;
-    font-size: 12px;
-    line-height: 1.5;
+    color: #777d86;
+    font-size: 11px;
+    line-height: 1.7;
 }
 
 .notice {
-    margin-top: 16px;
+    margin-top: 18px;
+    padding: 12px 13px;
+    border: 1px solid #f1e0d4;
+    border-radius: 8px;
+    background: #fffaf6;
+    color: #76553e;
 }
 
 .aviso-escudo {
     display: none;
-    font-size: 12px;
     color: #b42318;
+    font-size: 11px;
     line-height: 1.5;
 }
 
@@ -951,23 +1143,26 @@ body.eliminando .partido {
 .modal-footer {
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
-    padding: 17px 24px;
-    background: #fafafa;
+    gap: 9px;
+    padding: 15px 24px;
     border-top: 1px solid var(--borde);
+    background: #fafbfc;
 }
 
-/* PERFIL */
+/* =====================================================
+   PERFIL
+===================================================== */
 
 .fondo-perfil {
     display: none;
     position: fixed;
     inset: 0;
     z-index: 250;
-    padding: 18px;
-    background: #00000070;
     align-items: center;
     justify-content: center;
+    padding: 18px;
+    background: rgba(19,21,24,.55);
+    backdrop-filter: blur(3px);
 }
 
 .fondo-perfil.visible {
@@ -976,61 +1171,82 @@ body.eliminando .partido {
 
 .tarjeta-perfil {
     width: 100%;
-    max-width: 350px;
-    padding: 25px;
+    max-width: 360px;
+    padding: 28px;
+    border: 1px solid #e5e8ec;
+    border-radius: 15px;
     background: #fff;
-    border-radius: 17px;
     text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,.2);
+    animation: modalAparecer .18s ease-out;
 }
 
 .avatar-perfil {
-    width: 65px;
-    height: 65px;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 62px;
+    height: 62px;
     margin: 0 auto 15px;
     border-radius: 50%;
     background: var(--negro);
     color: #fff;
-    font-size: 30px;
-    font-weight: bold;
+    font-size: 25px;
+    font-weight: 900;
 }
 
 .tarjeta-perfil h2 {
-    margin-bottom: 8px;
-    font-size: 21px;
+    margin-bottom: 7px;
+    color: #202020;
+    font-size: 19px;
+    font-weight: 900;
 }
 
 .tarjeta-perfil p {
     margin-bottom: 20px;
-    color: #777;
-    font-size: 13px;
+    color: #777d86;
+    font-size: 12px;
 }
 
 .boton-cerrar-perfil {
     width: 100%;
-    padding: 12px;
-    border: none;
+    min-height: 42px;
+    padding: 11px 14px;
+    border: 0;
     border-radius: 9px;
-    background: var(--naranja-oscuro);
+    background: var(--naranja);
     color: #fff;
-    font-weight: bold;
+    font-size: 12px;
+    font-weight: 900;
+    transition: background .18s;
+}
+
+.boton-cerrar-perfil:hover {
+    background: var(--naranja-oscuro);
 }
 
 /* =====================================================
    RESPONSIVE
 ===================================================== */
 
-@media (max-width: 1200px) {
+@media (max-width: 1250px) {
+    main {
+        padding: 25px;
+    }
+
     .stats {
         grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .filters {
+        gap: 13px;
+        padding: 16px;
     }
 
     .partido {
         grid-template-columns: 26px minmax(0, 1fr) 27px 22px 27px minmax(0, 1fr) 26px 23px;
         gap: 3px;
-        padding: 7px 6px;
+        padding: 8px 6px;
     }
 
     .escudo-mini {
@@ -1043,7 +1259,21 @@ body.eliminando .partido {
     }
 
     .marcador-gol {
+        min-height: 29px;
         font-size: 11px;
+    }
+}
+
+@media (min-width: 761px) {
+    .sidebar {
+        position: relative;
+        margin-left: 0;
+        transform: none;
+    }
+
+    .sidebar.oculto {
+        margin-left: -258px;
+        transform: none;
     }
 }
 
@@ -1077,7 +1307,7 @@ body.eliminando .partido {
     .avatar {
         width: 36px;
         height: 36px;
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .nombre-perfil {
@@ -1112,7 +1342,7 @@ body.eliminando .partido {
         overflow-y: auto;
         border-right: 1px solid var(--borde);
         background: #fff;
-        box-shadow: 5px 0 25px #00000012;
+        box-shadow: 5px 0 25px rgba(0,0,0,.07);
         transition: transform .25s ease;
     }
 
@@ -1133,12 +1363,27 @@ body.eliminando .partido {
     }
 
     main {
-        margin: 22px auto;
-        padding: 0 14px 30px;
+        margin: 0 auto;
+        padding: 24px 16px 32px;
+    }
+
+    .page-heading {
+        align-items: flex-start;
+        gap: 17px;
+        margin-bottom: 22px;
     }
 
     .page-heading h2 {
-        font-size: 23px;
+        font-size: 25px;
+    }
+
+    .page-heading > div:first-child::before {
+        margin-bottom: 8px;
+        font-size: 9px;
+    }
+
+    .page-heading p {
+        font-size: 12px;
     }
 
     .botones-fixture {
@@ -1146,41 +1391,84 @@ body.eliminando .partido {
         justify-content: flex-start;
     }
 
+    .stats {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 9px;
+        margin-bottom: 18px;
+    }
+
+    .stat {
+        min-height: 89px;
+        padding: 13px 10px;
+        border-radius: 11px;
+    }
+
+    .stat span {
+        font-size: 9px;
+    }
+
+    .stat strong {
+        margin-top: 8px;
+        font-size: 23px;
+    }
+
     .filters {
         grid-template-columns: 1fr 1fr;
+        gap: 13px;
+        padding: 15px;
+        margin-bottom: 22px;
+        border-radius: 12px;
     }
 
     .filters .field:first-child {
         grid-column: 1 / -1;
     }
 
-    .stats {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 9px;
-    }
-
-    .stat {
-        padding: 13px 10px;
-    }
-
-    .stat span {
-        font-size: 11px;
-    }
-
-    .stat strong {
-        font-size: 21px;
-    }
-
     .columnas-fechas {
-        gap: 10px;
+        gap: 11px;
     }
 
     .columna-fechas {
-        gap: 10px;
+        gap: 11px;
     }
 
     .division-heading {
-        padding: 14px;
+        margin-bottom: 16px;
+        padding: 15px;
+        border-radius: 11px;
+    }
+
+    .competition-section {
+        margin-bottom: 23px;
+    }
+
+    .jornada-card {
+        border-radius: 11px;
+    }
+
+    .partido {
+        min-height: 53px;
+    }
+
+    .modal-overlay {
+        padding: 15px;
+    }
+
+    .modal {
+        max-height: 94vh;
+        border-radius: 13px;
+    }
+
+    .modal-header {
+        padding: 17px 19px;
+    }
+
+    .modal-body {
+        padding: 19px;
+    }
+
+    .modal-footer {
+        padding: 14px 19px;
     }
 }
 
@@ -1204,6 +1492,7 @@ body.eliminando .partido {
 
     .textos-club h1 {
         font-size: 12px;
+        letter-spacing: .3px;
     }
 
     .textos-club p {
@@ -1212,12 +1501,13 @@ body.eliminando .partido {
 
     .perfil {
         gap: 5px;
+        padding: 3px;
     }
 
     .avatar {
         width: 32px;
         height: 32px;
-        font-size: 12px;
+        font-size: 11px;
     }
 
     .nombre-perfil {
@@ -1225,14 +1515,26 @@ body.eliminando .partido {
         font-size: 10px;
     }
 
-    .filters,
-    .form-grid,
-    .escudos-form {
-        grid-template-columns: 1fr;
+    main {
+        padding: 22px 12px 28px;
     }
 
-    .filters .field:first-child {
-        grid-column: auto;
+    .page-heading h2 {
+        font-size: 22px;
+    }
+
+    .page-heading p {
+        font-size: 12px;
+    }
+
+    .botones-fixture {
+        gap: 8px;
+    }
+
+    .btn {
+        min-height: 40px;
+        padding: 10px 12px;
+        font-size: 10px;
     }
 
     .stats {
@@ -1241,74 +1543,122 @@ body.eliminando .partido {
     }
 
     .stat {
+        min-height: 86px;
         padding: 13px;
     }
 
+    .stat span {
+        font-size: 10px;
+    }
+
     .stat strong {
-        margin-top: 7px;
         font-size: 23px;
+    }
+
+    .filters,
+    .form-grid,
+    .escudos-form {
+        grid-template-columns: 1fr;
+    }
+
+    .filters {
+        padding: 14px;
+    }
+
+    .filters .field:first-child {
+        grid-column: auto;
     }
 
     .columnas-fechas {
         grid-template-columns: 1fr;
+        gap: 11px;
     }
 
     .columna-fechas {
         gap: 11px;
     }
 
-    .jornada-card {
-        border-radius: 14px;
+    .division-heading {
+        padding: 14px;
+    }
+
+    .division-heading h3 {
+        font-size: 14px;
+    }
+
+    .division-heading span {
+        padding: 5px 8px;
+        font-size: 9px;
+    }
+
+    .competition-heading h4 {
+        font-size: 10px;
     }
 
     .jornada-heading {
-        min-height: 40px;
-        padding: 11px 13px;
+        min-height: 39px;
+        padding: 10px 12px;
     }
 
     .jornada-heading strong {
-        font-size: 12px;
-        letter-spacing: 1px;
+        font-size: 10px;
     }
 
     .partido {
         grid-template-columns: 30px minmax(0, 1fr) 30px 24px 30px minmax(0, 1fr) 30px 25px;
         gap: 3px;
-        padding: 8px 7px;
-        min-height: 48px;
+        min-height: 51px;
+        padding: 7px 6px;
     }
 
     .escudo-mini {
-        width: 27px;
-        height: 27px;
+        width: 26px;
+        height: 26px;
     }
 
     .equipo-nombre {
-        font-size: 10px;
+        font-size: 9px;
         line-height: 1.25;
     }
 
     .marcador-gol {
-        min-height: 27px;
-        font-size: 12px;
+        min-height: 28px;
+        font-size: 11px;
     }
 
-    .modal-body {
-        padding: 18px;
+    .vs {
+        font-size: 8px;
+    }
+
+    .partido-meta {
+        gap: 6px 10px;
+        padding: 7px 8px 9px;
+        font-size: 9px;
+    }
+
+    .modal-overlay {
+        padding: 10px;
     }
 
     .modal-header,
     .modal-footer {
-        padding: 16px 18px;
+        padding: 14px;
     }
 
-    .division-heading h3 {
-        font-size: 15px;
+    .modal-header h3 {
+        font-size: 16px;
     }
 
-    .btn {
-        padding: 11px 12px;
-        font-size: 13px;
+    .modal-body {
+        padding: 15px;
+    }
+
+    .escudo-upload {
+        padding: 14px;
+    }
+
+    .empty {
+        padding: 35px 17px;
     }
 }
 
@@ -1337,21 +1687,45 @@ body.eliminando .partido {
     }
 
     .marcador-gol {
+        min-height: 26px;
         font-size: 10px;
     }
 
     .vs {
-        font-size: 8px;
+        font-size: 7px;
+    }
+
+    .stats {
+        gap: 7px;
+    }
+
+    .stat {
+        padding: 11px;
+    }
+
+    .stat span {
+        font-size: 9px;
+    }
+
+    .stat strong {
+        font-size: 21px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
     }
 }
 </style>
 </head>
 
 <body>
-
-<!-- =====================================================
-     BARRA SUPERIOR
-===================================================== -->
 
 <header class="barra-superior">
 
@@ -1396,28 +1770,16 @@ body.eliminando .partido {
 
 </header>
 
-<div
-    class="capa-sidebar"
-    id="capaSidebar"
-    aria-hidden="true"
-></div>
+<div class="capa-sidebar" id="capaSidebar" aria-hidden="true"></div>
 
 <div class="contenedor">
 
-    <!-- =================================================
-         BARRA LATERAL
-    ================================================== -->
-
     <aside class="sidebar" id="sidebar">
 
-        <!-- INICIO -->
-
-        <a href="Pagina Principal.html" class="menu-inicio">
+        <a href="Pàgina Principal.html" class="menu-inicio">
             <span class="icono-inicio" aria-hidden="true">⌂</span>
             INICIO
         </a>
-
-        <!-- PLANTEL -->
 
         <div class="grupo-menu cerrado" id="grupoPlantel">
 
@@ -1445,8 +1807,6 @@ body.eliminando .partido {
 
             </div>
         </div>
-
-        <!-- ENTRENAMIENTO -->
 
         <div class="grupo-menu cerrado" id="grupoEntrenamiento">
 
@@ -1482,15 +1842,13 @@ body.eliminando .partido {
                     Gimnasio
                 </a>
 
-                <a href="calculadora.html" data-ocultar-bianca>
+                <a href="Calculadora.html" data-ocultar-bianca>
                     <span class="nav-punto" aria-hidden="true"></span>
                     Calculadora
                 </a>
 
             </div>
         </div>
-
-        <!-- COMPETENCIA -->
 
         <div class="grupo-menu" id="grupoCompetencia">
 
@@ -1506,11 +1864,7 @@ body.eliminando .partido {
 
             <div class="submenu">
 
-                <a
-                    href="Partidos.html"
-                    class="actual"
-                    aria-current="page"
-                >
+                <a href="Partidos.html" class="actual" aria-current="page">
                     <span class="nav-punto" aria-hidden="true"></span>
                     Partidos
                 </a>
@@ -1532,8 +1886,6 @@ body.eliminando .partido {
 
             </div>
         </div>
-
-        <!-- RENDIMIENTOS -->
 
         <div class="grupo-menu cerrado" id="grupoRendimientos">
 
@@ -1577,8 +1929,6 @@ body.eliminando .partido {
             </div>
         </div>
 
-        <!-- CERRAR SESIÓN -->
-
         <div class="separador-sesion">
 
             <a href="#" class="enlace-cerrar-sesion" id="cerrarSesion">
@@ -1589,10 +1939,6 @@ body.eliminando .partido {
         </div>
 
     </aside>
-
-    <!-- =================================================
-         CONTENIDO PRINCIPAL
-    ================================================== -->
 
     <main>
 
@@ -1628,8 +1974,6 @@ body.eliminando .partido {
 
         </section>
 
-        <!-- CONTADORES POR CATEGORÍA -->
-
         <section class="stats">
 
             <div class="stat">
@@ -1659,8 +2003,6 @@ body.eliminando .partido {
 
         </section>
 
-        <!-- FILTROS -->
-
         <section class="filters">
 
             <div class="field">
@@ -1674,7 +2016,6 @@ body.eliminando .partido {
 
             <div class="field">
                 <label for="filtroDivision">Categoría</label>
-
                 <select id="filtroDivision">
                     <option value="">Todas las categorías</option>
                     <option value="Sub 10">Sub 10</option>
@@ -1694,17 +2035,13 @@ body.eliminando .partido {
 
         </section>
 
-        <!-- FIXTURE -->
-
         <div class="contenedor-fixture" id="contenedorFixture"></div>
 
     </main>
 
 </div>
 
-<!-- =====================================================
-     MODAL PARA CARGAR O MODIFICAR PARTIDOS
-===================================================== -->
+<!-- MODAL PARA CARGAR O MODIFICAR PARTIDOS -->
 
 <div class="modal-overlay" id="modalOverlay">
 
@@ -1736,7 +2073,6 @@ body.eliminando .partido {
 
                     <div class="field">
                         <label for="division">Categoría *</label>
-
                         <select id="division" required>
                             <option value="Sub 10">Sub 10</option>
                             <option value="Sub 12">Sub 12</option>
@@ -1753,7 +2089,6 @@ body.eliminando .partido {
 
                     <div class="field">
                         <label for="jornada">Fecha del torneo *</label>
-
                         <input
                             type="number"
                             id="jornada"
@@ -1772,7 +2107,6 @@ body.eliminando .partido {
 
                     <div class="field">
                         <label for="lugarPartido">Estadio / Club / Sede</label>
-
                         <input
                             type="text"
                             id="lugarPartido"
@@ -1783,7 +2117,6 @@ body.eliminando .partido {
 
                     <div class="field">
                         <label for="rival">Rival *</label>
-
                         <select id="rival" required>
                             <option value="">Seleccioná un club...</option>
                         </select>
@@ -1791,7 +2124,6 @@ body.eliminando .partido {
 
                     <div class="field">
                         <label for="golesAdiur">Goles ADIUR</label>
-
                         <input
                             type="number"
                             id="golesAdiur"
@@ -1804,7 +2136,6 @@ body.eliminando .partido {
 
                     <div class="field">
                         <label for="golesRival">Goles RIVAL</label>
-
                         <input
                             type="number"
                             id="golesRival"
@@ -1966,7 +2297,7 @@ function esBianca() {
 const puedeEditar = esFran() || esToto();
 const puedeEliminar = esFran();
 
-/* Mostrar información del usuario */
+/* Información del usuario */
 
 document.getElementById("nombreUsuario").textContent =
     usuarioGuardado || "Usuario";
@@ -1999,7 +2330,7 @@ if (!usuarioGuardado) {
     window.location.href = "Loing.html";
 }
 
-/* Mostrar botones según permisos */
+/* Permisos */
 
 if (!puedeEditar) {
     document.getElementById("btnNuevo").style.display = "none";
@@ -2080,7 +2411,7 @@ document.querySelectorAll(".titulo-grupo[data-grupo]").forEach(boton => {
     });
 });
 
-/* Adaptar la barra lateral a cada pantalla */
+/* Adaptar barra lateral */
 
 function ajustarSidebar() {
     if (esPantallaMovil()) {
@@ -2095,7 +2426,7 @@ function ajustarSidebar() {
 window.addEventListener("resize", ajustarSidebar);
 ajustarSidebar();
 
-/* Cerrar menú después de seleccionar una opción en móvil */
+/* Cerrar menú en móvil al seleccionar una opción */
 
 document.querySelectorAll(".sidebar a").forEach(enlace => {
     enlace.addEventListener("click", () => {
@@ -2394,8 +2725,6 @@ function cargarPartidos() {
 
             let competicion = p.competicion || "";
 
-            /* Compatibilidad con nombres de competición antiguos. */
-
             if (division === "Primera") {
                 if (competicion === "Rosarina") {
                     competicion = "Fase Regular - ARF";
@@ -2458,19 +2787,13 @@ let modoEliminar = false;
 
 function guardarEnAlmacenamiento() {
     try {
-        localStorage.setItem(
-            CLAVE_FIXTURE,
-            JSON.stringify(partidos)
-        );
-
+        localStorage.setItem(CLAVE_FIXTURE, JSON.stringify(partidos));
         return true;
-
     } catch (error) {
         alert(
             "No se pudieron guardar los cambios. " +
             "El almacenamiento del navegador puede estar lleno."
         );
-
         return false;
     }
 }
@@ -2542,18 +2865,14 @@ function actualizarFiltroCompeticion() {
     selector.replaceChildren();
 
     const todas = document.createElement("option");
-
     todas.value = "";
     todas.textContent = "Todas las competiciones";
-
     selector.appendChild(todas);
 
     competiciones.forEach(nombre => {
         const option = document.createElement("option");
-
         option.value = nombre;
         option.textContent = nombre;
-
         selector.appendChild(option);
     });
 
@@ -2645,17 +2964,14 @@ function abrirModal(id = null) {
             )
         ) {
             const opcionAntigua = document.createElement("option");
-
             opcionAntigua.value = partido.competicion;
             opcionAntigua.textContent = partido.competicion;
-
             selectorCompeticion.appendChild(opcionAntigua);
         }
 
         selectorCompeticion.value = partido.competicion;
 
         document.getElementById("jornada").value = partido.jornada;
-
         document.getElementById("fechaPartido").value =
             partido.fechaPartido || "";
 
@@ -2677,7 +2993,6 @@ function abrirModal(id = null) {
 
         if (partido.rival) {
             const opcion = selectorRival.selectedOptions[0];
-
             const ruta = opcion?.dataset.ruta ||
                 partido.escudoRival ||
                 "";
@@ -2692,7 +3007,6 @@ function abrirModal(id = null) {
 
 function cerrarModal() {
     document.getElementById("modalOverlay").classList.remove("visible");
-
     document.body.style.overflow = "";
     idEditando = null;
 }
@@ -2742,18 +3056,10 @@ function guardarPartido(event) {
     );
 
     const rival = selectorRival.value.trim();
-
-    const fechaPartido =
-        document.getElementById("fechaPartido").value;
-
-    const lugarPartido =
-        document.getElementById("lugarPartido").value.trim();
-
-    const golesAdiurIngresados =
-        document.getElementById("golesAdiur").value;
-
-    const golesRivalIngresados =
-        document.getElementById("golesRival").value;
+    const fechaPartido = document.getElementById("fechaPartido").value;
+    const lugarPartido = document.getElementById("lugarPartido").value.trim();
+    const golesAdiurIngresados = document.getElementById("golesAdiur").value;
+    const golesRivalIngresados = document.getElementById("golesRival").value;
 
     if (
         golesAdiurIngresados !== "" &&
@@ -2784,11 +3090,8 @@ function guardarPartido(event) {
         return;
     }
 
-    const competenciasValidas =
-        COMPETICIONES_POR_DIVISION[division] || [];
-
-    const competicionValida =
-        competenciasValidas.includes(competicion);
+    const competenciasValidas = COMPETICIONES_POR_DIVISION[division] || [];
+    const competicionValida = competenciasValidas.includes(competicion);
 
     const competicionAntiguaPermitida =
         idEditando !== null &&
@@ -2802,11 +3105,7 @@ function guardarPartido(event) {
         return;
     }
 
-    if (
-        !Number.isInteger(jornada) ||
-        jornada < 1 ||
-        jornada > 99
-    ) {
+    if (!Number.isInteger(jornada) || jornada < 1 || jornada > 99) {
         alert("Ingresá un número de fecha válido entre 1 y 99.");
         return;
     }
@@ -2817,15 +3116,10 @@ function guardarPartido(event) {
     }
 
     const opcionRival = selectorRival.selectedOptions[0];
-
-    const escudoRival = opcionRival
-        ? (opcionRival.dataset.ruta || "")
-        : "";
+    const escudoRival = opcionRival ? (opcionRival.dataset.ruta || "") : "";
 
     const anterior = idEditando !== null
-        ? partidos.find(p =>
-            String(p.id) === String(idEditando)
-        )
+        ? partidos.find(p => String(p.id) === String(idEditando))
         : null;
 
     const partido = {
@@ -2833,7 +3127,6 @@ function guardarPartido(event) {
             ? anterior.id
             : "partido-" + Date.now() + "-" +
                 Math.random().toString(36).slice(2, 8),
-
         division,
         competicion,
         jornada,
@@ -2874,10 +3167,7 @@ function alternarModoEliminar() {
 
     modoEliminar = !modoEliminar;
 
-    document.body.classList.toggle(
-        "eliminando",
-        modoEliminar
-    );
+    document.body.classList.toggle("eliminando", modoEliminar);
 
     document.getElementById("btnEliminarModo").textContent =
         modoEliminar
@@ -2898,10 +3188,7 @@ function eliminarPartido(id) {
         return;
     }
 
-    const partido = partidos.find(
-        p => String(p.id) === String(id)
-    );
-
+    const partido = partidos.find(p => String(p.id) === String(id));
     if (!partido) return;
 
     const confirmar = confirm(
@@ -2912,9 +3199,7 @@ function eliminarPartido(id) {
 
     const listaAnterior = partidos;
 
-    partidos = partidos.filter(
-        p => String(p.id) !== String(id)
-    );
+    partidos = partidos.filter(p => String(p.id) !== String(id));
 
     if (!guardarEnAlmacenamiento()) {
         partidos = listaAnterior;
@@ -2992,18 +3277,13 @@ function renderizarFixture() {
     const busqueda = document.getElementById("busqueda")
         .value.trim().toLowerCase();
 
-    const divisionFiltro =
-        document.getElementById("filtroDivision").value;
-
-    const competicionFiltro =
-        document.getElementById("filtroCompeticion").value;
+    const divisionFiltro = document.getElementById("filtroDivision").value;
+    const competicionFiltro = document.getElementById("filtroCompeticion").value;
 
     actualizarContadoresCategorias();
 
     const filtrados = partidos.filter(p => {
-        const coincideDivision =
-            !divisionFiltro || p.division === divisionFiltro;
-
+        const coincideDivision = !divisionFiltro || p.division === divisionFiltro;
         const coincideCompeticion =
             !competicionFiltro || p.competicion === competicionFiltro;
 
@@ -3018,9 +3298,7 @@ function renderizarFixture() {
             p.golesRival
         ].join(" ").toLowerCase();
 
-        return coincideDivision &&
-            coincideCompeticion &&
-            texto.includes(busqueda);
+        return coincideDivision && coincideCompeticion && texto.includes(busqueda);
     });
 
     if (filtrados.length === 0) {
@@ -3031,17 +3309,13 @@ function renderizarFixture() {
                 <p>Probá cambiar los filtros o cargar un nuevo partido.</p>
             </div>
         `;
-
         return;
     }
 
     let html = "";
 
     DIVISIONES.forEach(division => {
-        const deDivision = filtrados.filter(
-            p => p.division === division
-        );
-
+        const deDivision = filtrados.filter(p => p.division === division);
         if (!deDivision.length) return;
 
         html += `
@@ -3059,9 +3333,7 @@ function renderizarFixture() {
             COMPETICIONES_POR_DIVISION[division] || [];
 
         const competicionesGuardadas = [
-            ...new Set(
-                deDivision.map(p => p.competicion).filter(Boolean)
-            )
+            ...new Set(deDivision.map(p => p.competicion).filter(Boolean))
         ];
 
         const competicionesAmostrar = [
@@ -3111,10 +3383,7 @@ function renderizarFixture() {
                     const deFecha = deCompeticion
                         .filter(p => (Number(p.jornada) || 1) === fechaNumero)
                         .sort((a, b) =>
-                            String(a.rival).localeCompare(
-                                String(b.rival),
-                                "es"
-                            )
+                            String(a.rival).localeCompare(String(b.rival), "es")
                         );
 
                     html += `
@@ -3143,17 +3412,11 @@ function renderizarFixture() {
                         html += `
                             <article class="partido ${modoEliminar ? "modo-eliminar" : ""}">
                                 ${escudoAdiur}
-
                                 <span class="equipo-nombre">ADIUR</span>
-
                                 <span class="marcador-gol">${mostrarGol(p.golesAdiur)}</span>
-
                                 <span class="vs">VS</span>
-
                                 <span class="marcador-gol">${mostrarGol(p.golesRival)}</span>
-
                                 <span class="equipo-nombre">${nombreRival}</span>
-
                                 ${escudoRival}
 
                                 <div class="acciones">
@@ -3182,21 +3445,7 @@ function renderizarFixture() {
                             </article>
 
                             ${(p.fechaPartido || p.lugarPartido) ? `
-                                <div
-                                    class="partido-meta"
-                                    style="
-                                        display:flex;
-                                        flex-wrap:wrap;
-                                        justify-content:center;
-                                        gap:8px 16px;
-                                        padding:7px 10px 10px;
-                                        border-top:1px solid #f4f4f4;
-                                        background:#fff;
-                                        color:#666;
-                                        font-size:11px;
-                                        text-align:center;
-                                    "
-                                >
+                                <div class="partido-meta">
                                     ${p.fechaPartido ? `
                                         <span>📅 ${escaparHTML(
                                             p.fechaPartido.split("-").reverse().join("/")
@@ -3224,7 +3473,6 @@ function renderizarFixture() {
     });
 
     contenedor.innerHTML = html;
-
     actualizarContadoresCategorias();
 }
 
@@ -3236,17 +3484,13 @@ document.getElementById("contenedorFixture").addEventListener(
     "click",
     event => {
         const boton = event.target.closest("button[data-accion]");
-
         if (!boton) return;
 
         const accion = boton.dataset.accion;
         const id = boton.dataset.id;
 
         if (accion === "editar") {
-            if (puedeEditar) {
-                abrirModal(id);
-            }
-
+            if (puedeEditar) abrirModal(id);
             return;
         }
 
